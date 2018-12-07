@@ -1,0 +1,15 @@
+Package: catsim
+Type: Package
+Title: Binary and Categorical Image Structural Similarity Metric
+Version: 0.1.0.9000
+Author: Geoffrey Z Thompson
+Maintainer: Geoffrey Z Thompson <gzthompson@gmail.com>
+Description: Computes a structural similarity metric (after the style of MS-SSIM for images)
+    for binary and categorical 2D and 3D images. 
+License: GPL-3
+Encoding: UTF-8
+LazyData: true
+Imports: 
+    EMCluster
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 6.1.1
