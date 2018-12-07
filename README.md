@@ -13,7 +13,8 @@ You can install the released version of catsim from
 [CRAN](https://CRAN.R-project.org) with:
 
 ``` r
-install.packages("catsim")
+# install.packages("catsim")
+devtools::install_github("catsim")
 ```
 
 This is not actually on CRAN yet. Install using github.
