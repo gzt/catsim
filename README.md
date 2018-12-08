@@ -1,6 +1,9 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
+[![Travis build
+status](https://travis-ci.org/gzt/catsim.svg?branch=master)](https://travis-ci.org/gzt/catsim)
+
 # catsim
 
 The goal of catsim is to provide a similarity measure for binary or

@@ -12,6 +12,8 @@ knitr::opts_chunk$set(
   out.width = "100%"
 )
 ```
+[![Travis build status](https://travis-ci.org/gzt/catsim.svg?branch=master)](https://travis-ci.org/gzt/catsim)
+
 # catsim
 
 The goal of catsim is to provide a similarity measure for binary or categorical images in either 2D or 3D
