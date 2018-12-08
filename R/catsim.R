@@ -48,10 +48,10 @@ gini <- function(x){
 #' @examples
 #' \dontrun{
 #' x <- rep(c(1:4),5)
-#' ginicorr(x)
+#' ginicorr(x, 4)
 #' }
-ginicorr <- function(x){
-  k <- length(table(x))
+ginicorr <- function(x, k){
+  # k <- length(table(x))
   if (k > 1){
   gini(x)/(1 - 1/k)
   } else gini(x)
@@ -81,10 +81,10 @@ sqrtgini <-  function(x){
 #' @examples
 #' \dontrun{
 #' x <- rep(c(1:4),5)
-#' sqrtginicorr(x)
+#' sqrtginicorr(x, 4)
 #' }
-sqrtginicorr <- function(x){
-  k <- length(table(x))
+sqrtginicorr <- function(x, k){
+  # k <- length(table(x))
   if (k > 1) {
   sqrtgini(x)/(1 - 1/sqrt(k))
   } else sqrtgini(x)
@@ -102,12 +102,12 @@ sqrtginicorr <- function(x){
 #' \dontrun{
 #' x <- rep(1:4,4)
 #' y <- c(rep(1:4,3),rep(4,4))
-#' cfunc(x,y)
+#' cfunc(x,y, k = 4)
 #' }
 
-cfunc <- function(x, y, c2 = 0.01){
-  varx <- ginicorr(x)
-  vary <- ginicorr(y)
+cfunc <- function(x, y, c2 = 0.01, k){
+  varx <- ginicorr(x, k)
+  vary <- ginicorr(y, k)
 
   (2*sqrt(varx * vary)+c2)/(varx + vary + c2)
 
@@ -158,7 +158,8 @@ sfunc <- function(x, y){
 #' binssim(x,y)
 binssim <- function(x, y, alpha = 1, beta = 1, gamma = 1, ...){
   if (length(x) != length(y)) stop("x and y must be the same size.")
-  (meansfunc(x, y,...)^alpha)*(cfunc(x, y, ...)^beta)*(sfunc(x, y)^gamma)
+  k = length(unique(c(x,y)))
+  (meansfunc(x, y,...)^alpha)*(cfunc(x, y, k = k, ...)^beta)*(sfunc(x, y)^gamma)
 }
 
 #' Categorical SSIM Components
@@ -172,7 +173,8 @@ binssim <- function(x, y, alpha = 1, beta = 1, gamma = 1, ...){
 #' @keywords internal
 #'
 ssimcomponents <- function(x, y, ...){
-  c((meansfunc(x, y,...)),(cfunc(x, y, ...)),(sfunc(x, y)))
+  k = length(unique(c(x,y)))
+  c((meansfunc(x, y,...)),(cfunc(x, y, k = k, ...)),(sfunc(x, y)))
 }
 
 
