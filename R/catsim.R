@@ -1,3 +1,7 @@
+#' @useDynLib catsim, .registration = TRUE
+#' @importFrom Rcpp sourceCpp
+NULL
+
 
 #' Means Function
 #'
@@ -11,13 +15,14 @@
 #' @noRd
 meansfunc <- function(x,y, c1 = 0.01, levels){
   #levels <- levels(factor(c(x,y)))
-  x = factor(x, levels = levels)
-  y = factor(y, levels = levels)
+  #x = factor(x, levels = levels)
+  #y = factor(y, levels = levels)
   #tablexy <- table(x,y)
-  tablex <- table(x)
-  tabley <- table(y)
+  #tablex <- table(x)
+  #tabley <- table(y)
 
-  (2*sum(tablex*tabley) + c1)/(sum(tablex^2) + sum(tabley^2) + c1)
+  #(2*sum(tablex*tabley) + c1)/(sum(tablex^2) + sum(tabley^2) + c1)
+  C_meansfunc(x, y, c1)
 }
 
 #' Gini index
@@ -53,8 +58,8 @@ gini <- function(x){
 ginicorr <- function(x, k){
   # k <- length(table(x))
   if (k > 1){
-  gini(x)/(1 - 1/k)
-  } else gini(x)
+  C_gini(x)/(1 - 1/k)
+  } else C_gini(x)
 }
 
 #' Modified Gini index
