@@ -13,9 +13,9 @@ meansfunc <- function(x,y, c1 = 0.01){
   levels <- levels(factor(c(x,y)))
   x = factor(x, levels = levels)
   y = factor(y, levels = levels)
-  tablexy <- table(x,y)
-  tablex <- rowSums(tablexy)
-  tabley <- colSums(tablexy)
+  #tablexy <- table(x,y)
+  tablex <- table(x)
+  tabley <- table(y)
 
   (2*sum(tablex*tabley) + c1)/(sum(tablex^2) + sum(tabley^2) + c1)
 }
@@ -244,7 +244,7 @@ downsample_3d_slice <- function(x){
   dims = dim(x)
   newdims = floor(c(dims[1:2]/2,dims[3]))
   if (any(newdims < 1)){
-    warning("Cannot downsample, at least one dimension is of length 1")
+    warning("Cannot downsample, at least one dimension is of length 1.")
     return(x)
   }
   newx <- array(dim = newdims)
@@ -273,7 +273,7 @@ downsample_3d_cube <- function(x){
   dims = dim(x)
   newdims = floor(dims/2)
   if (any(newdims < 1)){
-    warning("Cannot downsample, at least one dimension is of length 1")
+    warning("Cannot downsample, at least one dimension is of length 1.")
     return(x)
   }
   newx <- array(dim = newdims)
@@ -315,7 +315,7 @@ downsample_3d_cube <- function(x){
 #' catssim_2d(x,y)
 #' }
 catssim_2d <- function(x,y,...){
-  if (any(dim(x) != dim(y))) stop('x and y have nonconformable dimensions')
+  if (any(dim(x) != dim(y))) stop('x and y have nonconformable dimensions.')
   levels <- levels(factor(c(x,y)))
   dims = dim(x)
   nrow = dims[1]
@@ -361,7 +361,7 @@ catssim_2d <- function(x,y,...){
 #' for (i in 1:127) y[i, i+1] = 1
 #' catmssim_2d(x,y)
 catmssim_2d <- function(x, y, weights = c(0.0448, 0.2856, 0.3001, 0.2363, 0.1333), ...){
-  if (any(dim(x) != dim(y))) stop('x and y have nonconformable dimensions')
+  if (any(dim(x) != dim(y))) stop('x and y have nonconformable dimensions.')
   levels = length(weights)
   mindim <- min(dim(x))
   if(mindim < 8) stop("Minimum dimension must be greater than 8.")
@@ -388,7 +388,7 @@ catmssim_2d <- function(x, y, weights = c(0.0448, 0.2856, 0.3001, 0.2363, 0.1333
 
 
 catssim_3d_slice <- function(x,y,...){
-  if (any(dim(x) != dim(y))) stop('x and y have nonconformable dimensions')
+  if (any(dim(x) != dim(y))) stop('x and y have nonconformable dimensions.')
   dims = dim(x)
   sliceresults = matrix(0, nrow = dims[3], ncol = 3)
   for (i in 1:dims[3]) sliceresults[i,] = catssim_2d(x[,,i],y[,,i],...)
@@ -396,7 +396,7 @@ catssim_3d_slice <- function(x,y,...){
 }
 
 catssim_3d_cube <- function(x,y,...){
-  if (any(dim(x) != dim(y))) stop('x and y have nonconformable dimensions')
+  if (any(dim(x) != dim(y))) stop('x and y have nonconformable dimensions.')
   levels <- levels(factor(c(x,y)))
   dims = dim(x)
   if (any(dims < 4)) return(ssimcomponents(factor(x, levels), factor(y,levels)))
@@ -445,10 +445,10 @@ catssim_3d_cube <- function(x,y,...){
 #' }
 #' catmssim_3d_slice(x,y, weights = c(.75,.25))
 catmssim_3d_slice <- function(x, y, weights = c(0.0448, 0.2856, 0.3001, 0.2363, 0.1333), ...){
-  if (any(dim(x) != dim(y))) stop('x and y have nonconformable dimensions')
+  if (any(dim(x) != dim(y))) stop('x and y have nonconformable dimensions.')
   levels = length(weights)
   dims = dim(x)
-  if (length(dims) < 3) stop('x and y are not 3-dimensional')
+  if (length(dims) < 3) stop('x and y are not 3-dimensional.')
   mindim <- min(dim(x)[1:2])
   if (mindim < 8) stop("Minimum dimension must be greater than 8.")
   if (mindim < 128) levels = min(c(floor(log2(mindim) - 2),levels))
@@ -498,10 +498,10 @@ catmssim_3d_slice <- function(x, y, weights = c(0.0448, 0.2856, 0.3001, 0.2363, 
 #' }
 #' catmssim_3d_cube(x,y, weights = c(.75,.25))
 catmssim_3d_cube <- function(x, y, weights = c(0.0448, 0.2856, 0.3001, 0.2363, 0.1333), ...){
-  if (any(dim(x) != dim(y))) stop('x and y have nonconformable dimensions')
+  if (any(dim(x) != dim(y))) stop('x and y have nonconformable dimensions.')
   levels = length(weights)
   dims = dim(x)
-  if (length(dims) < 3) stop('x and y are not 3-dimensional')
+  if (length(dims) < 3) stop('x and y are not 3-dimensional.')
   mindim <- min(dim(x))
   if (mindim < 8) stop("Minimum dimension must be greater than 8.")
   if (mindim < 128) levels = min(c(floor(log2(mindim) - 2),levels))
