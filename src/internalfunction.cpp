@@ -20,7 +20,7 @@ double C_gini(NumericVector x){
   for (int i = 0; i < n; i++) {
     counts[x[i]]++;
   }
-  int m = counts.size();
+
   double sqsum = 0.0;
   for (std::map<double,int>::iterator it = counts.begin(); it != counts.end(); ++it)  {
     sqsum += 1.0 * (it->second) *(it->second);
@@ -35,6 +35,7 @@ double C_gini(NumericVector x){
 // [[Rcpp::export]]
 double C_meansfunc(NumericVector x, NumericVector y, double c){
   int n = x.size();
+  if (n != y.size()) Rcpp::stop("X and Y must have the same length.");
   std::map<double, int> countsx;
   std::map<double, int> countsy;
 
