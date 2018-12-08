@@ -9,8 +9,8 @@
 #' @keywords internal
 #'
 #' @noRd
-meansfunc <- function(x,y, c1 = 0.01){
-  levels <- levels(factor(c(x,y)))
+meansfunc <- function(x,y, c1 = 0.01, levels){
+  #levels <- levels(factor(c(x,y)))
   x = factor(x, levels = levels)
   y = factor(y, levels = levels)
   #tablexy <- table(x,y)
@@ -159,7 +159,8 @@ sfunc <- function(x, y){
 binssim <- function(x, y, alpha = 1, beta = 1, gamma = 1, ...){
   if (length(x) != length(y)) stop("x and y must be the same size.")
   k = length(unique(c(x,y)))
-  (meansfunc(x, y,...)^alpha)*(cfunc(x, y, k = k, ...)^beta)*(sfunc(x, y)^gamma)
+  levels <- levels(factor(c(x,y)))
+  (meansfunc(x, y, levels = levels, ...)^alpha)*(cfunc(x, y, k = k, ...)^beta)*(sfunc(x, y)^gamma)
 }
 
 #' Categorical SSIM Components
@@ -172,9 +173,10 @@ binssim <- function(x, y, alpha = 1, beta = 1, gamma = 1, ...){
 #' @return the three components of the Categorical SSIM.
 #' @keywords internal
 #'
-ssimcomponents <- function(x, y, ...){
+ssimcomponents <- function(x, y, levels, ...){
   k = length(unique(c(x,y)))
-  c((meansfunc(x, y,...)),(cfunc(x, y, k = k, ...)),(sfunc(x, y)))
+  #levels <- levels(factor(c(x,y)))
+  c((meansfunc(x, y, levels = levels,...)),(cfunc(x, y, k = k, ...)),(sfunc(x, y)))
 }
 
 
@@ -320,7 +322,7 @@ catssim_2d <- function(x,y,...){
   dims = dim(x)
   nrow = dims[1]
   ncol = dims[2]
-  if (any(dims < 8)) return(ssimcomponents(factor(x, levels),factor(y,levels)))
+  if (any(dims < 8)) return(ssimcomponents(factor(x, levels), factor(y,levels)), levels, ...)
 
   resultmatrix = array(0, dim = c((nrow-7), (ncol-7),3))
   for (i in 1:(nrow-7)){
@@ -331,7 +333,7 @@ catssim_2d <- function(x,y,...){
 
       subx = factor(subx, levels = levels)
       suby = factor(suby, levels = levels)
-      resultmatrix[i, j, ] = ssimcomponents(subx, suby, ...)
+      resultmatrix[i, j, ] = ssimcomponents(subx, suby, levels, ...)
     }
   }
   colMeans(resultmatrix, dims = 2)
@@ -399,7 +401,7 @@ catssim_3d_cube <- function(x,y,...){
   if (any(dim(x) != dim(y))) stop('x and y have nonconformable dimensions.')
   levels <- levels(factor(c(x,y)))
   dims = dim(x)
-  if (any(dims < 4)) return(ssimcomponents(factor(x, levels), factor(y,levels)))
+  if (any(dims < 4)) return(ssimcomponents(factor(x, levels), factor(y,levels)), levels, ...)
 
   # this gets messy
   cuberesults = array(0, dim = c((dims - 3), 3))
@@ -411,7 +413,7 @@ catssim_3d_cube <- function(x,y,...){
 
         subx = factor(subx, levels = levels)
         suby = factor(suby, levels = levels)
-        cuberesults[i, j, k, ] = ssimcomponents(subx, suby, ...)
+        cuberesults[i, j, k, ] = ssimcomponents(subx, suby, levels, ...)
       }
     }
   }
