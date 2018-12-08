@@ -135,6 +135,11 @@ sfunc <- function(x, y){
   # should take care of this beforehand!
   numx <- as.numeric(x)
   numy <- as.numeric(y)
+  if (min(c(numx,numy) < 1)) {
+    addmin = min(c(numx,numy))
+    numx = numx - addmin + 1
+    numy = numy - addmin + 1
+  }
   EMCluster::RRand(numx, numy)$adjRand
 }
 
@@ -179,7 +184,7 @@ binssim <- function(x, y, alpha = 1, beta = 1, gamma = 1, ...){
 #' @keywords internal
 #'
 ssimcomponents <- function(x, y, levels, ...){
-  k = length(unique(c(x,y)))
+  k = length(levels)
   #levels <- levels(factor(c(x,y)))
   c((meansfunc(x, y, levels = levels,...)),(cfunc(x, y, k = k, ...)),(sfunc(x, y)))
 }
@@ -327,7 +332,7 @@ catssim_2d <- function(x,y,...){
   dims = dim(x)
   nrow = dims[1]
   ncol = dims[2]
-  if (any(dims < 8)) return(ssimcomponents(factor(x, levels), factor(y,levels)), levels, ...)
+  if (any(dims < 8)) return(ssimcomponents((x), (y)), levels, ...)
 
   resultmatrix = array(0, dim = c((nrow-7), (ncol-7),3))
   for (i in 1:(nrow-7)){
@@ -336,8 +341,8 @@ catssim_2d <- function(x,y,...){
       subx = x[i:(i+7),j:(j+7)]
       suby = y[i:(i+7),j:(j+7)]
 
-      subx = factor(subx, levels = levels)
-      suby = factor(suby, levels = levels)
+      #subx = factor(subx, levels = levels)
+      #suby = factor(suby, levels = levels)
       resultmatrix[i, j, ] = ssimcomponents(subx, suby, levels, ...)
     }
   }
@@ -406,7 +411,7 @@ catssim_3d_cube <- function(x,y,...){
   if (any(dim(x) != dim(y))) stop('x and y have nonconformable dimensions.')
   levels <- levels(factor(c(x,y)))
   dims = dim(x)
-  if (any(dims < 4)) return(ssimcomponents(factor(x, levels), factor(y,levels)), levels, ...)
+  if (any(dims < 4)) return(ssimcomponents((x), (y)), levels, ...)
 
   # this gets messy
   cuberesults = array(0, dim = c((dims - 3), 3))
@@ -416,8 +421,8 @@ catssim_3d_cube <- function(x,y,...){
         subx = x[i:(i + 3), j:(j + 3), k:(k + 3)]
         suby = y[i:(i + 3), j:(j + 3), k:(k + 3)]
 
-        subx = factor(subx, levels = levels)
-        suby = factor(suby, levels = levels)
+        #subx = factor(subx, levels = levels)
+        #suby = factor(suby, levels = levels)
         cuberesults[i, j, k, ] = ssimcomponents(subx, suby, levels, ...)
       }
     }
