@@ -22,7 +22,7 @@ double C_gini(NumericVector x){
   }
   int m = counts.size();
   double sqsum = 0.0;
-  for (auto it = counts.begin(); it != counts.end(); ++it)  {
+  for (std::map<double,int>::iterator it = counts.begin(); it != counts.end(); ++it)  {
     sqsum += 1.0 * (it->second) *(it->second);
   }
   return (1.0 - sqsum/(1.0*n*n));
@@ -44,10 +44,10 @@ double C_meansfunc(NumericVector x, NumericVector y, double c){
   }
 
   double sqsum = 0.0;
-  for (auto it = countsx.begin(); it != countsx.end(); ++it)  {
+  for (std::map<double,int>::iterator it = countsx.begin(); it != countsx.end(); ++it)  {
     sqsum += 1.0 * (it->second) *(it->second);
   }
-  for (auto it = countsy.begin(); it != countsy.end(); ++it)  {
+  for (std::map<double,int>::iterator it = countsy.begin(); it != countsy.end(); ++it)  {
     sqsum += 1.0 * (it->second) *(it->second);
   }
 
