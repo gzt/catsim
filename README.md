@@ -3,6 +3,8 @@
 
 [![Travis build
 status](https://travis-ci.org/gzt/catsim.svg?branch=master)](https://travis-ci.org/gzt/catsim)
+[![AppVeyor build
+status](https://ci.appveyor.com/api/projects/status/github/gzt/catsim?branch=master&svg=true)](https://ci.appveyor.com/project/gzt/catsim)
 
 # catsim
 

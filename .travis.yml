@@ -1,5 +1,11 @@
 # R for travis: see documentation at https://docs.travis-ci.com/user/languages/r
 
 language: R
+r_packages:
+  - EMCluster
 sudo: false
 cache: packages
+warnings_are_errors: true
+notifications:
+  email:
+    - gzthompson@gmail.com
