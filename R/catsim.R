@@ -449,11 +449,11 @@ catssim_3d_cube <- function(x,y,...){
 #'
 #' @examples
 #' set.seed(20181207)
-#' x <- array(sample(1:4, 16^3, replace = TRUE), dim = c(32,32,32))
+#' x <- array(sample(1:4, 16^3, replace = TRUE), dim = c(16,16,16))
 #' y <- x
-#' for (j in 1:32){
-#' for (i in 1:32) y[i, i, j] = 1
-#' for (i in 1:31) y[i, i+1, j] = 1
+#' for (j in 1:16){
+#' for (i in 1:16) y[i, i, j] = 1
+#' for (i in 1:15) y[i, i+1, j] = 1
 #' }
 #' catmssim_3d_slice(x,y, weights = c(.75,.25))
 catmssim_3d_slice <- function(x, y, weights = c(0.0448, 0.2856, 0.3001, 0.2363, 0.1333), ...){
@@ -502,11 +502,11 @@ catmssim_3d_slice <- function(x, y, weights = c(0.0448, 0.2856, 0.3001, 0.2363, 
 #' @export
 #'
 #' @examples
-#' x <- array(sample(1:4, 16^3, replace = TRUE), dim = c(32,32,32))
+#' x <- array(sample(1:4, 16^3, replace = TRUE), dim = c(16,16,16))
 #' y <- x
-#' for (j in 1:32){
-#' for (i in 1:32) y[i, i, j] = 1
-#' for (i in 1:31) y[i, i+1, j] = 1
+#' for (j in 1:16){
+#' for (i in 1:16) y[i, i, j] = 1
+#' for (i in 1:15) y[i, i+1, j] = 1
 #' }
 #' catmssim_3d_cube(x,y, weights = c(.75,.25))
 catmssim_3d_cube <- function(x, y, weights = c(0.0448, 0.2856, 0.3001, 0.2363, 0.1333), ...){
