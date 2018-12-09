@@ -114,11 +114,11 @@ sqrtginicorr <- function(x, k){
 #' }
 
 cfunc <- function(x, y, c2 = 0.01, k){
-  varx <- ginicorr(x, k)
-  vary <- ginicorr(y, k)
+  #varx <- ginicorr(x, k)
+  #vary <- ginicorr(y, k)
 
-  (2*sqrt(varx * vary) + c2)/(varx + vary + c2)
-
+  #(2*sqrt(varx * vary) + c2)/(varx + vary + c2)
+  C_cfunc(x, y, c2, k)
 }
 
 #' Covariance function (internal)
@@ -172,7 +172,7 @@ sfunc <- function(x, y){
 binssim <- function(x, y, alpha = 1, beta = 1, gamma = 1, ...){
   if (length(x) != length(y)) stop("x and y must be the same size.")
   k = length(unique(c(x,y)))
-  levels <- levels(factor(c(x,y)))
+  #levels <- levels(factor(c(x,y)))
   (meansfunc(x, y, ...)^alpha)*(cfunc(x, y, k = k, ...)^beta)*(sfunc(x, y)^gamma)
 }
 

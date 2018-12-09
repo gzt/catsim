@@ -16,6 +16,32 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// C_ginicorr
+double C_ginicorr(NumericVector x, double k);
+RcppExport SEXP _catsim_C_ginicorr(SEXP xSEXP, SEXP kSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericVector >::type x(xSEXP);
+    Rcpp::traits::input_parameter< double >::type k(kSEXP);
+    rcpp_result_gen = Rcpp::wrap(C_ginicorr(x, k));
+    return rcpp_result_gen;
+END_RCPP
+}
+// C_cfunc
+double C_cfunc(NumericVector x, NumericVector y, double c, double k);
+RcppExport SEXP _catsim_C_cfunc(SEXP xSEXP, SEXP ySEXP, SEXP cSEXP, SEXP kSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericVector >::type x(xSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type y(ySEXP);
+    Rcpp::traits::input_parameter< double >::type c(cSEXP);
+    Rcpp::traits::input_parameter< double >::type k(kSEXP);
+    rcpp_result_gen = Rcpp::wrap(C_cfunc(x, y, c, k));
+    return rcpp_result_gen;
+END_RCPP
+}
 // C_meansfunc
 double C_meansfunc(NumericVector x, NumericVector y, double c);
 RcppExport SEXP _catsim_C_meansfunc(SEXP xSEXP, SEXP ySEXP, SEXP cSEXP) {
@@ -32,6 +58,8 @@ END_RCPP
 
 static const R_CallMethodDef CallEntries[] = {
     {"_catsim_C_gini", (DL_FUNC) &_catsim_C_gini, 1},
+    {"_catsim_C_ginicorr", (DL_FUNC) &_catsim_C_ginicorr, 2},
+    {"_catsim_C_cfunc", (DL_FUNC) &_catsim_C_cfunc, 4},
     {"_catsim_C_meansfunc", (DL_FUNC) &_catsim_C_meansfunc, 3},
     {NULL, NULL, 0}
 };

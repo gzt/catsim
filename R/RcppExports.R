@@ -5,6 +5,14 @@ C_gini <- function(x) {
     .Call(`_catsim_C_gini`, x)
 }
 
+C_ginicorr <- function(x, k) {
+    .Call(`_catsim_C_ginicorr`, x, k)
+}
+
+C_cfunc <- function(x, y, c, k) {
+    .Call(`_catsim_C_cfunc`, x, y, c, k)
+}
+
 C_meansfunc <- function(x, y, c) {
     .Call(`_catsim_C_meansfunc`, x, y, c)
 }

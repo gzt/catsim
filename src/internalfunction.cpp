@@ -29,8 +29,22 @@ double C_gini(NumericVector x){
 }
 
 
+// [[Rcpp::export]]
+double C_ginicorr(NumericVector x, double k){
+  double eps = 1e-5;
+  if(abs(k - 1.0) < eps) return C_gini(x);
 
+  return C_gini(x) / (1-1/k);
+}
 
+// [[Rcpp::export]]
+double C_cfunc(NumericVector x, NumericVector y, double c, double k){
+  double varx = C_ginicorr(x, k);
+  double vary = C_ginicorr(y, k);
+
+  return(2*sqrt(varx * vary) + c)/(varx + vary + c);
+
+}
 
 // [[Rcpp::export]]
 double C_meansfunc(NumericVector x, NumericVector y, double c){
