@@ -5,6 +5,7 @@
 status](https://travis-ci.org/gzt/catsim.svg?branch=master)](https://travis-ci.org/gzt/catsim)
 [![AppVeyor build
 status](https://ci.appveyor.com/api/projects/status/github/gzt/catsim?branch=master&svg=true)](https://ci.appveyor.com/project/gzt/catsim)
+[![lifecycle](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
 
 # catsim
 

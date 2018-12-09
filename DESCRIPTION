@@ -18,3 +18,5 @@ URL: https://github.com/gzt/catsim
 BugReports: https://github.com/gzt/catsim/issues
 LinkingTo: 
     Rcpp
+Suggests: 
+    testthat
