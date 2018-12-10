@@ -25,7 +25,7 @@ a value less than 1 indicating the similarity between the images.
 \description{
 The categorical structural similary index measure for 3D categorical or binary
 images for multiple scales. The default is to compute over 5 scales.
-This computes a 3D measure
+This computes a 3D measure based on 4x4x4 windows by default with 5 levels of downsampling.
 }
 \examples{
 set.seed(20181207)

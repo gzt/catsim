@@ -18,11 +18,21 @@ The Rand index, the Adjusted Rand Index, and the PSNR
 Computes the adjusted Rand index and the unadjusted Rand index for two
 inputs. These inputs should be binary or categorical and of the same length.
 It also computes the PSNR, which is generalized here as simply
--10 log10(Rand).
+-10 log10(Rand). The adjusted Rand index is used as a measure of the similarity
+of the structure of the two images. A small constant is added to the numerator
+and denominator to ensure stability, as it is possible to have a zero denominator.
 }
 \examples{
 
 x <- rep(1:5, 5)
 y <- c(rep(1:5, 4),rep(1,5))
 AdjRandIndex(x, y)
+}
+\references{
+Lawrence Hubert and Phipps Arabie (1985).
+"Comparing partitions". Journal of Classification. 2 (1): 193–218. \doi{10.1007/BF01908075}
+
+W. M. Rand (1971). "Objective criteria for the evaluation of clustering methods".
+Journal of the American Statistical Association. American Statistical Association. 66 (336): 846–850.
+\doi{10.2307/2284239}
 }

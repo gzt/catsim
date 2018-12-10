@@ -81,7 +81,7 @@ double C_meansfunc(NumericVector x, NumericVector y, double c){
 
 // [[Rcpp::export]]
 double C_AdjRand(NumericVector x, NumericVector y){
-
+  double eps = 1e-3;
   int n = x.size();
   if (n != y.size()) Rcpp::stop("X and Y must have the same length.");
   NumericMatrix xy(n, 2);
@@ -120,6 +120,6 @@ double C_AdjRand(NumericVector x, NumericVector y){
     nij += (tmp) * (tmp - 1.0)/2.0;
   }
 
-  return (nij - ai * bi / (n * (n-1)/2)) / (.5 * (ai + bi) - ai * bi / (n * (n-1)/2));
+  return (nij - ai * bi / (n * (n-1)/2) + eps) / (.5 * (ai + bi) - ai * bi / (n * (n-1)/2) + eps);
 
 }

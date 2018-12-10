@@ -40,7 +40,7 @@ gini <- function(x){
 #' Corrected Gini index
 #'
 #' @param x binary or categorical image or vector
-#' @return Gini index (corrected so that max possible is 1)
+#' @return Gini index (corrected based on the number of categories so that max possible is 1)
 #' @keywords internal
 #' @noRd
 #' @examples
@@ -365,7 +365,10 @@ catmssim_2d <- function(x, y, weights = c(0.0448, 0.2856, 0.3001, 0.2363, 0.1333
     warning("Minimum dimension should be greater than window size. Using only one level.")
     return(binssim(x,y,...))
   }
-  if (mindim < 128) levels = min(c(floor(log2(mindim) - 2),levels))
+  if (mindim < 16*window) {
+    levels = min(c(floor(log2(mindim/window) + 1),levels))
+    warning("Truncating levels because of minimum dimension.")
+  }
   weights = weights[1:levels]
   results = matrix(0, nrow = levels, ncol = 3)
   results[1,] = catssim_2d(x, y, window,...)
@@ -465,8 +468,11 @@ catmssim_3d_slice <- function(x, y, weights = c(0.0448, 0.2856, 0.3001, 0.2363, 
   dims = dim(x)
   if (length(dims) < 3) stop('x and y are not 3-dimensional.')
   mindim <- min(dim(x)[1:2])
-  if (mindim < window) stop("Minimum dimension must be greater than 8.")
-  if (mindim < 128) levels = min(c(floor(log2(mindim) - 2),levels))
+  if (mindim < window) stop("Minimum dimension must be greater than window size.")
+  if (mindim < 16*window) {
+    levels = min(c(floor(log2(mindim/window) + 1),levels))
+    warning("Truncating levels because of minimum dimension.")
+  }
 
   weights = weights[1:levels]
   results = matrix(0, nrow = levels, ncol = 3)
@@ -493,7 +499,7 @@ catmssim_3d_slice <- function(x, y, weights = c(0.0448, 0.2856, 0.3001, 0.2363, 
 #'
 #' The categorical structural similary index measure for 3D categorical or binary
 #' images for multiple scales. The default is to compute over 5 scales.
-#' This computes a 3D measure
+#' This computes a 3D measure based on 4x4x4 windows by default with 5 levels of downsampling.
 #'
 #' @param x a binary or categorical image
 #' @param y a binary or categorical image
@@ -523,10 +529,13 @@ catmssim_3d_cube <- function(x, y, weights = c(0.0448, 0.2856, 0.3001, 0.2363, 0
   if (length(dims) < 3) stop('x and y are not 3-dimensional.')
   mindim <- min(dim(x))
   if (mindim < 2*window) {
-    warning("Minimum dimension must be greater than 8.")
+    warning("Minimum dimension must be greater than 2 * window.")
     catssim_3d_cube(x,y,...)
   }
-  if (mindim < 128) levels = min(c(floor(log2(mindim) - 2),levels))
+  if (mindim < 16 * window) {
+    levels = min(c(floor(log2(mindim/window) + 1),levels))
+    warning("Truncating levels because of minimum dimension.")
+  }
 
   weights = weights[1:levels]
   results = matrix(0, nrow = levels, ncol = 3)
@@ -554,12 +563,22 @@ catmssim_3d_cube <- function(x, y, weights = c(0.0448, 0.2856, 0.3001, 0.2363, 0
 #' Computes the adjusted Rand index and the unadjusted Rand index for two
 #' inputs. These inputs should be binary or categorical and of the same length.
 #' It also computes the PSNR, which is generalized here as simply
-#' -10 log10(Rand).
+#' -10 log10(Rand). The adjusted Rand index is used as a measure of the similarity
+#' of the structure of the two images. A small constant is added to the numerator
+#' and denominator to ensure stability, as it is possible to have a zero denominator.
 #'
 #' @param x a numeric or factor vector or image
 #' @param y a numeric or factor vector or image
 #'
 #' @return The Rand index, the Adjusted Rand Index, and the PSNR
+#'
+#' @references Lawrence Hubert and Phipps Arabie (1985).
+#' "Comparing partitions". Journal of Classification. 2 (1): 193–218. \doi{10.1007/BF01908075}
+#'
+#'  W. M. Rand (1971). "Objective criteria for the evaluation of clustering methods".
+#'  Journal of the American Statistical Association. American Statistical Association. 66 (336): 846–850.
+#'  \doi{10.2307/2284239}
+#'
 #' @export
 #'
 #' @examples
@@ -572,9 +591,12 @@ AdjRandIndex <- function(x,y){
   n <- length(x)
   a <- sum(x == y)
   Rand <- a/n
+  # this disagrees with some implementations I've seen but I don't know how this is wrong.
 
   x <- as.numeric(x)
   y <- as.numeric(y)
   AdjRand <- C_AdjRand(x,y)
-  list(Rand = Rand, AdjRand = AdjRand, PSNR = -10 * log10(Rand))
+  list(Rand = Rand,
+       AdjRand = AdjRand,
+       PSNR = -10 * log10(Rand))
 }
