@@ -31,4 +31,5 @@ y <- x
 for (i in 1:128) y[i, i] = 1
 for (i in 1:127) y[i, i+1] = 1
 catmssim_2d(x,y)
+
 }

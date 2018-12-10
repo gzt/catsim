@@ -3,7 +3,7 @@
 NULL
 
 
-#' Means Function
+#' Means Function (internal)
 #'
 #' @param x binary or categorical image or vector
 #' @param y binary or categorical image or vector
@@ -21,7 +21,7 @@ meansfunc <- function(x,y, c1 = 0.01) {
 #'
 #' @param x binary or categorical image or vector
 #'
-#' @return Gini index
+#' @return Gini index (between 0 and 1)
 #' @keywords internal
 #'
 #' @noRd
@@ -294,8 +294,10 @@ downsample_3d_cube <- function(x){
 #' @param y a binary or categorical image
 #' @param ... additional constants can be passed to internal functions.
 #'
-#' @return a value less than 1 indicating the similarity between the images.
+#' @return the three components of the index, all less than 1.
 #' @keywords internal
+#'
+#' @noRd
 #'
 #' @examples
 #' \dontrun{
@@ -351,11 +353,16 @@ catssim_2d <- function(x,y,...){
 #' for (i in 1:128) y[i, i] = 1
 #' for (i in 1:127) y[i, i+1] = 1
 #' catmssim_2d(x,y)
+#'
 catmssim_2d <- function(x, y, weights = c(0.0448, 0.2856, 0.3001, 0.2363, 0.1333), ...){
+  # the weights are from the original MS-SSIM program
   if (any(dim(x) != dim(y))) stop('x and y have nonconformable dimensions.')
   levels = length(weights)
   mindim <- min(dim(x))
-  if (mindim < 8) stop("Minimum dimension must be greater than 8.")
+  if (mindim < 8) {
+    warning("Minimum dimension should be greater than 8. Using only one level.")
+    return(binssim(x,y,...))
+  }
   if (mindim < 128) levels = min(c(floor(log2(mindim) - 2),levels))
   weights = weights[1:levels]
   results = matrix(0, nrow = levels, ncol = 3)
@@ -378,6 +385,19 @@ catmssim_2d <- function(x, y, weights = c(0.0448, 0.2856, 0.3001, 0.2363, 0.1333
 }
 
 
+#' CatSSIM for 3D slices
+#'
+#' Performs the 2D CatSSIM for each slice of the 3D image.
+#'
+#' @param x a binary or categorical image
+#' @param y a binary or categorical image
+#' @param ...
+#'
+#' @return SSIM componenets for the cube.
+#' @keywords internal
+#'
+#' @noRd
+#'
 catssim_3d_slice <- function(x,y,...){
   if (any(dim(x) != dim(y))) stop('x and y have nonconformable dimensions.')
   dims = dim(x)
@@ -404,7 +424,7 @@ catssim_3d_cube <- function(x,y,...){
       }
     }
   }
-  #for (i in 1:dims[3]) cuberesults[i,] = catssim_2d(x[,,i],y[,,i],...)
+
   (cuberesults / prod(dims - 3) )
 }
 
@@ -435,6 +455,7 @@ catssim_3d_cube <- function(x,y,...){
 #' }
 #' catmssim_3d_slice(x,y, weights = c(.75,.25))
 catmssim_3d_slice <- function(x, y, weights = c(0.0448, 0.2856, 0.3001, 0.2363, 0.1333), ...){
+  # the weights are from the original MS-SSIM program
   if (any(dim(x) != dim(y))) stop('x and y have nonconformable dimensions.')
   levels = length(weights)
   dims = dim(x)
@@ -490,6 +511,7 @@ catmssim_3d_slice <- function(x, y, weights = c(0.0448, 0.2856, 0.3001, 0.2363, 
 #' }
 #' catmssim_3d_cube(x,y, weights = c(.75,.25))
 catmssim_3d_cube <- function(x, y, weights = c(0.0448, 0.2856, 0.3001, 0.2363, 0.1333), ...){
+  # the weights are from the original MS-SSIM program
   if (any(dim(x) != dim(y))) stop('x and y have nonconformable dimensions.')
   levels = length(weights)
   dims = dim(x)

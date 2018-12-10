@@ -60,10 +60,10 @@ double C_meansfunc(NumericVector x, NumericVector y, double c){
 
   double sqsum = 0.0;
   for (std::map<double,int>::iterator it = countsx.begin(); it != countsx.end(); ++it)  {
-    sqsum += 1.0 * (it->second) *(it->second);
+    sqsum += 1.0 * (it->second) * (it->second);
   }
   for (std::map<double,int>::iterator it = countsy.begin(); it != countsy.end(); ++it)  {
-    sqsum += 1.0 * (it->second) *(it->second);
+    sqsum += 1.0 * (it->second) * (it->second);
   }
 
   double xysum = 0.0;
@@ -118,8 +118,8 @@ double C_AdjRand(NumericVector x, NumericVector y){
   double nij = 0.0;
 
   for (std::map<double,int>::iterator it = countsx.begin(); it != countsx.end(); ++it)  {
-  int tmp = it->second;
-  ai += (tmp) * (tmp - 1.0)/2.0;
+    int tmp = it->second;
+    ai += (tmp) * (tmp - 1.0)/2.0;
   }
   for (std::map<double,int>::iterator it = countsy.begin(); it != countsy.end(); ++it)  {
     int tmp = it->second;
