@@ -540,3 +540,32 @@ catmssim_3d_cube <- function(x, y, weights = c(0.0448, 0.2856, 0.3001, 0.2363, 0
   (results[levels,1]^weights[levels])*csresults
 
 }
+
+#' Adjusted Rand Index
+#'
+#' Computes the adjusted Rand index and the unadjusted Rand index for two
+#' inputs. These inputs should be binary or categorical and of the same length.
+#' It also computes the PSNR, which is generalized here as simply
+#' -10 log10(Rand).
+#'
+#' @param x a numeric or factor vector or image
+#' @param y a numeric or factor vector or image
+#'
+#' @return The Rand index, the Adjusted Rand Index, and the PSNR
+#' @export
+#'
+#' @examples
+#'
+#' x <- rep(1:5, 5)
+#' y <- c(rep(1:5, 4),rep(1,5))
+#' AdjRandIndex(x, y)
+AdjRandIndex <- function(x,y){
+  if (length(x) != length(y)) stop("x and y have differing lengths.")
+  n <- length(x)
+  a <- sum(x == y)
+  Rand <- a/n
+  x <- as.numeric(x)
+  y <- as.numeric(y)
+  AdjRand <- C_AdjRand(x,y)
+  list(Rand = Rand, AdjRand = AdjRand, PSNR = -10 * log10(Rand))
+}
