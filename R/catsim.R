@@ -292,6 +292,7 @@ downsample_3d_cube <- function(x){
 #'
 #' @param x a binary or categorical image
 #' @param y a binary or categorical image
+#' @param window window size, by default 8
 #' @param ... additional constants can be passed to internal functions.
 #'
 #' @return the three components of the index, all less than 1.
@@ -308,26 +309,26 @@ downsample_3d_cube <- function(x){
 #' for (i in 1:19) y[i, i+1] = 1
 #' catssim_2d(x,y)
 #' }
-catssim_2d <- function(x,y,...){
+catssim_2d <- function(x,y, window = 8,...){
   if (any(dim(x) != dim(y))) stop('x and y have nonconformable dimensions.')
   #levels <- levels(factor(c(x,y)))
   k = length(unique(c(x,y)))
   dims = dim(x)
   nrow = dims[1]
   ncol = dims[2]
-  if (any(dims < 8)) return(ssimcomponents((x), (y), k, ...))
+  if (any(dims < (window - 1))) return(ssimcomponents((x), (y), k, ...))
   resultmatrix = c(0,0,0)
 
-  for (i in 1:(nrow - 7)) {
-    for (j in 1:(ncol - 7)) {
-      place = j + (ncol - 7)*(i - 1)
-      subx = x[i:(i + 7), j:(j + 7)]
-      suby = y[i:(i + 7), j:(j + 7)]
+  for (i in 1:(nrow - (window - 1))) {
+    for (j in 1:(ncol - (window - 1))) {
+      #place = j + (ncol - (window - 1))*(i - 1)
+      subx = x[i:(i + (window - 1)), j:(j + (window - 1))]
+      suby = y[i:(i + (window - 1)), j:(j + (window - 1))]
 
       resultmatrix = resultmatrix + ssimcomponents(subx, suby, k, ...)
     }
   }
-  resultmatrix / ((nrow - 7) * (ncol - 7))
+  resultmatrix / ((nrow - (window - 1)) * (ncol - (window - 1)))
 
 }
 
@@ -341,6 +342,7 @@ catssim_2d <- function(x,y,...){
 #' @param y a binary or categorical image
 #' @param weights a vector of weights for the different scales. By default,
 #'     five different scales are used.
+#' @param window window size, by default 8.
 #' @param ... additional constants can be passed to internal functions.
 #'
 #' @return a value less than 1 indicating the similarity between the images.
@@ -354,25 +356,25 @@ catssim_2d <- function(x,y,...){
 #' for (i in 1:127) y[i, i+1] = 1
 #' catmssim_2d(x,y)
 #'
-catmssim_2d <- function(x, y, weights = c(0.0448, 0.2856, 0.3001, 0.2363, 0.1333), ...){
+catmssim_2d <- function(x, y, weights = c(0.0448, 0.2856, 0.3001, 0.2363, 0.1333), window = 8, ...){
   # the weights are from the original MS-SSIM program
   if (any(dim(x) != dim(y))) stop('x and y have nonconformable dimensions.')
   levels = length(weights)
   mindim <- min(dim(x))
-  if (mindim < 8) {
-    warning("Minimum dimension should be greater than 8. Using only one level.")
+  if (mindim < window) {
+    warning("Minimum dimension should be greater than window size. Using only one level.")
     return(binssim(x,y,...))
   }
   if (mindim < 128) levels = min(c(floor(log2(mindim) - 2),levels))
   weights = weights[1:levels]
   results = matrix(0, nrow = levels, ncol = 3)
-  results[1,] = catssim_2d(x,y)
+  results[1,] = catssim_2d(x, y, window,...)
 
   if ( levels > 1) {
     for (i in 2:levels) {
       x = downsample_2d(x)
       y = downsample_2d(y)
-      results[i,] = catssim_2d(x,y)
+      results[i,] = catssim_2d(x, y, window, ...)
     }
   }
 
@@ -391,6 +393,7 @@ catmssim_2d <- function(x, y, weights = c(0.0448, 0.2856, 0.3001, 0.2363, 0.1333
 #'
 #' @param x a binary or categorical image
 #' @param y a binary or categorical image
+#' @param window by default 8
 #' @param ...
 #'
 #' @return SSIM componenets for the cube.
@@ -398,34 +401,34 @@ catmssim_2d <- function(x, y, weights = c(0.0448, 0.2856, 0.3001, 0.2363, 0.1333
 #'
 #' @noRd
 #'
-catssim_3d_slice <- function(x,y,...){
+catssim_3d_slice <- function(x, y, window = 8,...){
   if (any(dim(x) != dim(y))) stop('x and y have nonconformable dimensions.')
   dims = dim(x)
   sliceresults = matrix(0, nrow = dims[3], ncol = 3)
-  for (i in 1:dims[3]) sliceresults[i,] = catssim_2d(x[,,i],y[,,i],...)
+  for (i in 1:dims[3]) sliceresults[i,] = catssim_2d(x[,,i],y[,,i], window, ...)
   colMeans(sliceresults)
 }
 
-catssim_3d_cube <- function(x,y,...){
+catssim_3d_cube <- function(x, y, window = 4, ...){
   if (any(dim(x) != dim(y))) stop('x and y have nonconformable dimensions.')
   #levels <- levels(factor(c(x,y)))
   k = length(unique(c(x,y)))
   dims = dim(x)
-  if (any(dims < 4)) return(ssimcomponents((x), (y)), k, ...)
+  if (any(dims < window)) return(ssimcomponents((x), (y)), k, ...)
 
   cuberesults = c(0,0,0)
-  for (i in 1:(dims[1] - 3)) {
-    for (j in 1:(dims[2] - 3)) {
-      for (k in 1:(dims[3] - 3)) {
-        subx = x[i:(i + 3), j:(j + 3), k:(k + 3)]
-        suby = y[i:(i + 3), j:(j + 3), k:(k + 3)]
+  for (i in 1:(dims[1] - (window-1))) {
+    for (j in 1:(dims[2] - (window-1))) {
+      for (k in 1:(dims[3] - (window-1))) {
+        subx = x[i:(i + (window-1)), j:(j + (window-1)), k:(k + (window-1))]
+        suby = y[i:(i + (window-1)), j:(j + (window-1)), k:(k + (window-1))]
 
         cuberesults = cuberesults + ssimcomponents(subx, suby, k, ...)
       }
     }
   }
 
-  (cuberesults / prod(dims - 3) )
+  (cuberesults / prod(dims - (window-1)) )
 }
 
 #' Multiscale Categorical Structural Similarity Index Measure by Slice (3D)
@@ -439,6 +442,7 @@ catssim_3d_cube <- function(x,y,...){
 #' @param y a binary or categorical image
 #' @param weights a vector of weights for the different scales. By default,
 #'     five different scales are used.
+#' @param window window size, by default 8.
 #' @param ... additional constants can be passed to internal functions.
 #'
 #' @return a value less than 1 indicating the similarity between the images.
@@ -454,26 +458,26 @@ catssim_3d_cube <- function(x,y,...){
 #' for (i in 1:(dim-1)) y[i, i+1, j] = 1
 #' }
 #' catmssim_3d_slice(x,y, weights = c(.75,.25))
-catmssim_3d_slice <- function(x, y, weights = c(0.0448, 0.2856, 0.3001, 0.2363, 0.1333), ...){
+catmssim_3d_slice <- function(x, y, weights = c(0.0448, 0.2856, 0.3001, 0.2363, 0.1333), window = 8, ...){
   # the weights are from the original MS-SSIM program
   if (any(dim(x) != dim(y))) stop('x and y have nonconformable dimensions.')
   levels = length(weights)
   dims = dim(x)
   if (length(dims) < 3) stop('x and y are not 3-dimensional.')
   mindim <- min(dim(x)[1:2])
-  if (mindim < 8) stop("Minimum dimension must be greater than 8.")
+  if (mindim < window) stop("Minimum dimension must be greater than 8.")
   if (mindim < 128) levels = min(c(floor(log2(mindim) - 2),levels))
 
   weights = weights[1:levels]
   results = matrix(0, nrow = levels, ncol = 3)
 
-  results[1,] = catssim_3d_slice(x,y,...)
+  results[1,] = catssim_3d_slice(x, y, window,...)
 
   if ( levels > 1) {
     for (j in 2:levels) {
       x = downsample_3d_slice(x)
       y = downsample_3d_slice(y)
-      results[j,] = catssim_3d_slice(x,y,...)
+      results[j,] = catssim_3d_slice(x, y, window,...)
     }
   }
 
@@ -495,6 +499,7 @@ catmssim_3d_slice <- function(x, y, weights = c(0.0448, 0.2856, 0.3001, 0.2363, 
 #' @param y a binary or categorical image
 #' @param weights a vector of weights for the different scales. By default,
 #'     five different scales are used.
+#' @param window size of window, by default 4
 #' @param ... additional constants can be passed to internal functions.
 #'
 #' @return a value less than 1 indicating the similarity between the images.
@@ -510,26 +515,29 @@ catmssim_3d_slice <- function(x, y, weights = c(0.0448, 0.2856, 0.3001, 0.2363, 
 #' for (i in 1:(dim-1)) y[i, i+1, j] = 1
 #' }
 #' catmssim_3d_cube(x,y, weights = c(.75,.25))
-catmssim_3d_cube <- function(x, y, weights = c(0.0448, 0.2856, 0.3001, 0.2363, 0.1333), ...){
+catmssim_3d_cube <- function(x, y, weights = c(0.0448, 0.2856, 0.3001, 0.2363, 0.1333), window = 4, ...){
   # the weights are from the original MS-SSIM program
   if (any(dim(x) != dim(y))) stop('x and y have nonconformable dimensions.')
   levels = length(weights)
   dims = dim(x)
   if (length(dims) < 3) stop('x and y are not 3-dimensional.')
   mindim <- min(dim(x))
-  if (mindim < 8) stop("Minimum dimension must be greater than 8.")
+  if (mindim < 2*window) {
+    warning("Minimum dimension must be greater than 8.")
+    catssim_3d_cube(x,y,...)
+  }
   if (mindim < 128) levels = min(c(floor(log2(mindim) - 2),levels))
 
   weights = weights[1:levels]
   results = matrix(0, nrow = levels, ncol = 3)
 
-  results[1,] = catssim_3d_cube(x,y,...)
+  results[1,] = catssim_3d_cube(x,y,window,...)
 
   if ( levels > 1) {
     for (j in 2:levels) {
       x = downsample_3d_cube(x)
       y = downsample_3d_cube(y)
-      results[j,] = catssim_3d_cube(x,y,...)
+      results[j,] = catssim_3d_cube(x,y,window,...)
     }
   }
 

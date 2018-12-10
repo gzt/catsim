@@ -5,7 +5,7 @@
 \title{Multiscale Categorical Structural Similarity Index Measure (2D)}
 \usage{
 catmssim_2d(x, y, weights = c(0.0448, 0.2856, 0.3001, 0.2363, 0.1333),
-  ...)
+  window = 8, ...)
 }
 \arguments{
 \item{x}{a binary or categorical image}
@@ -14,6 +14,8 @@ catmssim_2d(x, y, weights = c(0.0448, 0.2856, 0.3001, 0.2363, 0.1333),
 
 \item{weights}{a vector of weights for the different scales. By default,
 five different scales are used.}
+
+\item{window}{window size, by default 8.}
 
 \item{...}{additional constants can be passed to internal functions.}
 }
