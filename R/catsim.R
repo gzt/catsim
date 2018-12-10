@@ -13,15 +13,7 @@ NULL
 #' @keywords internal
 #'
 #' @noRd
-meansfunc <- function(x,y, c1 = 0.01){
-  #levels <- levels(factor(c(x,y)))
-  #x = factor(x, levels = levels)
-  #y = factor(y, levels = levels)
-  #tablexy <- table(x,y)
-  #tablex <- table(x)
-  #tabley <- table(y)
-
-  #(2*sum(tablex*tabley) + c1)/(sum(tablex^2) + sum(tabley^2) + c1)
+meansfunc <- function(x,y, c1 = 0.01) {
   C_meansfunc(x, y, c1)
 }
 
@@ -40,7 +32,6 @@ meansfunc <- function(x,y, c1 = 0.01){
 #' }
 #'
 gini <- function(x){
-  #1 - (sum(table(x)^2)/length(x)^2)
   x <- as.numeric(x)
   C_gini(x)
 }
@@ -57,9 +48,8 @@ gini <- function(x){
 #' x <- rep(c(1:4),5)
 #' ginicorr(x, 4)
 #' }
-ginicorr <- function(x, k){
-  # k <- length(table(x))
-  if (k > 1){
+ginicorr <- function(x, k) {
+  if (k > 1) {
     C_gini(x)/(1 - 1/k)
   } else C_gini(x)
 }
@@ -76,7 +66,6 @@ ginicorr <- function(x, k){
 #' sqrtgini(x)
 #' }
 sqrtgini <-  function(x){
-  #1 - sqrt(sum(table(x)^2)/length(x)^2)
   1 - sqrt(1 - C_gini(x))
 }
 
@@ -92,7 +81,6 @@ sqrtgini <-  function(x){
 #' sqrtginicorr(x, 4)
 #' }
 sqrtginicorr <- function(x, k){
-  # k <- length(table(x))
   if (k > 1) {
     sqrtgini(x)/(1 - 1/sqrt(k))
   } else sqrtgini(x)
@@ -114,10 +102,6 @@ sqrtginicorr <- function(x, k){
 #' }
 
 cfunc <- function(x, y, c2 = 0.01, k){
-  #varx <- ginicorr(x, k)
-  #vary <- ginicorr(y, k)
-
-  #(2*sqrt(varx * vary) + c2)/(varx + vary + c2)
   C_cfunc(x, y, c2, k)
 }
 
@@ -135,15 +119,9 @@ cfunc <- function(x, y, c2 = 0.01, k){
 #' sfunc(x,y)
 #' }
 sfunc <- function(x, y){
-  # should take care of this beforehand!
-  numx <- as.numeric(x)
-  numy <- as.numeric(y)
-  if (min(c(numx,numy) < 1)) {
-    addmin = min(c(numx,numy))
-    numx = numx - addmin + 1
-    numy = numy - addmin + 1
-  }
-  EMCluster::RRand(numx, numy)$adjRand
+    x <- as.numeric(x)
+    y <- as.numeric(y)
+    C_AdjRand(x,y)
 }
 
 
@@ -164,15 +142,14 @@ sfunc <- function(x, y){
 #'
 #' @examples
 #' set.seed(20181207)
-#' x <- matrix(sample(1:4, 400, replace = TRUE), nrow=20)
+#' x <- matrix(sample(1:4, 10000, replace = TRUE), nrow=100)
 #' y <- x
-#' for (i in 1:20) y[i, i] = 1
-#' for (i in 1:19) y[i, i+1] = 1
+#' for (i in 1:100) y[i, i] = 1
+#' for (i in 1:99) y[i, i+1] = 1
 #' binssim(x,y)
 binssim <- function(x, y, alpha = 1, beta = 1, gamma = 1, ...){
   if (length(x) != length(y)) stop("x and y must be the same size.")
   k = length(unique(c(x,y)))
-  #levels <- levels(factor(c(x,y)))
   (meansfunc(x, y, ...)^alpha)*(cfunc(x, y, k = k, ...)^beta)*(sfunc(x, y)^gamma)
 }
 
@@ -226,16 +203,16 @@ pickmode <- function(x){
 downsample_2d <- function(x){
   dims = dim(x)
   newdims = floor(dims/2)
-  if (any(newdims < 1)){
+  if (any(newdims < 1)) {
     warning("Cannot downsample, at least one dimension is of length 1")
     return(x)
   }
   newx <- matrix(nrow = newdims[1], ncol = newdims[2])
-  for (i in 1:newdims[1]){
-    for (j in 1:newdims[2]){
-      xstart <- 2*i -1
+  for (i in 1:newdims[1]) {
+    for (j in 1:newdims[2]) {
+      xstart <- 2*i - 1
       ystart <- 2*j - 1
-      newx[i,j] = pickmode(c(x[xstart:(xstart+1), ystart:(ystart+1)]))
+      newx[i,j] = pickmode(c(x[xstart:(xstart + 1), ystart:(ystart + 1)]))
     }
   }
   newx
@@ -258,12 +235,12 @@ downsample_2d <- function(x){
 downsample_3d_slice <- function(x){
   dims = dim(x)
   newdims = floor(c(dims[1:2]/2,dims[3]))
-  if (any(newdims < 1)){
+  if (any(newdims < 1)) {
     warning("Cannot downsample, at least one dimension is of length 1.")
     return(x)
   }
   newx <- array(dim = newdims)
-  for (i in 1:dims[3]){
+  for (i in 1:dims[3]) {
     newx[,,i] = downsample_2d(x[,,i])
   }
   newx
@@ -287,18 +264,18 @@ downsample_3d_slice <- function(x){
 downsample_3d_cube <- function(x){
   dims = dim(x)
   newdims = floor(dims/2)
-  if (any(newdims < 1)){
+  if (any(newdims < 1)) {
     warning("Cannot downsample, at least one dimension is of length 1.")
     return(x)
   }
   newx <- array(dim = newdims)
-  for (i in 1:newdims[1]){
-    for (j in 1:newdims[2]){
-      for (k in 1:newdims[3]){
-        xstart <- 2*i -1
+  for (i in 1:newdims[1]) {
+    for (j in 1:newdims[2]) {
+      for (k in 1:newdims[3]) {
+        xstart <- 2*i - 1
         ystart <- 2*j - 1
         zstart <- 2*k - 1
-        newx[i,j,k] = pickmode(c(x[xstart:(xstart+1), ystart:(ystart+1), zstart:(zstart+1)]))
+        newx[i, j, k] = pickmode(c(x[xstart:(xstart + 1), ystart:(ystart + 1), zstart:(zstart + 1)]))
       }
     }
   }
@@ -331,27 +308,25 @@ downsample_3d_cube <- function(x){
 #' }
 catssim_2d <- function(x,y,...){
   if (any(dim(x) != dim(y))) stop('x and y have nonconformable dimensions.')
-  levels <- levels(factor(c(x,y)))
-  k = length(levels)
+  #levels <- levels(factor(c(x,y)))
+  k = length(unique(c(x,y)))
   dims = dim(x)
   nrow = dims[1]
   ncol = dims[2]
   if (any(dims < 8)) return(ssimcomponents((x), (y), k, ...))
   resultmatrix = c(0,0,0)
-  # resultmatrix = array(0, dim = c((nrow-7), (ncol-7),3))
-  for (i in 1:(nrow-7)){
-    for (j in 1:(ncol-7)){
-      place = j+(ncol-7)*(i-1)
-      subx = x[i:(i+7),j:(j+7)]
-      suby = y[i:(i+7),j:(j+7)]
 
-      #subx = factor(subx, levels = levels)
-      #suby = factor(suby, levels = levels)
+  for (i in 1:(nrow - 7)) {
+    for (j in 1:(ncol - 7)) {
+      place = j + (ncol - 7)*(i - 1)
+      subx = x[i:(i + 7), j:(j + 7)]
+      suby = y[i:(i + 7), j:(j + 7)]
+
       resultmatrix = resultmatrix + ssimcomponents(subx, suby, k, ...)
     }
   }
-  resultmatrix / ((nrow-7)*(ncol-7))
-  #resultmatrix
+  resultmatrix / ((nrow - 7) * (ncol - 7))
+
 }
 
 
@@ -380,14 +355,14 @@ catmssim_2d <- function(x, y, weights = c(0.0448, 0.2856, 0.3001, 0.2363, 0.1333
   if (any(dim(x) != dim(y))) stop('x and y have nonconformable dimensions.')
   levels = length(weights)
   mindim <- min(dim(x))
-  if(mindim < 8) stop("Minimum dimension must be greater than 8.")
+  if (mindim < 8) stop("Minimum dimension must be greater than 8.")
   if (mindim < 128) levels = min(c(floor(log2(mindim) - 2),levels))
   weights = weights[1:levels]
   results = matrix(0, nrow = levels, ncol = 3)
   results[1,] = catssim_2d(x,y)
 
-  if ( levels > 1){
-    for (i in 2:levels){
+  if ( levels > 1) {
+    for (i in 2:levels) {
       x = downsample_2d(x)
       y = downsample_2d(y)
       results[i,] = catssim_2d(x,y)
@@ -413,13 +388,11 @@ catssim_3d_slice <- function(x,y,...){
 
 catssim_3d_cube <- function(x,y,...){
   if (any(dim(x) != dim(y))) stop('x and y have nonconformable dimensions.')
-  levels <- levels(factor(c(x,y)))
-  k = length(levels)
+  #levels <- levels(factor(c(x,y)))
+  k = length(unique(c(x,y)))
   dims = dim(x)
   if (any(dims < 4)) return(ssimcomponents((x), (y)), k, ...)
 
-  # this gets messy
-  # cuberesults = array(0, dim = c((dims - 3), 3))
   cuberesults = c(0,0,0)
   for (i in 1:(dims[1] - 3)) {
     for (j in 1:(dims[2] - 3)) {
@@ -427,8 +400,6 @@ catssim_3d_cube <- function(x,y,...){
         subx = x[i:(i + 3), j:(j + 3), k:(k + 3)]
         suby = y[i:(i + 3), j:(j + 3), k:(k + 3)]
 
-        #subx = factor(subx, levels = levels)
-        #suby = factor(suby, levels = levels)
         cuberesults = cuberesults + ssimcomponents(subx, suby, k, ...)
       }
     }
@@ -455,11 +426,12 @@ catssim_3d_cube <- function(x,y,...){
 #'
 #' @examples
 #' set.seed(20181207)
-#' x <- array(sample(1:4, 16^3, replace = TRUE), dim = c(16,16,16))
+#' dim = 16
+#' x <- array(sample(1:4, dim^3, replace = TRUE), dim = c(dim,dim,dim))
 #' y <- x
-#' for (j in 1:16){
-#' for (i in 1:16) y[i, i, j] = 1
-#' for (i in 1:15) y[i, i+1, j] = 1
+#' for (j in 1:dim){
+#' for (i in 1:dim) y[i, i, j] = 1
+#' for (i in 1:(dim-1)) y[i, i+1, j] = 1
 #' }
 #' catmssim_3d_slice(x,y, weights = c(.75,.25))
 catmssim_3d_slice <- function(x, y, weights = c(0.0448, 0.2856, 0.3001, 0.2363, 0.1333), ...){
@@ -476,8 +448,8 @@ catmssim_3d_slice <- function(x, y, weights = c(0.0448, 0.2856, 0.3001, 0.2363, 
 
   results[1,] = catssim_3d_slice(x,y,...)
 
-  if ( levels > 1){
-    for (j in 2:levels){
+  if ( levels > 1) {
+    for (j in 2:levels) {
       x = downsample_3d_slice(x)
       y = downsample_3d_slice(y)
       results[j,] = catssim_3d_slice(x,y,...)
@@ -508,11 +480,13 @@ catmssim_3d_slice <- function(x, y, weights = c(0.0448, 0.2856, 0.3001, 0.2363, 
 #' @export
 #'
 #' @examples
-#' x <- array(sample(1:4, 16^3, replace = TRUE), dim = c(16,16,16))
+#' set.seed(20181207)
+#' dim = 16
+#' x <- array(sample(1:4, dim^3, replace = TRUE), dim = c(dim,dim,dim))
 #' y <- x
-#' for (j in 1:16){
-#' for (i in 1:16) y[i, i, j] = 1
-#' for (i in 1:15) y[i, i+1, j] = 1
+#' for (j in 1:dim){
+#' for (i in 1:dim) y[i, i, j] = 1
+#' for (i in 1:(dim-1)) y[i, i+1, j] = 1
 #' }
 #' catmssim_3d_cube(x,y, weights = c(.75,.25))
 catmssim_3d_cube <- function(x, y, weights = c(0.0448, 0.2856, 0.3001, 0.2363, 0.1333), ...){
@@ -529,8 +503,8 @@ catmssim_3d_cube <- function(x, y, weights = c(0.0448, 0.2856, 0.3001, 0.2363, 0
 
   results[1,] = catssim_3d_cube(x,y,...)
 
-  if ( levels > 1){
-    for (j in 2:levels){
+  if ( levels > 1) {
+    for (j in 2:levels) {
       x = downsample_3d_cube(x)
       y = downsample_3d_cube(y)
       results[j,] = catssim_3d_cube(x,y,...)
@@ -544,4 +518,3 @@ catmssim_3d_cube <- function(x, y, weights = c(0.0448, 0.2856, 0.3001, 0.2363, 0
   (results[levels,1]^weights[levels])*csresults
 
 }
-

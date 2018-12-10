@@ -17,3 +17,7 @@ C_meansfunc <- function(x, y, c) {
     .Call(`_catsim_C_meansfunc`, x, y, c)
 }
 
+C_AdjRand <- function(x, y) {
+    .Call(`_catsim_C_AdjRand`, x, y)
+}
+

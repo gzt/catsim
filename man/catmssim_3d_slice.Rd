@@ -28,11 +28,12 @@ and then averages over the z-axis.
 }
 \examples{
 set.seed(20181207)
-x <- array(sample(1:4, 16^3, replace = TRUE), dim = c(16,16,16))
+dim = 16
+x <- array(sample(1:4, dim^3, replace = TRUE), dim = c(dim,dim,dim))
 y <- x
-for (j in 1:16){
-for (i in 1:16) y[i, i, j] = 1
-for (i in 1:15) y[i, i+1, j] = 1
+for (j in 1:dim){
+for (i in 1:dim) y[i, i, j] = 1
+for (i in 1:(dim-1)) y[i, i+1, j] = 1
 }
 catmssim_3d_slice(x,y, weights = c(.75,.25))
 }

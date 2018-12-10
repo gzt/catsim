@@ -55,12 +55,25 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// C_AdjRand
+double C_AdjRand(NumericVector x, NumericVector y);
+RcppExport SEXP _catsim_C_AdjRand(SEXP xSEXP, SEXP ySEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericVector >::type x(xSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type y(ySEXP);
+    rcpp_result_gen = Rcpp::wrap(C_AdjRand(x, y));
+    return rcpp_result_gen;
+END_RCPP
+}
 
 static const R_CallMethodDef CallEntries[] = {
     {"_catsim_C_gini", (DL_FUNC) &_catsim_C_gini, 1},
     {"_catsim_C_ginicorr", (DL_FUNC) &_catsim_C_ginicorr, 2},
     {"_catsim_C_cfunc", (DL_FUNC) &_catsim_C_cfunc, 4},
     {"_catsim_C_meansfunc", (DL_FUNC) &_catsim_C_meansfunc, 3},
+    {"_catsim_C_AdjRand", (DL_FUNC) &_catsim_C_AdjRand, 2},
     {NULL, NULL, 0}
 };
 
