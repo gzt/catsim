@@ -12,11 +12,13 @@ AdjRandIndex(x, y)
 \item{y}{a numeric or factor vector or image}
 }
 \value{
-The Rand index and the Adjusted Rand Index
+The Rand index, the Adjusted Rand Index, and the PSNR
 }
 \description{
 Computes the adjusted Rand index and the unadjusted Rand index for two
-inputs.
+inputs. These inputs should be binary or categorical and of the same length.
+It also computes the PSNR, which is generalized here as simply
+-10 log10(Rand).
 }
 \examples{
 

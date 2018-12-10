@@ -564,6 +564,7 @@ AdjRandIndex <- function(x,y){
   n <- length(x)
   a <- sum(x == y)
   Rand <- a/n
+
   x <- as.numeric(x)
   y <- as.numeric(y)
   AdjRand <- C_AdjRand(x,y)
