@@ -31,3 +31,5 @@ devtools::install_github("catsim")
 ```
 
 This is not actually on CRAN yet. Install using github.
+
+Please note that the 'catsim' project is released with a [Contributor Code of Conduct](CODE_OF_CONDUCT.md). By contributing to this project, you agree to abide by its terms.
