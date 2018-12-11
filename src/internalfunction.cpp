@@ -77,6 +77,64 @@ double C_meansfunc(NumericVector x, NumericVector y, double c){
   return (2*(xysum) + c)/(sqsum + c);
 }
 
+// [[Rcpp::export]]
+double C_Cohen(NumericVector x, NumericVector y, double eps){
+  int n = x.size();
+  if (n != y.size()) Rcpp::stop("X and Y must have the same length.");
+  NumericMatrix xy(n, 2);
+  xy.column(0) = x;
+  xy.column(1) = y;
+  std::map<double, int> countsx;
+  std::map<double, int> countsy;
+  std::map<std::vector<double>, int> count_rows;
+  countsx.clear();
+  countsy.clear();
+  count_rows.clear();
+  for (int i = 0; i < n; i++) {
+    countsx[x[i]]++;
+    countsy[y[i]]++;
+    NumericVector a = xy.row(i);
+    std::vector<double> b = Rcpp::as< std::vector<double> >(a);
+
+    // Add to map
+    count_rows[ b ] += 1;
+  }
+
+  for (int i = 0; i < n; i++) {
+    countsx[x[i]]++;
+    countsy[y[i]]++;
+  }
+
+
+  double xxyysum = 0.0;
+  std::map<double,int>::iterator il = countsx.begin();
+  std::map<double,int>::iterator ir = countsy.begin();
+  while (il != countsx.end() && ir != countsy.end())
+  {
+    if (il->first < ir->first)
+      ++il;
+    else if (ir->first < il->first)
+      ++ir;
+    else
+    {
+      xxyysum += (il->second) * (ir->second);
+      ++il;
+      ++ir;
+    }
+  }
+  double xysum = 0.0;
+  for (std::map<std::vector<double>, int>::iterator it = count_rows.begin(); it != count_rows.end(); ++it)  {
+    xysum  += it->second;
+  }
+
+
+  double pe = xxyysum / (n*n);
+  double po = xysum / (n);
+
+  return (po-pe + eps)/(1-pe + eps);
+
+}
+
 
 
 // [[Rcpp::export]]

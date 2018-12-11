@@ -566,6 +566,7 @@ catmssim_3d_cube <- function(x, y, weights = c(0.0448, 0.2856, 0.3001, 0.2363, 0
 #' -10 log10(Rand). The adjusted Rand index is used as a measure of the similarity
 #' of the structure of the two images. A small constant is added to the numerator
 #' and denominator to ensure stability, as it is possible to have a zero denominator.
+#' This also computes Cohen's Kappa (with a small constant added for stability)
 #'
 #' @param x a numeric or factor vector or image
 #' @param y a numeric or factor vector or image
@@ -592,11 +593,12 @@ AdjRandIndex <- function(x,y){
   a <- sum(x == y)
   Rand <- a/n
   # this disagrees with some implementations I've seen but I don't know how this is wrong.
-
+  Cohen <- C_Cohen(x,y, 1e-3)
   x <- as.numeric(x)
   y <- as.numeric(y)
   AdjRand <- C_AdjRand(x,y)
   list(Rand = Rand,
        AdjRand = AdjRand,
-       PSNR = -10 * log10(Rand))
+       PSNR = -10 * log10(Rand),
+       Cohen = Cohen)
 }

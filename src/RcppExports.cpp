@@ -55,6 +55,19 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// C_Cohen
+double C_Cohen(NumericVector x, NumericVector y, double eps);
+RcppExport SEXP _catsim_C_Cohen(SEXP xSEXP, SEXP ySEXP, SEXP epsSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericVector >::type x(xSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type y(ySEXP);
+    Rcpp::traits::input_parameter< double >::type eps(epsSEXP);
+    rcpp_result_gen = Rcpp::wrap(C_Cohen(x, y, eps));
+    return rcpp_result_gen;
+END_RCPP
+}
 // C_AdjRand
 double C_AdjRand(NumericVector x, NumericVector y);
 RcppExport SEXP _catsim_C_AdjRand(SEXP xSEXP, SEXP ySEXP) {
@@ -73,6 +86,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_catsim_C_ginicorr", (DL_FUNC) &_catsim_C_ginicorr, 2},
     {"_catsim_C_cfunc", (DL_FUNC) &_catsim_C_cfunc, 4},
     {"_catsim_C_meansfunc", (DL_FUNC) &_catsim_C_meansfunc, 3},
+    {"_catsim_C_Cohen", (DL_FUNC) &_catsim_C_Cohen, 3},
     {"_catsim_C_AdjRand", (DL_FUNC) &_catsim_C_AdjRand, 2},
     {NULL, NULL, 0}
 };

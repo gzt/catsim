@@ -21,6 +21,7 @@ It also computes the PSNR, which is generalized here as simply
 -10 log10(Rand). The adjusted Rand index is used as a measure of the similarity
 of the structure of the two images. A small constant is added to the numerator
 and denominator to ensure stability, as it is possible to have a zero denominator.
+This also computes Cohen's Kappa (with a small constant added for stability)
 }
 \examples{
 

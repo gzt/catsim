@@ -17,6 +17,10 @@ C_meansfunc <- function(x, y, c) {
     .Call(`_catsim_C_meansfunc`, x, y, c)
 }
 
+C_Cohen <- function(x, y, eps) {
+    .Call(`_catsim_C_Cohen`, x, y, eps)
+}
+
 C_AdjRand <- function(x, y) {
     .Call(`_catsim_C_AdjRand`, x, y)
 }
