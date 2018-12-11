@@ -22,7 +22,7 @@ double C_gini(NumericVector x){
 // [[Rcpp::export]]
 double C_ginicorr(NumericVector x, double k){
   double eps = 1e-5;
-  if(abs(k - 1.0) < eps) return C_gini(x);
+  if(std::abs(k - 1.0) < eps) return C_gini(x);
 
   return C_gini(x) / (1-1/k);
 }
