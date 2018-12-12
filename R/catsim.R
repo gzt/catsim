@@ -593,7 +593,7 @@ AdjRandIndex <- function(x,y){
   a <- sum(x == y)
   Rand <- a/n
   # this disagrees with some implementations I've seen but I don't know how this is wrong.
-  Cohen <- C_Cohen(x,y, 1e-3)
+  Cohen <- C_Cohen(x,y)
   x <- as.numeric(x)
   y <- as.numeric(y)
   AdjRand <- C_AdjRand(x,y)

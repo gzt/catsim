@@ -78,7 +78,7 @@ double C_meansfunc(NumericVector x, NumericVector y, double c){
 }
 
 // [[Rcpp::export]]
-double C_Cohen(NumericVector x, NumericVector y, double eps){
+double C_Cohen(NumericVector x, NumericVector y){
   int n = x.size();
   if (n != y.size()) Rcpp::stop("X and Y must have the same length.");
   NumericMatrix xy(n, 2);
@@ -100,12 +100,6 @@ double C_Cohen(NumericVector x, NumericVector y, double eps){
     count_rows[ b ] += 1;
   }
 
-  for (int i = 0; i < n; i++) {
-    countsx[x[i]]++;
-    countsy[y[i]]++;
-  }
-
-
   double xxyysum = 0.0;
   std::map<double,int>::iterator il = countsx.begin();
   std::map<double,int>::iterator ir = countsy.begin();
@@ -124,14 +118,18 @@ double C_Cohen(NumericVector x, NumericVector y, double eps){
   }
   double xysum = 0.0;
   for (std::map<std::vector<double>, int>::iterator it = count_rows.begin(); it != count_rows.end(); ++it)  {
+    std::vector<double> tmp = it->first;
+    if( std::abs(tmp[0] - tmp[1]) < 1e-6){
     xysum  += it->second;
+    }
   }
 
 
   double pe = xxyysum / (n*n);
   double po = xysum / (n);
 
-  return (po-pe + eps)/(1-pe + eps);
+  if (1-pe < 1e-6 ) return 1.0;
+  return (po-pe)/(1-pe);
 
 }
 
