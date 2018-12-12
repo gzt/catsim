@@ -12,7 +12,7 @@ AdjRandIndex(x, y)
 \item{y}{a numeric or factor vector or image}
 }
 \value{
-The Rand index, the Adjusted Rand Index, and the PSNR
+The Rand index, the Adjusted Rand Index, the PSNR, and Cohen's Kappa.
 }
 \description{
 Computes the adjusted Rand index and the unadjusted Rand index for two
@@ -36,4 +36,6 @@ Lawrence Hubert and Phipps Arabie (1985).
 W. M. Rand (1971). "Objective criteria for the evaluation of clustering methods".
 Journal of the American Statistical Association. American Statistical Association. 66 (336): 846–850.
 \doi{10.2307/2284239}
+
+Cohen, Jacob (1960). "A coefficient of agreement for nominal scales". Educational and Psychological Measurement. 20 (1): 37–46. \doi{10.1177/001316446002000104}
 }

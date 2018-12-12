@@ -111,7 +111,7 @@ cfunc <- function(x, y, c2 = 0.01, k){
 #' @param y binary or categorical image or vector
 #' @noRd
 #'
-#' @return Covariance function (Adjusted Rand Index)
+#' @return Covariance function (Cohen's Kappa)
 #' @keywords internal
 #' \dontrun{
 #' x <- rep(1:4,4)
@@ -121,7 +121,7 @@ cfunc <- function(x, y, c2 = 0.01, k){
 sfunc <- function(x, y){
     x <- as.numeric(x)
     y <- as.numeric(y)
-    C_AdjRand(x,y)
+    C_Cohen(x,y)
 }
 
 
@@ -571,7 +571,7 @@ catmssim_3d_cube <- function(x, y, weights = c(0.0448, 0.2856, 0.3001, 0.2363, 0
 #' @param x a numeric or factor vector or image
 #' @param y a numeric or factor vector or image
 #'
-#' @return The Rand index, the Adjusted Rand Index, and the PSNR
+#' @return The Rand index, the Adjusted Rand Index, the PSNR, and Cohen's Kappa.
 #'
 #' @references Lawrence Hubert and Phipps Arabie (1985).
 #' "Comparing partitions". Journal of Classification. 2 (1): 193–218. \doi{10.1007/BF01908075}
@@ -579,6 +579,8 @@ catmssim_3d_cube <- function(x, y, weights = c(0.0448, 0.2856, 0.3001, 0.2363, 0
 #'  W. M. Rand (1971). "Objective criteria for the evaluation of clustering methods".
 #'  Journal of the American Statistical Association. American Statistical Association. 66 (336): 846–850.
 #'  \doi{10.2307/2284239}
+#'
+#'  Cohen, Jacob (1960). "A coefficient of agreement for nominal scales". Educational and Psychological Measurement. 20 (1): 37–46. \doi{10.1177/001316446002000104}
 #'
 #' @export
 #'
