@@ -15,13 +15,13 @@ AdjRandIndex(x, y)
 The Rand index, the Adjusted Rand Index, the PSNR, and Cohen's Kappa.
 }
 \description{
-Computes the adjusted Rand index and the unadjusted Rand index for two
+Computes the adjusted Rand index for two
 inputs. These inputs should be binary or categorical and of the same length.
 It also computes the PSNR, which is generalized here as simply
--10 log10(Rand). The adjusted Rand index is used as a measure of the similarity
-of the structure of the two images. A small constant is added to the numerator
-and denominator to ensure stability, as it is possible to have a zero denominator.
-This also computes Cohen's Kappa (with a small constant added for stability)
+-10 log10(MSE). The adjusted Rand index and Cohen's Kappa are used as a measure of
+the similarity of the structure of the two images. A small constant is added to the numerator
+and denominator of the Rand index to ensure stability, as it is possible to have a zero
+denominator. The PSNR can be infinite if the error rate is 0.
 }
 \examples{
 
