@@ -119,8 +119,8 @@ cfunc <- function(x, y, c2 = 0.01, k){
 #' sfunc(x,y)
 #' }
 sfunc <- function(x, y){
-    x <- as.numeric(x)
-    y <- as.numeric(y)
+    x <- as.vector(x)
+    y <- as.vector(y)
     C_Cohen(x,y)
 }
 
@@ -328,6 +328,8 @@ catssim_2d <- function(x,y, window = 8,...){
       resultmatrix = resultmatrix + ssimcomponents(subx, suby, k, ...)
     }
   }
+  resultmatrix[resultmatrix < 0.0] <- 0.0
+
   resultmatrix / ((nrow - (window - 1)) * (ncol - (window - 1)))
 
 }
@@ -365,7 +367,8 @@ catmssim_2d <- function(x, y, weights = c(0.0448, 0.2856, 0.3001, 0.2363, 0.1333
     warning("Minimum dimension should be greater than window size. Using only one level.")
     return(binssim(x,y,...))
   }
-  if (mindim < 16*window) {
+
+  if (mindim < (2^(levels - 1))*window) {
     levels = min(c(floor(log2(mindim/window) + 1),levels))
     warning("Truncating levels because of minimum dimension.")
   }
@@ -469,7 +472,7 @@ catmssim_3d_slice <- function(x, y, weights = c(0.0448, 0.2856, 0.3001, 0.2363, 
   if (length(dims) < 3) stop('x and y are not 3-dimensional.')
   mindim <- min(dim(x)[1:2])
   if (mindim < window) stop("Minimum dimension must be greater than window size.")
-  if (mindim < 16*window) {
+  if (mindim < (2^(levels - 1))*window) {
     levels = min(c(floor(log2(mindim/window) + 1),levels))
     warning("Truncating levels because of minimum dimension.")
   }
@@ -532,7 +535,7 @@ catmssim_3d_cube <- function(x, y, weights = c(0.0448, 0.2856, 0.3001, 0.2363, 0
     warning("Minimum dimension must be greater than 2 * window.")
     catssim_3d_cube(x,y,...)
   }
-  if (mindim < 16 * window) {
+  if (mindim < (2^(levels - 1))*window) {
     levels = min(c(floor(log2(mindim/window) + 1),levels))
     warning("Truncating levels because of minimum dimension.")
   }
