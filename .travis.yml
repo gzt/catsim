@@ -3,9 +3,13 @@
 language: R
 r_packages:
   - EMCluster
+  - Rcpp
 sudo: false
 cache: packages
 warnings_are_errors: true
+r:
+  - release
+  - devel
 notifications:
   email:
     - gzthompson@gmail.com
