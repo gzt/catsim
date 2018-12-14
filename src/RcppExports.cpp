@@ -80,6 +80,8 @@ BEGIN_RCPP
 END_RCPP
 }
 
+RcppExport SEXP run_testthat_tests();
+
 static const R_CallMethodDef CallEntries[] = {
     {"_catsim_C_gini", (DL_FUNC) &_catsim_C_gini, 1},
     {"_catsim_C_ginicorr", (DL_FUNC) &_catsim_C_ginicorr, 2},
@@ -87,6 +89,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_catsim_C_meansfunc", (DL_FUNC) &_catsim_C_meansfunc, 3},
     {"_catsim_C_Cohen", (DL_FUNC) &_catsim_C_Cohen, 2},
     {"_catsim_C_AdjRand", (DL_FUNC) &_catsim_C_AdjRand, 2},
+    {"run_testthat_tests",  (DL_FUNC) &run_testthat_tests,  0},
     {NULL, NULL, 0}
 };
 
