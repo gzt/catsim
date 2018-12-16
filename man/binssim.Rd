@@ -4,7 +4,8 @@
 \alias{binssim}
 \title{Categorical Structural Similarity Index Metric (whole image)}
 \usage{
-binssim(x, y, alpha = 1, beta = 1, gamma = 1, ...)
+binssim(x, y, alpha = 1, beta = 1, gamma = 1, c1 = 0.01,
+  c2 = 0.01, ...)
 }
 \arguments{
 \item{x}{binary or categorical image}
@@ -16,6 +17,10 @@ binssim(x, y, alpha = 1, beta = 1, gamma = 1, ...)
 \item{beta}{normalizing parameter, by default 1}
 
 \item{gamma}{normalizing parameter, by default 1}
+
+\item{c1}{small normalization constant for the c function, by default 0.01}
+
+\item{c2}{small normalization constant for the s function, by default 0.01}
 
 \item{...}{Constants can be passed to the components of the index.}
 }

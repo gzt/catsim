@@ -29,8 +29,8 @@ BEGIN_RCPP
 END_RCPP
 }
 // C_cfunc
-double C_cfunc(NumericVector x, NumericVector y, double c, double k);
-RcppExport SEXP _catsim_C_cfunc(SEXP xSEXP, SEXP ySEXP, SEXP cSEXP, SEXP kSEXP) {
+double C_cfunc(NumericVector x, NumericVector y, double c, double k, bool sqrtflag);
+RcppExport SEXP _catsim_C_cfunc(SEXP xSEXP, SEXP ySEXP, SEXP cSEXP, SEXP kSEXP, SEXP sqrtflagSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -38,7 +38,8 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< NumericVector >::type y(ySEXP);
     Rcpp::traits::input_parameter< double >::type c(cSEXP);
     Rcpp::traits::input_parameter< double >::type k(kSEXP);
-    rcpp_result_gen = Rcpp::wrap(C_cfunc(x, y, c, k));
+    Rcpp::traits::input_parameter< bool >::type sqrtflag(sqrtflagSEXP);
+    rcpp_result_gen = Rcpp::wrap(C_cfunc(x, y, c, k, sqrtflag));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -85,7 +86,7 @@ RcppExport SEXP run_testthat_tests();
 static const R_CallMethodDef CallEntries[] = {
     {"_catsim_C_gini", (DL_FUNC) &_catsim_C_gini, 1},
     {"_catsim_C_ginicorr", (DL_FUNC) &_catsim_C_ginicorr, 2},
-    {"_catsim_C_cfunc", (DL_FUNC) &_catsim_C_cfunc, 4},
+    {"_catsim_C_cfunc", (DL_FUNC) &_catsim_C_cfunc, 5},
     {"_catsim_C_meansfunc", (DL_FUNC) &_catsim_C_meansfunc, 3},
     {"_catsim_C_Cohen", (DL_FUNC) &_catsim_C_Cohen, 2},
     {"_catsim_C_AdjRand", (DL_FUNC) &_catsim_C_AdjRand, 2},
