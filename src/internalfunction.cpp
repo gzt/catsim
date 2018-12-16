@@ -165,15 +165,15 @@ double C_AdjRand(NumericVector x, NumericVector y){
   double nij = 0.0;
 
   for (std::map<double,double>::iterator it = countsx.begin(); it != countsx.end(); ++it)  {
-    int tmp = it->second;
+    double tmp = it->second;
     ai += (tmp) * (tmp - 1.0)/2.0;
   }
   for (std::map<double,double>::iterator it = countsy.begin(); it != countsy.end(); ++it)  {
-    int tmp = it->second;
+    double tmp = it->second;
     bi += (tmp) * (tmp - 1.0)/2.0;
   }
   for (std::map<std::vector<double>, double>::iterator it = count_rows.begin(); it != count_rows.end(); ++it)  {
-    int tmp = it->second;
+    double tmp = it->second;
     nij += (tmp) * (tmp - 1.0)/2.0;
   }
 
