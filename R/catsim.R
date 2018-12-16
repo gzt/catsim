@@ -17,19 +17,23 @@ meansfunc <- function(x,y, c1 = 0.01) {
   C_meansfunc(x, y, c1)
 }
 
-#' Gini index
+#' Gini-Simpson index
+#'
+#' A measure of diversity that goes by a number of different names, such as
+#' the probability of interspecific encounter or the Gibbs-Martin index.
+#' It is 1 - sum(p_i^2), where p_i is the probability of observing class i.
 #'
 #' @param x binary or categorical image or vector
 #'
-#' @return Gini index (between 0 and 1)
-#' @keywords internal
+#' @return Gini-Simpson index (between 0 and 1)
+#' @export
 #'
-#' @noRd
+#'
 #' @examples
-#' \dontrun{
+#'
 #' x <- rep(c(1:4),5)
 #' gini(x)
-#' }
+#'
 #'
 gini <- function(x){
   x <- as.numeric(x)
@@ -37,53 +41,63 @@ gini <- function(x){
 }
 
 
-#' Corrected Gini index
+#' Corrected Gini-Simpson index
 #'
 #' @param x binary or categorical image or vector
-#' @return Gini index (corrected based on the number of categories so that max possible is 1)
-#' @keywords internal
-#' @noRd
+#' @param k number of categories
+#' @return Gini-Simpson index (corrected based on the number of categories
+#' so that max possible is 1)
+#' @export
+#'
 #' @examples
-#' \dontrun{
+#'
 #' x <- rep(c(1:4),5)
 #' ginicorr(x, 4)
-#' }
+#'
 ginicorr <- function(x, k) {
   if (k > 1) {
     C_gini(x)/(1 - 1/k)
-  } else C_gini(x)
+  } else 1
 }
 
-#' Modified Gini index
+#' Modified Gini-Simpson index
+#'
+#' The Gini-Simpson index, except with the square root of the summed squared
+#' probabilities.
 #'
 #' @param x binary or categorical image or vector
-#' @return Modified Gini index (square root of squared frequencies)
-#' @keywords internal
-#' @noRd
+#' @return Modified Gini-Simpson index (square root of squared frequencies)
+#' @export
+#'
 #' @examples
-#' \dontrun{
+#'
 #' x <- rep(c(1:4),5)
 #' sqrtgini(x)
-#' }
+#'
 sqrtgini <-  function(x){
   1 - sqrt(1 - C_gini(x))
 }
 
 #' Modified Corrected Gini index
 #'
+#' The Gini-Simpson index, except with the square root of the summed squared
+#' probabilities.
+#'
 #' @param x binary or categorical image or vector
-#' @return Modified corrected Gini index (square root of squared frequencies) - max possible is 1.
-#' @keywords internal
-#' @noRd
+#' @param k number of categories
+#' @return Modified corrected Gini index (square root of squared frequencies) -
+#' max possible is 1.
+#' @export
+#'
 #' @examples
-#' \dontrun{
+#'
 #' x <- rep(c(1:4),5)
 #' sqrtginicorr(x, 4)
-#' }
+#'
 sqrtginicorr <- function(x, k){
   if (k > 1) {
     sqrtgini(x)/(1 - 1/sqrt(k))
-  } else sqrtgini(x)
+  } else 1
 }
 
 #' Variance function (internal)
@@ -101,8 +115,8 @@ sqrtginicorr <- function(x, k){
 #' cfunc(x,y, k = 4)
 #' }
 
-cfunc <- function(x, y, c2 = 0.01, k){
-  C_cfunc(x, y, c2, k)
+cfunc <- function(x, y, c2 = 0.01, k, sqrtgini = FALSE){
+  C_cfunc(x, y, c2, k, sqrtgini)
 }
 
 #' Covariance function (internal)
@@ -135,6 +149,8 @@ sfunc <- function(x, y){
 #' @param alpha normalizing parameter, by default 1
 #' @param beta normalizing parameter, by default 1
 #' @param gamma normalizing parameter, by default 1
+#' @param c1 small normalization constant for the c function, by default 0.01
+#' @param c2 small normalization constant for the s function, by default 0.01
 #' @param ... Constants can be passed to the components of the index.
 #'
 #' @return Structural similarity index.
@@ -147,10 +163,10 @@ sfunc <- function(x, y){
 #' for (i in 1:100) y[i, i] = 1
 #' for (i in 1:99) y[i, i+1] = 1
 #' binssim(x,y)
-binssim <- function(x, y, alpha = 1, beta = 1, gamma = 1, ...){
+binssim <- function(x, y, alpha = 1, beta = 1, gamma = 1, c1 = 0.01, c2 = 0.01, ...){
   if (length(x) != length(y)) stop("x and y must be the same size.")
   k = length(unique(c(x,y)))
-  (meansfunc(x, y, ...)^alpha)*(cfunc(x, y, k = k, ...)^beta)*(sfunc(x, y)^gamma)
+  (meansfunc(x, y, c1)^alpha)*(cfunc(x, y, c2, k = k, ...)^beta)*(sfunc(x, y)^gamma)
 }
 
 #' Categorical SSIM Components
@@ -163,10 +179,10 @@ binssim <- function(x, y, alpha = 1, beta = 1, gamma = 1, ...){
 #' @return the three components of the Categorical SSIM.
 #' @keywords internal
 #'
-ssimcomponents <- function(x, y, k, ...){
+ssimcomponents <- function(x, y, k, c1 = 0.01, c2 = 0.01, ...){
   #k = length(levels)
   #levels <- levels(factor(c(x,y)))
-  c((meansfunc(x, y,...)),(cfunc(x, y, k = k, ...)),(sfunc(x, y)))
+  c((meansfunc(x, y, c1)),(cfunc(x, y, c2, k = k, ...)),(sfunc(x, y)))
 }
 
 
