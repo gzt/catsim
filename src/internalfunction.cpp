@@ -4,16 +4,16 @@ using namespace Rcpp;
 
 // [[Rcpp::export]]
 double C_gini(NumericVector x){
-  R_xlen_t n = x.size();
   std::map<double, double> counts;
-
-  for (R_xlen_t i = 0; i < n; i++) {
-    counts[x[i]]++;
+  R_xlen_t n = x.size();
+  // NumericVector::iterator i;
+  for (NumericVector::iterator i = x.begin(); i != x.end(); ++i) {
+    counts[ *i ]++;
   }
 
   double sqsum = 0.0;
   for (std::map<double, double>::iterator it = counts.begin(); it != counts.end(); ++it)  {
-    sqsum += 1.0 * (it->second) *(it->second);
+    sqsum += 1.0 * (it->second) * (it->second);
   }
   return (1.0 - sqsum/(1.0*n*n));
 }
