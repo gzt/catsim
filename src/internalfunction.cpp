@@ -196,6 +196,6 @@ double C_AdjRand(NumericVector x, NumericVector y){
     nij += (tmp) * (tmp - 1.0)/2.0;
   }
 
-  return (nij - ai * bi / (n * (n-1)/2) + eps) / (.5 * (ai + bi) - ai * bi / (n * (n-1)/2) + eps);
+  return (nij - ai * bi / (1.0 * n * (n-1)/2) + eps) / (.5 * (ai + bi) - ai * bi / (1.0 * n * (n-1)/2) + eps);
 
 }

@@ -19,5 +19,5 @@ x <- matrix(c(0,1), nrow = 1024, ncol = 1024)
 y <- matrix(c(0,0,1,1), nrow = 1024, ncol = 1024)
 test_that("Large matrices should work", {
   expect_true(AdjRandIndex(x,y)$Cohen < .01)
-
+  expect_true(AdjRandIndex(x,y)$AdjRand < .01)
 })

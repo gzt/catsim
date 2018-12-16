@@ -4,6 +4,7 @@ language: R
 r_packages:
   - EMCluster
   - Rcpp
+  - covr
 sudo: false
 cache: packages
 warnings_are_errors: true
