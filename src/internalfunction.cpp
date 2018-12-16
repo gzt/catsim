@@ -127,7 +127,7 @@ double C_Cohen(NumericVector x, NumericVector y){
       ++ir;
     else
     {
-      xxyysum += (il->second) * (ir->second);
+      xxyysum += 1.00 * (il->second) * (ir->second);
       ++il;
       ++ir;
     }
@@ -135,13 +135,13 @@ double C_Cohen(NumericVector x, NumericVector y){
   double xysum = 0.0;
 
   for (std::map<double, double>::iterator it = countsxy.begin(); it != countsxy.end(); ++it)  {
-    xysum  += it->second;
+    xysum  += 1.0 * (it->second);
     }
 
 
 
-  double pe = xxyysum / (n*n);
-  double po = xysum / (n);
+  double pe = xxyysum / (1.0*n*n);
+  double po = xysum / (1.0*n);
 
   if ((1-pe) < 1e-6 ) {
     return 1.0;
