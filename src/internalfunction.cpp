@@ -51,14 +51,15 @@ double C_cfunc(NumericVector x, NumericVector y, double c, double k, bool sqrtfl
 
 // [[Rcpp::export]]
 double C_meansfunc(NumericVector x, NumericVector y, double c){
-  R_xlen_t n = x.size();
-  if (n != y.size()) Rcpp::stop("X and Y must have the same length.");
+  //R_xlen_t n = x.size();
+  if (x.size() != y.size()) Rcpp::stop("X and Y must have the same length.");
   std::map<double, double> countsx;
   std::map<double, double> countsy;
-
-  for (R_xlen_t i = 0; i < n; i++) {
-    countsx[x[i]]++;
-    countsy[y[i]]++;
+  NumericVector::iterator x_i, y_i;
+  for (x_i = x.begin(),  y_i = y.begin();
+       x_i != x.end() && y_i != y.end(); ++x_i, ++y_i) {
+    countsx[ *x_i ]++;
+    countsy[ *y_i ]++;
   }
 
   double sqsum = 0.0;
@@ -93,7 +94,7 @@ double C_meansfunc(NumericVector x, NumericVector y, double c){
 // [[Rcpp::export]]
 double C_Cohen(NumericVector x, NumericVector y){
   R_xlen_t n = x.size();
-  if (n != y.size()) Rcpp::stop("X and Y must have the same length.");
+  if (x.size() != y.size()) Rcpp::stop("X and Y must have the same length.");
   NumericMatrix xy(n, 2);
   xy.column(0) = x;
   xy.column(1) = y;
@@ -104,11 +105,13 @@ double C_Cohen(NumericVector x, NumericVector y){
   countsx.clear();
   countsy.clear();
 
-  for (R_xlen_t i = 0; i < n; i++) {
-    countsx[x[i]]++;
-    countsy[y[i]]++;
-    if (x[i] == y[i]){
-      countsxy[x[i]]++;
+  NumericVector::iterator x_i, y_i;
+  for (x_i = x.begin(),  y_i = y.begin();
+       x_i != x.end() && y_i != y.end(); ++x_i, ++y_i) {
+    countsx[ *x_i ]++;
+    countsy[ *y_i ]++;
+    if ( *x_i == *y_i ){
+      countsxy[ *x_i ]++;
     }
 
   }
@@ -153,7 +156,7 @@ double C_Cohen(NumericVector x, NumericVector y){
 double C_AdjRand(NumericVector x, NumericVector y){
   double eps = 1e-3;
   R_xlen_t n = x.size();
-  if (n != y.size()) Rcpp::stop("X and Y must have the same length.");
+  if (x.size() != y.size()) Rcpp::stop("X and Y must have the same length.");
   NumericMatrix xy(n, 2);
   xy.column(0) = x;
   xy.column(1) = y;
@@ -163,10 +166,13 @@ double C_AdjRand(NumericVector x, NumericVector y){
   countsx.clear();
   countsy.clear();
   count_rows.clear();
-  for (R_xlen_t i = 0; i < n; i++) {
-    countsx[x[i]]++;
-    countsy[y[i]]++;
-    NumericVector a = xy.row(i);
+  NumericVector::iterator x_i, y_i;
+  R_xlen_t xy_i = 0;
+  for (x_i = x.begin(),  y_i = y.begin(), xy_i = 0;
+       x_i != x.end() && y_i != y.end(), xy_i != n; ++x_i, ++y_i, ++xy_i) {
+    countsx[ *x_i ]++;
+    countsy[ *y_i ]++;
+    NumericVector a = xy.row(xy_i);
     std::vector<double> b = Rcpp::as< std::vector<double> >(a);
 
     // Add to map
