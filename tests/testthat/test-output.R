@@ -15,9 +15,9 @@ test_that("Zero weights should have result of 1.0", {
   expect_equal(binssim(x,x, sqrtgini = TRUE), 1.0)
 })
 
-x <- matrix(c(0,1), nrow = 512, ncol = 512)
-y <- matrix(c(0,0,1,1), nrow = 512, ncol = 512)
+x <- matrix(c(0,1), nrow = 1024, ncol = 1024)
+y <- matrix(c(0,0,1,1), nrow = 1024, ncol = 1024)
 test_that("Large matrices should work", {
-  expect_true(AdjRandIndex(x,y)$Cohen < .001)
+  expect_true(AdjRandIndex(x,y)$Cohen < .01)
 
 })
