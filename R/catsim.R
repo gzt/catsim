@@ -132,10 +132,12 @@ cfunc <- function(x, y, c2 = 0.01, k, sqrtgini = FALSE){
 #' y <- c(rep(1:4,3),rep(4,4))
 #' sfunc(x,y)
 #' }
-sfunc <- function(x, y){
+sfunc <- function(x, y, methodflag){
     x <- as.vector(x)
     y <- as.vector(y)
-    C_Cohen(x,y)
+    if(methodflag){
+    return(C_Cohen(x,y))
+    } else C_AdjRand(x,y)
 }
 
 
@@ -151,6 +153,8 @@ sfunc <- function(x, y){
 #' @param gamma normalizing parameter, by default 1
 #' @param c1 small normalization constant for the c function, by default 0.01
 #' @param c2 small normalization constant for the s function, by default 0.01
+#' @param method whether to use Cohen's kappa or Adjusted Rand Index as
+#'     the similarity index
 #' @param ... Constants can be passed to the components of the index.
 #'
 #' @return Structural similarity index.
@@ -163,26 +167,35 @@ sfunc <- function(x, y){
 #' for (i in 1:100) y[i, i] = 1
 #' for (i in 1:99) y[i, i+1] = 1
 #' binssim(x,y)
-binssim <- function(x, y, alpha = 1, beta = 1, gamma = 1, c1 = 0.01, c2 = 0.01, ...){
+binssim <- function(x, y, alpha = 1, beta = 1, gamma = 1, c1 = 0.01, c2 = 0.01, method = "Cohen", ...){
   if (length(x) != length(y)) stop("x and y must be the same size.")
   k = length(unique(c(x,y)))
-  (meansfunc(x, y, c1)^alpha)*(cfunc(x, y, c2, k = k, ...)^beta)*(sfunc(x, y)^gamma)
+
+  methodflag = TRUE
+  if (method %in% c("AdjRand", "Rand")) methodflag = FALSE
+  (meansfunc(x, y, c1)^alpha)*(cfunc(x, y, c2, k = k, ...)^beta)*(sfunc(x, y, methodflag)^gamma)
 }
 
 #' Categorical SSIM Components
 #'
 #' @param x binary or categorical image
 #' @param y binary or categorical image
-
+#' @param c1 constant for the means function
+#' @param c2 constant for the chrominance function
+#' @param method whether to use Cohen's kappa or Adjusted Rand Index as
+#'     the similarity index
 #' @param ... constants can be passed to the internal functions
 #' @noRd
 #' @return the three components of the Categorical SSIM.
 #' @keywords internal
 #'
-ssimcomponents <- function(x, y, k, c1 = 0.01, c2 = 0.01, ...){
+ssimcomponents <- function(x, y, k, c1 = 0.01, c2 = 0.01, method = "Cohen", ...){
   #k = length(levels)
   #levels <- levels(factor(c(x,y)))
-  c((meansfunc(x, y, c1)),(cfunc(x, y, c2, k = k, ...)),(sfunc(x, y)))
+  methodflag = TRUE
+  if (method %in% c("AdjRand", "Rand")) methodflag = FALSE
+
+  c((meansfunc(x, y, c1)),(cfunc(x, y, c2, k = k, ...)),(sfunc(x, y, methodflag)))
 }
 
 
@@ -309,6 +322,8 @@ downsample_3d_cube <- function(x){
 #' @param x a binary or categorical image
 #' @param y a binary or categorical image
 #' @param window window size, by default 8
+#' @param method whether to use Cohen's kappa or Adjusted Rand Index as
+#'     the similarity index
 #' @param ... additional constants can be passed to internal functions.
 #'
 #' @return the three components of the index, all less than 1.
@@ -325,7 +340,7 @@ downsample_3d_cube <- function(x){
 #' for (i in 1:19) y[i, i+1] = 1
 #' catssim_2d(x,y)
 #' }
-catssim_2d <- function(x,y, window = 8,...){
+catssim_2d <- function(x,y, window = 8, method = "Cohen", ...){
   if (any(dim(x) != dim(y))) stop('x and y have nonconformable dimensions.')
   #levels <- levels(factor(c(x,y)))
   k = length(unique(c(x,y)))
@@ -361,6 +376,8 @@ catssim_2d <- function(x,y, window = 8,...){
 #' @param weights a vector of weights for the different scales. By default,
 #'     five different scales are used.
 #' @param window window size, by default 8.
+#' @param method whether to use Cohen's kappa or Adjusted Rand Index as
+#'     the similarity index
 #' @param ... additional constants can be passed to internal functions.
 #'
 #' @return a value less than 1 indicating the similarity between the images.
@@ -374,7 +391,8 @@ catssim_2d <- function(x,y, window = 8,...){
 #' for (i in 1:127) y[i, i+1] = 1
 #' catmssim_2d(x,y)
 #'
-catmssim_2d <- function(x, y, weights = c(0.0448, 0.2856, 0.3001, 0.2363, 0.1333), window = 8, ...){
+catmssim_2d <- function(x, y, weights = c(0.0448, 0.2856, 0.3001, 0.2363, 0.1333), window = 8,
+                        method = "Cohen", ...){
   # the weights are from the original MS-SSIM program
   if (any(dim(x) != dim(y))) stop('x and y have nonconformable dimensions.')
   levels = length(weights)
@@ -416,6 +434,8 @@ catmssim_2d <- function(x, y, weights = c(0.0448, 0.2856, 0.3001, 0.2363, 0.1333
 #' @param x a binary or categorical image
 #' @param y a binary or categorical image
 #' @param window by default 8
+#' @param method whether to use Cohen's kappa or Adjusted Rand Index as
+#'     the similarity index
 #' @param ...
 #'
 #' @return SSIM componenets for the cube.
@@ -423,7 +443,7 @@ catmssim_2d <- function(x, y, weights = c(0.0448, 0.2856, 0.3001, 0.2363, 0.1333
 #'
 #' @noRd
 #'
-catssim_3d_slice <- function(x, y, window = 8,...){
+catssim_3d_slice <- function(x, y, window = 8, method = "Cohen", ...){
   if (any(dim(x) != dim(y))) stop('x and y have nonconformable dimensions.')
   dims = dim(x)
   sliceresults = matrix(0, nrow = dims[3], ncol = 3)
@@ -431,7 +451,7 @@ catssim_3d_slice <- function(x, y, window = 8,...){
   colMeans(sliceresults)
 }
 
-catssim_3d_cube <- function(x, y, window = 4, ...){
+catssim_3d_cube <- function(x, y, window = 4, method = "Cohen", ...){
   if (any(dim(x) != dim(y))) stop('x and y have nonconformable dimensions.')
   #levels <- levels(factor(c(x,y)))
   k = length(unique(c(x,y)))
@@ -465,6 +485,8 @@ catssim_3d_cube <- function(x, y, window = 4, ...){
 #' @param weights a vector of weights for the different scales. By default,
 #'     five different scales are used.
 #' @param window window size, by default 8.
+#' @param method whether to use Cohen's kappa or Adjusted Rand Index as
+#'     the similarity index
 #' @param ... additional constants can be passed to internal functions.
 #'
 #' @return a value less than 1 indicating the similarity between the images.
@@ -480,7 +502,8 @@ catssim_3d_cube <- function(x, y, window = 4, ...){
 #' for (i in 1:(dim-1)) y[i, i+1, j] = 1
 #' }
 #' catmssim_3d_slice(x,y, weights = c(.75,.25))
-catmssim_3d_slice <- function(x, y, weights = c(0.0448, 0.2856, 0.3001, 0.2363, 0.1333), window = 8, ...){
+catmssim_3d_slice <- function(x, y, weights = c(0.0448, 0.2856, 0.3001, 0.2363, 0.1333),
+                              window = 8, method = "Cohen", ...){
   # the weights are from the original MS-SSIM program
   if (any(dim(x) != dim(y))) stop('x and y have nonconformable dimensions.')
   levels = length(weights)
@@ -525,6 +548,8 @@ catmssim_3d_slice <- function(x, y, weights = c(0.0448, 0.2856, 0.3001, 0.2363, 
 #' @param weights a vector of weights for the different scales. By default,
 #'     five different scales are used.
 #' @param window size of window, by default 4
+#' @param method whether to use Cohen's kappa or Adjusted Rand Index as
+#'     the similarity index
 #' @param ... additional constants can be passed to internal functions.
 #'
 #' @return a value less than 1 indicating the similarity between the images.
@@ -540,7 +565,8 @@ catmssim_3d_slice <- function(x, y, weights = c(0.0448, 0.2856, 0.3001, 0.2363, 
 #' for (i in 1:(dim-1)) y[i, i+1, j] = 1
 #' }
 #' catmssim_3d_cube(x,y, weights = c(.75,.25))
-catmssim_3d_cube <- function(x, y, weights = c(0.0448, 0.2856, 0.3001, 0.2363, 0.1333), window = 4, ...){
+catmssim_3d_cube <- function(x, y, weights = c(0.0448, 0.2856, 0.3001, 0.2363, 0.1333), window = 4,
+                             method = "Cohen", ...){
   # the weights are from the original MS-SSIM program
   if (any(dim(x) != dim(y))) stop('x and y have nonconformable dimensions.')
   levels = length(weights)
