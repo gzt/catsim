@@ -181,16 +181,16 @@ binssim <- function(x, y, alpha = 1, beta = 1, gamma = 1, c1 = 0.01, c2 = 0.01, 
 #'
 #' @param x binary or categorical image
 #' @param y binary or categorical image
-#' @param c1 constant for the means function
-#' @param c2 constant for the chrominance function
 #' @param method whether to use Cohen's kappa or Adjusted Rand Index as
 #'     the similarity index
+#' @param c1 constant for the means function
+#' @param c2 constant for the chrominance function
 #' @param ... constants can be passed to the internal functions
 #' @noRd
 #' @return the three components of the Categorical SSIM.
 #' @keywords internal
 #'
-ssimcomponents <- function(x, y, k, c1 = 0.01, c2 = 0.01, method = "Cohen", ...){
+ssimcomponents <- function(x, y, k, method = "Cohen", c1 = 0.01, c2 = 0.01, ...){
   #k = length(levels)
   #levels <- levels(factor(c(x,y)))
   methodflag = TRUE
