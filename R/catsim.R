@@ -173,6 +173,7 @@ binssim <- function(x, y, alpha = 1, beta = 1, gamma = 1, c1 = 0.01, c2 = 0.01, 
 
   methodflag = TRUE
   if (method %in% c("AdjRand", "Rand")) methodflag = FALSE
+
   (meansfunc(x, y, c1)^alpha)*(cfunc(x, y, c2, k = k, ...)^beta)*(sfunc(x, y, methodflag)^gamma)
 }
 
@@ -347,7 +348,7 @@ catssim_2d <- function(x,y, window = 8, method = "Cohen", ...){
   dims = dim(x)
   nrow = dims[1]
   ncol = dims[2]
-  if (any(dims < (window - 1))) return(ssimcomponents((x), (y), k, ...))
+  if (any(dims < (window - 1))) return(ssimcomponents((x), (y), k, method, ...))
   resultmatrix = c(0,0,0)
 
   for (i in 1:(nrow - (window - 1))) {
@@ -356,7 +357,7 @@ catssim_2d <- function(x,y, window = 8, method = "Cohen", ...){
       subx = x[i:(i + (window - 1)), j:(j + (window - 1))]
       suby = y[i:(i + (window - 1)), j:(j + (window - 1))]
 
-      resultmatrix = resultmatrix + ssimcomponents(subx, suby, k, ...)
+      resultmatrix = resultmatrix + ssimcomponents(subx, suby, k, method, ...)
     }
   }
   resultmatrix[resultmatrix < 0.0] <- 0.0
@@ -399,7 +400,7 @@ catmssim_2d <- function(x, y, weights = c(0.0448, 0.2856, 0.3001, 0.2363, 0.1333
   mindim <- min(dim(x))
   if (mindim < window) {
     warning("Minimum dimension should be greater than window size. Using only one level.")
-    return(binssim(x,y,...))
+    return(binssim(x,y, method,...))
   }
 
   if (mindim < (2^(levels - 1))*window) {
@@ -408,13 +409,13 @@ catmssim_2d <- function(x, y, weights = c(0.0448, 0.2856, 0.3001, 0.2363, 0.1333
   }
   weights = weights[1:levels]
   results = matrix(0, nrow = levels, ncol = 3)
-  results[1,] = catssim_2d(x, y, window,...)
+  results[1,] = catssim_2d(x, y, window, method,...)
 
   if ( levels > 1) {
     for (i in 2:levels) {
       x = downsample_2d(x)
       y = downsample_2d(y)
-      results[i,] = catssim_2d(x, y, window, ...)
+      results[i,] = catssim_2d(x, y, window, method,...)
     }
   }
 
@@ -447,7 +448,7 @@ catssim_3d_slice <- function(x, y, window = 8, method = "Cohen", ...){
   if (any(dim(x) != dim(y))) stop('x and y have nonconformable dimensions.')
   dims = dim(x)
   sliceresults = matrix(0, nrow = dims[3], ncol = 3)
-  for (i in 1:dims[3]) sliceresults[i,] = catssim_2d(x[,,i],y[,,i], window, ...)
+  for (i in 1:dims[3]) sliceresults[i,] = catssim_2d(x[,,i],y[,,i], window, method,...)
   colMeans(sliceresults)
 }
 
@@ -456,7 +457,7 @@ catssim_3d_cube <- function(x, y, window = 4, method = "Cohen", ...){
   #levels <- levels(factor(c(x,y)))
   k = length(unique(c(x,y)))
   dims = dim(x)
-  if (any(dims < window)) return(ssimcomponents((x), (y)), k, ...)
+  if (any(dims < window)) return(ssimcomponents((x), (y)), k, method, ...)
 
   cuberesults = c(0,0,0)
   for (i in 1:(dims[1] - (window-1))) {
@@ -465,7 +466,7 @@ catssim_3d_cube <- function(x, y, window = 4, method = "Cohen", ...){
         subx = x[i:(i + (window-1)), j:(j + (window-1)), k:(k + (window-1))]
         suby = y[i:(i + (window-1)), j:(j + (window-1)), k:(k + (window-1))]
 
-        cuberesults = cuberesults + ssimcomponents(subx, suby, k, ...)
+        cuberesults = cuberesults + ssimcomponents(subx, suby, k, method, ...)
       }
     }
   }
@@ -519,13 +520,13 @@ catmssim_3d_slice <- function(x, y, weights = c(0.0448, 0.2856, 0.3001, 0.2363, 
   weights = weights[1:levels]
   results = matrix(0, nrow = levels, ncol = 3)
 
-  results[1,] = catssim_3d_slice(x, y, window,...)
+  results[1,] = catssim_3d_slice(x, y, window, method,...)
 
   if ( levels > 1) {
     for (j in 2:levels) {
       x = downsample_3d_slice(x)
       y = downsample_3d_slice(y)
-      results[j,] = catssim_3d_slice(x, y, window,...)
+      results[j,] = catssim_3d_slice(x, y, window, method,...)
     }
   }
 
@@ -585,13 +586,13 @@ catmssim_3d_cube <- function(x, y, weights = c(0.0448, 0.2856, 0.3001, 0.2363, 0
   weights = weights[1:levels]
   results = matrix(0, nrow = levels, ncol = 3)
 
-  results[1,] = catssim_3d_cube(x,y,window,...)
+  results[1,] = catssim_3d_cube(x,y,window, method,...)
 
   if ( levels > 1) {
     for (j in 2:levels) {
       x = downsample_3d_cube(x)
       y = downsample_3d_cube(y)
-      results[j,] = catssim_3d_cube(x,y,window,...)
+      results[j,] = catssim_3d_cube(x,y,window, method,...)
     }
   }
 
