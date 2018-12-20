@@ -648,6 +648,6 @@ AdjRandIndex <- function(x,y){
   AdjRand <- C_AdjRand(x,y)
   list(Rand = Rand,
        AdjRand = AdjRand,
-       PSNR = -10 * log10(Rand),
+       PSNR = -10 * log10(1-Rand),
        Cohen = Cohen)
 }
