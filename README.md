@@ -13,7 +13,7 @@ status](https://codecov.io/gh/gzt/catsim/branch/master/graph/badge.svg)](https:/
 
 The goal of catsim is to provide a similarity measure for binary or
 categorical images in either 2D or 3D similar to the MS-SSIM index for
-color images.
+color images. It is still a work in progress.
 
 ## Installation
 
