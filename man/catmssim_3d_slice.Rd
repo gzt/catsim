@@ -17,8 +17,8 @@ five different scales are used.}
 
 \item{window}{window size, by default 8.}
 
-\item{method}{whether to use Cohen's kappa or Adjusted Rand Index as
-the similarity index}
+\item{method}{whether to use Cohen's kappa, Jaccard Index, or Adjusted Rand Index as
+the similarity index. Note Jaccard should only be used on binary data.}
 
 \item{...}{additional constants can be passed to internal functions.}
 }

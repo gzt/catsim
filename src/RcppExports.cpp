@@ -90,7 +90,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_catsim_C_meansfunc", (DL_FUNC) &_catsim_C_meansfunc, 3},
     {"_catsim_C_Cohen", (DL_FUNC) &_catsim_C_Cohen, 2},
     {"_catsim_C_AdjRand", (DL_FUNC) &_catsim_C_AdjRand, 2},
-    {"run_testthat_tests",  (DL_FUNC) &run_testthat_tests,  0},
+    {"run_testthat_tests", (DL_FUNC) &run_testthat_tests, 0},
     {NULL, NULL, 0}
 };
 
