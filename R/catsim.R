@@ -114,10 +114,33 @@ sqrtginicorr <- function(x, k){
 #' y <- c(rep(1:4,3),rep(4,4))
 #' cfunc(x,y, k = 4)
 #' }
-
 cfunc <- function(x, y, c2 = 0.01, k, sqrtgini = FALSE){
   C_cfunc(x, y, c2, k, sqrtgini)
 }
+
+
+
+#' Jaccard Index
+#'
+#' @param x binary image or vector
+#' @param y binary image or vector
+#'
+#' @return Jaccard index - note this privileges 1 over 0
+#' @keywords internal
+#'
+#' @examples
+#' \dontrun{
+#' x <- rep(c(0,1), 7)
+#' y <- rep(c(1,1), 7)
+#' jaccard(x,y)
+#'}
+jaccard <- function(x, y){
+  if (length(x) != length(y)) stop("x and y have differing lengths.")
+  Jaccard = sum(x&y)/sum(x|y)
+  Jaccard
+}
+
+
 
 #' Covariance function (internal)
 #'
@@ -132,11 +155,13 @@ cfunc <- function(x, y, c2 = 0.01, k, sqrtgini = FALSE){
 #' y <- c(rep(1:4,3),rep(4,4))
 #' sfunc(x,y)
 #' }
-sfunc <- function(x, y, methodflag){
+sfunc <- function(x, y, methodflag = "Cohen"){
     x <- as.vector(x)
     y <- as.vector(y)
-    if(methodflag){
+    if (methodflag == "Cohen"){
     return(C_Cohen(x,y))
+    } else if (methodflag == "Jaccard"){
+      return(jaccard(x,y))
     } else C_AdjRand(x,y)
 }
 
@@ -153,8 +178,8 @@ sfunc <- function(x, y, methodflag){
 #' @param gamma normalizing parameter, by default 1
 #' @param c1 small normalization constant for the c function, by default 0.01
 #' @param c2 small normalization constant for the s function, by default 0.01
-#' @param method whether to use Cohen's kappa or Adjusted Rand Index as
-#'     the similarity index
+#' @param method whether to use Cohen's kappa, Jaccard Index, or Adjusted Rand Index as
+#'     the similarity index. Note Jaccard should only be used on binary data.
 #' @param ... Constants can be passed to the components of the index.
 #'
 #' @return Structural similarity index.
@@ -171,8 +196,9 @@ binssim <- function(x, y, alpha = 1, beta = 1, gamma = 1, c1 = 0.01, c2 = 0.01, 
   if (length(x) != length(y)) stop("x and y must be the same size.")
   k = length(unique(c(x,y)))
 
-  methodflag = TRUE
-  if (method %in% c("AdjRand", "Rand")) methodflag = FALSE
+  methodflag = "Cohen"
+  if (method %in% c("AdjRand", "Rand", "rand", "adjrand")) methodflag = "AdjRand"
+  if (method %in% c("Jaccard, 'jaccard", "j", "J")) methodflag = "Jaccard"
 
   (meansfunc(x, y, c1)^alpha)*(cfunc(x, y, c2, k = k, ...)^beta)*(sfunc(x, y, methodflag)^gamma)
 }
@@ -181,8 +207,8 @@ binssim <- function(x, y, alpha = 1, beta = 1, gamma = 1, c1 = 0.01, c2 = 0.01, 
 #'
 #' @param x binary or categorical image
 #' @param y binary or categorical image
-#' @param method whether to use Cohen's kappa or Adjusted Rand Index as
-#'     the similarity index
+#' @param method whether to use Cohen's kappa, Jaccard, or Adjusted Rand Index as
+#'     the similarity index. Note Jaccard should only be used on binary data.
 #' @param c1 constant for the means function
 #' @param c2 constant for the chrominance function
 #' @param ... constants can be passed to the internal functions
@@ -193,8 +219,10 @@ binssim <- function(x, y, alpha = 1, beta = 1, gamma = 1, c1 = 0.01, c2 = 0.01, 
 ssimcomponents <- function(x, y, k, method = "Cohen", c1 = 0.01, c2 = 0.01, ...){
   #k = length(levels)
   #levels <- levels(factor(c(x,y)))
-  methodflag = TRUE
-  if (method %in% c("AdjRand", "Rand")) methodflag = FALSE
+  methodflag = "Cohen"
+  if (method %in% c("AdjRand", "Rand", "rand", "adjrand")) methodflag = "AdjRand"
+  if (method %in% c("Jaccard, 'jaccard", "j", "J")) methodflag = "Jaccard"
+
 
   c((meansfunc(x, y, c1)),(cfunc(x, y, c2, k = k, ...)),(sfunc(x, y, methodflag)))
 }
@@ -323,8 +351,8 @@ downsample_3d_cube <- function(x){
 #' @param x a binary or categorical image
 #' @param y a binary or categorical image
 #' @param window window size, by default 8
-#' @param method whether to use Cohen's kappa or Adjusted Rand Index as
-#'     the similarity index
+#' @param method whether to use Cohen's kappa, Jaccard Index, or Adjusted Rand Index as
+#'     the similarity index. Note Jaccard should only be used on binary data.
 #' @param ... additional constants can be passed to internal functions.
 #'
 #' @return the three components of the index, all less than 1.
@@ -377,8 +405,8 @@ catssim_2d <- function(x,y, window = 8, method = "Cohen", ...){
 #' @param weights a vector of weights for the different scales. By default,
 #'     five different scales are used.
 #' @param window window size, by default 8.
-#' @param method whether to use Cohen's kappa or Adjusted Rand Index as
-#'     the similarity index
+#' @param method whether to use Cohen's kappa, Jaccard Index, or Adjusted Rand Index as
+#'     the similarity index. Note Jaccard should only be used on binary data.
 #' @param ... additional constants can be passed to internal functions.
 #'
 #' @return a value less than 1 indicating the similarity between the images.
@@ -435,8 +463,8 @@ catmssim_2d <- function(x, y, weights = c(0.0448, 0.2856, 0.3001, 0.2363, 0.1333
 #' @param x a binary or categorical image
 #' @param y a binary or categorical image
 #' @param window by default 8
-#' @param method whether to use Cohen's kappa or Adjusted Rand Index as
-#'     the similarity index
+#' @param method whether to use Cohen's kappa, Jaccard Index, or Adjusted Rand Index as
+#'     the similarity index. Note Jaccard should only be used on binary data.
 #' @param ...
 #'
 #' @return SSIM componenets for the cube.
@@ -486,8 +514,8 @@ catssim_3d_cube <- function(x, y, window = 4, method = "Cohen", ...){
 #' @param weights a vector of weights for the different scales. By default,
 #'     five different scales are used.
 #' @param window window size, by default 8.
-#' @param method whether to use Cohen's kappa or Adjusted Rand Index as
-#'     the similarity index
+#' @param method whether to use Cohen's kappa, Jaccard Index, or Adjusted Rand Index as
+#'     the similarity index. Note Jaccard should only be used on binary data.
 #' @param ... additional constants can be passed to internal functions.
 #'
 #' @return a value less than 1 indicating the similarity between the images.
@@ -549,8 +577,8 @@ catmssim_3d_slice <- function(x, y, weights = c(0.0448, 0.2856, 0.3001, 0.2363, 
 #' @param weights a vector of weights for the different scales. By default,
 #'     five different scales are used.
 #' @param window size of window, by default 4
-#' @param method whether to use Cohen's kappa or Adjusted Rand Index as
-#'     the similarity index
+#' @param method whether to use Cohen's kappa, Jaccard Index, or Adjusted Rand Index as
+#'     the similarity index. Note Jaccard should only be used on binary data.
 #' @param ... additional constants can be passed to internal functions.
 #'
 #' @return a value less than 1 indicating the similarity between the images.
@@ -609,16 +637,16 @@ catmssim_3d_cube <- function(x, y, weights = c(0.0448, 0.2856, 0.3001, 0.2363, 0
 #' Computes the adjusted Rand index for two
 #' inputs. These inputs should be binary or categorical and of the same length.
 #' It also computes the PSNR, which is generalized here as simply
-#' -10 log10(MSE). The adjusted Rand index and Cohen's Kappa are used as a measure of
+#' -10 log10(MSE). The adjusted Rand index, Jaccard Index, and Cohen's Kappa are used as a measure of
 #' the similarity of the structure of the two images. A small constant is added to the numerator
-#' and denominator of the Rand index to ensure stability, as it is possible to have a zero
+#' and denominator of the Adjusted Rand index to ensure stability, as it is possible to have a zero
 #' denominator. The PSNR can be infinite if the error rate is 0.
 #'
 #'
 #' @param x a numeric or factor vector or image
 #' @param y a numeric or factor vector or image
 #'
-#' @return The Rand index, the Adjusted Rand Index, the PSNR, and Cohen's Kappa.
+#' @return The Jaccard index, the Adjusted Rand Index, the PSNR, and Cohen's Kappa.
 #'
 #' @references Lawrence Hubert and Phipps Arabie (1985).
 #' "Comparing partitions". Journal of Classification. 2 (1): 193–218. \doi{10.1007/BF01908075}
@@ -640,14 +668,14 @@ AdjRandIndex <- function(x,y){
   if (length(x) != length(y)) stop("x and y have differing lengths.")
   n <- length(x)
   a <- sum(x == y)
-  Rand <- a/n
-  # this disagrees with some implementations I've seen but I don't know how this is wrong.
+  Accuracy <- a/n
+  BinJaccard <- sum(x&y)/sum(x|y)
   Cohen <- C_Cohen(x,y)
   x <- as.numeric(x)
   y <- as.numeric(y)
   AdjRand <- C_AdjRand(x,y)
-  list(Rand = Rand,
+  list(Jaccard = BinJaccard,
        AdjRand = AdjRand,
-       PSNR = -10 * log10(1-Rand),
+       PSNR = -10 * log10(1-Accuracy),
        Cohen = Cohen)
 }
