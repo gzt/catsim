@@ -3,7 +3,7 @@ Type: Package
 Title: Binary and Categorical Image Structural Similarity Metric
 Version: 0.1.0.9001
 Authors@R: c(person(c("Geoffrey", "Thompson"),email="gzthompson@gmail.com",
-role = c("aut", "cre"), orcid = '0000-0003-2436-8822'))
+role = c("aut", "cre"), comment = c(ORCID = "0000-0003-2436-8822"')))
 Description: Computes a structural similarity metric (after the style of MS-SSIM for images)
     for binary and categorical 2D and 3D images. 
 License: GPL-3
