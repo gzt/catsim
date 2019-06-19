@@ -12,7 +12,7 @@ Computes a structural similarity metric (after the style of MS-SSIM for images)
 \seealso{
 Useful links:
 \itemize{
-  \item \url{https://github.com/gzt/catsim}
+  \item \url{https://gzt.github.io/catsim}
   \item Report bugs at \url{https://github.com/gzt/catsim/issues}
 }
 
