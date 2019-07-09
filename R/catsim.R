@@ -21,7 +21,7 @@ meansfunc <- function(x,y, c1 = 0.01) {
 #'
 #' A measure of diversity that goes by a number of different names, such as
 #' the probability of interspecific encounter or the Gibbs-Martin index.
-#' It is 1 - sum(p_i^2), where p_i is the probability of observing class i.
+#' It is \eqn{1 - sum(p_i^2)}, where \eqn{p_i} is the probability of observing class i.
 #'
 #' @param x binary or categorical image or vector
 #'
@@ -113,6 +113,7 @@ sqrtginicorr <- function(x, k){
 #' x <- rep(1:4,4)
 #' y <- c(rep(1:4,3),rep(4,4))
 #' cfunc(x,y, k = 4)
+#'
 #' }
 cfunc <- function(x, y, c2 = 0.01, k, sqrtgini = FALSE){
   C_cfunc(x, y, c2, k, sqrtgini)
@@ -148,7 +149,7 @@ jaccard <- function(x, y){
 #' @param y binary or categorical image or vector
 #' @noRd
 #'
-#' @return Covariance function (Cohen's Kappa)
+#' @return Covariance function 
 #' @keywords internal
 #' \dontrun{
 #' x <- rep(1:4,4)
@@ -312,9 +313,9 @@ downsample_3d_slice <- function(x){
 #' the mode of each (discarding any odd boundary). It treats each direction as
 #' equal. In case there is more than one mode, it selects
 #' the first in lexicographic order.
-#' @param x an n x m x q binary or categorical image
+#' @param x an \eqn{n \times m \times q}{n x m x q} binary or categorical image
 #'
-#' @return a an n/2 x m/2 x q/2 binary or categorical image
+#' @return  an \eqn{n/2 \times m/2 \times q/2}{n/2 x m/2 x q/2} binary or categorical image
 #'
 #' @keywords internal
 #'
@@ -646,7 +647,8 @@ catmssim_3d_cube <- function(x, y, weights = c(0.0448, 0.2856, 0.3001, 0.2363, 0
 #' @param x a numeric or factor vector or image
 #' @param y a numeric or factor vector or image
 #'
-#' @return The Jaccard index, the Adjusted Rand Index, the PSNR, and Cohen's Kappa.
+#' @return The Jaccard index, the Adjusted Rand Index, the PSNR, and Cohen's Kappa. Note:
+#'     The Jaccard index will not make sense if this is not binary.
 #'
 #' @references Lawrence Hubert and Phipps Arabie (1985).
 #' "Comparing partitions". Journal of Classification. 2 (1): 193–218. \doi{10.1007/BF01908075}
@@ -655,7 +657,8 @@ catmssim_3d_cube <- function(x, y, weights = c(0.0448, 0.2856, 0.3001, 0.2363, 0
 #'  Journal of the American Statistical Association. American Statistical Association. 66 (336): 846–850.
 #'  \doi{10.2307/2284239}
 #'
-#'  Cohen, Jacob (1960). "A coefficient of agreement for nominal scales". Educational and Psychological Measurement. 20 (1): 37–46. \doi{10.1177/001316446002000104}
+#'  Cohen, Jacob (1960). "A coefficient of agreement for nominal scales".
+#'   Educational and Psychological Measurement. 20 (1): 37–46. \doi{10.1177/001316446002000104}
 #'
 #' @export
 #'
@@ -665,7 +668,9 @@ catmssim_3d_cube <- function(x, y, weights = c(0.0448, 0.2856, 0.3001, 0.2363, 0
 #' y <- c(rep(1:5, 4),rep(1,5))
 #' AdjRandIndex(x, y)
 AdjRandIndex <- function(x,y){
-  if (length(x) != length(y)) stop("x and y have differing lengths.")
+    if (length(x) != length(y)) stop("x and y have differing lengths.")
+    if (length(table(c(x,y))) > 2)
+        warning("Jaccard index may not make sense if more than two classes are present.")
   n <- length(x)
   a <- sum(x == y)
   Accuracy <- a/n

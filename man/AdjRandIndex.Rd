@@ -12,7 +12,8 @@ AdjRandIndex(x, y)
 \item{y}{a numeric or factor vector or image}
 }
 \value{
-The Jaccard index, the Adjusted Rand Index, the PSNR, and Cohen's Kappa.
+The Jaccard index, the Adjusted Rand Index, the PSNR, and Cohen's Kappa. Note:
+The Jaccard index will not make sense if this is not binary.
 }
 \description{
 Computes the adjusted Rand index for two
@@ -37,5 +38,6 @@ W. M. Rand (1971). "Objective criteria for the evaluation of clustering methods"
 Journal of the American Statistical Association. American Statistical Association. 66 (336): 846–850.
 \doi{10.2307/2284239}
 
-Cohen, Jacob (1960). "A coefficient of agreement for nominal scales". Educational and Psychological Measurement. 20 (1): 37–46. \doi{10.1177/001316446002000104}
+Cohen, Jacob (1960). "A coefficient of agreement for nominal scales".
+Educational and Psychological Measurement. 20 (1): 37–46. \doi{10.1177/001316446002000104}
 }

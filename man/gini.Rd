@@ -15,7 +15,7 @@ Gini-Simpson index (between 0 and 1)
 \description{
 A measure of diversity that goes by a number of different names, such as
 the probability of interspecific encounter or the Gibbs-Martin index.
-It is 1 - sum(p_i^2), where p_i is the probability of observing class i.
+It is \eqn{1 - sum(p_i^2)}, where \eqn{p_i} is the probability of observing class i.
 }
 \examples{
 
