@@ -10,6 +10,7 @@ test_that("Same input should have 1 as its result", {
     expect_equal(catmssim_2d(x,x, weights = 1), 1.0)
     expect_equal(catmssim_2d(x,x, weights = 1, method = "Rand"), 1.0)
     expect_equal(catmssim_2d(x,x, weights = 1, method = "Jaccard"), 1.0)
+    expect_warning(catmssim_2d(x,x))
     
 })
 
@@ -31,6 +32,8 @@ test_that("Inputs are symmetric", {
 
     expect_equal(catmssim_3d_slice(x,y, weights = c(.75,.25)), catmssim_3d_slice(y,x, weights = c(.75,.25)))
     expect_equal(catmssim_3d_cube(x,y, weights = c(.75,.25), method = "j"), catmssim_3d_cube(y,x, weights = c(.75,.25), method = "j"))
+    expect_warning(catmssim_3d_slice(x,y))
+     expect_warning(catmssim_3d_cube(x,y))
 })
 
 
