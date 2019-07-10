@@ -486,7 +486,7 @@ catssim_3d_cube <- function(x, y, window = 4, method = "Cohen", ...){
   #levels <- levels(factor(c(x,y)))
   k = length(unique(c(x,y)))
   dims = dim(x)
-  if (any(dims < window)) return(ssimcomponents((x), (y)), k, method, ...)
+  if (any(dims < window)) return(ssimcomponents((x), (y), k, method, ...))
 
   cuberesults = c(0,0,0)
   for (i in 1:(dims[1] - (window-1))) {
