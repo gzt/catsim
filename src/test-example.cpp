@@ -9,27 +9,45 @@
 
 // All test files should include the <testthat.h>
 // header file.
+
 #include <testthat.h>
+#include <Rcpp.h>
+using namespace Rcpp;
+#include "internalfunction.h"
 
-// Normally this would be a function from your package's
-// compiled library -- you might instead just include a header
-// file providing the definition, and let R CMD INSTALL
-// handle building and linking.
-int twoPlusTwo() {
-  return 2 + 2;
-}
 
-// Initialize a unit test context. This is similar to how you
-// might begin an R test file with 'context()', expect the
-// associated context should be wrapped in braced.
-context("Sample unit tests") {
 
-  // The format for specifying tests is similar to that of
-  // testthat's R functions. Use 'test_that()' to define a
-  // unit test, and use 'expect_true()' and 'expect_false()'
-  // to test the desired conditions.
-  test_that("two plus two equals four") {
-    expect_true(twoPlusTwo() == 4);
+context("Simple function checks"){
+  test_that("Diversity measures correct"){
+    Rcpp::NumericVector x(2);
+    Rcpp::NumericVector y(2);
+    for(int i = 0; i < 2; i++) x[i] = 0;
+    y[0] = 0;
+    y[1] = 1;
+    expect_true(std::abs(C_gini(x))< 1e-5);
+    expect_true(std::abs(C_gini(y)-.5) < 1e-5);
+    expect_true(std::abs(C_ginicorr(x, 2))< 1e-5);
+    expect_true(std::abs(C_ginicorr(y, 2)-1.0)< 1e-5);
+    expect_true(std::abs(C_cfunc(x,x,.001,2,TRUE)-1.0) < 1e-5);
+    expect_true(std::abs(C_cfunc(x,y,0.0,2,TRUE)) < 1e-5);
+
+
   }
+  test_that("Difference measures correct"){
+    Rcpp::NumericVector x(2);
+    Rcpp::NumericVector y(2);
+    for(int i = 0; i < 2; i++) x[i] = 0;
+    y[0] = 0;
+    y[1] = 1;
+    expect_true(std::abs(C_Cohen(x,x)-1.0) < 1e-6);
+    expect_true(std::abs(C_Cohen(y,y)-1.0) < 1e-6);
+    expect_true(std::abs(C_AdjRand(x,x)-1.0) < 1e-3);
+    expect_true(std::abs(C_AdjRand(y,y)-1.0) < 1e-3);
+    expect_true(std::abs(C_Cohen(x,y)) < 1e-6);
+    expect_true(std::abs(C_Cohen(x,y)-C_Cohen(y,x)) < 1e-6);
+    expect_true(std::abs(C_AdjRand(x,y)) < 1e-2);
+    expect_true(std::abs(C_AdjRand(x,y) - C_AdjRand(y,x)) < 1e-6);
+    expect_true(std::abs(C_AdjRand(x,x) - C_AdjRand(y,y)) < 1e-6);
 
+  }
 }

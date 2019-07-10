@@ -22,16 +22,16 @@ double C_gini(NumericVector x){
 // [[Rcpp::export]]
 double C_ginicorr(NumericVector x, double k){
   double eps = 1e-5;
-  if(std::abs(k - 1.0) < eps) return 1;
+  if(std::abs(k - 1.0) < eps) return 1.0;
 
-  return C_gini(x) / (1-1/k);
+  return C_gini(x) / (1.0-1.0/k);
 }
 
 double C_sqrtginicorr(NumericVector x, double k){
   double eps = 1e-5;
-  if(std::abs(k - 1.0) < eps) return 1;
+  if(std::abs(k - 1.0) < eps) return 1.0;
 
-  return (1 - sqrt(1 - C_gini(x))) / (1-1/k);
+  return (1 - sqrt(1 - C_gini(x))) / (1-1.0/k);
 }
 
 // [[Rcpp::export]]
@@ -46,7 +46,6 @@ double C_cfunc(NumericVector x, NumericVector y, double c, double k, bool sqrtfl
   }
 
   return(2*sqrt(varx * vary) + c)/(varx + vary + c);
-
 }
 
 // [[Rcpp::export]]
@@ -143,10 +142,10 @@ double C_Cohen(NumericVector x, NumericVector y){
   double pe = xxyysum / (1.0*n*n);
   double po = xysum / (1.0*n);
 
-  if ((1-pe) < 1e-6 ) {
+  if ((1.0-pe) < 1e-6 ) {
     return 1.0;
   }
-  return (po-pe)/(1-pe);
+  return (po-pe)/(1.0-pe);
 
 }
 
@@ -196,6 +195,6 @@ double C_AdjRand(NumericVector x, NumericVector y){
     nij += (tmp) * (tmp - 1.0)/2.0;
   }
 
-  return (nij - ai * bi / (1.0 * n * (n-1)/2) + eps) / (.5 * (ai + bi) - ai * bi / (1.0 * n * (n-1)/2) + eps);
+  return (nij - ai * bi / (1.0 * n * (n-1.0)/2) + eps) / (.5 * (ai + bi) - ai * bi / (1.0 * n * (n-1.0)/2) + eps);
 
 }
