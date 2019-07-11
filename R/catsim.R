@@ -55,6 +55,7 @@ gini <- function(x){
 #' ginicorr(x, 4)
 #'
 ginicorr <- function(x, k) {
+    if(k < length(unique(x))) stop("more unique values in x than k")
   if (k > 1) {
     C_gini(x)/(1 - 1/k)
   } else 1
@@ -95,9 +96,11 @@ sqrtgini <-  function(x){
 #' sqrtginicorr(x, 4)
 #'
 sqrtginicorr <- function(x, k){
-  if (k > 1) {
-    sqrtgini(x)/(1 - 1/sqrt(k))
-  } else 1
+    if(k < length(unique(x))) stop("more unique values in x than k")
+    
+    if (k > 1) {
+        sqrtgini(x)/(1 - 1/sqrt(k))
+    } else 1
 }
 
 #' Variance function (internal)
