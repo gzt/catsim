@@ -5,6 +5,7 @@ r_packages:
   - EMCluster
   - Rcpp
   - covr
+  - pkgdown
 sudo: false
 cache: packages
 warnings_are_errors: true
