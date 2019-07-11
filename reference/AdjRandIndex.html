@@ -35,7 +35,7 @@
 <meta property="og:description" content="Computes the adjusted Rand index for two
 inputs. These inputs should be binary or categorical and of the same length.
 It also computes the PSNR, which is generalized here as simply
--10 log10(MSE). The adjusted Rand index, Jaccard Index, and Cohen's Kappa are used as a measure of
+\(-10 log_{10}(MSE)\). The adjusted Rand index, Jaccard Index, and Cohen's Kappa are used as a measure of
 the similarity of the structure of the two images. A small constant is added to the numerator
 and denominator of the Adjusted Rand index to ensure stability, as it is possible to have a zero
 denominator. The PSNR can be infinite if the error rate is 0." />
@@ -87,7 +87,12 @@ denominator. The PSNR can be infinite if the error rate is 0." />
       </ul>
       
       <ul class="nav navbar-nav navbar-right">
-        
+        <li>
+  <a href="https://github.com/gzt/catsim">
+    <span class="fa fa-github fa-lg"></span>
+     
+  </a>
+</li>
       </ul>
       
     </div><!--/.nav-collapse -->
@@ -101,7 +106,7 @@ denominator. The PSNR can be infinite if the error rate is 0." />
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Adjusted Rand Index</h1>
-    
+    <small class="dont-index">Source: <a href='https://github.com/gzt/catsim/blob/master/R/catsim.R'><code>R/catsim.R</code></a></small>
     <div class="hidden name"><code>AdjRandIndex.Rd</code></div>
     </div>
 
@@ -110,7 +115,7 @@ denominator. The PSNR can be infinite if the error rate is 0." />
     <p>Computes the adjusted Rand index for two
 inputs. These inputs should be binary or categorical and of the same length.
 It also computes the PSNR, which is generalized here as simply
--10 log10(MSE). The adjusted Rand index, Jaccard Index, and Cohen's Kappa are used as a measure of
+\(-10 log_{10}(MSE)\). The adjusted Rand index, Jaccard Index, and Cohen's Kappa are used as a measure of
 the similarity of the structure of the two images. A small constant is added to the numerator
 and denominator of the Adjusted Rand index to ensure stability, as it is possible to have a zero
 denominator. The PSNR can be infinite if the error rate is 0.</p>
