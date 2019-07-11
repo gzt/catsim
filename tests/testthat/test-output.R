@@ -10,6 +10,9 @@ test_that("Same input should have 1 as its result", {
     expect_equal(catmssim_2d(x,x, weights = 1), 1.0)
     expect_equal(catmssim_2d(x,x, weights = 1, method = "Rand"), 1.0)
     expect_equal(catmssim_2d(x,x, weights = 1, method = "Jaccard"), 1.0)
+    expect_equal(binssim(x,x, method = "Jaccard"), 1.0)
+    expect_equal(binssim(x,x, method = "rand"), 1.0)
+    expect_equal(binssim(x,x), 1.0)
     expect_warning(catmssim_2d(x,x))
     
 })
@@ -60,7 +63,14 @@ test_that("Inputs are symmetric 2D", {
 
 
 test_that("dimensions 3D work", {
-
+    set.seed(20181207)
+    dim = 16
+    x <- array(sample(1:4, dim^3, replace = TRUE), dim = c(dim,dim,dim))
+    y <- x
+    for (j in 1:dim){
+        for (i in 1:dim) y[i, i, j] = 1
+        for (i in 1:(dim-1)) y[i, i+1, j] = 1
+    }
     expect_error(catmssim_3d_slice(x,y[1:10,,]))
     expect_error(catmssim_3d_slice(x,y[,1:10,]))
     expect_error(catmssim_3d_cube(x,y[,1:10,]))
@@ -71,7 +81,21 @@ test_that("dimensions 3D work", {
     expect_error(catmssim_3d_cube(x,y[1,,]))
     expect_error(catmssim_3d_cube(x[1,,],y[1,,]))
     expect_error(catmssim_3d_slice(x[1,,],y[1,,]))
-    expect_error(catmssim_3d_slice(x[,,1],y[,,1]))
+    expect_error(catmssim_3d_slice(x[,1,1],y[,1,1]))
+    expect_error(catmssim_3d_slice(x[,,1],y[,1,1]))
+    expect_error(catmssim_3d_cube(x[,1,1],y[,1,1]))
+    expect_error(catmssim_3d_cube(x[,,1],y[,1,1]))
+
+    expect_error(catmssim_3d_slice(x[,1:3,],y[,1:3,]))
+    expect_warning(catmssim_3d_cube(x[,1:3,],y[,1:3,]))
+
+    expect_warning(catmssim_3d_cube(x[,1:3,],y[,1:3,], window = 3))
+
+   # expect_warning(catmssim_3d_slice(x[,1:3,],y[,1:3,], window = 3, weight = 1))
+    expect_warning(catmssim_3d_cube(x[,1:3,],y[,1:3,], window = 3, weight = 1))
+
+#    expect_error(catmssim_3d_slice(x[,1:6,],y[,1:6,], window = 3, weight = 1))
+#    expect_error(catmssim_3d_cube(x[,1:6,],y[,1:6,], window = 3, weight = 1))
 
    })
 

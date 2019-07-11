@@ -376,6 +376,7 @@ downsample_3d_cube <- function(x){
 catssim_2d <- function(x,y, window = 8, method = "Cohen", ...){
     if (is.null(dim(x))) stop("x is 1-dimensional")
     if (is.null(dim(y))) stop("y is 1-dimensional")
+    if (length(dim(x)) != length(dim(y)))  stop('x and y have nonconformable dimensions.')
   if (any(dim(x) != dim(y))) stop('x and y have nonconformable dimensions.')
   #levels <- levels(factor(c(x,y)))
   k = length(unique(c(x,y)))
@@ -431,6 +432,7 @@ catmssim_2d <- function(x, y, weights = c(0.0448, 0.2856, 0.3001, 0.2363, 0.1333
     # the weights are from the original MS-SSIM program
     if (is.null(dim(x))) stop("x is 1-dimensional")
     if (is.null(dim(y))) stop("y is 1-dimensional")
+    if (length(dim(x)) != length(dim(y)))  stop('x and y have nonconformable dimensions.')
   if (any(dim(x) != dim(y))) stop('x and y have nonconformable dimensions.')
   levels = length(weights)
   mindim <- min(dim(x))
@@ -548,6 +550,7 @@ catmssim_3d_slice <- function(x, y, weights = c(0.0448, 0.2856, 0.3001, 0.2363, 
   # the weights are from the original MS-SSIM program
     if (is.null(dim(x))) stop("x is 1-dimensional")
     if (is.null(dim(y))) stop("y is 1-dimensional")
+    if (length(dim(x)) != length(dim(y)))  stop('x and y have nonconformable dimensions.')
   if (any(dim(x) != dim(y))) stop('x and y have nonconformable dimensions.')
   levels = length(weights)
   dims = dim(x)
@@ -613,14 +616,16 @@ catmssim_3d_cube <- function(x, y, weights = c(0.0448, 0.2856, 0.3001, 0.2363, 0
    # the weights are from the original MS-SSIM program
     if (is.null(dim(x))) stop("x is 1-dimensional")
     if (is.null(dim(y))) stop("y is 1-dimensional")
+    if (length(dim(x)) != length(dim(y)))  stop('x and y have nonconformable dimensions.')
   if (any(dim(x) != dim(y))) stop('x and y have nonconformable dimensions.')
   levels = length(weights)
   dims = dim(x)
   if (length(dims) < 3) stop('x and y are not 3-dimensional.')
   mindim <- min(dim(x))
   if (mindim < 2*window) {
-    warning("Minimum dimension must be greater than 2 * window.")
-    catssim_3d_cube(x,y,...)
+      warning("Minimum dimension must be greater than 2 * window.")
+      if(window > mindim) windox = mindim
+    return(catssim_3d_cube(x=x,y=y,window=window,method=method,...))
   }
   if (mindim < (2^(levels - 1))*window) {
     levels = min(c(floor(log2(mindim/window) + 1),levels))
