@@ -24,6 +24,7 @@ test_that("Gini works",{
     expect_equal(gini(y),.5)
     expect_equal(ginicorr(y,2),1)
     expect_equal(ginicorr(x,2),0)
+    expect_equal(ginicorr(x,1),1)
     expect_equal(sqrtgini(x),0)
     expect_equal(sqrtgini(y),1-sqrt(.5))
     expect_equal(sqrtginicorr(y,2),1)
