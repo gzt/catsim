@@ -48,7 +48,7 @@ gini <- function(x){
 #' @return Gini-Simpson index (corrected based on the number of categories
 #' so that max possible is 1)
 #' @export
-#'
+#' 
 #' @examples
 #'
 #' x <- rep(c(1:4),5)
@@ -180,8 +180,8 @@ sfunc <- function(x, y, methodflag = "Cohen"){
 #' @param alpha normalizing parameter, by default 1
 #' @param beta normalizing parameter, by default 1
 #' @param gamma normalizing parameter, by default 1
-#' @param c1 small normalization constant for the c function, by default 0.01
-#' @param c2 small normalization constant for the s function, by default 0.01
+#' @param c1 small normalization constant for the \code{c} function, by default 0.01
+#' @param c2 small normalization constant for the \code{s} function, by default 0.01
 #' @param method whether to use Cohen's kappa, Jaccard Index, or Adjusted Rand Index as
 #'     the similarity index. Note Jaccard should only be used on binary data.
 #' @param ... Constants can be passed to the components of the index.
@@ -252,7 +252,7 @@ pickmode <- function(x){
 
 #' Downsampling by a factor of 2 for a 2D categorical image
 #'
-#' Cuts the image into a grid of 2x2 squares and selects the mode of each
+#' Cuts the image into a grid of \eqn{2 \times 2}{2x2} squares and selects the mode of each
 #' (discarding any odd boundary). In case there is more than one mode, it selects
 #' the first in lexicographic order.
 #' @param x an n x m binary or categorical image
@@ -288,9 +288,9 @@ downsample_2d <- function(x){
 #' the mode of each (discarding any odd boundary). It treats each level of z as
 #' an independent slice. In case there is more than one mode, it selects
 #' the first in lexicographic order.
-#' @param x an n x m x q binary or categorical image
+#' @param x an \eqn{n \times m \times q}{n x m x q} binary or categorical image
 #'
-#' @return a an n/2 x m/2 x q binary or categorical image
+#' @return a an \eqn{n/2 \times m/2 \times q}{n/2 x m/2 x q} binary or categorical image
 #'
 #' @keywords internal
 #'
@@ -590,7 +590,8 @@ catmssim_3d_slice <- function(x, y, weights = c(0.0448, 0.2856, 0.3001, 0.2363, 
 #'
 #' The categorical structural similary index measure for 3D categorical or binary
 #' images for multiple scales. The default is to compute over 5 scales.
-#' This computes a 3D measure based on 4x4x4 windows by default with 5 levels of downsampling.
+#' This computes a 3D measure based on \eqn{4 \times 4 \times 4}{4x4x4}
+#' windows by default with 5 levels of downsampling.
 #'
 #' @param x a binary or categorical image
 #' @param y a binary or categorical image
@@ -661,7 +662,7 @@ catmssim_3d_cube <- function(x, y, weights = c(0.0448, 0.2856, 0.3001, 0.2363, 0
 #' Computes the adjusted Rand index for two
 #' inputs. These inputs should be binary or categorical and of the same length.
 #' It also computes the PSNR, which is generalized here as simply
-#' -10 log10(MSE). The adjusted Rand index, Jaccard Index, and Cohen's Kappa are used as a measure of
+#' \eqn{-10 log_{10}(MSE)}. The adjusted Rand index, Jaccard Index, and Cohen's Kappa are used as a measure of
 #' the similarity of the structure of the two images. A small constant is added to the numerator
 #' and denominator of the Adjusted Rand index to ensure stability, as it is possible to have a zero
 #' denominator. The PSNR can be infinite if the error rate is 0.

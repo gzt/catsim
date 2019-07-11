@@ -18,9 +18,9 @@ binssim(x, y, alpha = 1, beta = 1, gamma = 1, c1 = 0.01,
 
 \item{gamma}{normalizing parameter, by default 1}
 
-\item{c1}{small normalization constant for the c function, by default 0.01}
+\item{c1}{small normalization constant for the \code{c} function, by default 0.01}
 
-\item{c2}{small normalization constant for the s function, by default 0.01}
+\item{c2}{small normalization constant for the \code{s} function, by default 0.01}
 
 \item{method}{whether to use Cohen's kappa, Jaccard Index, or Adjusted Rand Index as
 the similarity index. Note Jaccard should only be used on binary data.}
