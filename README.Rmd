@@ -29,7 +29,7 @@ You can install the released version of catsim from [CRAN](https://CRAN.R-projec
 
 ``` r
 # install.packages("catsim")
-devtools::install_github("catsim")
+devtools::install_github("gzt/catsim")
 ```
 
 This is not actually on CRAN yet. Install using github.
