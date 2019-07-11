@@ -66,7 +66,7 @@ windows by default with 5 levels of downsampling." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">catsim</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9001</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9020</span>
       </span>
     </div>
 
@@ -158,13 +158,15 @@ the similarity index. Note Jaccard should only be used on binary data.</p></td>
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Random'>set.seed</a></span>(<span class='fl'>20181207</span>)
 <span class='no'>dim</span> <span class='kw'>=</span> <span class='fl'>16</span>
-<span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/array'>array</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/sample'>sample</a></span>(<span class='fl'>1</span>:<span class='fl'>4</span>, <span class='no'>dim</span>^<span class='fl'>3</span>, <span class='kw'>replace</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>), <span class='kw'>dim</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='no'>dim</span>,<span class='no'>dim</span>,<span class='no'>dim</span>))
+<span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/array'>array</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/sample'>sample</a></span>(<span class='fl'>0</span>:<span class='fl'>4</span>, <span class='no'>dim</span>^<span class='fl'>3</span>, <span class='kw'>replace</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>), <span class='kw'>dim</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='no'>dim</span>,<span class='no'>dim</span>,<span class='no'>dim</span>))
 <span class='no'>y</span> <span class='kw'>&lt;-</span> <span class='no'>x</span>
 <span class='kw'>for</span> (<span class='no'>j</span> <span class='kw'>in</span> <span class='fl'>1</span>:<span class='no'>dim</span>){
-<span class='kw'>for</span> (<span class='no'>i</span> <span class='kw'>in</span> <span class='fl'>1</span>:<span class='no'>dim</span>) <span class='no'>y</span>[<span class='no'>i</span>, <span class='no'>i</span>, <span class='no'>j</span>] <span class='kw'>=</span> <span class='fl'>1</span>
-<span class='kw'>for</span> (<span class='no'>i</span> <span class='kw'>in</span> <span class='fl'>1</span>:(<span class='no'>dim</span>-<span class='fl'>1</span>)) <span class='no'>y</span>[<span class='no'>i</span>, <span class='no'>i</span>+<span class='fl'>1</span>, <span class='no'>j</span>] <span class='kw'>=</span> <span class='fl'>1</span>
+<span class='kw'>for</span> (<span class='no'>i</span> <span class='kw'>in</span> <span class='fl'>1</span>:<span class='no'>dim</span>) <span class='no'>y</span>[<span class='no'>i</span>, <span class='no'>i</span>, <span class='no'>j</span>] <span class='kw'>=</span> <span class='fl'>0</span>
+<span class='kw'>for</span> (<span class='no'>i</span> <span class='kw'>in</span> <span class='fl'>1</span>:(<span class='no'>dim</span>-<span class='fl'>1</span>)) <span class='no'>y</span>[<span class='no'>i</span>, <span class='no'>i</span>+<span class='fl'>1</span>, <span class='no'>j</span>] <span class='kw'>=</span> <span class='fl'>0</span>
 }
-<span class='fu'>catmssim_3d_cube</span>(<span class='no'>x</span>,<span class='no'>y</span>, <span class='kw'>weights</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>.75</span>,<span class='fl'>.25</span>))</div><div class='output co'>#&gt; [1] 0.8264093</div></pre>
+<span class='fu'>catmssim_3d_cube</span>(<span class='no'>x</span>,<span class='no'>y</span>, <span class='kw'>weights</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>.75</span>,<span class='fl'>.25</span>))</div><div class='output co'>#&gt; [1] 0.8300367</div><div class='input'><span class='co'># Now using a different similarity score</span>
+<span class='fu'>catmssim_3d_cube</span>(<span class='no'>x</span>,<span class='no'>y</span>, <span class='kw'>weights</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>.75</span>,<span class='fl'>.25</span>), <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"Jaccard"</span>)</div><div class='output co'>#&gt; [1] 0.8301897</div><div class='input'><span class='co'># And using the last possible similarity score</span>
+<span class='fu'>catmssim_3d_cube</span>(<span class='no'>x</span>,<span class='no'>y</span>, <span class='kw'>weights</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>.75</span>,<span class='fl'>.25</span>), <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"Rand"</span>)</div><div class='output co'>#&gt; [1] 0.6994534</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

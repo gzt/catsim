@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Gini-Simpson index — gini • catsim</title>
+<title>Diversity Indexes — gini • catsim</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,11 +30,21 @@
 
 
 
-<meta property="og:title" content="Gini-Simpson index — gini" />
+<meta property="og:title" content="Diversity Indexes — gini" />
 
-<meta property="og:description" content="A measure of diversity that goes by a number of different names, such as
+<meta property="og:description" content="gini() is a measure of diversity that goes by a number of different names, such as
 the probability of interspecific encounter or the Gibbs-Martin index.
-It is \(1 - sum(p_i^2)\), where \(p_i\) is the probability of observing class i." />
+It is \(1 - sum(p_i^2)\), where \(p_i\) is the probability of observing class i.
+The corrected Gini-Simpson index, ginicorr takes the index and  corrects it
+so that the maximum possible is 1. If there are k categories,
+the maximum possible of the uncorrected index is \(1-1/k\).
+It corrects the index by dividing by the maximum. k must be specified.
+The modified Gini-Simpson index is similar to the unmodified,
+except it uses the square root of the summed squared
+probabilities, that is, \(1 - \sqrt{ sum(p_i^2)}\), where \(p_i\) is the
+probability of observing class i.
+The modified corrected Gini index then
+corrects the modified index for the number of categories, k." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -65,7 +75,7 @@ It is \(1 - sum(p_i^2)\), where \(p_i\) is the probability of observing class i.
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">catsim</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9001</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9020</span>
       </span>
     </div>
 
@@ -101,20 +111,36 @@ It is \(1 - sum(p_i^2)\), where \(p_i\) is the probability of observing class i.
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Gini-Simpson index</h1>
+    <h1>Diversity Indexes</h1>
     <small class="dont-index">Source: <a href='https://github.com/gzt/catsim/blob/master/R/catsim.R'><code>R/catsim.R</code></a></small>
     <div class="hidden name"><code>gini.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>A measure of diversity that goes by a number of different names, such as
+    <p><code>gini()</code> is a measure of diversity that goes by a number of different names, such as
 the probability of interspecific encounter or the Gibbs-Martin index.
 It is \(1 - sum(p_i^2)\), where \(p_i\) is the probability of observing class i.</p>
+<p>The corrected Gini-Simpson index, <code>ginicorr</code> takes the index and  corrects it
+so that the maximum possible is 1. If there are <code>k</code> categories,
+the maximum possible of the uncorrected index is \(1-1/k\).
+It corrects the index by dividing by the maximum. <code>k</code> must be specified.</p>
+<p>The modified Gini-Simpson index is similar to the unmodified,
+except it uses the square root of the summed squared
+probabilities, that is, \(1 - \sqrt{ sum(p_i^2)}\), where \(p_i\) is the
+probability of observing class i.</p>
+<p>The modified corrected Gini index then
+corrects the modified index for the number of categories, <code>k</code>.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>gini</span>(<span class='no'>x</span>)</pre>
+    <pre class="usage"><span class='fu'>gini</span>(<span class='no'>x</span>)
+
+<span class='fu'>ginicorr</span>(<span class='no'>x</span>, <span class='no'>k</span>)
+
+<span class='fu'>sqrtgini</span>(<span class='no'>x</span>)
+
+<span class='fu'>sqrtginicorr</span>(<span class='no'>x</span>, <span class='no'>k</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -123,18 +149,33 @@ It is \(1 - sum(p_i^2)\), where \(p_i\) is the probability of observing class i.
       <th>x</th>
       <td><p>binary or categorical image or vector</p></td>
     </tr>
+    <tr>
+      <th>k</th>
+      <td><p>number of categories</p></td>
+    </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>Gini-Simpson index (between 0 and 1)</p>
+    <p>The index (between 0 and 1), with 0 indicating no variation and 1 being maximal.
+The Gini index is bounded above by \(1-1/k\) for a group with <code>k</code> categories.
+The modified index is bounded above by \(1-1/\sqrt{k}\).
+The corrected indexes fix this by dividing by the maximum.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>
-<span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/rep'>rep</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>1</span>:<span class='fl'>4</span>),<span class='fl'>5</span>)
+    <pre class="examples"><div class='input'><span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/rep'>rep</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>1</span>:<span class='fl'>4</span>),<span class='fl'>5</span>)
 <span class='fu'>gini</span>(<span class='no'>x</span>)</div><div class='output co'>#&gt; [1] 0.75</div><div class='input'>
 
+
+<span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/rep'>rep</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>1</span>:<span class='fl'>4</span>),<span class='fl'>5</span>)
+<span class='fu'>ginicorr</span>(<span class='no'>x</span>, <span class='fl'>4</span>)</div><div class='output co'>#&gt; [1] 1</div><div class='input'>
+
+<span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/rep'>rep</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>1</span>:<span class='fl'>4</span>),<span class='fl'>5</span>)
+<span class='fu'>sqrtgini</span>(<span class='no'>x</span>)</div><div class='output co'>#&gt; [1] 0.5</div><div class='input'>
+
+<span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/rep'>rep</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>1</span>:<span class='fl'>4</span>),<span class='fl'>5</span>)
+<span class='fu'>sqrtginicorr</span>(<span class='no'>x</span>, <span class='fl'>4</span>)</div><div class='output co'>#&gt; [1] 1</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
