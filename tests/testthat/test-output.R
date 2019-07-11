@@ -17,6 +17,20 @@ test_that("Same input should have 1 as its result", {
     
 })
 
+test_that("Gini works",{
+    x = c(1,1)
+    y = c(1,0)
+    expect_equal(gini(x),0)
+    expect_equal(gini(y),.5)
+    expect_equal(ginicorr(y,2),1)
+    expect_equal(ginicorr(x,2),0)
+    expect_equal(catsim:::jaccard(x,y),.5)
+    expect_equal(ginicorr(1:15,15),1)
+
+    })
+
+
+
 test_that("dimensions 2D work",{
     expect_error(catmssim_2d(x,y[,1:10]))
     expect_error(binssim(x,y[,1:10]))
