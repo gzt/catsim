@@ -43,7 +43,7 @@ test_that("dimensions 2D work",{
     expect_warning(catmssim_2d(y[1,,drop=FALSE],x[1,,drop=FALSE], weights = 1, method = "jaccard"))
     expect_warning(AdjRandIndex(y[1,,drop=FALSE],x[1,,drop=FALSE]))
     expect_warning(catmssim_2d(x[,1:8],y[,1:8], window = 2, weights = c(.5,.25,.25,.25)))
-
+    expect_error(catsim:::jaccard(x,[,1:10]))
 })
 
 test_that("3D is not 2D", {
