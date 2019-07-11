@@ -18,8 +18,10 @@ test_that("dimensions 2D work",{
     expect_error(catmssim_2d(x,y[,1:10]))
     expect_error(catmssim_2d(x,y[1:10,]))
     expect_warning(catmssim_2d(x[1:2,],y[1:2,], weights = 1, method = "rand"))
+    expect_error(catmssim_2d(x[1:3,],y[1:2,], weights = 1, method = "rand"))
+    expect_error(catmssim_2d(x[1:2,],y[1,], weights = 1, method = "rand"))
     expect_error(catmssim_2d(y[1,],x[1,], weights = 1, method = "rand"))
-    expect_warning(catmssim_2d(y[1,,drop=FALSE],x[1,,drop=FALSE], weights = 1, method = "rand"))   
+    expect_warning(catmssim_2d(y[1,,drop=FALSE],x[1,,drop=FALSE], weights = 1, method = "jaccard"))   
 })
 
 test_that("3D is not 2D", {
@@ -51,6 +53,21 @@ test_that("Inputs are symmetric 2D", {
   expect_error(catmssim_3d_cube(x,y[,,1:2]))
 
   })
+
+
+test_that("dimensions 3D work", {
+
+
+    expect_error(catmssim_3d_slice(x,y[1:10,,]))
+    expect_error(catmssim_3d_slice(x,y[,1:10,]))
+    expect_error(catmssim_3d_cube(x,y[,1:10,]))
+    expect_error(catmssim_3d_cube(x,y[1:10,,]))
+    expect_error(catmssim_3d_slice(x,y[1,,]))
+    expect_error(catmssim_3d_slice(x,y[,1,]))
+    expect_error(catmssim_3d_cube(x,y[,1,]))
+    expect_error(catmssim_3d_cube(x,y[1,,]))
+   })
+
 
 
 set.seed(20181215)
