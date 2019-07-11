@@ -199,7 +199,7 @@ binssim <- function(x, y, alpha = 1, beta = 1, gamma = 1, c1 = 0.01, c2 = 0.01, 
 
   methodflag = "Cohen"
   if (method %in% c("AdjRand", "Rand", "rand", "adjrand")) methodflag = "AdjRand"
-  if (method %in% c("Jaccard, 'jaccard", "j", "J")) methodflag = "Jaccard"
+  if (method %in% c("Jaccard", "jaccard", "j", "J")) methodflag = "Jaccard"
 
   (meansfunc(x, y, c1)^alpha)*(cfunc(x=x, y=y, c2=c2, k = k, ...)^beta)*(sfunc(x, y, methodflag)^gamma)
 }
