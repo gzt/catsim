@@ -16,8 +16,10 @@ test_that("Same input should have 1 as its result", {
 
 test_that("dimensions 2D work",{
     expect_error(catmssim_2d(x,y[,1:10]))
-            expect_error(catmssim_2d(x,y[1:10,]))
-
+    expect_error(catmssim_2d(x,y[1:10,]))
+    expect_warning(catmssim_2d(x[1:2,],y[1:2,], weights = 1, method = "rand"))
+    expect_error(catmssim_2d(y[1,],x[1,], weights = 1, method = "rand"))
+    expect_warning(catmssim_2d(y[1,,drop=FALSE],x[1,,drop=FALSE], weights = 1, method = "rand"))   
 })
 
 test_that("3D is not 2D", {
@@ -29,8 +31,7 @@ test_that("Inputs are symmetric 2D", {
     expect_equal(catmssim_2d(x,y, weights = 1), catmssim_2d(y,x, weights = 1))
       expect_equal(catmssim_2d(x,y, weights = c(.5,.5), method = "j"), catmssim_2d(y,x, weights = c(.5,.5), method = "j"))
     expect_equal(catmssim_2d(x,y, weights = 1, method = "rand"), catmssim_2d(y,x, weights = 1, method = "rand"))
-    
-})
+  })
 
   test_that("Inputs are symmetric 3D",{  
  set.seed(20181207)
