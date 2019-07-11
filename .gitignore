@@ -3,3 +3,6 @@
 .RData
 .Ruserdata
 catsim.Rproj
+*~
+.#*
+*.o
