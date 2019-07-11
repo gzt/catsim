@@ -34,11 +34,15 @@ windows by default with 5 levels of downsampling.
 \examples{
 set.seed(20181207)
 dim = 16
-x <- array(sample(1:4, dim^3, replace = TRUE), dim = c(dim,dim,dim))
+x <- array(sample(0:4, dim^3, replace = TRUE), dim = c(dim,dim,dim))
 y <- x
 for (j in 1:dim){
-for (i in 1:dim) y[i, i, j] = 1
-for (i in 1:(dim-1)) y[i, i+1, j] = 1
+for (i in 1:dim) y[i, i, j] = 0
+for (i in 1:(dim-1)) y[i, i+1, j] = 0
 }
 catmssim_3d_cube(x,y, weights = c(.75,.25))
+# Now using a different similarity score
+catmssim_3d_cube(x,y, weights = c(.75,.25), method = "Jaccard")
+# And using the last possible similarity score
+catmssim_3d_cube(x,y, weights = c(.75,.25), method = "Rand")
 }

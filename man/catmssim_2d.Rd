@@ -31,10 +31,14 @@ images for multiple scales. The default is to compute over 5 scales.
 }
 \examples{
 set.seed(20181207)
-x <- matrix(sample(1:4, 128^2, replace = TRUE), nrow=128)
+x <- matrix(sample(0:3, 128^2, replace = TRUE), nrow=128)
 y <- x
-for (i in 1:128) y[i, i] = 1
-for (i in 1:127) y[i, i+1] = 1
+for (i in 1:128) y[i, i] = 0
+for (i in 1:127) y[i, i+1] = 0
 catmssim_2d(x,y)
+# now using a different similarity score (Jaccard Index)
+catmssim_2d(x,y, method = "Jaccard")
+# now using a different similarity score (Adjusted Rand Index)
+ catmssim_2d(x,y, method = "Rand")
 
 }

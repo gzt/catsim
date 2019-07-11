@@ -17,20 +17,22 @@ meansfunc <- function(x,y, c1 = 0.01) {
   C_meansfunc(x, y, c1)
 }
 
-#' Gini-Simpson index
-#'
-#' A measure of diversity that goes by a number of different names, such as
+#' @title Diversity Indexes
+#' @name gini
+#' 
+#' @description \code{gini()} is a measure of diversity that goes by a number of different names, such as
 #' the probability of interspecific encounter or the Gibbs-Martin index.
 #' It is \eqn{1 - sum(p_i^2)}, where \eqn{p_i} is the probability of observing class i.
 #'
 #' @param x binary or categorical image or vector
 #'
-#' @return Gini-Simpson index (between 0 and 1)
+#' @return The index (between 0 and 1), with 0 indicating no variation and 1 being maximal.
+#'    The Gini index is bounded above by \eqn{1-1/k} for a group with \code{k} categories.
+#'    The modified index is bounded above by \eqn{1-1/\sqrt{k}}.
+#'    The corrected indexes fix this by dividing by the maximum.
 #' @export
-#'
-#'
+
 #' @examples
-#'
 #' x <- rep(c(1:4),5)
 #' gini(x)
 #'
@@ -41,14 +43,16 @@ gini <- function(x){
 }
 
 
-#' Corrected Gini-Simpson index
+#' @name Corrected Gini-Simpson index
 #'
-#' @param x binary or categorical image or vector
+#' @description The corrected Gini-Simpson index, \code{ginicorr} takes the index and  corrects it
+#' so that the maximum possible is 1. If there are \code{k} categories,
+#' the maximum possible of the uncorrected index is \eqn{1-1/k}.
+#' It corrects the index by dividing by the maximum. \code{k} must be specified.
+#'
 #' @param k number of categories
-#' @return Gini-Simpson index (corrected based on the number of categories
-#' so that max possible is 1)
 #' @export
-#' 
+#' @rdname gini
 #' @examples
 #'
 #' x <- rep(c(1:4),5)
@@ -61,15 +65,15 @@ ginicorr <- function(x, k) {
   } else 1
 }
 
-#' Modified Gini-Simpson index
+#' @name Modified Gini-Simpson index
 #'
-#' The Gini-Simpson index, except with the square root of the summed squared
-#' probabilities.
+#' @description The modified Gini-Simpson index is similar to the unmodified,
+#' except it uses the square root of the summed squared
+#' probabilities, that is, \eqn{1 - \sqrt{ sum(p_i^2)}}, where \eqn{p_i} is the
+#' probability of observing class i.
 #'
-#' @param x binary or categorical image or vector
-#' @return Modified Gini-Simpson index (square root of squared frequencies)
 #' @export
-#'
+#' @rdname gini
 #' @examples
 #'
 #' x <- rep(c(1:4),5)
@@ -79,17 +83,13 @@ sqrtgini <-  function(x){
   1 - sqrt(1 - C_gini(x))
 }
 
-#' Modified Corrected Gini index
+#' @name Modified Corrected Gini index
 #'
-#' The Gini-Simpson index, except with the square root of the summed squared
-#' probabilities.
+#' @description The modified corrected Gini index then
+#' corrects the modified index for the number of categories, \code{k}.
 #'
-#' @param x binary or categorical image or vector
-#' @param k number of categories
-#' @return Modified corrected Gini index (square root of squared frequencies) -
-#' max possible is 1.
 #' @export
-#'
+#' @rdname gini
 #' @examples
 #'
 #' x <- rep(c(1:4),5)
@@ -424,11 +424,15 @@ catssim_2d <- function(x,y, window = 8, method = "Cohen", ...){
 #'
 #' @examples
 #' set.seed(20181207)
-#' x <- matrix(sample(1:4, 128^2, replace = TRUE), nrow=128)
+#' x <- matrix(sample(0:3, 128^2, replace = TRUE), nrow=128)
 #' y <- x
-#' for (i in 1:128) y[i, i] = 1
-#' for (i in 1:127) y[i, i+1] = 1
+#' for (i in 1:128) y[i, i] = 0
+#' for (i in 1:127) y[i, i+1] = 0
 #' catmssim_2d(x,y)
+#' # now using a different similarity score (Jaccard Index)
+#' catmssim_2d(x,y, method = "Jaccard")
+#' # now using a different similarity score (Adjusted Rand Index)
+#'  catmssim_2d(x,y, method = "Rand")
 #'
 catmssim_2d <- function(x, y, weights = c(0.0448, 0.2856, 0.3001, 0.2363, 0.1333), window = 8,
                         method = "Cohen", ...){
@@ -541,13 +545,17 @@ catssim_3d_cube <- function(x, y, window = 4, method = "Cohen", ...){
 #' @examples
 #' set.seed(20181207)
 #' dim = 16
-#' x <- array(sample(1:4, dim^3, replace = TRUE), dim = c(dim,dim,dim))
+#' x <- array(sample(0:4, dim^3, replace = TRUE), dim = c(dim,dim,dim))
 #' y <- x
 #' for (j in 1:dim){
-#' for (i in 1:dim) y[i, i, j] = 1
-#' for (i in 1:(dim-1)) y[i, i+1, j] = 1
+#' for (i in 1:dim) y[i, i, j] = 0
+#' for (i in 1:(dim-1)) y[i, i+1, j] = 0
 #' }
 #' catmssim_3d_slice(x,y, weights = c(.75,.25))
+#' # Now using a different similarity score
+#' catmssim_3d_slice(x,y, weights = c(.75,.25), method = "Jaccard")
+#' # And using the last possible similarity score
+#' catmssim_3d_slice(x,y, weights = c(.75,.25), method = "Rand")
 catmssim_3d_slice <- function(x, y, weights = c(0.0448, 0.2856, 0.3001, 0.2363, 0.1333),
                               window = 8, method = "Cohen", ...){
   # the weights are from the original MS-SSIM program
@@ -608,13 +616,19 @@ catmssim_3d_slice <- function(x, y, weights = c(0.0448, 0.2856, 0.3001, 0.2363, 
 #' @examples
 #' set.seed(20181207)
 #' dim = 16
-#' x <- array(sample(1:4, dim^3, replace = TRUE), dim = c(dim,dim,dim))
+#' x <- array(sample(0:4, dim^3, replace = TRUE), dim = c(dim,dim,dim))
 #' y <- x
 #' for (j in 1:dim){
-#' for (i in 1:dim) y[i, i, j] = 1
-#' for (i in 1:(dim-1)) y[i, i+1, j] = 1
+#' for (i in 1:dim) y[i, i, j] = 0
+#' for (i in 1:(dim-1)) y[i, i+1, j] = 0
 #' }
 #' catmssim_3d_cube(x,y, weights = c(.75,.25))
+#' # Now using a different similarity score
+#' catmssim_3d_cube(x,y, weights = c(.75,.25), method = "Jaccard")
+#' # And using the last possible similarity score
+#' catmssim_3d_cube(x,y, weights = c(.75,.25), method = "Rand")
+
+
 catmssim_3d_cube <- function(x, y, weights = c(0.0448, 0.2856, 0.3001, 0.2363, 0.1333), window = 4,
                              method = "Cohen", ...){
    # the weights are from the original MS-SSIM program
@@ -688,8 +702,8 @@ catmssim_3d_cube <- function(x, y, weights = c(0.0448, 0.2856, 0.3001, 0.2363, 0
 #'
 #' @examples
 #'
-#' x <- rep(1:5, 5)
-#' y <- c(rep(1:5, 4),rep(1,5))
+#' x <- rep(0:5, 5)
+#' y <- c(rep(0:5, 4),rep(0,6))
 #' AdjRandIndex(x, y)
 AdjRandIndex <- function(x,y){
     if (length(x) != length(y)) stop("x and y have differing lengths.")

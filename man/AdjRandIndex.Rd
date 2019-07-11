@@ -26,8 +26,8 @@ denominator. The PSNR can be infinite if the error rate is 0.
 }
 \examples{
 
-x <- rep(1:5, 5)
-y <- c(rep(1:5, 4),rep(1,5))
+x <- rep(0:5, 5)
+y <- c(rep(0:5, 4),rep(0,6))
 AdjRandIndex(x, y)
 }
 \references{
