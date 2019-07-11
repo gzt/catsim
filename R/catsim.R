@@ -225,7 +225,7 @@ ssimcomponents <- function(x, y, k, method = "Cohen", c1 = 0.01, c2 = 0.01, ...)
   #levels <- levels(factor(c(x,y)))
   methodflag = "Cohen"
   if (method %in% c("AdjRand", "Rand", "rand", "adjrand")) methodflag = "AdjRand"
-  if (method %in% c("Jaccard, 'jaccard", "j", "J")) methodflag = "Jaccard"
+  if (method %in% c("Jaccard", "jaccard", "j", "J")) methodflag = "Jaccard"
 
 
   c((meansfunc(x, y, c1)),(cfunc(x=x, y=y, c2=c2, k = k, ...)),(sfunc(x, y, methodflag)))
