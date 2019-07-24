@@ -19,7 +19,7 @@ meansfunc <- function(x,y, c1 = 0.01) {
 
 #' @title Diversity Indexes
 #' @name gini
-#' 
+#'
 #' @description \code{gini()} is a measure of diversity that goes by a number of different names, such as
 #' the probability of interspecific encounter or the Gibbs-Martin index.
 #' It is \eqn{1 - sum(p_i^2)}, where \eqn{p_i} is the probability of observing class i.
@@ -97,7 +97,7 @@ sqrtgini <-  function(x){
 #'
 sqrtginicorr <- function(x, k){
     if(k < length(unique(x))) stop("more unique values in x than k")
-    
+
     if (k > 1) {
         sqrtgini(x)/(1 - 1/sqrt(k))
     } else 1
@@ -152,7 +152,7 @@ jaccard <- function(x, y){
 #' @param y binary or categorical image or vector
 #' @noRd
 #'
-#' @return Covariance function 
+#' @return Covariance function
 #' @keywords internal
 #' \dontrun{
 #' x <- rep(1:4,4)
@@ -357,7 +357,7 @@ downsample_3d_cube <- function(x){
 #'
 #' @param x a binary or categorical image
 #' @param y a binary or categorical image
-#' @param window window size, by default 8
+#' @param window window size, by default 11
 #' @param method whether to use Cohen's kappa, Jaccard Index, or Adjusted Rand Index as
 #'     the similarity index. Note Jaccard should only be used on binary data.
 #' @param ... additional constants can be passed to internal functions.
@@ -376,7 +376,7 @@ downsample_3d_cube <- function(x){
 #' for (i in 1:19) y[i, i+1] = 1
 #' catssim_2d(x,y)
 #' }
-catssim_2d <- function(x,y, window = 8, method = "Cohen", ...){
+catssim_2d <- function(x,y, window = 11, method = "Cohen", ...){
     if (is.null(dim(x))) stop("x is 1-dimensional")
     if (is.null(dim(y))) stop("y is 1-dimensional")
     if (length(dim(x)) != length(dim(y)))  stop('x and y have nonconformable dimensions.')
@@ -414,7 +414,7 @@ catssim_2d <- function(x,y, window = 8, method = "Cohen", ...){
 #' @param y a binary or categorical image
 #' @param weights a vector of weights for the different scales. By default,
 #'     five different scales are used.
-#' @param window window size, by default 8.
+#' @param window window size, by default 11.
 #' @param method whether to use Cohen's kappa, Jaccard Index, or Adjusted Rand Index as
 #'     the similarity index. Note Jaccard should only be used on binary data.
 #' @param ... additional constants can be passed to internal functions.
@@ -434,7 +434,7 @@ catssim_2d <- function(x,y, window = 8, method = "Cohen", ...){
 #' # now using a different similarity score (Adjusted Rand Index)
 #'  catmssim_2d(x,y, method = "Rand")
 #'
-catmssim_2d <- function(x, y, weights = c(0.0448, 0.2856, 0.3001, 0.2363, 0.1333), window = 8,
+catmssim_2d <- function(x, y, weights = c(0.0448, 0.2856, 0.3001, 0.2363, 0.1333), window = 11,
                         method = "Cohen", ...){
     # the weights are from the original MS-SSIM program
     if (is.null(dim(x))) stop("x is 1-dimensional")
@@ -479,7 +479,7 @@ catmssim_2d <- function(x, y, weights = c(0.0448, 0.2856, 0.3001, 0.2363, 0.1333
 #'
 #' @param x a binary or categorical image
 #' @param y a binary or categorical image
-#' @param window by default 8
+#' @param window by default 11
 #' @param method whether to use Cohen's kappa, Jaccard Index, or Adjusted Rand Index as
 #'     the similarity index. Note Jaccard should only be used on binary data.
 #' @param ...
@@ -489,7 +489,7 @@ catmssim_2d <- function(x, y, weights = c(0.0448, 0.2856, 0.3001, 0.2363, 0.1333
 #'
 #' @noRd
 #'
-catssim_3d_slice <- function(x, y, window = 8, method = "Cohen", ...){
+catssim_3d_slice <- function(x, y, window = 11, method = "Cohen", ...){
     if (is.null(dim(x))) stop("x is 1-dimensional")
     if (is.null(dim(y))) stop("y is 1-dimensional")
   if (any(dim(x) != dim(y))) stop('x and y have nonconformable dimensions.')
@@ -499,7 +499,7 @@ catssim_3d_slice <- function(x, y, window = 8, method = "Cohen", ...){
   colMeans(sliceresults)
 }
 
-catssim_3d_cube <- function(x, y, window = 4, method = "Cohen", ...){
+catssim_3d_cube <- function(x, y, window = 5, method = "Cohen", ...){
     if (is.null(dim(x))) stop("x is 1-dimensional")
     if (is.null(dim(y))) stop("y is 1-dimensional")
   if (any(dim(x) != dim(y))) stop('x and y have nonconformable dimensions.')
@@ -534,7 +534,7 @@ catssim_3d_cube <- function(x, y, window = 4, method = "Cohen", ...){
 #' @param y a binary or categorical image
 #' @param weights a vector of weights for the different scales. By default,
 #'     five different scales are used.
-#' @param window window size, by default 8.
+#' @param window window size, by default 11.
 #' @param method whether to use Cohen's kappa, Jaccard Index, or Adjusted Rand Index as
 #'     the similarity index. Note Jaccard should only be used on binary data.
 #' @param ... additional constants can be passed to internal functions.
@@ -557,7 +557,7 @@ catssim_3d_cube <- function(x, y, window = 4, method = "Cohen", ...){
 #' # And using the last possible similarity score
 #' catmssim_3d_slice(x,y, weights = c(.75,.25), method = "Rand")
 catmssim_3d_slice <- function(x, y, weights = c(0.0448, 0.2856, 0.3001, 0.2363, 0.1333),
-                              window = 8, method = "Cohen", ...){
+                              window = 11, method = "Cohen", ...){
   # the weights are from the original MS-SSIM program
     if (is.null(dim(x))) stop("x is 1-dimensional")
     if (is.null(dim(y))) stop("y is 1-dimensional")
@@ -605,7 +605,7 @@ catmssim_3d_slice <- function(x, y, weights = c(0.0448, 0.2856, 0.3001, 0.2363, 
 #' @param y a binary or categorical image
 #' @param weights a vector of weights for the different scales. By default,
 #'     five different scales are used.
-#' @param window size of window, by default 4
+#' @param window size of window, by default 5
 #' @param method whether to use Cohen's kappa, Jaccard Index, or Adjusted Rand Index as
 #'     the similarity index. Note Jaccard should only be used on binary data.
 #' @param ... additional constants can be passed to internal functions.
@@ -629,7 +629,7 @@ catmssim_3d_slice <- function(x, y, weights = c(0.0448, 0.2856, 0.3001, 0.2363, 
 #' catmssim_3d_cube(x,y, weights = c(.75,.25), method = "Rand")
 
 
-catmssim_3d_cube <- function(x, y, weights = c(0.0448, 0.2856, 0.3001, 0.2363, 0.1333), window = 4,
+catmssim_3d_cube <- function(x, y, weights = c(0.0448, 0.2856, 0.3001, 0.2363, 0.1333), window = 5,
                              method = "Cohen", ...){
    # the weights are from the original MS-SSIM program
     if (is.null(dim(x))) stop("x is 1-dimensional")
