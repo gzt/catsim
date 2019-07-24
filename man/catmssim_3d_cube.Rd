@@ -5,7 +5,7 @@
 \title{Multiscale Categorical Structural Similarity Index Measure for a Cube (3D)}
 \usage{
 catmssim_3d_cube(x, y, weights = c(0.0448, 0.2856, 0.3001, 0.2363,
-  0.1333), window = 4, method = "Cohen", ...)
+  0.1333), window = 5, method = "Cohen", ...)
 }
 \arguments{
 \item{x}{a binary or categorical image}
@@ -15,7 +15,7 @@ catmssim_3d_cube(x, y, weights = c(0.0448, 0.2856, 0.3001, 0.2363,
 \item{weights}{a vector of weights for the different scales. By default,
 five different scales are used.}
 
-\item{window}{size of window, by default 4}
+\item{window}{size of window, by default 5}
 
 \item{method}{whether to use Cohen's kappa, Jaccard Index, or Adjusted Rand Index as
 the similarity index. Note Jaccard should only be used on binary data.}
