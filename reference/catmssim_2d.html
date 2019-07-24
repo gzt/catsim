@@ -113,7 +113,7 @@ images for multiple scales. The default is to compute over 5 scales.</p>
     </div>
 
     <pre class="usage"><span class='fu'>catmssim_2d</span>(<span class='no'>x</span>, <span class='no'>y</span>, <span class='kw'>weights</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>0.0448</span>, <span class='fl'>0.2856</span>, <span class='fl'>0.3001</span>, <span class='fl'>0.2363</span>, <span class='fl'>0.1333</span>),
-  <span class='kw'>window</span> <span class='kw'>=</span> <span class='fl'>8</span>, <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"Cohen"</span>, <span class='no'>...</span>)</pre>
+  <span class='kw'>window</span> <span class='kw'>=</span> <span class='fl'>11</span>, <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"Cohen"</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -133,7 +133,7 @@ five different scales are used.</p></td>
     </tr>
     <tr>
       <th>window</th>
-      <td><p>window size, by default 8.</p></td>
+      <td><p>window size, by default 11.</p></td>
     </tr>
     <tr>
       <th>method</th>
@@ -157,9 +157,9 @@ the similarity index. Note Jaccard should only be used on binary data.</p></td>
 <span class='no'>y</span> <span class='kw'>&lt;-</span> <span class='no'>x</span>
 <span class='kw'>for</span> (<span class='no'>i</span> <span class='kw'>in</span> <span class='fl'>1</span>:<span class='fl'>128</span>) <span class='no'>y</span>[<span class='no'>i</span>, <span class='no'>i</span>] <span class='kw'>=</span> <span class='fl'>0</span>
 <span class='kw'>for</span> (<span class='no'>i</span> <span class='kw'>in</span> <span class='fl'>1</span>:<span class='fl'>127</span>) <span class='no'>y</span>[<span class='no'>i</span>, <span class='no'>i</span>+<span class='fl'>1</span>] <span class='kw'>=</span> <span class='fl'>0</span>
-<span class='fu'>catmssim_2d</span>(<span class='no'>x</span>,<span class='no'>y</span>)</div><div class='output co'>#&gt; [1] 0.9501621</div><div class='input'><span class='co'># now using a different similarity score (Jaccard Index)</span>
-<span class='fu'>catmssim_2d</span>(<span class='no'>x</span>,<span class='no'>y</span>, <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"Jaccard"</span>)</div><div class='output co'>#&gt; [1] 0.9513413</div><div class='input'><span class='co'># now using a different similarity score (Adjusted Rand Index)</span>
- <span class='fu'>catmssim_2d</span>(<span class='no'>x</span>,<span class='no'>y</span>, <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"Rand"</span>)</div><div class='output co'>#&gt; [1] 0.9034173</div><div class='input'>
+<span class='fu'>catmssim_2d</span>(<span class='no'>x</span>,<span class='no'>y</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: Truncating levels because of minimum dimension.</span></div><div class='output co'>#&gt; [1] 0.9622261</div><div class='input'><span class='co'># now using a different similarity score (Jaccard Index)</span>
+<span class='fu'>catmssim_2d</span>(<span class='no'>x</span>,<span class='no'>y</span>, <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"Jaccard"</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: Truncating levels because of minimum dimension.</span></div><div class='output co'>#&gt; [1] 0.9642601</div><div class='input'><span class='co'># now using a different similarity score (Adjusted Rand Index)</span>
+ <span class='fu'>catmssim_2d</span>(<span class='no'>x</span>,<span class='no'>y</span>, <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"Rand"</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: Truncating levels because of minimum dimension.</span></div><div class='output co'>#&gt; [1] 0.9286893</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

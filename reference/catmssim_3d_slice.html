@@ -117,7 +117,7 @@ and then averages over the z-axis.</p>
     </div>
 
     <pre class="usage"><span class='fu'>catmssim_3d_slice</span>(<span class='no'>x</span>, <span class='no'>y</span>, <span class='kw'>weights</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>0.0448</span>, <span class='fl'>0.2856</span>, <span class='fl'>0.3001</span>, <span class='fl'>0.2363</span>,
-  <span class='fl'>0.1333</span>), <span class='kw'>window</span> <span class='kw'>=</span> <span class='fl'>8</span>, <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"Cohen"</span>, <span class='no'>...</span>)</pre>
+  <span class='fl'>0.1333</span>), <span class='kw'>window</span> <span class='kw'>=</span> <span class='fl'>11</span>, <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"Cohen"</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -137,7 +137,7 @@ five different scales are used.</p></td>
     </tr>
     <tr>
       <th>window</th>
-      <td><p>window size, by default 8.</p></td>
+      <td><p>window size, by default 11.</p></td>
     </tr>
     <tr>
       <th>method</th>
@@ -164,9 +164,9 @@ the similarity index. Note Jaccard should only be used on binary data.</p></td>
 <span class='kw'>for</span> (<span class='no'>i</span> <span class='kw'>in</span> <span class='fl'>1</span>:<span class='no'>dim</span>) <span class='no'>y</span>[<span class='no'>i</span>, <span class='no'>i</span>, <span class='no'>j</span>] <span class='kw'>=</span> <span class='fl'>0</span>
 <span class='kw'>for</span> (<span class='no'>i</span> <span class='kw'>in</span> <span class='fl'>1</span>:(<span class='no'>dim</span>-<span class='fl'>1</span>)) <span class='no'>y</span>[<span class='no'>i</span>, <span class='no'>i</span>+<span class='fl'>1</span>, <span class='no'>j</span>] <span class='kw'>=</span> <span class='fl'>0</span>
 }
-<span class='fu'>catmssim_3d_slice</span>(<span class='no'>x</span>,<span class='no'>y</span>, <span class='kw'>weights</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>.75</span>,<span class='fl'>.25</span>))</div><div class='output co'>#&gt; [1] 0.83876</div><div class='input'><span class='co'># Now using a different similarity score</span>
-<span class='fu'>catmssim_3d_slice</span>(<span class='no'>x</span>,<span class='no'>y</span>, <span class='kw'>weights</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>.75</span>,<span class='fl'>.25</span>), <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"Jaccard"</span>)</div><div class='output co'>#&gt; [1] 0.8424596</div><div class='input'><span class='co'># And using the last possible similarity score</span>
-<span class='fu'>catmssim_3d_slice</span>(<span class='no'>x</span>,<span class='no'>y</span>, <span class='kw'>weights</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>.75</span>,<span class='fl'>.25</span>), <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"Rand"</span>)</div><div class='output co'>#&gt; [1] 0.6922719</div></pre>
+<span class='fu'>catmssim_3d_slice</span>(<span class='no'>x</span>,<span class='no'>y</span>, <span class='kw'>weights</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>.75</span>,<span class='fl'>.25</span>))</div><div class='output co'>#&gt; <span class='warning'>Warning: Truncating levels because of minimum dimension.</span></div><div class='output co'>#&gt; [1] 0.865356</div><div class='input'><span class='co'># Now using a different similarity score</span>
+<span class='fu'>catmssim_3d_slice</span>(<span class='no'>x</span>,<span class='no'>y</span>, <span class='kw'>weights</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>.75</span>,<span class='fl'>.25</span>), <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"Jaccard"</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: Truncating levels because of minimum dimension.</span></div><div class='output co'>#&gt; [1] 0.8657783</div><div class='input'><span class='co'># And using the last possible similarity score</span>
+<span class='fu'>catmssim_3d_slice</span>(<span class='no'>x</span>,<span class='no'>y</span>, <span class='kw'>weights</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>.75</span>,<span class='fl'>.25</span>), <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"Rand"</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: Truncating levels because of minimum dimension.</span></div><div class='output co'>#&gt; [1] 0.7559417</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
