@@ -12,7 +12,7 @@ AdjRandIndex(x, y)
 \item{y}{a numeric or factor vector or image}
 }
 \value{
-The Jaccard index, the Adjusted Rand Index, the PSNR, and Cohen's Kappa. Note:
+The accuracy, Jaccard index, the Adjusted Rand Index, the PSNR, and Cohen's Kappa. Note:
 The Jaccard index will not make sense if this is not binary.
 }
 \description{

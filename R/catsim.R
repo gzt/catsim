@@ -118,7 +118,7 @@ sqrtginicorr <- function(x, k){
 #' cfunc(x,y, k = 4)
 #'
 #' }
-cfunc <- function(x, y, c2 = 0.01, k, sqrtgini = FALSE){
+cfunc <- function(x, y, c2 = 0.01, k, sqrtgini = TRUE){
   C_cfunc(x, y, c2, k, sqrtgini)
 }
 
@@ -139,7 +139,9 @@ cfunc <- function(x, y, c2 = 0.01, k, sqrtgini = FALSE){
 #' jaccard(x,y)
 #'}
 jaccard <- function(x, y){
-  if (length(x) != length(y)) stop("x and y have differing lengths.")
+    if (length(x) != length(y)) stop("x and y have differing lengths.")
+    if(!sum(x|y)) return(1.0)
+    
   Jaccard = sum(x&y)/sum(x|y)
   Jaccard
 }
@@ -685,7 +687,7 @@ catmssim_3d_cube <- function(x, y, weights = c(0.0448, 0.2856, 0.3001, 0.2363, 0
 #' @param x a numeric or factor vector or image
 #' @param y a numeric or factor vector or image
 #'
-#' @return The Jaccard index, the Adjusted Rand Index, the PSNR, and Cohen's Kappa. Note:
+#' @return The accuracy, Jaccard index, the Adjusted Rand Index, the PSNR, and Cohen's Kappa. Note:
 #'     The Jaccard index will not make sense if this is not binary.
 #'
 #' @references Lawrence Hubert and Phipps Arabie (1985).
@@ -717,7 +719,8 @@ AdjRandIndex <- function(x,y){
   x <- as.numeric(x)
   y <- as.numeric(y)
   AdjRand <- C_AdjRand(x,y)
-  list(Jaccard = BinJaccard,
+    list(Accuracy = Accuracy,
+         Jaccard = BinJaccard,
        AdjRand = AdjRand,
        PSNR = -10 * log10(1-Accuracy),
        Cohen = Cohen)
