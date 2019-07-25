@@ -139,7 +139,7 @@ denominator. The PSNR can be infinite if the error rate is 0.</p>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>The Jaccard index, the Adjusted Rand Index, the PSNR, and Cohen's Kappa. Note:
+    <p>The accuracy, Jaccard index, the Adjusted Rand Index, the PSNR, and Cohen's Kappa. Note:
 The Jaccard index will not make sense if this is not binary.</p>
     
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
@@ -157,7 +157,10 @@ Educational and Psychological Measurement. 20 (1): 37–46. doi: <a href='https:
     <pre class="examples"><div class='input'>
 <span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/rep'>rep</a></span>(<span class='fl'>0</span>:<span class='fl'>5</span>, <span class='fl'>5</span>)
 <span class='no'>y</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/rep'>rep</a></span>(<span class='fl'>0</span>:<span class='fl'>5</span>, <span class='fl'>4</span>),<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/rep'>rep</a></span>(<span class='fl'>0</span>,<span class='fl'>6</span>))
-<span class='fu'>AdjRandIndex</span>(<span class='no'>x</span>, <span class='no'>y</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: Jaccard index may not make sense if more than two classes are present.</span></div><div class='output co'>#&gt; $Jaccard
+<span class='fu'>AdjRandIndex</span>(<span class='no'>x</span>, <span class='no'>y</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: Jaccard index may not make sense if more than two classes are present.</span></div><div class='output co'>#&gt; $Accuracy
+#&gt; [1] 0.8333333
+#&gt; 
+#&gt; $Jaccard
 #&gt; [1] 0.8
 #&gt; 
 #&gt; $AdjRand
