@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Diversity Indexes — gini • catsim</title>
+<title>Dice Index — dice • catsim</title>
 
 
 <!-- jquery -->
@@ -35,20 +35,8 @@
 
 
 
-<meta property="og:title" content="Diversity Indexes — gini" />
-<meta property="og:description" content="gini() is a measure of diversity that goes by a number of different names, such as
-the probability of interspecific encounter or the Gibbs-Martin index.
-It is \(1 - sum(p_i^2)\), where \(p_i\) is the probability of observing class i.
-The corrected Gini-Simpson index, ginicorr takes the index and  corrects it
-so that the maximum possible is 1. If there are k categories,
-the maximum possible of the uncorrected index is \(1-1/k\).
-It corrects the index by dividing by the maximum. k must be specified.
-The modified Gini-Simpson index is similar to the unmodified,
-except it uses the square root of the summed squared
-probabilities, that is, \(1 - \sqrt{ sum(p_i^2)}\), where \(p_i\) is the
-probability of observing class i.
-The modified corrected Gini index then
-corrects the modified index for the number of categories, k." />
+<meta property="og:title" content="Dice Index — dice" />
+<meta property="og:description" content="Dice Index" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -117,69 +105,40 @@ corrects the modified index for the number of categories, k." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Diversity Indexes</h1>
+    <h1>Dice Index</h1>
     <small class="dont-index">Source: <a href='https://github.com/gzt/catsim/blob/master/R/catsim.R'><code>R/catsim.R</code></a></small>
-    <div class="hidden name"><code>gini.Rd</code></div>
+    <div class="hidden name"><code>dice.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p><code>gini()</code> is a measure of diversity that goes by a number of different names, such as
-the probability of interspecific encounter or the Gibbs-Martin index.
-It is \(1 - sum(p_i^2)\), where \(p_i\) is the probability of observing class i.</p>
-<p>The corrected Gini-Simpson index, <code>ginicorr</code> takes the index and  corrects it
-so that the maximum possible is 1. If there are <code>k</code> categories,
-the maximum possible of the uncorrected index is \(1-1/k\).
-It corrects the index by dividing by the maximum. <code>k</code> must be specified.</p>
-<p>The modified Gini-Simpson index is similar to the unmodified,
-except it uses the square root of the summed squared
-probabilities, that is, \(1 - \sqrt{ sum(p_i^2)}\), where \(p_i\) is the
-probability of observing class i.</p>
-<p>The modified corrected Gini index then
-corrects the modified index for the number of categories, <code>k</code>.</p>
+    <p>Dice Index</p>
     </div>
 
-    <pre class="usage"><span class='fu'>gini</span>(<span class='no'>x</span>)
-
-<span class='fu'>ginicorr</span>(<span class='no'>x</span>, <span class='no'>k</span>)
-
-<span class='fu'>sqrtgini</span>(<span class='no'>x</span>)
-
-<span class='fu'>sqrtginicorr</span>(<span class='no'>x</span>, <span class='no'>k</span>)</pre>
+    <pre class="usage"><span class='fu'>dice</span>(<span class='no'>x</span>, <span class='no'>y</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>x</th>
-      <td><p>binary or categorical image or vector</p></td>
+      <td><p>binary image or vector</p></td>
     </tr>
     <tr>
-      <th>k</th>
-      <td><p>number of categories</p></td>
+      <th>y</th>
+      <td><p>binary image or vector</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>The index (between 0 and 1), with 0 indicating no variation and 1 being maximal.
-The Gini index is bounded above by \(1-1/k\) for a group with <code>k</code> categories.
-The modified index is bounded above by \(1-1/\sqrt{k}\).
-The corrected indexes fix this by dividing by the maximum.</p>
+    <p>Dice index</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>:<span class='fl'>4</span>),<span class='fl'>5</span>)
-<span class='fu'>gini</span>(<span class='no'>x</span>)</div><div class='output co'>#&gt; [1] 0.75</div><div class='input'>
-
-
-<span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>:<span class='fl'>4</span>),<span class='fl'>5</span>)
-<span class='fu'>ginicorr</span>(<span class='no'>x</span>, <span class='fl'>4</span>)</div><div class='output co'>#&gt; [1] 1</div><div class='input'>
-
-<span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>:<span class='fl'>4</span>),<span class='fl'>5</span>)
-<span class='fu'>sqrtgini</span>(<span class='no'>x</span>)</div><div class='output co'>#&gt; [1] 0.5</div><div class='input'>
-
-<span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>:<span class='fl'>4</span>),<span class='fl'>5</span>)
-<span class='fu'>sqrtginicorr</span>(<span class='no'>x</span>, <span class='fl'>4</span>)</div><div class='output co'>#&gt; [1] 1</div><div class='input'>
-</div></pre>
+    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
+<span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0</span>,<span class='fl'>1</span>), <span class='fl'>7</span>)
+<span class='no'>y</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>,<span class='fl'>1</span>), <span class='fl'>7</span>)
+<span class='fu'>dice</span>(<span class='no'>x</span>,<span class='no'>y</span>)
+}</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
