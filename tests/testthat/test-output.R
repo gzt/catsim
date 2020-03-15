@@ -74,7 +74,7 @@ test_that("Inputs are symmetric 2D", {
      for (i in 1:(dim-1)) y[i, i+1, j] = 1
  }
  
- expect_equal(catmssim_3d_slice(x,y, weights = c(.75,.25)), catmssim_3d_slice(y,x, weights = c(.75,.25)))
+ expect_equal(catmssim_3d_slice(x,y, weights = c(.75)), catmssim_3d_slice(y,x, weights = c(.75)))
  expect_equal(catmssim_3d_cube(x,y, weights = c(.75,.25), method = "j"), catmssim_3d_cube(y,x, weights = c(.75,.25), method = "j"))
  expect_warning(catmssim_3d_slice(x,y))
  expect_warning(catmssim_3d_cube(x,y))

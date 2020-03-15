@@ -111,7 +111,7 @@ sqrtginicorr <- function(x, k){
 #' @noRd
 #' @return variance function
 #' @keywords internal
-#' @example
+#' @examples
 #' \dontrun{
 #' x <- rep(1:4,4)
 #' y <- c(rep(1:4,3),rep(4,4))
@@ -140,13 +140,31 @@ cfunc <- function(x, y, c2 = 0.01, k, sqrtgini = TRUE){
 #'}
 jaccard <- function(x, y){
     if (length(x) != length(y)) stop("x and y have differing lengths.")
-    if(!sum(x|y)) return(1.0)
+    sumxy <- sum(x|y,na.rm=TRUE)
+    if(is.na(sumxy) || !sumxy) return(NA)
     
-  Jaccard = sum(x&y)/sum(x|y)
+  Jaccard = sum(x&y,na.rm=TRUE)/sumxy
   Jaccard
 }
 
-
+#' Dice Index
+#'
+#' @param x binary image or vector
+#' @param y binary image or vector
+#'
+#' @return Dice index
+#' @keywords internal
+#'
+#' @examples
+#' \dontrun{
+#' x <- rep(c(0,1), 7)
+#' y <- rep(c(1,1), 7)
+#' dice(x,y)
+#'}
+dice <- function(x, y){
+    jacc=jaccard(x,y)
+    2*jacc/(1+jacc)
+}
 
 #' Covariance function (internal)
 #'
@@ -168,6 +186,8 @@ sfunc <- function(x, y, methodflag = "Cohen"){
     return(C_Cohen(x,y))
     } else if (methodflag == "Jaccard"){
       return(jaccard(x,y))
+    } else if (methodflag == "Dice"){
+        return(dice(x,y))
     } else C_AdjRand(x,y)
 }
 
@@ -184,8 +204,8 @@ sfunc <- function(x, y, methodflag = "Cohen"){
 #' @param gamma normalizing parameter, by default 1
 #' @param c1 small normalization constant for the \code{c} function, by default 0.01
 #' @param c2 small normalization constant for the \code{s} function, by default 0.01
-#' @param method whether to use Cohen's kappa, Jaccard Index, or Adjusted Rand Index as
-#'     the similarity index. Note Jaccard should only be used on binary data.
+#' @param method whether to use Cohen's kappa, Jaccard Index, Dice Index, or Adjusted Rand Index as
+#'     the similarity index. Note Jaccard and Dice should only be used on binary data.
 #' @param ... Constants can be passed to the components of the index.
 #'
 #' @return Structural similarity index.
@@ -203,8 +223,9 @@ binssim <- function(x, y, alpha = 1, beta = 1, gamma = 1, c1 = 0.01, c2 = 0.01, 
   k = length(unique(c(x,y)))
 
   methodflag = "Cohen"
-  if (method %in% c("AdjRand", "Rand", "rand", "adjrand")) methodflag = "AdjRand"
+  if (method %in% c("AdjRand", "Rand", "rand", "adjrand","R","r","a","A")) methodflag = "AdjRand"
   if (method %in% c("Jaccard", "jaccard", "j", "J")) methodflag = "Jaccard"
+  if (method %in% c("Dice","dice","D","d")) methodflag="Dice"
 
   (meansfunc(x, y, c1)^alpha)*(cfunc(x=x, y=y, c2=c2, k = k, ...)^beta)*(sfunc(x, y, methodflag)^gamma)
 }
@@ -226,9 +247,9 @@ ssimcomponents <- function(x, y, k, method = "Cohen", c1 = 0.01, c2 = 0.01, ...)
   #k = length(levels)
   #levels <- levels(factor(c(x,y)))
   methodflag = "Cohen"
-  if (method %in% c("AdjRand", "Rand", "rand", "adjrand")) methodflag = "AdjRand"
+  if (method %in% c("AdjRand", "Rand", "rand", "adjrand","R","r","a","A")) methodflag = "AdjRand"
   if (method %in% c("Jaccard", "jaccard", "j", "J")) methodflag = "Jaccard"
-
+  if (method %in% c("Dice","dice","D","d")) methodflag="Dice"
 
   c((meansfunc(x, y, c1)),(cfunc(x=x, y=y, c2=c2, k = k, ...)),(sfunc(x, y, methodflag)))
 }
@@ -389,7 +410,7 @@ catssim_2d <- function(x,y, window = 11, method = "Cohen", ...){
   nrow = dims[1]
   ncol = dims[2]
   if (any(dims < (window - 1))) return(ssimcomponents(x=(x), y=(y), k=k, method=method, ...))
-  resultmatrix = c(0,0,0)
+  resultmatrix = array(0, c(nrow-window+1,ncol-window+1,3))# c(0,0,0)
 
   for (i in 1:(nrow - (window - 1))) {
     for (j in 1:(ncol - (window - 1))) {
@@ -397,13 +418,13 @@ catssim_2d <- function(x,y, window = 11, method = "Cohen", ...){
       subx = x[i:(i + (window - 1)), j:(j + (window - 1))]
       suby = y[i:(i + (window - 1)), j:(j + (window - 1))]
 
-      resultmatrix = resultmatrix + ssimcomponents(x=subx, y=suby, k=k, method=method, ...)
+      resultmatrix[i,j,] = ssimcomponents(x=subx, y=suby, k=k, method=method, ...)
     }
   }
   resultmatrix[resultmatrix < 0.0] <- 0.0
 
-  resultmatrix / ((nrow - (window - 1)) * (ncol - (window - 1)))
-
+  #resultmatrix / ((nrow - (window - 1)) * (ncol - (window - 1)))
+  colMeans(resultmatrix,na.rm=TRUE,dims=2)
 }
 
 
@@ -417,8 +438,8 @@ catssim_2d <- function(x,y, window = 11, method = "Cohen", ...){
 #' @param weights a vector of weights for the different scales. By default,
 #'     five different scales are used.
 #' @param window window size, by default 11.
-#' @param method whether to use Cohen's kappa, Jaccard Index, or Adjusted Rand Index as
-#'     the similarity index. Note Jaccard should only be used on binary data.
+#' @param method whether to use Cohen's kappa, Jaccard Index, Dice index,  or Adjusted Rand Index as
+#'     the similarity index. Note Jaccard and Dice should only be used on binary data.
 #' @param ... additional constants can be passed to internal functions.
 #'
 #' @return a value less than 1 indicating the similarity between the images.
@@ -482,8 +503,8 @@ catmssim_2d <- function(x, y, weights = c(0.0448, 0.2856, 0.3001, 0.2363, 0.1333
 #' @param x a binary or categorical image
 #' @param y a binary or categorical image
 #' @param window by default 11
-#' @param method whether to use Cohen's kappa, Jaccard Index, or Adjusted Rand Index as
-#'     the similarity index. Note Jaccard should only be used on binary data.
+#' @param method whether to use Cohen's kappa, Jaccard Index, Dice Index,or Adjusted Rand Index as
+#'     the similarity index. Note Jaccard or Dice should only be used on binary data.
 #' @param ...
 #'
 #' @return SSIM componenets for the cube.
@@ -510,19 +531,19 @@ catssim_3d_cube <- function(x, y, window = 5, method = "Cohen", ...){
   dims = dim(x)
   if (any(dims < window)) return(ssimcomponents(x=(x), y=(y),k=k, method=method, ...))
 
-  cuberesults = c(0,0,0)
+  cuberesults = array(0,c(dims-window+1,3))# c(0,0,0)
   for (i in 1:(dims[1] - (window-1))) {
     for (j in 1:(dims[2] - (window-1))) {
       for (k in 1:(dims[3] - (window-1))) {
         subx = x[i:(i + (window-1)), j:(j + (window-1)), k:(k + (window-1))]
         suby = y[i:(i + (window-1)), j:(j + (window-1)), k:(k + (window-1))]
 
-        cuberesults = cuberesults + ssimcomponents(x=subx, y=suby, k=k, method=method, ...)
+        cuberesults[i,j,k,] = ssimcomponents(x=subx, y=suby, k=k, method=method, ...)
       }
     }
   }
-
-  (cuberesults / prod(dims - (window-1)) )
+    colMeans(cuberesults,na.rm=TRUE,dims=3)
+#  (cuberesults / prod(dims - (window-1)) )
 }
 
 #' Multiscale Categorical Structural Similarity Index Measure by Slice (3D)
@@ -537,8 +558,8 @@ catssim_3d_cube <- function(x, y, window = 5, method = "Cohen", ...){
 #' @param weights a vector of weights for the different scales. By default,
 #'     five different scales are used.
 #' @param window window size, by default 11.
-#' @param method whether to use Cohen's kappa, Jaccard Index, or Adjusted Rand Index as
-#'     the similarity index. Note Jaccard should only be used on binary data.
+#' @param method whether to use Cohen's kappa, Jaccard Index, Dice Index,  or Adjusted Rand Index as
+#'     the similarity index. Note Jaccard or Dice should only be used on binary data.
 #' @param ... additional constants can be passed to internal functions.
 #'
 #' @return a value less than 1 indicating the similarity between the images.
@@ -608,8 +629,8 @@ catmssim_3d_slice <- function(x, y, weights = c(0.0448, 0.2856, 0.3001, 0.2363, 
 #' @param weights a vector of weights for the different scales. By default,
 #'     five different scales are used.
 #' @param window size of window, by default 5
-#' @param method whether to use Cohen's kappa, Jaccard Index, or Adjusted Rand Index as
-#'     the similarity index. Note Jaccard should only be used on binary data.
+#' @param method whether to use Cohen's kappa, Jaccard Index, Dice Index, or Adjusted Rand Index as
+#'     the similarity index. Note Jaccard or Dice should only be used on binary data.
 #' @param ... additional constants can be passed to internal functions.
 #'
 #' @return a value less than 1 indicating the similarity between the images.
@@ -681,7 +702,8 @@ catmssim_3d_cube <- function(x, y, weights = c(0.0448, 0.2856, 0.3001, 0.2363, 0
 #' \eqn{-10 log_{10}(MSE)}. The adjusted Rand index, Jaccard Index, and Cohen's Kappa are used as a measure of
 #' the similarity of the structure of the two images. A small constant is added to the numerator
 #' and denominator of the Adjusted Rand index to ensure stability, as it is possible to have a zero
-#' denominator. The PSNR can be infinite if the error rate is 0.
+#' denominator. The PSNR can be infinite if the error rate is 0. The Jaccard index and accuracy can
+#' account for NA values, but the Adjusted Rand and Cohen's Kappa cannot.
 #'
 #'
 #' @param x a numeric or factor vector or image
@@ -709,12 +731,13 @@ catmssim_3d_cube <- function(x, y, weights = c(0.0448, 0.2856, 0.3001, 0.2363, 0
 #' AdjRandIndex(x, y)
 AdjRandIndex <- function(x,y){
     if (length(x) != length(y)) stop("x and y have differing lengths.")
+    if(!all(!is.na(x),!is.na(y))) warning("NAs present in x or y, Adjusted Rand and Cohen don't account for NA values.")
     if (length(table(c(x,y))) > 2)
         warning("Jaccard index may not make sense if more than two classes are present.")
-  n <- length(x)
-  a <- sum(x == y)
+  n <- sum(!is.na(x)|!is.na(y))
+  a <- sum(x == y,na.rm=TRUE)
   Accuracy <- a/n
-  BinJaccard <- sum(x&y)/sum(x|y)
+  BinJaccard <- jaccard(x,y)
   Cohen <- C_Cohen(x,y)
   x <- as.numeric(x)
   y <- as.numeric(y)

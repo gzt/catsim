@@ -4,8 +4,17 @@
 \alias{binssim}
 \title{Categorical Structural Similarity Index Metric (whole image)}
 \usage{
-binssim(x, y, alpha = 1, beta = 1, gamma = 1, c1 = 0.01,
-  c2 = 0.01, method = "Cohen", ...)
+binssim(
+  x,
+  y,
+  alpha = 1,
+  beta = 1,
+  gamma = 1,
+  c1 = 0.01,
+  c2 = 0.01,
+  method = "Cohen",
+  ...
+)
 }
 \arguments{
 \item{x}{binary or categorical image}
@@ -22,8 +31,8 @@ binssim(x, y, alpha = 1, beta = 1, gamma = 1, c1 = 0.01,
 
 \item{c2}{small normalization constant for the \code{s} function, by default 0.01}
 
-\item{method}{whether to use Cohen's kappa, Jaccard Index, or Adjusted Rand Index as
-the similarity index. Note Jaccard should only be used on binary data.}
+\item{method}{whether to use Cohen's kappa, Jaccard Index, Dice Index, or Adjusted Rand Index as
+the similarity index. Note Jaccard and Dice should only be used on binary data.}
 
 \item{...}{Constants can be passed to the components of the index.}
 }

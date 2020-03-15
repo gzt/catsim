@@ -22,7 +22,8 @@ It also computes the PSNR, which is generalized here as simply
 \eqn{-10 log_{10}(MSE)}. The adjusted Rand index, Jaccard Index, and Cohen's Kappa are used as a measure of
 the similarity of the structure of the two images. A small constant is added to the numerator
 and denominator of the Adjusted Rand index to ensure stability, as it is possible to have a zero
-denominator. The PSNR can be infinite if the error rate is 0.
+denominator. The PSNR can be infinite if the error rate is 0. The Jaccard index and accuracy can
+account for NA values, but the Adjusted Rand and Cohen's Kappa cannot.
 }
 \examples{
 

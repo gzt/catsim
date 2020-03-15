@@ -19,7 +19,7 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Geoffrey Thompson \email{gzthompson@gmail.com} (0000-0003-2436-8822)
+\strong{Maintainer}: Geoffrey Thompson \email{gzthompson@gmail.com} (\href{https://orcid.org/0000-0003-2436-8822}{ORCID})
 
 }
 \keyword{internal}
