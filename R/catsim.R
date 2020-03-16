@@ -748,3 +748,53 @@ AdjRandIndex <- function(x,y){
        PSNR = -10 * log10(1-Accuracy),
        Cohen = Cohen)
 }
+
+
+#' Multiscale Categorical Structural Similarity Index Measure
+#'
+#' The categorical structural similary index measure for 2D or 3D categorical or binary
+#' images for multiple scales. The default is to compute over 5 scales.
+#' This determines whether this is a 2D or 3D image and applies the appropriate
+#' windowing, weighting, and scaling. Additional arguments can be passed.
+#' This is a wrapper function for the 2D and 3D functions whose functionality
+#' can be accessed through the ... arguments.
+#'
+#' @param x a binary or categorical image
+#' @param y a binary or categorical image
+#' @param ... additional arguments, such as method and window, can be passed
+#'        as well as arguments for internal functions.
+#' @param cube for the 3D method, whether to use the true 3D method (cube)
+#'        or compute the metric using 2D slices which are then averaged.
+#'        By default, TRUE, which evaluates as a cube. FALSE will treat it as
+#'        2D slices.
+#' @param weights  a vector of weights for the different scales. By default,
+#'     five different scales are used.
+#' @return a value less than 1 indicating the similarity between the images.
+#' @export
+#'
+#' @examples
+#' set.seed(20181207)
+#' dim = 16
+#' x <- array(sample(0:4, dim^3, replace = TRUE), dim = c(dim,dim,dim))
+#' y <- x
+#' for (j in 1:dim){
+#' for (i in 1:dim) y[i, i, j] = 0
+#' for (i in 1:(dim-1)) y[i, i+1, j] = 0
+#' }
+#' catsim(x,y, weights = c(.75,.25))
+#' # Now using a different similarity score
+#' catsim(x,y, weights = c(.75,.25), method = "Jaccard")
+#' # And using the last possible similarity score
+#' catsim(x,y, weights = c(.75,.25), method = "Rand")
+#' # with the slice method:
+#' catsim(x,y, weights = c(.75,.25), cube = FALSE)
+catsim <- function(x,y,...,cube = TRUE, weights =  c(0.0448, 0.2856, 0.3001, 0.2363, 0.1333)){
+    if (is.null(dim(x))) stop("x is 1-dimensional")
+    if (is.null(dim(y))) stop("y is 1-dimensional")
+    if (length(dim(x)) != length(dim(y)))  stop('x and y have nonconformable dimensions.')
+    if (any(dim(x) != dim(y))) stop('x and y have nonconformable dimensions.')
+    dims = dim(x)
+    if(length(dims)==2) catmssim_2d(x,y,weights=weights,...)
+    else if (cube) catmssim_3d_cube(x,y,weights=weights,...)
+    else catmssim_3d_slice(x,y,weights=weights,...)
+}
