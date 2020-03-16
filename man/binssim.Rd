@@ -31,7 +31,7 @@ binssim(
 
 \item{c2}{small normalization constant for the \code{s} function, by default 0.01}
 
-\item{method}{whether to use Cohen's kappa, Jaccard Index, Dice Index, or Adjusted Rand Index as
+\item{method}{whether to use Cohen's kappa, Jaccard Index, Dice Index, accuracy (Hamming index), or Adjusted Rand Index as
 the similarity index. Note Jaccard and Dice should only be used on binary data.}
 
 \item{...}{Constants can be passed to the components of the index.}

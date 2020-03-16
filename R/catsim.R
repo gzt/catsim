@@ -166,6 +166,28 @@ dice <- function(x, y){
     2*jacc/(1+jacc)
 }
 
+#' Accuracy (Hamming Index)
+#'
+#' @param x binary image or vector
+#' @param y binary image or vector
+#'
+#' @return Accuracy (Hamming index)
+#' @keywords internal
+#'
+#' @examples
+#' \dontrun{
+#' x <- rep(c(0,1), 7)
+#' y <- rep(c(1,1), 7)
+#' hamming(x,y)
+#'}
+hamming <- function(x, y){
+    if (length(x) != length(y)) stop("x and y have differing lengths.")
+  n <- sum(!is.na(x)|!is.na(y))
+  a <- sum(x == y,na.rm=TRUE)
+ a/n
+}
+
+
 #' Covariance function (internal)
 #'
 #' @param x binary or categorical image or vector
@@ -188,7 +210,9 @@ sfunc <- function(x, y, methodflag = "Cohen"){
       return(jaccard(x,y))
     } else if (methodflag == "Dice"){
         return(dice(x,y))
-    } else C_AdjRand(x,y)
+    } else if (methodflag== "hamming"){
+        return(hamming(x,y))
+               }  else C_AdjRand(x,y)
 }
 
 
@@ -204,7 +228,7 @@ sfunc <- function(x, y, methodflag = "Cohen"){
 #' @param gamma normalizing parameter, by default 1
 #' @param c1 small normalization constant for the \code{c} function, by default 0.01
 #' @param c2 small normalization constant for the \code{s} function, by default 0.01
-#' @param method whether to use Cohen's kappa, Jaccard Index, Dice Index, or Adjusted Rand Index as
+#' @param method whether to use Cohen's kappa, Jaccard Index, Dice Index, accuracy (Hamming index), or Adjusted Rand Index as
 #'     the similarity index. Note Jaccard and Dice should only be used on binary data.
 #' @param ... Constants can be passed to the components of the index.
 #'
@@ -226,6 +250,7 @@ binssim <- function(x, y, alpha = 1, beta = 1, gamma = 1, c1 = 0.01, c2 = 0.01, 
   if (method %in% c("AdjRand", "Rand", "rand", "adjrand","R","r","a","A")) methodflag = "AdjRand"
   if (method %in% c("Jaccard", "jaccard", "j", "J")) methodflag = "Jaccard"
   if (method %in% c("Dice","dice","D","d")) methodflag="Dice"
+  if (method %in% c("Accuracy","accuracy","Hamming","hamming","H","h")) methodflag="hamming"
 
   (meansfunc(x, y, c1)^alpha)*(cfunc(x=x, y=y, c2=c2, k = k, ...)^beta)*(sfunc(x, y, methodflag)^gamma)
 }
@@ -250,6 +275,7 @@ ssimcomponents <- function(x, y, k, method = "Cohen", c1 = 0.01, c2 = 0.01, ...)
   if (method %in% c("AdjRand", "Rand", "rand", "adjrand","R","r","a","A")) methodflag = "AdjRand"
   if (method %in% c("Jaccard", "jaccard", "j", "J")) methodflag = "Jaccard"
   if (method %in% c("Dice","dice","D","d")) methodflag="Dice"
+  if (method %in% c("Accuracy","accuracy","Hamming","hamming","H","h")) methodflag="hamming"
 
   c((meansfunc(x, y, c1)),(cfunc(x=x, y=y, c2=c2, k = k, ...)),(sfunc(x, y, methodflag)))
 }
@@ -381,7 +407,7 @@ downsample_3d_cube <- function(x){
 #' @param x a binary or categorical image
 #' @param y a binary or categorical image
 #' @param window window size, by default 11
-#' @param method whether to use Cohen's kappa, Jaccard Index, or Adjusted Rand Index as
+#' @param method whether to use Cohen's kappa, Jaccard Index, accuracy (Hamming index),  or Adjusted Rand Index as
 #'     the similarity index. Note Jaccard should only be used on binary data.
 #' @param ... additional constants can be passed to internal functions.
 #'
@@ -438,7 +464,7 @@ catssim_2d <- function(x,y, window = 11, method = "Cohen", ...){
 #' @param weights a vector of weights for the different scales. By default,
 #'     five different scales are used.
 #' @param window window size, by default 11.
-#' @param method whether to use Cohen's kappa, Jaccard Index, Dice index,  or Adjusted Rand Index as
+#' @param method whether to use Cohen's kappa, Jaccard Index, Dice index,  accuracy (Hamming index),  or Adjusted Rand Index as
 #'     the similarity index. Note Jaccard and Dice should only be used on binary data.
 #' @param ... additional constants can be passed to internal functions.
 #'
@@ -503,7 +529,7 @@ catmssim_2d <- function(x, y, weights = c(0.0448, 0.2856, 0.3001, 0.2363, 0.1333
 #' @param x a binary or categorical image
 #' @param y a binary or categorical image
 #' @param window by default 11
-#' @param method whether to use Cohen's kappa, Jaccard Index, Dice Index,or Adjusted Rand Index as
+#' @param method whether to use Cohen's kappa, Jaccard Index, Dice Index, accuracy (Hamming index),  or Adjusted Rand Index as
 #'     the similarity index. Note Jaccard or Dice should only be used on binary data.
 #' @param ...
 #'
@@ -558,7 +584,7 @@ catssim_3d_cube <- function(x, y, window = 5, method = "Cohen", ...){
 #' @param weights a vector of weights for the different scales. By default,
 #'     five different scales are used.
 #' @param window window size, by default 11.
-#' @param method whether to use Cohen's kappa, Jaccard Index, Dice Index,  or Adjusted Rand Index as
+#' @param method whether to use Cohen's kappa, Jaccard Index, Dice Index,  accuracy (Hamming index),  or Adjusted Rand Index as
 #'     the similarity index. Note Jaccard or Dice should only be used on binary data.
 #' @param ... additional constants can be passed to internal functions.
 #'
@@ -629,7 +655,7 @@ catmssim_3d_slice <- function(x, y, weights = c(0.0448, 0.2856, 0.3001, 0.2363, 
 #' @param weights a vector of weights for the different scales. By default,
 #'     five different scales are used.
 #' @param window size of window, by default 5
-#' @param method whether to use Cohen's kappa, Jaccard Index, Dice Index, or Adjusted Rand Index as
+#' @param method whether to use Cohen's kappa, Jaccard Index, Dice Index,  accuracy (Hamming index), or Adjusted Rand Index as
 #'     the similarity index. Note Jaccard or Dice should only be used on binary data.
 #' @param ... additional constants can be passed to internal functions.
 #'

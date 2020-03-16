@@ -23,7 +23,7 @@ five different scales are used.}
 
 \item{window}{window size, by default 11.}
 
-\item{method}{whether to use Cohen's kappa, Jaccard Index, Dice Index,  or Adjusted Rand Index as
+\item{method}{whether to use Cohen's kappa, Jaccard Index, Dice Index,  accuracy (Hamming index),  or Adjusted Rand Index as
 the similarity index. Note Jaccard or Dice should only be used on binary data.}
 
 \item{...}{additional constants can be passed to internal functions.}
