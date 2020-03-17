@@ -74,7 +74,7 @@ can be accessed through the ... arguments." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">catsim</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9021</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9024</span>
       </span>
     </div>
 
@@ -129,7 +129,8 @@ can be accessed through the ... arguments.</p>
   <span class='no'>y</span>,
   <span class='no'>...</span>,
   <span class='kw'>cube</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>weights</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0.0448</span>, <span class='fl'>0.2856</span>, <span class='fl'>0.3001</span>, <span class='fl'>0.2363</span>, <span class='fl'>0.1333</span>)
+  <span class='kw'>weights</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0.0448</span>, <span class='fl'>0.2856</span>, <span class='fl'>0.3001</span>, <span class='fl'>0.2363</span>, <span class='fl'>0.1333</span>),
+  <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"Cohen"</span>
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -160,6 +161,11 @@ By default, TRUE, which evaluates as a cube. FALSE will treat it as
       <td><p>a vector of weights for the different scales. By default,
 five different scales are used.</p></td>
     </tr>
+    <tr>
+      <th>method</th>
+      <td><p>whether to use Cohen's kappa, Jaccard Index, Dice Index,  accuracy (Hamming index), or Adjusted Rand Index as
+the similarity index. Note Jaccard or Dice should only be used on binary data.</p></td>
+    </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
@@ -176,8 +182,8 @@ five different scales are used.</p></td>
 <span class='kw'>for</span> (<span class='no'>i</span> <span class='kw'>in</span> <span class='fl'>1</span>:(<span class='no'>dim</span>-<span class='fl'>1</span>)) <span class='no'>y</span>[<span class='no'>i</span>, <span class='no'>i</span>+<span class='fl'>1</span>, <span class='no'>j</span>] <span class='kw'>=</span> <span class='fl'>0</span>
 }
 <span class='fu'>catsim</span>(<span class='no'>x</span>,<span class='no'>y</span>, <span class='kw'>weights</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>.75</span>,<span class='fl'>.25</span>))</div><div class='output co'>#&gt; [1] 0.8297478</div><div class='input'><span class='co'># Now using a different similarity score</span>
-<span class='fu'>catsim</span>(<span class='no'>x</span>,<span class='no'>y</span>, <span class='kw'>weights</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>.75</span>,<span class='fl'>.25</span>), <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"Jaccard"</span>)</div><div class='output co'>#&gt; [1] 0.8297743</div><div class='input'><span class='co'># And using the last possible similarity score</span>
-<span class='fu'>catsim</span>(<span class='no'>x</span>,<span class='no'>y</span>, <span class='kw'>weights</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>.75</span>,<span class='fl'>.25</span>), <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"Rand"</span>)</div><div class='output co'>#&gt; [1] 0.688014</div><div class='input'><span class='co'># with the slice method:</span>
+<span class='fu'>catsim</span>(<span class='no'>x</span>,<span class='no'>y</span>, <span class='kw'>weights</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>.75</span>,<span class='fl'>.25</span>), <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"Jaccard"</span>)</div><div class='output co'>#&gt; [1] 0.8297478</div><div class='input'><span class='co'># And using the last possible similarity score</span>
+<span class='fu'>catsim</span>(<span class='no'>x</span>,<span class='no'>y</span>, <span class='kw'>weights</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>.75</span>,<span class='fl'>.25</span>), <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"Rand"</span>)</div><div class='output co'>#&gt; [1] 0.8297478</div><div class='input'><span class='co'># with the slice method:</span>
 <span class='fu'>catsim</span>(<span class='no'>x</span>,<span class='no'>y</span>, <span class='kw'>weights</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>.75</span>,<span class='fl'>.25</span>), <span class='kw'>cube</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: Truncating levels because of minimum dimension.</span></div><div class='output co'>#&gt; [1] 0.8652834</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
