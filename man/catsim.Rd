@@ -9,7 +9,8 @@ catsim(
   y,
   ...,
   cube = TRUE,
-  weights = c(0.0448, 0.2856, 0.3001, 0.2363, 0.1333)
+  weights = c(0.0448, 0.2856, 0.3001, 0.2363, 0.1333),
+  method = "Cohen"
 )
 }
 \arguments{
@@ -27,6 +28,9 @@ By default, TRUE, which evaluates as a cube. FALSE will treat it as
 
 \item{weights}{a vector of weights for the different scales. By default,
 five different scales are used.}
+
+\item{method}{whether to use Cohen's kappa, Jaccard Index, Dice Index,  accuracy (Hamming index), or Adjusted Rand Index as
+the similarity index. Note Jaccard or Dice should only be used on binary data.}
 }
 \value{
 a value less than 1 indicating the similarity between the images.

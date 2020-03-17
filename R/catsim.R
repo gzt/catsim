@@ -795,6 +795,8 @@ AdjRandIndex <- function(x,y){
 #'        2D slices.
 #' @param weights  a vector of weights for the different scales. By default,
 #'     five different scales are used.
+#' @param method whether to use Cohen's kappa, Jaccard Index, Dice Index,  accuracy (Hamming index), or Adjusted Rand Index as
+#'     the similarity index. Note Jaccard or Dice should only be used on binary data.
 #' @return a value less than 1 indicating the similarity between the images.
 #' @export
 #'
@@ -814,7 +816,7 @@ AdjRandIndex <- function(x,y){
 #' catsim(x,y, weights = c(.75,.25), method = "Rand")
 #' # with the slice method:
 #' catsim(x,y, weights = c(.75,.25), cube = FALSE)
-catsim <- function(x,y,...,cube = TRUE, weights =  c(0.0448, 0.2856, 0.3001, 0.2363, 0.1333)){
+catsim <- function(x,y,...,cube = TRUE, weights =  c(0.0448, 0.2856, 0.3001, 0.2363, 0.1333), method="Cohen"){
     if (is.null(dim(x))) stop("x is 1-dimensional")
     if (is.null(dim(y))) stop("y is 1-dimensional")
     if (length(dim(x)) != length(dim(y)))  stop('x and y have nonconformable dimensions.')
