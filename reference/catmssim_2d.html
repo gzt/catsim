@@ -70,7 +70,7 @@ images for multiple scales. The default is to compute over 5 scales." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">catsim</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9024</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9026</span>
       </span>
     </div>
 
@@ -129,11 +129,7 @@ images for multiple scales. The default is to compute over 5 scales.</p>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>x</th>
-      <td><p>a binary or categorical image</p></td>
-    </tr>
-    <tr>
-      <th>y</th>
+      <th>x, y</th>
       <td><p>a binary or categorical image</p></td>
     </tr>
     <tr>
@@ -143,11 +139,11 @@ five different scales are used.</p></td>
     </tr>
     <tr>
       <th>window</th>
-      <td><p>window size, by default 11.</p></td>
+      <td><p>window size, by default 11 for 2D and 5 for 3D.</p></td>
     </tr>
     <tr>
       <th>method</th>
-      <td><p>whether to use Cohen's kappa, Jaccard Index, Dice index,  accuracy (Hamming index),  or Adjusted Rand Index as
+      <td><p>whether to use Cohen's kappa, Jaccard Index, Dice index,  accuracy/Hamming index,  or Adjusted Rand Index as
 the similarity index. Note Jaccard and Dice should only be used on binary data.</p></td>
     </tr>
     <tr>
