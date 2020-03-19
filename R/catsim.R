@@ -533,8 +533,8 @@ catssim_3d_slice <- function(x, y, window = 11, method = "Cohen", ...){
   dims = dim(x)
   sliceresults = matrix(0, nrow = dims[3], ncol = 3)
     for (i in 1:dims[3]) sliceresults[i,] = catssim_2d(x=x[,,i],y=y[,,i], window=window, method=method,...)
-    sliceresults[is.na(sliceresults)] <- 1 # fix Jaccard NAs
-  colMeans(sliceresults)
+  #  sliceresults[is.na(sliceresults)] <- 1 # fix Jaccard NAs
+  colMeans(sliceresults,na.rm=TRUE)
 }
 
 catssim_3d_cube <- function(x, y, window = 5, method = "Cohen", ...){
@@ -557,7 +557,7 @@ catssim_3d_cube <- function(x, y, window = 5, method = "Cohen", ...){
       }
     }
   }
-    cuberesults[is.na(cuberesults)] <- 1 # fix Jaccard NAs
+    #cuberesults[is.na(cuberesults)] <- 1 # fix Jaccard NAs
     colMeans(cuberesults,na.rm=TRUE,dims=3)
 #  (cuberesults / prod(dims - (window-1)) )
 }
