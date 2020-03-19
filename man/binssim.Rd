@@ -17,9 +17,7 @@ binssim(
 )
 }
 \arguments{
-\item{x}{binary or categorical image}
-
-\item{y}{binary or categorical image}
+\item{x, y}{binary or categorical image}
 
 \item{alpha}{normalizing parameter, by default 1}
 

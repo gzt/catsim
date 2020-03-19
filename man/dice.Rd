@@ -7,9 +7,7 @@
 dice(x, y)
 }
 \arguments{
-\item{x}{binary image or vector}
-
-\item{y}{binary image or vector}
+\item{x, y}{binary image or vector}
 }
 \value{
 Dice index

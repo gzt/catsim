@@ -14,22 +14,20 @@ catsim(
 )
 }
 \arguments{
-\item{x}{a binary or categorical image}
+\item{x, y}{a binary or categorical image}
 
-\item{y}{a binary or categorical image}
-
-\item{...}{additional arguments, such as method and window, can be passed
+\item{...}{additional arguments, such as window, can be passed
 as well as arguments for internal functions.}
 
 \item{cube}{for the 3D method, whether to use the true 3D method (cube)
 or compute the metric using 2D slices which are then averaged.
-By default, TRUE, which evaluates as a cube. FALSE will treat it as
+By default, \code{TRUE}, which evaluates as a cube. \code{FALSE} will treat it as
 2D slices.}
 
 \item{weights}{a vector of weights for the different scales. By default,
 five different scales are used.}
 
-\item{method}{whether to use Cohen's kappa, Jaccard Index, Dice Index,  accuracy (Hamming index), or Adjusted Rand Index as
+\item{method}{whether to use Cohen's kappa (\code{Cohen}, the default), Jaccard Index (\code{Jaccard}), Dice Index (\code{Dice}),  accuracy/Hamming index (\code{accuracy} or \code{Hamming}), or Adjusted Rand Index (\code{AdjRand} or \code{Rand}) as
 the similarity index. Note Jaccard or Dice should only be used on binary data.}
 }
 \value{

@@ -7,9 +7,7 @@
 AdjRandIndex(x, y)
 }
 \arguments{
-\item{x}{a numeric or factor vector or image}
-
-\item{y}{a numeric or factor vector or image}
+\item{x, y}{a numeric or factor vector or image}
 }
 \value{
 The accuracy, Jaccard index, the Adjusted Rand Index, the PSNR, and Cohen's Kappa. Note:

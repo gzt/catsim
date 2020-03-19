@@ -5,8 +5,7 @@ NULL
 
 #' Means Function (internal)
 #'
-#' @param x binary or categorical image or vector
-#' @param y binary or categorical image or vector
+#' @param x,y binary or categorical image or vector
 #' @param c1 small constant
 #'
 #' @return measure of similarity of means
@@ -149,9 +148,8 @@ jaccard <- function(x, y){
 
 #' Dice Index
 #'
-#' @param x binary image or vector
-#' @param y binary image or vector
-#'
+#' @param x,y binary image or vector
+#' 
 #' @return Dice index
 #' @keywords internal
 #'
@@ -166,12 +164,11 @@ dice <- function(x, y){
     2*jacc/(1+jacc)
 }
 
-#' Accuracy (Hamming Index)
+#' Accuracy/Hamming Index
 #'
-#' @param x binary image or vector
-#' @param y binary image or vector
+#' @param x,y binary image or vector
 #'
-#' @return Accuracy (Hamming index)
+#' @return Accuracy (Hamming index). Proportion of pixels (voxels) that agree.
 #' @keywords internal
 #'
 #' @examples
@@ -190,8 +187,7 @@ hamming <- function(x, y){
 
 #' Covariance function (internal)
 #'
-#' @param x binary or categorical image or vector
-#' @param y binary or categorical image or vector
+#' @param x,y binary or categorical image or vector
 #' @noRd
 #'
 #' @return Covariance function
@@ -221,8 +217,7 @@ sfunc <- function(x, y, methodflag = "Cohen"){
 #' This computes the categorical or binary structural similarity index metric
 #' on a whole-image scale.
 #'
-#' @param x binary or categorical image
-#' @param y binary or categorical image
+#' @param x,y binary or categorical image
 #' @param alpha normalizing parameter, by default 1
 #' @param beta normalizing parameter, by default 1
 #' @param gamma normalizing parameter, by default 1
@@ -257,8 +252,7 @@ binssim <- function(x, y, alpha = 1, beta = 1, gamma = 1, c1 = 0.01, c2 = 0.01, 
 
 #' Categorical SSIM Components
 #'
-#' @param x binary or categorical image
-#' @param y binary or categorical image
+#' @param x,y binary or categorical image
 #' @param method whether to use Cohen's kappa, Jaccard, or Adjusted Rand Index as
 #'     the similarity index. Note Jaccard should only be used on binary data.
 #' @param c1 constant for the means function
@@ -404,12 +398,7 @@ downsample_3d_cube <- function(x){
 #' suitable for modestly-sized images which are not large enough to warrant
 #' looking at multiple scales.
 #'
-#' @param x a binary or categorical image
-#' @param y a binary or categorical image
-#' @param window window size, by default 11
-#' @param method whether to use Cohen's kappa, Jaccard Index, accuracy (Hamming index),  or Adjusted Rand Index as
-#'     the similarity index. Note Jaccard should only be used on binary data.
-#' @param ... additional constants can be passed to internal functions.
+#' @inheritParams catmssim_2d
 #'
 #' @return the three components of the index, all less than 1.
 #' @keywords internal
@@ -448,7 +437,7 @@ catssim_2d <- function(x,y, window = 11, method = "Cohen", ...){
     }
   }
   resultmatrix[resultmatrix < 0.0] <- 0.0
-
+  
   #resultmatrix / ((nrow - (window - 1)) * (ncol - (window - 1)))
   colMeans(resultmatrix,na.rm=TRUE,dims=2)
 }
@@ -459,12 +448,11 @@ catssim_2d <- function(x,y, window = 11, method = "Cohen", ...){
 #' The categorical structural similary index measure for 2D categorical or binary
 #' images for multiple scales. The default is to compute over 5 scales.
 #'
-#' @param x a binary or categorical image
-#' @param y a binary or categorical image
+#' @param x,y a binary or categorical image
 #' @param weights a vector of weights for the different scales. By default,
 #'     five different scales are used.
-#' @param window window size, by default 11.
-#' @param method whether to use Cohen's kappa, Jaccard Index, Dice index,  accuracy (Hamming index),  or Adjusted Rand Index as
+#' @param window window size, by default 11 for 2D and 5 for 3D.
+#' @param method whether to use Cohen's kappa, Jaccard Index, Dice index,  accuracy/Hamming index,  or Adjusted Rand Index as
 #'     the similarity index. Note Jaccard and Dice should only be used on binary data.
 #' @param ... additional constants can be passed to internal functions.
 #'
@@ -512,7 +500,7 @@ catmssim_2d <- function(x, y, weights = c(0.0448, 0.2856, 0.3001, 0.2363, 0.1333
       results[i,] = catssim_2d(x=x, y=y, window=window, method=method,...)
     }
   }
-
+    results[is.na(results)] <- 1 # fix Jaccard NA results
   # use "luminosity" only from top level, use C and S from all levels
   csresults <- prod(results[,2:3]^(weights))
   #print(results)
@@ -522,14 +510,14 @@ catmssim_2d <- function(x, y, weights = c(0.0448, 0.2856, 0.3001, 0.2363, 0.1333
 }
 
 
-#' CatSSIM for 3D slices
+#' CatSIM (single level) for 3D slices
 #'
 #' Performs the 2D CatSSIM for each slice of the 3D image.
 #'
 #' @param x a binary or categorical image
 #' @param y a binary or categorical image
 #' @param window by default 11
-#' @param method whether to use Cohen's kappa, Jaccard Index, Dice Index, accuracy (Hamming index),  or Adjusted Rand Index as
+#' @param method whether to use Cohen's kappa, Jaccard Index, Dice Index, accuracy/Hamming index,  or Adjusted Rand Index as
 #'     the similarity index. Note Jaccard or Dice should only be used on binary data.
 #' @param ...
 #'
@@ -544,7 +532,8 @@ catssim_3d_slice <- function(x, y, window = 11, method = "Cohen", ...){
   if (any(dim(x) != dim(y))) stop('x and y have nonconformable dimensions.')
   dims = dim(x)
   sliceresults = matrix(0, nrow = dims[3], ncol = 3)
-  for (i in 1:dims[3]) sliceresults[i,] = catssim_2d(x=x[,,i],y=y[,,i], window=window, method=method,...)
+    for (i in 1:dims[3]) sliceresults[i,] = catssim_2d(x=x[,,i],y=y[,,i], window=window, method=method,...)
+    sliceresults[is.na(sliceresults)] <- 1 # fix Jaccard NAs
   colMeans(sliceresults)
 }
 
@@ -568,6 +557,7 @@ catssim_3d_cube <- function(x, y, window = 5, method = "Cohen", ...){
       }
     }
   }
+    cuberesults[is.na(cuberesults)] <- 1 # fix Jaccard NAs
     colMeans(cuberesults,na.rm=TRUE,dims=3)
 #  (cuberesults / prod(dims - (window-1)) )
 }
@@ -579,15 +569,8 @@ catssim_3d_cube <- function(x, y, window = 5, method = "Cohen", ...){
 #' This computes a 2D measure for each x-y slice of the z-axis
 #' and then averages over the z-axis.
 #'
-#' @param x a binary or categorical image
-#' @param y a binary or categorical image
-#' @param weights a vector of weights for the different scales. By default,
-#'     five different scales are used.
-#' @param window window size, by default 11.
-#' @param method whether to use Cohen's kappa, Jaccard Index, Dice Index,  accuracy (Hamming index),  or Adjusted Rand Index as
-#'     the similarity index. Note Jaccard or Dice should only be used on binary data.
-#' @param ... additional constants can be passed to internal functions.
-#'
+#' @inheritParams catmssim_2d
+#' 
 #' @return a value less than 1 indicating the similarity between the images.
 #' @export
 #'
@@ -634,7 +617,7 @@ catmssim_3d_slice <- function(x, y, weights = c(0.0448, 0.2856, 0.3001, 0.2363, 
       results[j,] = catssim_3d_slice(x=x, y=y, window=window, method=method,...)
     }
   }
-
+    results[is.na(results)] <- 1 # fixing Jaccard NAs
   # use "luminosity" only from top level, use C and S from all levels
   csresults <- prod(results[,2:3]^(weights))
   #print(results)
@@ -650,14 +633,7 @@ catmssim_3d_slice <- function(x, y, weights = c(0.0448, 0.2856, 0.3001, 0.2363, 
 #' This computes a 3D measure based on \eqn{4 \times 4 \times 4}{4x4x4}
 #' windows by default with 5 levels of downsampling.
 #'
-#' @param x a binary or categorical image
-#' @param y a binary or categorical image
-#' @param weights a vector of weights for the different scales. By default,
-#'     five different scales are used.
-#' @param window size of window, by default 5
-#' @param method whether to use Cohen's kappa, Jaccard Index, Dice Index,  accuracy (Hamming index), or Adjusted Rand Index as
-#'     the similarity index. Note Jaccard or Dice should only be used on binary data.
-#' @param ... additional constants can be passed to internal functions.
+#' @inheritParams catmssim_2d
 #'
 #' @return a value less than 1 indicating the similarity between the images.
 #' @export
@@ -711,7 +687,7 @@ catmssim_3d_cube <- function(x, y, weights = c(0.0448, 0.2856, 0.3001, 0.2363, 0
       results[j,] = catssim_3d_cube(x=x,y=y,window=window, method=method,...)
     }
   }
-
+    results[is.na(results)] <- 1 # fixing Jaccard NAs
   # use "luminosity" only from top level, use C and S from all levels
   csresults <- prod(results[,2:3]^(weights))
   #print(results)
@@ -732,8 +708,7 @@ catmssim_3d_cube <- function(x, y, weights = c(0.0448, 0.2856, 0.3001, 0.2363, 0
 #' account for NA values, but the Adjusted Rand and Cohen's Kappa cannot.
 #'
 #'
-#' @param x a numeric or factor vector or image
-#' @param y a numeric or factor vector or image
+#' @param x,y  a numeric or factor vector or image
 #'
 #' @return The accuracy, Jaccard index, the Adjusted Rand Index, the PSNR, and Cohen's Kappa. Note:
 #'     The Jaccard index will not make sense if this is not binary.
@@ -785,17 +760,16 @@ AdjRandIndex <- function(x,y){
 #' This is a wrapper function for the 2D and 3D functions whose functionality
 #' can be accessed through the ... arguments.
 #'
-#' @param x a binary or categorical image
-#' @param y a binary or categorical image
-#' @param ... additional arguments, such as method and window, can be passed
+#' @param x,y a binary or categorical image
+#' @param ... additional arguments, such as window, can be passed
 #'        as well as arguments for internal functions.
 #' @param cube for the 3D method, whether to use the true 3D method (cube)
 #'        or compute the metric using 2D slices which are then averaged.
-#'        By default, TRUE, which evaluates as a cube. FALSE will treat it as
+#'        By default, \code{TRUE}, which evaluates as a cube. \code{FALSE} will treat it as
 #'        2D slices.
 #' @param weights  a vector of weights for the different scales. By default,
 #'     five different scales are used.
-#' @param method whether to use Cohen's kappa, Jaccard Index, Dice Index,  accuracy (Hamming index), or Adjusted Rand Index as
+#' @param method whether to use Cohen's kappa (\code{Cohen}, the default), Jaccard Index (\code{Jaccard}), Dice Index (\code{Dice}),  accuracy/Hamming index (\code{accuracy} or \code{Hamming}), or Adjusted Rand Index (\code{AdjRand} or \code{Rand}) as
 #'     the similarity index. Note Jaccard or Dice should only be used on binary data.
 #' @return a value less than 1 indicating the similarity between the images.
 #' @export
@@ -822,7 +796,7 @@ catsim <- function(x,y,...,cube = TRUE, weights =  c(0.0448, 0.2856, 0.3001, 0.2
     if (length(dim(x)) != length(dim(y)))  stop('x and y have nonconformable dimensions.')
     if (any(dim(x) != dim(y))) stop('x and y have nonconformable dimensions.')
     dims = dim(x)
-    if(length(dims)==2) catmssim_2d(x,y,weights=weights,...)
-    else if (cube) catmssim_3d_cube(x,y,weights=weights,...)
-    else catmssim_3d_slice(x,y,weights=weights,...)
+    if(length(dims)==2) catmssim_2d(x,y,weights=weights,method=method,...)
+    else if (cube) catmssim_3d_cube(x,y,weights=weights,method=method,...)
+    else catmssim_3d_slice(x,y,weights=weights,method=method,...)
 }

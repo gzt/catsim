@@ -2,20 +2,18 @@
 % Please edit documentation in R/catsim.R
 \name{hamming}
 \alias{hamming}
-\title{Accuracy (Hamming Index)}
+\title{Accuracy/Hamming Index}
 \usage{
 hamming(x, y)
 }
 \arguments{
-\item{x}{binary image or vector}
-
-\item{y}{binary image or vector}
+\item{x, y}{binary image or vector}
 }
 \value{
-Accuracy (Hamming index)
+Accuracy (Hamming index). Proportion of pixels (voxels) that agree.
 }
 \description{
-Accuracy (Hamming Index)
+Accuracy/Hamming Index
 }
 \examples{
 \dontrun{
