@@ -200,6 +200,7 @@ hamming <- function(x, y){
 sfunc <- function(x, y, methodflag = "Cohen"){
     x <- as.vector(x)
     y <- as.vector(y)
+    
     if (methodflag == "Cohen"){
     return(C_Cohen(x,y))
     } else if (methodflag == "Jaccard"){
@@ -238,16 +239,17 @@ sfunc <- function(x, y, methodflag = "Cohen"){
 #' for (i in 1:99) y[i, i+1] = 1
 #' binssim(x,y)
 binssim <- function(x, y, alpha = 1, beta = 1, gamma = 1, c1 = 0.01, c2 = 0.01, method = "Cohen", ...){
-  if (length(x) != length(y)) stop("x and y must be the same size.")
-  k = length(unique(c(x,y)))
+    if (length(x) != length(y)) stop("x and y must be the same size.")
+    naxy <- (!is.na(x) & !is.na(y))
+  k = length(unique(c(x[naxy],y[naxy])))
 
   methodflag = "Cohen"
   if (method %in% c("AdjRand", "Rand", "rand", "adjrand","R","r","a","A")) methodflag = "AdjRand"
   if (method %in% c("Jaccard", "jaccard", "j", "J")) methodflag = "Jaccard"
   if (method %in% c("Dice","dice","D","d")) methodflag="Dice"
   if (method %in% c("Accuracy","accuracy","Hamming","hamming","H","h")) methodflag="hamming"
-
-  (meansfunc(x, y, c1)^alpha)*(cfunc(x=x, y=y, c2=c2, k = k, ...)^beta)*(sfunc(x, y, methodflag)^gamma)
+  
+  (meansfunc(x[naxy], y[naxy], c1)^alpha)*(cfunc(x=x[naxy], y=y[naxy], c2=c2, k = k, ...)^beta)*(sfunc(x[naxy], y[naxy], methodflag)^gamma)
 }
 
 #' Categorical SSIM Components
@@ -270,8 +272,10 @@ ssimcomponents <- function(x, y, k, method = "Cohen", c1 = 0.01, c2 = 0.01, ...)
   if (method %in% c("Jaccard", "jaccard", "j", "J")) methodflag = "Jaccard"
   if (method %in% c("Dice","dice","D","d")) methodflag="Dice"
   if (method %in% c("Accuracy","accuracy","Hamming","hamming","H","h")) methodflag="hamming"
-
-  c((meansfunc(x, y, c1)),(cfunc(x=x, y=y, c2=c2, k = k, ...)),(sfunc(x, y, methodflag)))
+    naxy <- (!is.na(x) & !is.na(y))
+    if (length(x[naxy]) == 0) return(c(NA,NA,NA))
+    
+  c((meansfunc(x[naxy], y[naxy], c1)),(cfunc(x=x[naxy], y=y[naxy], c2=c2, k = k, ...)),(sfunc(x[naxy], y[naxy], methodflag)))
 }
 
 
