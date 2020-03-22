@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>NA • catsim</title>
+<title>Method Parser — methodparser • catsim</title>
 
 
 <!-- jquery -->
@@ -29,13 +29,15 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
-<link href="pkgdown.css" rel="stylesheet">
-<script src="pkgdown.js"></script>
+<link href="../pkgdown.css" rel="stylesheet">
+<script src="../pkgdown.js"></script>
 
 
 
 
-<meta property="og:title" content="NA" />
+<meta property="og:title" content="Method Parser — methodparser" />
+<meta property="og:description" content="Parses input of method to a standardized name" />
+<meta name="twitter:card" content="summary" />
 
 
 
@@ -54,7 +56,7 @@
   </head>
 
   <body>
-    <div class="container template-title-body">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -66,7 +68,7 @@
         <span class="icon-bar"></span>
       </button>
       <span class="navbar-brand">
-        <a class="navbar-link" href="index.html">catsim</a>
+        <a class="navbar-link" href="../index.html">catsim</a>
         <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9029</span>
       </span>
     </div>
@@ -74,13 +76,13 @@
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="index.html">
+  <a href="../index.html">
     <span class="fas fa fas fa-home fa-lg"></span>
      
   </a>
 </li>
 <li>
-  <a href="reference/index.html">Reference</a>
+  <a href="../reference/index.html">Reference</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -101,23 +103,48 @@
       </header>
 
 <div class="row">
-  <div class="contents col-md-9">
+  <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>NA</h1>
+    <h1>Method Parser</h1>
+    <small class="dont-index">Source: <a href='https://github.com/gzt/catsim/blob/master/R/catsim.R'><code>R/catsim.R</code></a></small>
+    <div class="hidden name"><code>methodparser.Rd</code></div>
     </div>
 
+    <div class="ref-description">
+    <p>Parses input of method to a standardized name</p>
+    </div>
 
-<p>Please briefly describe your problem and what output you expect. If you have a question, please don’t use this form. Instead, ask on <a href="https://stackoverflow.com/" class="uri">https://stackoverflow.com/</a> or <a href="https://community.rstudio.com/" class="uri">https://community.rstudio.com/</a>.</p>
-<p>Please include a minimal reproducible example (AKA a reprex). If you’ve never heard of a <a href="http://reprex.tidyverse.org/">reprex</a> before, start by reading <a href="https://www.tidyverse.org/help/#reprex" class="uri">https://www.tidyverse.org/help/#reprex</a>.</p>
-<hr>
-<p>Brief description of the problem</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="co"># insert reprex here</span></a></code></pre></div>
+    <pre class="usage"><span class='fu'>methodparser</span>(<span class='no'>method</span>)</pre>
 
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>method</th>
+      <td><p>The method used as a similarity metric. Certain abbreviations work.
+<code>Cohen</code>, <code>cohen</code>, <code>C</code>, <code>c</code>, <code>Kappa</code> and <code>kappa</code> yield Cohen's kappa.
+<code>AdjRand</code>, <code>adjrand</code>, <code>Adj</code>, <code>adj</code>, <code>a</code>, <code>A</code>, <code>ARI</code>, and <code>ari</code> yield the adjusted Rand index.
+<code>Rand</code>, <code>rand</code>, <code>r</code>, and <code>R</code> yield the Rand index.
+<code>Jaccard</code>, <code>jaccard</code>, <code>j</code>, and <code>J</code> yield the Jaccard index.
+<code>Dice</code>, <code>dice</code>, <code>D</code>, and <code>d</code> yield the Dice index.
+<code>Accuracy</code>, <code>accuracy</code>, <code>Hamming</code>, <code>hamming</code>, <code>H</code>, and <code>h</code> yield the accuracy.</p></td>
+    </tr>
+    </table>
+
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>the name of the similarity metric.</p>
 
   </div>
+  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
+    <h2>Contents</h2>
+    <ul class="nav nav-pills nav-stacked">
+      <li><a href="#arguments">Arguments</a></li>
+      <li><a href="#value">Value</a></li>
+    </ul>
 
+  </div>
 </div>
-
 
 
       <footer>
