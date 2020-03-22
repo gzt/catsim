@@ -27,7 +27,9 @@ By default, \code{TRUE}, which evaluates as a cube. \code{FALSE} will treat it a
 \item{weights}{a vector of weights for the different scales. By default,
 five different scales are used.}
 
-\item{method}{whether to use Cohen's kappa (\code{Cohen}, the default), Jaccard Index (\code{Jaccard}), Dice Index (\code{Dice}),  accuracy/Hamming index (\code{accuracy} or \code{Hamming}), or Adjusted Rand Index (\code{AdjRand} or \code{Rand}) as
+\item{method}{whether to use Cohen's kappa (\code{Cohen}, the default), Jaccard Index (\code{Jaccard}),
+Dice Index (\code{Dice}),  accuracy/Hamming index (\code{accuracy} or \code{Hamming}),
+Rand Index (\code{Rand}), or Adjusted Rand Index (\code{AdjRand} or \code{ARI}) as
 the similarity index. Note Jaccard or Dice should only be used on binary data.}
 }
 \value{
@@ -54,7 +56,7 @@ catsim(x,y, weights = c(.75,.25))
 # Now using a different similarity score
 catsim(x,y, weights = c(.75,.25), method = "Jaccard")
 # And using the last possible similarity score
-catsim(x,y, weights = c(.75,.25), method = "Rand")
+catsim(x,y, weights = c(.75,.25), method = "AdjRand")
 # with the slice method:
 catsim(x,y, weights = c(.75,.25), cube = FALSE)
 }

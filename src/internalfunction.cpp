@@ -198,3 +198,24 @@ double C_AdjRand(NumericVector x, NumericVector y){
   return (nij - ai * bi / (1.0 * n * (n-1.0)/2) + eps) / (.5 * (ai + bi) - ai * bi / (1.0 * n * (n-1.0)/2) + eps);
 
 }
+
+
+
+// [[Rcpp::export]]
+double C_Rand(NumericVector x, NumericVector y){
+  R_xlen_t n = x.size();
+  if (x.size() != y.size()) Rcpp::stop("X and Y must have the same length.");
+
+  double sg = 0.0;
+  double xx = 0.0;
+  double yy = 0.0;
+    for ( int  i = 0; i != n; ++i) {
+      for ( int j = i; j != n; ++j) {
+	xx =  1.0 * (x[i] != x[j]);
+	yy =  1.0 * (y[i] != y[j]);
+	sg = sg + abs(xx-yy);
+      }
+    }
+  double bc = n * (n-1) /2.0;
+  return 1.0-sg/bc;
+}

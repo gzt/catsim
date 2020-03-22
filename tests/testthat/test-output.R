@@ -44,11 +44,11 @@ test_that("dimensions 2D work",{
     expect_error(AdjRandIndex(x,y[,1:10]))
     expect_error(catmssim_2d(x,y[1:10,]))
     expect_warning(catmssim_2d(x[1:2,],y[1:2,], weights = 1, method = "rand"))
-    expect_error(catmssim_2d(x[1:3,],y[1:2,], weights = 1, method = "rand"))
-    expect_error(catmssim_2d(x[1:2,],y[1,], weights = 1, method = "rand"))
-    expect_error(catmssim_2d(y[1,],x[1,], weights = 1, method = "rand"))
+    expect_error(catmssim_2d(x[1:3,],y[1:2,], weights = 1, method = "jaccard"))
+    expect_error(catmssim_2d(x[1:2,],y[1,], weights = 1, method = "adjrand"))
+    expect_error(catmssim_2d(y[1,],x[1,], weights = 1, method = "accuracy"))
     expect_warning(catmssim_2d(y[1,,drop=FALSE],x[1,,drop=FALSE], weights = 1, method = "jaccard"))
-    expect_warning(AdjRandIndex(y[1,,drop=FALSE],x[1,,drop=FALSE]))
+    expect_message(AdjRandIndex(y[1,,drop=FALSE],x[1,,drop=FALSE]))
     expect_warning(catmssim_2d(x[,1:8],y[,1:8], window = 2, weights = c(.5,.25,.25,.25)))
     expect_error(catsim:::jaccard(x,y[,1:10]))
 })
@@ -61,7 +61,7 @@ test_that("3D is not 2D", {
 test_that("Inputs are symmetric 2D", {
     expect_equal(catmssim_2d(x,y, weights = 1), catmssim_2d(y,x, weights = 1))
       expect_equal(catmssim_2d(x,y, weights = c(.5,.5), method = "j"), catmssim_2d(y,x, weights = c(.5,.5), method = "j"))
-    expect_equal(catmssim_2d(x,y, weights = 1, method = "rand"), catmssim_2d(y,x, weights = 1, method = "rand"))
+    expect_equal(catmssim_2d(x,y, weights = 1, method = "dice"), catmssim_2d(y,x, weights = 1, method = "dice"))
   })
 
   test_that("Inputs are symmetric 3D",{  
@@ -138,6 +138,7 @@ test_that("Zero weights should have result of 1.0", {
 x <- matrix(c(0,1), nrow = 512, ncol = 512)
 y <- matrix(c(0,0,1,1), nrow = 512, ncol = 512)
 test_that("Large matrices should work", {
-  expect_true(AdjRandIndex(x,y)$Cohen < .01)
-  expect_true(AdjRandIndex(x,y)$AdjRand < .01)
+    adjtest = AdjRandIndex(x,y)
+  expect_true(adjtest$Cohen < .01)
+  expect_true(adjtest$AdjRand < .01)
 })

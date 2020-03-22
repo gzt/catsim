@@ -25,3 +25,7 @@ C_AdjRand <- function(x, y) {
     .Call(`_catsim_C_AdjRand`, x, y)
 }
 
+C_Rand <- function(x, y) {
+    .Call(`_catsim_C_Rand`, x, y)
+}
+

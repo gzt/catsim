@@ -121,6 +121,29 @@ cfunc <- function(x, y, c2 = 0.01, k, sqrtgini = TRUE){
   C_cfunc(x, y, c2, k, sqrtgini)
 }
 
+##' Method Parser
+##'
+##' Parses input of method to a standardized name
+##' @param method The method used as a similarity metric. Certain abbreviations work.
+##'        \code{Cohen}, \code{cohen}, \code{C}, \code{c}, \code{Kappa} and \code{kappa} yield Cohen's kappa.
+##'        \code{AdjRand}, \code{adjrand}, \code{Adj}, \code{adj}, \code{a}, \code{A}, \code{ARI}, and \code{ari} yield the adjusted Rand index.
+##'        \code{Rand}, \code{rand}, \code{r}, and \code{R} yield the Rand index.
+##'        \code{Jaccard}, \code{jaccard}, \code{j}, and \code{J} yield the Jaccard index.
+##'        \code{Dice}, \code{dice}, \code{D}, and \code{d} yield the Dice index.
+##'        \code{Accuracy}, \code{accuracy}, \code{Hamming}, \code{hamming}, \code{H}, and \code{h} yield the accuracy.
+##' @return the name of the similarity metric.
+##' @keywords internal
+methodparser <- function(method){
+    methodflag = NULL
+    if (method %in% c("Cohen", "cohen","C","c","kappa","Kappa")) methodflag = C_Cohen # "Cohen"
+    if (method %in% c("AdjRand", "adjrand","Adj","adj","a","A","ARI","ari")) methodflag = C_AdjRand #"AdjRand"
+    if (method %in% c("Rand","rand","r","R")) methodflag = C_Rand # "Rand"
+    if (method %in% c("Jaccard", "jaccard", "j", "J")) methodflag = jaccard #"Jaccard"
+    if (method %in% c("Dice","dice","D","d")) methodflag=dice # "Dice"
+    if (method %in% c("Accuracy","accuracy","Hamming","hamming","H","h")) methodflag=hamming # "hamming"
+    if (is.null(methodflag)) stop("Error: invalid method")
+    methodflag
+}
 
 
 #' Jaccard Index
@@ -197,19 +220,21 @@ hamming <- function(x, y){
 #' y <- c(rep(1:4,3),rep(4,4))
 #' sfunc(x,y)
 #' }
-sfunc <- function(x, y, methodflag = "Cohen"){
+sfunc <- function(x, y, methodflag = C_Cohen){
     x <- as.vector(x)
     y <- as.vector(y)
-    
-    if (methodflag == "Cohen"){
-    return(C_Cohen(x,y))
-    } else if (methodflag == "Jaccard"){
-      return(jaccard(x,y))
-    } else if (methodflag == "Dice"){
-        return(dice(x,y))
-    } else if (methodflag== "hamming"){
-        return(hamming(x,y))
-               }  else C_AdjRand(x,y)
+  methodflag(x,y)  
+##    if (methodflag == "Cohen"){
+##    return(C_Cohen(x,y))
+##    } else if (methodflag == "Jaccard"){
+##      return(jaccard(x,y))
+##    } else if (methodflag == "Dice"){
+##        return(dice(x,y))
+##    } else if (methodflag== "hamming"){
+##        return(hamming(x,y))
+##    }  else if (methodflag=="Rand") {
+##        return(C_Rand(x,y))
+##    } else C_AdjRand(x,y)
 }
 
 
@@ -243,12 +268,7 @@ binssim <- function(x, y, alpha = 1, beta = 1, gamma = 1, c1 = 0.01, c2 = 0.01, 
     naxy <- (!is.na(x) & !is.na(y))
   k = length(unique(c(x[naxy],y[naxy])))
 
-  methodflag = "Cohen"
-  if (method %in% c("AdjRand", "Rand", "rand", "adjrand","R","r","a","A")) methodflag = "AdjRand"
-  if (method %in% c("Jaccard", "jaccard", "j", "J")) methodflag = "Jaccard"
-  if (method %in% c("Dice","dice","D","d")) methodflag="Dice"
-  if (method %in% c("Accuracy","accuracy","Hamming","hamming","H","h")) methodflag="hamming"
-  
+    methodflag = methodparser(method)
   (meansfunc(x[naxy], y[naxy], c1)^alpha)*(cfunc(x=x[naxy], y=y[naxy], c2=c2, k = k, ...)^beta)*(sfunc(x[naxy], y[naxy], methodflag)^gamma)
 }
 
@@ -267,15 +287,11 @@ binssim <- function(x, y, alpha = 1, beta = 1, gamma = 1, c1 = 0.01, c2 = 0.01, 
 ssimcomponents <- function(x, y, k, method = "Cohen", c1 = 0.01, c2 = 0.01, ...){
   #k = length(levels)
   #levels <- levels(factor(c(x,y)))
-  methodflag = "Cohen"
-  if (method %in% c("AdjRand", "Rand", "rand", "adjrand","R","r","a","A")) methodflag = "AdjRand"
-  if (method %in% c("Jaccard", "jaccard", "j", "J")) methodflag = "Jaccard"
-  if (method %in% c("Dice","dice","D","d")) methodflag="Dice"
-  if (method %in% c("Accuracy","accuracy","Hamming","hamming","H","h")) methodflag="hamming"
+  
     naxy <- (!is.na(x) & !is.na(y))
     if (length(x[naxy]) == 0) return(c(NA,NA,NA))
-    
-  c((meansfunc(x[naxy], y[naxy], c1)),(cfunc(x=x[naxy], y=y[naxy], c2=c2, k = k, ...)),(sfunc(x[naxy], y[naxy], methodflag)))
+    methodflag=methodparser(method)
+  c(meansfunc(x[naxy], y[naxy], c1),cfunc(x=x[naxy], y=y[naxy], c2=c2, k = k, ...),sfunc(x[naxy], y[naxy],methodflag=methodflag))
 }
 
 
@@ -422,7 +438,8 @@ catssim_2d <- function(x,y, window = 11, method = "Cohen", ...){
     if (is.null(dim(x))) stop("x is 1-dimensional")
     if (is.null(dim(y))) stop("y is 1-dimensional")
     if (length(dim(x)) != length(dim(y)))  stop('x and y have nonconformable dimensions.')
-  if (any(dim(x) != dim(y))) stop('x and y have nonconformable dimensions.')
+    if (any(dim(x) != dim(y))) stop('x and y have nonconformable dimensions.')
+#    method=methodparser(method)
   #levels <- levels(factor(c(x,y)))
   k = length(unique(c(x,y)))
   dims = dim(x)
@@ -456,7 +473,9 @@ catssim_2d <- function(x,y, window = 11, method = "Cohen", ...){
 #' @param weights a vector of weights for the different scales. By default,
 #'     five different scales are used.
 #' @param window window size, by default 11 for 2D and 5 for 3D.
-#' @param method whether to use Cohen's kappa, Jaccard Index, Dice index,  accuracy/Hamming index,  or Adjusted Rand Index as
+#' @param method whether to use Cohen's kappa (\code{Cohen}), Jaccard Index (\code{Jaccard}),
+#'     Dice index (\code{Dice}),  accuracy (\code{accuracy}),  Rand index (\code{Rand}),
+#'     or Adjusted Rand Index (\code{AdjRand}) as
 #'     the similarity index. Note Jaccard and Dice should only be used on binary data.
 #' @param ... additional constants can be passed to internal functions.
 #'
@@ -473,7 +492,7 @@ catssim_2d <- function(x,y, window = 11, method = "Cohen", ...){
 #' # now using a different similarity score (Jaccard Index)
 #' catmssim_2d(x,y, method = "Jaccard")
 #' # now using a different similarity score (Adjusted Rand Index)
-#'  catmssim_2d(x,y, method = "Rand")
+#'  catmssim_2d(x,y, method = "AdjRand")
 #'
 catmssim_2d <- function(x, y, weights = c(0.0448, 0.2856, 0.3001, 0.2363, 0.1333), window = 11,
                         method = "Cohen", ...){
@@ -481,7 +500,8 @@ catmssim_2d <- function(x, y, weights = c(0.0448, 0.2856, 0.3001, 0.2363, 0.1333
     if (is.null(dim(x))) stop("x is 1-dimensional")
     if (is.null(dim(y))) stop("y is 1-dimensional")
     if (length(dim(x)) != length(dim(y)))  stop('x and y have nonconformable dimensions.')
-  if (any(dim(x) != dim(y))) stop('x and y have nonconformable dimensions.')
+    if (any(dim(x) != dim(y))) stop('x and y have nonconformable dimensions.')
+   
   levels = length(weights)
   mindim <- min(dim(x))
   if (mindim < window) {
@@ -518,8 +538,7 @@ catmssim_2d <- function(x, y, weights = c(0.0448, 0.2856, 0.3001, 0.2363, 0.1333
 #'
 #' Performs the 2D CatSSIM for each slice of the 3D image.
 #'
-#' @param x a binary or categorical image
-#' @param y a binary or categorical image
+#' @param x,y a binary or categorical image
 #' @param window by default 11
 #' @param method whether to use Cohen's kappa, Jaccard Index, Dice Index, accuracy/Hamming index,  or Adjusted Rand Index as
 #'     the similarity index. Note Jaccard or Dice should only be used on binary data.
@@ -544,7 +563,8 @@ catssim_3d_slice <- function(x, y, window = 11, method = "Cohen", ...){
 catssim_3d_cube <- function(x, y, window = 5, method = "Cohen", ...){
     if (is.null(dim(x))) stop("x is 1-dimensional")
     if (is.null(dim(y))) stop("y is 1-dimensional")
-  if (any(dim(x) != dim(y))) stop('x and y have nonconformable dimensions.')
+    if (any(dim(x) != dim(y))) stop('x and y have nonconformable dimensions.')
+    #method=methodparser(method)
   #levels <- levels(factor(c(x,y)))
   k = length(unique(c(x,y)))
   dims = dim(x)
@@ -598,7 +618,8 @@ catmssim_3d_slice <- function(x, y, weights = c(0.0448, 0.2856, 0.3001, 0.2363, 
     if (is.null(dim(x))) stop("x is 1-dimensional")
     if (is.null(dim(y))) stop("y is 1-dimensional")
     if (length(dim(x)) != length(dim(y)))  stop('x and y have nonconformable dimensions.')
-  if (any(dim(x) != dim(y))) stop('x and y have nonconformable dimensions.')
+    if (any(dim(x) != dim(y))) stop('x and y have nonconformable dimensions.')
+    #method=methodparser(method)
   levels = length(weights)
   dims = dim(x)
   if (length(dims) < 3) stop('x and y are not 3-dimensional.')
@@ -634,7 +655,7 @@ catmssim_3d_slice <- function(x, y, weights = c(0.0448, 0.2856, 0.3001, 0.2363, 
 #'
 #' The categorical structural similary index measure for 3D categorical or binary
 #' images for multiple scales. The default is to compute over 5 scales.
-#' This computes a 3D measure based on \eqn{4 \times 4 \times 4}{4x4x4}
+#' This computes a 3D measure based on \eqn{5 \times 5 \times 5}{5x5x5}
 #' windows by default with 5 levels of downsampling.
 #'
 #' @inheritParams catmssim_2d
@@ -656,15 +677,14 @@ catmssim_3d_slice <- function(x, y, weights = c(0.0448, 0.2856, 0.3001, 0.2363, 
 #' catmssim_3d_cube(x,y, weights = c(.75,.25), method = "Jaccard")
 #' # And using the last possible similarity score
 #' catmssim_3d_cube(x,y, weights = c(.75,.25), method = "Rand")
-
-
 catmssim_3d_cube <- function(x, y, weights = c(0.0448, 0.2856, 0.3001, 0.2363, 0.1333), window = 5,
                              method = "Cohen", ...){
    # the weights are from the original MS-SSIM program
     if (is.null(dim(x))) stop("x is 1-dimensional")
     if (is.null(dim(y))) stop("y is 1-dimensional")
     if (length(dim(x)) != length(dim(y)))  stop('x and y have nonconformable dimensions.')
-  if (any(dim(x) != dim(y))) stop('x and y have nonconformable dimensions.')
+    if (any(dim(x) != dim(y))) stop('x and y have nonconformable dimensions.')
+#    method=methodparser(method)
   levels = length(weights)
   dims = dim(x)
   if (length(dims) < 3) stop('x and y are not 3-dimensional.')
@@ -714,7 +734,7 @@ catmssim_3d_cube <- function(x, y, weights = c(0.0448, 0.2856, 0.3001, 0.2363, 0
 #'
 #' @param x,y  a numeric or factor vector or image
 #'
-#' @return The accuracy, Jaccard index, the Adjusted Rand Index, the PSNR, and Cohen's Kappa. Note:
+#' @return The accuracy, Jaccard index, the Adjusted Rand Index, the Rand index, the PSNR, and Cohen's Kappa. Note:
 #'     The Jaccard index will not make sense if this is not binary.
 #'
 #' @references Lawrence Hubert and Phipps Arabie (1985).
@@ -738,7 +758,7 @@ AdjRandIndex <- function(x,y){
     if (length(x) != length(y)) stop("x and y have differing lengths.")
     if(!all(!is.na(x),!is.na(y))) warning("NAs present in x or y, Adjusted Rand and Cohen don't account for NA values.")
     if (length(table(c(x,y))) > 2)
-        warning("Jaccard index may not make sense if more than two classes are present.")
+        message("Jaccard index may not make sense if more than two classes are present.")
   n <- sum(!is.na(x)|!is.na(y))
   a <- sum(x == y,na.rm=TRUE)
   Accuracy <- a/n
@@ -746,10 +766,12 @@ AdjRandIndex <- function(x,y){
   Cohen <- C_Cohen(x,y)
   x <- as.numeric(x)
   y <- as.numeric(y)
-  AdjRand <- C_AdjRand(x,y)
+    AdjRand <- C_AdjRand(x,y)
+    Rand <- C_Rand(x,y)
     list(Accuracy = Accuracy,
          Jaccard = BinJaccard,
-       AdjRand = AdjRand,
+         AdjRand = AdjRand,
+         Rand  = Rand,
        PSNR = -10 * log10(1-Accuracy),
        Cohen = Cohen)
 }
@@ -773,7 +795,9 @@ AdjRandIndex <- function(x,y){
 #'        2D slices.
 #' @param weights  a vector of weights for the different scales. By default,
 #'     five different scales are used.
-#' @param method whether to use Cohen's kappa (\code{Cohen}, the default), Jaccard Index (\code{Jaccard}), Dice Index (\code{Dice}),  accuracy/Hamming index (\code{accuracy} or \code{Hamming}), or Adjusted Rand Index (\code{AdjRand} or \code{Rand}) as
+#' @param method whether to use Cohen's kappa (\code{Cohen}, the default), Jaccard Index (\code{Jaccard}),
+#'     Dice Index (\code{Dice}),  accuracy/Hamming index (\code{accuracy} or \code{Hamming}),
+#'     Rand Index (\code{Rand}), or Adjusted Rand Index (\code{AdjRand} or \code{ARI}) as
 #'     the similarity index. Note Jaccard or Dice should only be used on binary data.
 #' @return a value less than 1 indicating the similarity between the images.
 #' @export
@@ -791,7 +815,7 @@ AdjRandIndex <- function(x,y){
 #' # Now using a different similarity score
 #' catsim(x,y, weights = c(.75,.25), method = "Jaccard")
 #' # And using the last possible similarity score
-#' catsim(x,y, weights = c(.75,.25), method = "Rand")
+#' catsim(x,y, weights = c(.75,.25), method = "AdjRand")
 #' # with the slice method:
 #' catsim(x,y, weights = c(.75,.25), cube = FALSE)
 catsim <- function(x,y,...,cube = TRUE, weights =  c(0.0448, 0.2856, 0.3001, 0.2363, 0.1333), method="Cohen"){

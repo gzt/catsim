@@ -21,7 +21,9 @@ five different scales are used.}
 
 \item{window}{window size, by default 11 for 2D and 5 for 3D.}
 
-\item{method}{whether to use Cohen's kappa, Jaccard Index, Dice index,  accuracy/Hamming index,  or Adjusted Rand Index as
+\item{method}{whether to use Cohen's kappa (\code{Cohen}), Jaccard Index (\code{Jaccard}),
+Dice index (\code{Dice}),  accuracy (\code{accuracy}),  Rand index (\code{Rand}),
+or Adjusted Rand Index (\code{AdjRand}) as
 the similarity index. Note Jaccard and Dice should only be used on binary data.}
 
 \item{...}{additional constants can be passed to internal functions.}
@@ -43,6 +45,6 @@ catmssim_2d(x,y)
 # now using a different similarity score (Jaccard Index)
 catmssim_2d(x,y, method = "Jaccard")
 # now using a different similarity score (Adjusted Rand Index)
- catmssim_2d(x,y, method = "Rand")
+ catmssim_2d(x,y, method = "AdjRand")
 
 }
