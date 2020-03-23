@@ -78,7 +78,7 @@ pixelwise agreement is approximately the same.
 If we take only one level of `catsim`, we get the following results when
 comparing to the initial matrix:
 
-```{r onelevel,eval=FALSE}
+```{r onelevel}
 library(catsim)
 ### comparing base to shifted
 catsim::catsim(basemat,shiftmat,weights=1)
@@ -104,10 +104,10 @@ With five levels, the difference is smaller, but still prefers the shifted versi
 over the salt and pepper error.
 
 ```{r fivelevels}
-catsim::catsim(basemat,shiftmat,weights=rep(.2,5)
+catsim::catsim(basemat,shiftmat,weights=rep(.2,5))
 
 ### comparing base to salt-and-pepper
-#catsim::catsim(basemat,errmat,weights=rep(.2,5))
+catsim::catsim(basemat,errmat,weights=rep(.2,5))
 
 ```
 
