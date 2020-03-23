@@ -624,7 +624,7 @@ catmssim_3d_slice <- function(x, y, weights = c(0.0448, 0.2856, 0.3001, 0.2363, 
     minwindow = min(window[1:2])
   if (any(dims[1:2] < window[1:2])) stop("Minimum dimension must be greater than window size.")
   if (mindim < (2^(levels - 1))*minwindow) {
-    levels = min(c(floor(log2(dims/window[1:2]) + 1),levels))
+    levels = min(c(floor(log2(dims[1:2]/window[1:2]) + 1),levels))
     warning("Truncating levels because of minimum dimension.")
   }
 
