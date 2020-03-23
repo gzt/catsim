@@ -81,10 +81,10 @@ comparing to the initial matrix:
 ```{r onelevel}
 library(catsim)
 ### comparing base to shifted
-catsim(basemat,shiftmat,weights=1)
+catsim::catsim(basemat,shiftmat,weights=1)
 
 ### comparing base to salt-and-pepper
-catsim(basemat,errmat,weights=1)
+catsim::catsim(basemat,errmat,weights=1)
 
 ### looking at accuracy
 mean(basemat == shiftmat)
@@ -104,10 +104,10 @@ With five levels, the difference is smaller, but still prefers the shifted versi
 over the salt and pepper error.
 
 ```{r fivelevels}
-catsim(basemat,shiftmat,weights=rep(.2,5)
+catsim::catsim(basemat,shiftmat,weights=rep(.2,5)
 
 ### comparing base to salt-and-pepper
-catsim(basemat,errmat,weights=rep(.2,5))
+catsim::catsim(basemat,errmat,weights=rep(.2,5))
 
 ```
 
@@ -129,9 +129,9 @@ a modification of the Rand index which corrects for the probability of chance ag
 
 
 ```{r differentmetrics}
-catsim(basemat,shiftmat,weights=rep(.2,5), method="Rand")
-catsim(basemat,shiftmat,weights=rep(.2,5), method="AdjRand")
-catsim(basemat,shiftmat,weights=rep(.2,5), method="accuracy")
+catsim::catsim(basemat,shiftmat,weights=rep(.2,5), method="Rand")
+catsim::catsim(basemat,shiftmat,weights=rep(.2,5), method="AdjRand")
+catsim::catsim(basemat,shiftmat,weights=rep(.2,5), method="accuracy")
 ```
 
 ## Advanced Functionality
@@ -146,5 +146,5 @@ used to assess the similarity might not need to be square.
 This can be specified by passing a vector to the `window` argument.
 
 ```{r windowarg}
-catsim(basemat,shiftmat,weights=rep(.2,5), window=c(11,5)))
+catsim::catsim(basemat,shiftmat,weights=rep(.2,5), window=c(11,5)))
 ```
