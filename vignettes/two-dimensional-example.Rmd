@@ -79,7 +79,7 @@ If we take only one level of `catsim`, we get the following results when
 comparing to the initial matrix:
 
 ```{r onelevel}
-load(catsim)
+library(catsim)
 ### comparing base to shifted
 catsim(basemat,shiftmat,weights=1)
 
