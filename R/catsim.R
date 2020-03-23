@@ -832,6 +832,6 @@ catsim <- function(x,y,...,cube = TRUE, weights =  c(0.0448, 0.2856, 0.3001, 0.2
         else window=11
         }
     if(length(dims)==2) catmssim_2d(x,y,weights=weights,method=method,window=window,...)
-    else if (cube) catmssim_3d_cube(x,y,weights=weights,method=method,...)
-    else catmssim_3d_slice(x,y,weights=weights,method=method,...)
+    else if (cube) catmssim_3d_cube(x,y,weights=weights,method=method,window=window,...)
+    else catmssim_3d_slice(x,y,weights=weights,method=method,window=window,...)
 }
