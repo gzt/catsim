@@ -464,7 +464,7 @@ catssim_2d <- function(x,y, window = 11, method = "Cohen", ...){
 #'     five different scales are used.
 #' @param window  by default 11 for 2D and 5 for 3D images, but can be specified as a
 #'     vector if the window sizes differ by dimension. The vector must have the same number of
-#      of dimensions as the inputted \code{x} and \code{y}.
+#'      of dimensions as the inputted \code{x} and \code{y}.
 #' @param method whether to use Cohen's kappa (\code{Cohen}), Jaccard Index (\code{Jaccard}),
 #'     Dice index (\code{Dice}),  accuracy (\code{accuracy}),  Rand index (\code{Rand}),
 #'     or Adjusted Rand Index (\code{AdjRand} or \code{ARI}) as
@@ -801,7 +801,7 @@ AdjRandIndex <- function(x,y){
 #'     the similarity index. Note Jaccard and Dice should only be used on binary data.
 #' @param window by default 11 for 2D and 5 for 3D images, but can be specified as a
 #'     vector if the window sizes differ by dimension. The vector must have the same number of
-#      of dimensions as the inputted \code{x} and \code{y}.
+#'     dimensions as the inputted \code{x} and \code{y}.
 #' @return a value less than 1 indicating the similarity between the images.
 #' @export
 #'

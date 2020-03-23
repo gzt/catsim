@@ -20,7 +20,8 @@ catmssim_2d(
 five different scales are used.}
 
 \item{window}{by default 11 for 2D and 5 for 3D images, but can be specified as a
-vector if the window sizes differ by dimension. The vector must have the same number of}
+vector if the window sizes differ by dimension. The vector must have the same number of
+of dimensions as the inputted \code{x} and \code{y}.}
 
 \item{method}{whether to use Cohen's kappa (\code{Cohen}), Jaccard Index (\code{Jaccard}),
 Dice index (\code{Dice}),  accuracy (\code{accuracy}),  Rand index (\code{Rand}),

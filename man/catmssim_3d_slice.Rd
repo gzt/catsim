@@ -22,7 +22,8 @@ catmssim_3d_slice(
 five different scales are used.}
 
 \item{window}{by default 11 for 2D and 5 for 3D images, but can be specified as a
-vector if the window sizes differ by dimension. The vector must have the same number of}
+vector if the window sizes differ by dimension. The vector must have the same number of
+of dimensions as the inputted \code{x} and \code{y}.}
 
 \item{method}{whether to use Cohen's kappa (\code{Cohen}), Jaccard Index (\code{Jaccard}),
 Dice index (\code{Dice}),  accuracy (\code{accuracy}),  Rand index (\code{Rand}),
@@ -42,16 +43,16 @@ and then averages over the z-axis.
 }
 \examples{
 set.seed(20181207)
-dim = 16
-x <- array(sample(0:4, dim^3, replace = TRUE), dim = c(dim,dim,dim))
+dim = 8
+x <- array(sample(0:4, dim^5, replace = TRUE), dim = c(dim^2,dim^2,dim))
 y <- x
-for (j in 1:dim){
-for (i in 1:dim) y[i, i, j] = 0
-for (i in 1:(dim-1)) y[i, i+1, j] = 0
+for (j in 1:(dim)){
+for (i in 1:(dim^2)) y[i, i, j] = 0
+for (i in 1:(dim^2-1)) y[i, i+1, j] = 0
 }
 catmssim_3d_slice(x,y, weights = c(.75,.25))
 # Now using a different similarity score
-catmssim_3d_slice(x,y, weights = c(.75,.25), method = "Jaccard")
-# And using the last possible similarity score
+catmssim_3d_slice(x,y, weights = c(.75,.25), method = "Rand")
+# And using another similarity score
 catmssim_3d_slice(x,y, weights = c(.75,.25), method = "AdjRand")
 }

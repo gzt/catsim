@@ -22,7 +22,8 @@ catmssim_3d_cube(
 five different scales are used.}
 
 \item{window}{by default 11 for 2D and 5 for 3D images, but can be specified as a
-vector if the window sizes differ by dimension. The vector must have the same number of}
+vector if the window sizes differ by dimension. The vector must have the same number of
+of dimensions as the inputted \code{x} and \code{y}.}
 
 \item{method}{whether to use Cohen's kappa (\code{Cohen}), Jaccard Index (\code{Jaccard}),
 Dice index (\code{Dice}),  accuracy (\code{accuracy}),  Rand index (\code{Rand}),
@@ -51,7 +52,7 @@ for (i in 1:(dim-1)) y[i, i+1, j] = 0
 }
 catmssim_3d_cube(x,y, weights = c(.75,.25))
 # Now using a different similarity score
-catmssim_3d_cube(x,y, weights = c(.75,.25), method = "Jaccard")
+catmssim_3d_cube(x,y, weights = c(.75,.25), method = "Accuracy")
 # And using the last possible similarity score
 catmssim_3d_cube(x,y, weights = c(.75,.25), method = "Rand")
 }

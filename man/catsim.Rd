@@ -34,7 +34,8 @@ or Adjusted Rand Index (\code{AdjRand} or \code{ARI}) as
 the similarity index. Note Jaccard and Dice should only be used on binary data.}
 
 \item{window}{by default 11 for 2D and 5 for 3D images, but can be specified as a
-vector if the window sizes differ by dimension. The vector must have the same number of}
+vector if the window sizes differ by dimension. The vector must have the same number of
+dimensions as the inputted \code{x} and \code{y}.}
 }
 \value{
 a value less than 1 indicating the similarity between the images.

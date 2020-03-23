@@ -7,7 +7,7 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-```{r, include = FALSE}
+```{r init, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
@@ -32,7 +32,7 @@ the ratings together.
 To demonstrate how it works, first we construct a simple multicategory image and 
 blow it up to a larger size. The grid lines are added for reference. This is our
 "ground truth" image.
-```{r construction}
+```{r construction, dependson="setup"}
 
  multfactor = 20
  onesmat <- matrix(1,multfactor,multfactor)
