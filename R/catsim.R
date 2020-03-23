@@ -821,6 +821,32 @@ AdjRandIndex <- function(x,y){
 #' catsim(x,y, weights = c(.75,.25), method = "AdjRand")
 #' # with the slice method:
 #' catsim(x,y, weights = c(.75,.25), cube = FALSE, window = 8)
+#'
+#' # here we construct a 220 x 220 image
+#' # which is a blown up version of an 11 x 11 image
+#' multfactor = 20
+#' onesmat <- matrix(1,multfactor,multfactor)
+#'
+#' exmat <- matrix(0,12,12)
+#' exmat[2:10,c(2,3,9,10)] <- 1
+#' exmat[2:10,c(4,5,7,8)] <- 2
+#' exmat[5:7,2:10]<-1
+#' exmat[2:10,c(6)] <- 3
+#' image(exmat[11:1,1:11])
+#' bigmat = exmat %x% onesmat
+#' shift=6
+#' basemat <- bigmat[1:(11*multfactor),1:(11*multfactor)]
+#' shiftmat <- bigmat[(1+shift):(11*multfactor+shift),1:(11*multfactor)]
+#' # Here we have shifted the matrix slightly
+#' image(shiftmat)
+#' acc = mean(basemat==shiftmat)
+#' errmat <- (matrix(sample(0:3,121*(multfactor^2),replace=TRUE,prob=c(acc,rep((1-acc)/3,3))),(11*multfactor),(11*multfactor))+basemat) %% 4
+#' # here we have made an image that matches its accuracy with salt and pepper noise
+#' image(errmat)
+#' catsim(basemat, errmat, weights = rep(.2, 5)
+#' catsim(basemat, shiftmat, weights = rep(.2, 5)
+#' AdjRandIndex(basemat, errmat)
+#' AdjRandIndex(basemat, shiftmat)
 catsim <- function(x,y,...,cube = TRUE, weights =  c(0.0448, 0.2856, 0.3001, 0.2363, 0.1333), method="Cohen",window=NULL){
     if (is.null(dim(x))) stop("x is 1-dimensional")
     if (is.null(dim(y))) stop("y is 1-dimensional")
