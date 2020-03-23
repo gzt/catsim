@@ -78,7 +78,7 @@ pixelwise agreement is approximately the same.
 If we take only one level of `catsim`, we get the following results when
 comparing to the initial matrix:
 
-```{r onelevel}
+```{r onelevel,eval=FALSE}
 library(catsim)
 ### comparing base to shifted
 catsim::catsim(basemat,shiftmat,weights=1)
