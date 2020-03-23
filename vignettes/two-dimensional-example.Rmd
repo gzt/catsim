@@ -107,7 +107,7 @@ over the salt and pepper error.
 catsim::catsim(basemat,shiftmat,weights=rep(.2,5)
 
 ### comparing base to salt-and-pepper
-catsim::catsim(basemat,errmat,weights=rep(.2,5))
+#catsim::catsim(basemat,errmat,weights=rep(.2,5))
 
 ```
 
