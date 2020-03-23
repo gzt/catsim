@@ -90,8 +90,16 @@
     
     
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(catsim)</a></code></pre></div>
+<div id="introduction-to-catsim" class="section level1">
+<h1 class="hasAnchor">
+<a href="#introduction-to-catsim" class="anchor"></a>Introduction to <code>catsim</code>
+</h1>
 <p>The <strong>Cat</strong>egorial <strong>S</strong>tructural Similarity <strong>I</strong>mage <strong>M</strong>etric, or <strong>CatSIM</strong>, provides a similarity metric for binary or multicategory images or maps after the style of <a href="https://en.wikipedia.org/wiki/Structural_similarity">MS-SSIM</a>. It attempts to assess similiarity between two images that accounts for the similiarity between structures or regions of the image rather than a per-pixel discrepancy, ideally in a way which is similar to human assessments of similarity.</p>
 <p>It works by assessing similarity within a a sliding window across the image, then downsampling and doing the same on different scales, and then combining the ratings together.</p>
+</div>
+<div id="constructing-an-example" class="section level1">
+<h1 class="hasAnchor">
+<a href="#constructing-an-example" class="anchor"></a>Constructing an example</h1>
 <p>To demonstrate how it works, first we construct a simple multicategory image and blow it up to a larger size. The grid lines are added for reference. This is our “ground truth” image.</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"></a>
 <a class="sourceLine" id="cb2-2" data-line-number="2"> multfactor =<span class="st"> </span><span class="dv">20</span></a>
@@ -123,7 +131,12 @@
 <a class="sourceLine" id="cb4-15" data-line-number="15"> ### here we have made an image that matches its accuracy with salt and pepper noise</a>
 <a class="sourceLine" id="cb4-16" data-line-number="16"> <span class="kw"><a href="https://rdrr.io/r/graphics/image.html">image</a></span>(errmat)</a>
 <a class="sourceLine" id="cb4-17" data-line-number="17"> <span class="kw"><a href="https://rdrr.io/r/graphics/grid.html">grid</a></span>(<span class="dt">col=</span><span class="st">"black"</span>)</a></code></pre></div>
-<p><img src="two-dimensional-example_files/figure-html/distortion-1.png" width="700"> Depending on your preferences, you may have reason to prefer one or the other, but, arguably, the shifted version is in some sense better, even though their pixelwise agreement is approximately the same.</p>
+<p><img src="two-dimensional-example_files/figure-html/distortion-1.png" width="700"></p>
+<p>Depending on your preferences, you may have reason to prefer one or the other, but, arguably, the shifted version is in some sense better, even though their pixelwise agreement is approximately the same.</p>
+</div>
+<div id="computing-image-similarity" class="section level1">
+<h1 class="hasAnchor">
+<a href="#computing-image-similarity" class="anchor"></a>Computing Image Similarity</h1>
 <p>If we take only one level of <code>catsim</code>, we get the following results when comparing to the initial matrix:</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(catsim)</a>
 <a class="sourceLine" id="cb5-2" data-line-number="2">### comparing base to shifted</a>
@@ -147,6 +160,10 @@
 <a class="sourceLine" id="cb6-4" data-line-number="4">### comparing base to salt-and-pepper</a>
 <a class="sourceLine" id="cb6-5" data-line-number="5"><span class="kw"><a href="../reference/catsim.html">catsim</a></span>(basemat,errmat,<span class="dt">weights=</span><span class="kw"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(.<span class="dv">2</span>,<span class="dv">5</span>))</a>
 <a class="sourceLine" id="cb6-6" data-line-number="6"><span class="co">#&gt; [1] 0.6088753</span></a></code></pre></div>
+</div>
+<div id="catsim-options" class="section level1">
+<h1 class="hasAnchor">
+<a href="#catsim-options" class="anchor"></a>CatSIM options</h1>
 <p>By default, CatSIM uses <a href="https://en.wikipedia.org/wiki/Cohen's_kappa">Cohen’s kappa (<span class="math inline">\(\kappa\)</span>)</a> as the similarity comparison for the images. This measures agreement between the classes with and adjustment for the probability of chance agreement. However, depending on the application, a different comparison might make sense. The following options are availabe (using the <code>method</code> argument):</p>
 <ul>
 <li>
@@ -165,13 +182,27 @@
 <a class="sourceLine" id="cb7-4" data-line-number="4"><span class="co">#&gt; [1] 0.7932343</span></a>
 <a class="sourceLine" id="cb7-5" data-line-number="5"><span class="kw"><a href="../reference/catsim.html">catsim</a></span>(basemat,shiftmat,<span class="dt">weights=</span><span class="kw"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(.<span class="dv">2</span>,<span class="dv">5</span>), <span class="dt">method=</span><span class="st">"accuracy"</span>)</a>
 <a class="sourceLine" id="cb7-6" data-line-number="6"><span class="co">#&gt; [1] 0.8771697</span></a></code></pre></div>
+<p>The window size can also be adjusted. It should be large enough to capture the scale of the features that are relevant in the analysis. In this example, a portion of the image was displaced by 6 pixels. Too large of a window may average out that difference too much while too small may miss the similarity between the images. Here is a comparison between the shifted image and the salt-and-pepper noise at different window sizes.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="kw"><a href="../reference/catsim.html">catsim</a></span>(basemat, shiftmat,<span class="dt">weights=</span><span class="kw"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(.<span class="dv">2</span>,<span class="dv">5</span>), <span class="dt">window =</span> <span class="dv">20</span>)</a>
+<a class="sourceLine" id="cb8-2" data-line-number="2"><span class="co">#&gt; Warning in catmssim_2d(x, y, weights = weights, method = method, window =</span></a>
+<a class="sourceLine" id="cb8-3" data-line-number="3"><span class="co">#&gt; window, : Truncating levels because of minimum dimension.</span></a>
+<a class="sourceLine" id="cb8-4" data-line-number="4"><span class="co">#&gt; [1] 0.8614266</span></a>
+<a class="sourceLine" id="cb8-5" data-line-number="5"><span class="kw"><a href="../reference/catsim.html">catsim</a></span>(basemat, shiftmat,<span class="dt">weights=</span><span class="kw"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(.<span class="dv">2</span>,<span class="dv">5</span>), <span class="dt">window =</span> <span class="dv">5</span>)</a>
+<a class="sourceLine" id="cb8-6" data-line-number="6"><span class="co">#&gt; [1] 0.8124715</span></a>
+<a class="sourceLine" id="cb8-7" data-line-number="7"><span class="kw"><a href="../reference/catsim.html">catsim</a></span>(basemat, errmat,<span class="dt">weights=</span><span class="kw"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(.<span class="dv">2</span>,<span class="dv">5</span>), <span class="dt">window =</span> <span class="dv">20</span>)</a>
+<a class="sourceLine" id="cb8-8" data-line-number="8"><span class="co">#&gt; Warning in catmssim_2d(x, y, weights = weights, method = method, window =</span></a>
+<a class="sourceLine" id="cb8-9" data-line-number="9"><span class="co">#&gt; window, : Truncating levels because of minimum dimension.</span></a>
+<a class="sourceLine" id="cb8-10" data-line-number="10"><span class="co">#&gt; [1] 0.7913071</span></a>
+<a class="sourceLine" id="cb8-11" data-line-number="11"><span class="kw"><a href="../reference/catsim.html">catsim</a></span>(basemat, errmat,<span class="dt">weights=</span><span class="kw"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(.<span class="dv">2</span>,<span class="dv">5</span>), <span class="dt">window =</span> <span class="dv">5</span>)</a>
+<a class="sourceLine" id="cb8-12" data-line-number="12"><span class="co">#&gt; [1] 0.6088753</span></a></code></pre></div>
 <div id="advanced-functionality" class="section level2">
 <h2 class="hasAnchor">
 <a href="#advanced-functionality" class="anchor"></a>Advanced Functionality</h2>
 <p>The <code><a href="../reference/catsim.html">catsim()</a></code> function works for both 2-D and 3-D images. It is a wrapper for other functions which give more control over the various options. On a 2-D image, it is calling <code><a href="../reference/catmssim_2d.html">catmssim_2d()</a></code> and on a 3-D image it is calling either <code><a href="../reference/catmssim_3d_cube.html">catmssim_3d_cube()</a></code> or <code><a href="../reference/catmssim_3d_slice.html">catmssim_3d_slice()</a></code>, which treats the image as either an isotropic 3-D image or a stack of 2-D slices.</p>
-<p>In images with different properties across dimensions, the sliding window used to assess the similarity might not need to be square. This can be specified by passing a vector to the <code>window</code> argument.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="kw"><a href="../reference/catsim.html">catsim</a></span>(basemat,shiftmat,<span class="dt">weights=</span><span class="kw"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(.<span class="dv">2</span>,<span class="dv">5</span>), <span class="dt">window=</span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">11</span>,<span class="dv">5</span>))</a>
-<a class="sourceLine" id="cb8-2" data-line-number="2"><span class="co">#&gt; [1] 0.7994898</span></a></code></pre></div>
+<p>In images with different properties across dimensions, the sliding window used to assess the similarity might not need to be square. This can be specified by passing a vector to the <code>window</code> argument. In the provided examples, this is not necessary, but some sources of images may not be isotropic. Alternatively, the image may be elongated in one direction and narrow in another. This makes it possible to accommodate these differences.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="kw"><a href="../reference/catsim.html">catsim</a></span>(basemat,shiftmat,<span class="dt">weights=</span><span class="kw"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(.<span class="dv">2</span>,<span class="dv">5</span>), <span class="dt">window=</span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">11</span>,<span class="dv">5</span>))</a>
+<a class="sourceLine" id="cb9-2" data-line-number="2"><span class="co">#&gt; [1] 0.7994898</span></a></code></pre></div>
+</div>
 </div>
   </div>
 
@@ -181,7 +212,14 @@
       <h2 class="hasAnchor">
 <a href="#tocnav" class="anchor"></a>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
+<li><a href="#introduction-to-catsim">Introduction to <code>catsim</code></a></li>
+      <li><a href="#constructing-an-example">Constructing an example</a></li>
+      <li><a href="#computing-image-similarity">Computing Image Similarity</a></li>
+      <li>
+<a href="#catsim-options">CatSIM options</a><ul class="nav nav-pills nav-stacked">
 <li><a href="#advanced-functionality">Advanced Functionality</a></li>
+      </ul>
+</li>
       </ul>
 </div>
       </div>
