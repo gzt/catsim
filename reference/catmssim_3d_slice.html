@@ -72,7 +72,7 @@ and then averages over the z-axis." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">catsim</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9032</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9034</span>
       </span>
     </div>
 
@@ -86,6 +86,18 @@ and then averages over the z-axis." />
 </li>
 <li>
   <a href="../reference/index.html">Reference</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Articles
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/two-dimensional-example.html">Two-Dimensional Examples of catsim</a>
+    </li>
+  </ul>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -148,7 +160,8 @@ five different scales are used.</p></td>
     <tr>
       <th>window</th>
       <td><p>by default 11 for 2D and 5 for 3D images, but can be specified as a
-vector if the window sizes differ by dimension. The vector must have the same number of</p></td>
+vector if the window sizes differ by dimension. The vector must have the same number of
+of dimensions as the inputted <code>x</code> and <code>y</code>.</p></td>
     </tr>
     <tr>
       <th>method</th>
@@ -169,16 +182,16 @@ the similarity index. Note Jaccard and Dice should only be used on binary data.<
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span>(<span class='fl'>20181207</span>)
-<span class='no'>dim</span> <span class='kw'>=</span> <span class='fl'>16</span>
-<span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/array.html'>array</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/sample.html'>sample</a></span>(<span class='fl'>0</span>:<span class='fl'>4</span>, <span class='no'>dim</span>^<span class='fl'>3</span>, <span class='kw'>replace</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>), <span class='kw'>dim</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='no'>dim</span>,<span class='no'>dim</span>,<span class='no'>dim</span>))
+<span class='no'>dim</span> <span class='kw'>=</span> <span class='fl'>8</span>
+<span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/array.html'>array</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/sample.html'>sample</a></span>(<span class='fl'>0</span>:<span class='fl'>4</span>, <span class='no'>dim</span>^<span class='fl'>5</span>, <span class='kw'>replace</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>), <span class='kw'>dim</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='no'>dim</span>^<span class='fl'>2</span>,<span class='no'>dim</span>^<span class='fl'>2</span>,<span class='no'>dim</span>))
 <span class='no'>y</span> <span class='kw'>&lt;-</span> <span class='no'>x</span>
-<span class='kw'>for</span> (<span class='no'>j</span> <span class='kw'>in</span> <span class='fl'>1</span>:<span class='no'>dim</span>){
-<span class='kw'>for</span> (<span class='no'>i</span> <span class='kw'>in</span> <span class='fl'>1</span>:<span class='no'>dim</span>) <span class='no'>y</span>[<span class='no'>i</span>, <span class='no'>i</span>, <span class='no'>j</span>] <span class='kw'>=</span> <span class='fl'>0</span>
-<span class='kw'>for</span> (<span class='no'>i</span> <span class='kw'>in</span> <span class='fl'>1</span>:(<span class='no'>dim</span>-<span class='fl'>1</span>)) <span class='no'>y</span>[<span class='no'>i</span>, <span class='no'>i</span>+<span class='fl'>1</span>, <span class='no'>j</span>] <span class='kw'>=</span> <span class='fl'>0</span>
+<span class='kw'>for</span> (<span class='no'>j</span> <span class='kw'>in</span> <span class='fl'>1</span>:(<span class='no'>dim</span>)){
+<span class='kw'>for</span> (<span class='no'>i</span> <span class='kw'>in</span> <span class='fl'>1</span>:(<span class='no'>dim</span>^<span class='fl'>2</span>)) <span class='no'>y</span>[<span class='no'>i</span>, <span class='no'>i</span>, <span class='no'>j</span>] <span class='kw'>=</span> <span class='fl'>0</span>
+<span class='kw'>for</span> (<span class='no'>i</span> <span class='kw'>in</span> <span class='fl'>1</span>:(<span class='no'>dim</span>^<span class='fl'>2</span>-<span class='fl'>1</span>)) <span class='no'>y</span>[<span class='no'>i</span>, <span class='no'>i</span>+<span class='fl'>1</span>, <span class='no'>j</span>] <span class='kw'>=</span> <span class='fl'>0</span>
 }
-<span class='fu'>catmssim_3d_slice</span>(<span class='no'>x</span>,<span class='no'>y</span>, <span class='kw'>weights</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>.75</span>,<span class='fl'>.25</span>))</div><div class='output co'>#&gt; <span class='warning'>Warning: Truncating levels because of minimum dimension.</span></div><div class='output co'>#&gt; [1] 0.8652834</div><div class='input'><span class='co'># Now using a different similarity score</span>
-<span class='fu'>catmssim_3d_slice</span>(<span class='no'>x</span>,<span class='no'>y</span>, <span class='kw'>weights</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>.75</span>,<span class='fl'>.25</span>), <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"Jaccard"</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: Truncating levels because of minimum dimension.</span></div><div class='output co'>#&gt; [1] 0.8657057</div><div class='input'><span class='co'># And using the last possible similarity score</span>
-<span class='fu'>catmssim_3d_slice</span>(<span class='no'>x</span>,<span class='no'>y</span>, <span class='kw'>weights</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>.75</span>,<span class='fl'>.25</span>), <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"AdjRand"</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: Truncating levels because of minimum dimension.</span></div><div class='output co'>#&gt; [1] 0.7558783</div></pre>
+<span class='fu'>catmssim_3d_slice</span>(<span class='no'>x</span>,<span class='no'>y</span>, <span class='kw'>weights</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>.75</span>,<span class='fl'>.25</span>))</div><div class='output co'>#&gt; [1] 0.9569597</div><div class='input'><span class='co'># Now using a different similarity score</span>
+<span class='fu'>catmssim_3d_slice</span>(<span class='no'>x</span>,<span class='no'>y</span>, <span class='kw'>weights</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>.75</span>,<span class='fl'>.25</span>), <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"Rand"</span>)</div><div class='output co'>#&gt; [1] 0.9712163</div><div class='input'><span class='co'># And using another similarity score</span>
+<span class='fu'>catmssim_3d_slice</span>(<span class='no'>x</span>,<span class='no'>y</span>, <span class='kw'>weights</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>.75</span>,<span class='fl'>.25</span>), <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"AdjRand"</span>)</div><div class='output co'>#&gt; [1] 0.9168911</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
