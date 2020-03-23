@@ -10,7 +10,8 @@ catsim(
   ...,
   cube = TRUE,
   weights = c(0.0448, 0.2856, 0.3001, 0.2363, 0.1333),
-  method = "Cohen"
+  method = "Cohen",
+  window = NULL
 )
 }
 \arguments{
@@ -27,10 +28,13 @@ By default, \code{TRUE}, which evaluates as a cube. \code{FALSE} will treat it a
 \item{weights}{a vector of weights for the different scales. By default,
 five different scales are used.}
 
-\item{method}{whether to use Cohen's kappa (\code{Cohen}, the default), Jaccard Index (\code{Jaccard}),
-Dice Index (\code{Dice}),  accuracy/Hamming index (\code{accuracy} or \code{Hamming}),
-Rand Index (\code{Rand}), or Adjusted Rand Index (\code{AdjRand} or \code{ARI}) as
-the similarity index. Note Jaccard or Dice should only be used on binary data.}
+\item{method}{whether to use Cohen's kappa (\code{Cohen}), Jaccard Index (\code{Jaccard}),
+Dice index (\code{Dice}),  accuracy (\code{accuracy}),  Rand index (\code{Rand}),
+or Adjusted Rand Index (\code{AdjRand} or \code{ARI}) as
+the similarity index. Note Jaccard and Dice should only be used on binary data.}
+
+\item{window}{by default 11 for 2D and 5 for 3D images, but can be specified as a
+vector if the window sizes differ by dimension. The vector must have the same number of}
 }
 \value{
 a value less than 1 indicating the similarity between the images.
@@ -58,5 +62,5 @@ catsim(x,y, weights = c(.75,.25), method = "Jaccard")
 # And using the last possible similarity score
 catsim(x,y, weights = c(.75,.25), method = "AdjRand")
 # with the slice method:
-catsim(x,y, weights = c(.75,.25), cube = FALSE)
+catsim(x,y, weights = c(.75,.25), cube = FALSE, window = 8)
 }

@@ -104,8 +104,7 @@ sqrtginicorr <- function(x, k){
 
 #' Variance function (internal)
 #'
-#' @param x binary or categorical image or vector
-#' @param y binary or categorical image or vector
+#' @param x,y binary or categorical image or vector
 #' @param c2 small constant
 #' @noRd
 #' @return variance function
@@ -224,17 +223,6 @@ sfunc <- function(x, y, methodflag = C_Cohen){
     x <- as.vector(x)
     y <- as.vector(y)
   methodflag(x,y)  
-##    if (methodflag == "Cohen"){
-##    return(C_Cohen(x,y))
-##    } else if (methodflag == "Jaccard"){
-##      return(jaccard(x,y))
-##    } else if (methodflag == "Dice"){
-##        return(dice(x,y))
-##    } else if (methodflag== "hamming"){
-##        return(hamming(x,y))
-##    }  else if (methodflag=="Rand") {
-##        return(C_Rand(x,y))
-##    } else C_AdjRand(x,y)
 }
 
 
@@ -249,7 +237,9 @@ sfunc <- function(x, y, methodflag = C_Cohen){
 #' @param gamma normalizing parameter, by default 1
 #' @param c1 small normalization constant for the \code{c} function, by default 0.01
 #' @param c2 small normalization constant for the \code{s} function, by default 0.01
-#' @param method whether to use Cohen's kappa, Jaccard Index, Dice Index, accuracy (Hamming index), or Adjusted Rand Index as
+#' @param method whether to use Cohen's kappa (\code{Cohen}), Jaccard Index (\code{Jaccard}),
+#'     Dice index (\code{Dice}),  accuracy (\code{accuracy}),  Rand index (\code{Rand}),
+#'     or Adjusted Rand Index (\code{AdjRand} or \code{ARI}) as
 #'     the similarity index. Note Jaccard and Dice should only be used on binary data.
 #' @param ... Constants can be passed to the components of the index.
 #'
@@ -306,7 +296,6 @@ ssimcomponents <- function(x, y, k, method = "Cohen", c1 = 0.01, c2 = 0.01, ...)
 pickmode <- function(x){
   ux <- unique(x)
   tab <- tabulate(match(x, ux))
-  #sample(ux[tab == max(tab)],1)
   # the random selection made things look too bad! so just taking the first
   # mode programmatically.
   ux[which.max(tab)]
@@ -318,9 +307,9 @@ pickmode <- function(x){
 #' Cuts the image into a grid of \eqn{2 \times 2}{2x2} squares and selects the mode of each
 #' (discarding any odd boundary). In case there is more than one mode, it selects
 #' the first in lexicographic order.
-#' @param x an n x m binary or categorical image
+#' @param x an \eqn{n \times m}{n x m} binary or categorical image
 #'
-#' @return a an n/2 x m/2 binary or categorical image
+#' @return an \eqn{n/2 \times m/2}{n/2 x m/2} binary or categorical image
 #'
 #' @keywords internal
 #'
@@ -347,7 +336,7 @@ downsample_2d <- function(x){
 #' Downsampling by a factor of 2 for a 3D categorical image
 #'
 #' This function presumes that only the x and y axis are subsampled and the
-#' z-axis is preserved. Cuts the image into a grid of 2x2 squares and selects
+#' z-axis is preserved. Cuts the image into a grid of \eqn{2 \times 2}{2 x 2} squares and selects
 #' the mode of each (discarding any odd boundary). It treats each level of z as
 #' an independent slice. In case there is more than one mode, it selects
 #' the first in lexicographic order.
@@ -377,7 +366,7 @@ downsample_3d_slice <- function(x){
 #' Downsampling by a factor of 2 for a 3D categorical image
 #'
 #' This function presumes that only the x and y axis are subsampled and the
-#' z-axis is preserved. Cuts the image into a grid of 2x2x2 cubes and selects
+#' z-axis is preserved. Cuts the image into a grid of \eqn{2 \times 2 \times 2}{2 x 2 x 2} cubes and selects
 #' the mode of each (discarding any odd boundary). It treats each direction as
 #' equal. In case there is more than one mode, it selects
 #' the first in lexicographic order.
@@ -414,7 +403,7 @@ downsample_3d_cube <- function(x){
 #' Categorical Structural Similarity Index Measure (2D)
 #'
 #' The categorical structural similary index measure for 2D categorical or binary
-#' images for a single scale. This computes it using moving 8x8 windows and is
+#' images for a single scale. This computes it using moving \eqn{11 \times 11}{11 x 11} windows and is
 #' suitable for modestly-sized images which are not large enough to warrant
 #' looking at multiple scales.
 #'
@@ -441,18 +430,19 @@ catssim_2d <- function(x,y, window = 11, method = "Cohen", ...){
     if (any(dim(x) != dim(y))) stop('x and y have nonconformable dimensions.')
 #    method=methodparser(method)
   #levels <- levels(factor(c(x,y)))
+  if(length(window) == 1) window = c(window,window)
   k = length(unique(c(x,y)))
   dims = dim(x)
   nrow = dims[1]
   ncol = dims[2]
   if (any(dims < (window - 1))) return(ssimcomponents(x=(x), y=(y), k=k, method=method, ...))
-  resultmatrix = array(0, c(nrow-window+1,ncol-window+1,3))# c(0,0,0)
+  resultmatrix = array(0, c(nrow-window[1]+1,ncol-window[2]+1,3))# c(0,0,0)
 
-  for (i in 1:(nrow - (window - 1))) {
-    for (j in 1:(ncol - (window - 1))) {
+  for (i in 1:(nrow - (window[1] - 1))) {
+    for (j in 1:(ncol - (window[2] - 1))) {
       #place = j + (ncol - (window - 1))*(i - 1)
-      subx = x[i:(i + (window - 1)), j:(j + (window - 1))]
-      suby = y[i:(i + (window - 1)), j:(j + (window - 1))]
+      subx = x[i:(i + (window[1] - 1)), j:(j + (window[2] - 1))]
+      suby = y[i:(i + (window[1] - 1)), j:(j + (window[2] - 1))]
 
       resultmatrix[i,j,] = ssimcomponents(x=subx, y=suby, k=k, method=method, ...)
     }
@@ -472,10 +462,12 @@ catssim_2d <- function(x,y, window = 11, method = "Cohen", ...){
 #' @param x,y a binary or categorical image
 #' @param weights a vector of weights for the different scales. By default,
 #'     five different scales are used.
-#' @param window window size, by default 11 for 2D and 5 for 3D.
+#' @param window  by default 11 for 2D and 5 for 3D images, but can be specified as a
+#'     vector if the window sizes differ by dimension. The vector must have the same number of
+#      of dimensions as the inputted \code{x} and \code{y}.
 #' @param method whether to use Cohen's kappa (\code{Cohen}), Jaccard Index (\code{Jaccard}),
 #'     Dice index (\code{Dice}),  accuracy (\code{accuracy}),  Rand index (\code{Rand}),
-#'     or Adjusted Rand Index (\code{AdjRand}) as
+#'     or Adjusted Rand Index (\code{AdjRand} or \code{ARI}) as
 #'     the similarity index. Note Jaccard and Dice should only be used on binary data.
 #' @param ... additional constants can be passed to internal functions.
 #'
@@ -501,16 +493,17 @@ catmssim_2d <- function(x, y, weights = c(0.0448, 0.2856, 0.3001, 0.2363, 0.1333
     if (is.null(dim(y))) stop("y is 1-dimensional")
     if (length(dim(x)) != length(dim(y)))  stop('x and y have nonconformable dimensions.')
     if (any(dim(x) != dim(y))) stop('x and y have nonconformable dimensions.')
-   
+    if (length(window) == 1) window = c(window,window)
   levels = length(weights)
-  mindim <- min(dim(x))
-  if (mindim < window) {
+    mindim <- min(dim(x))
+    minwindow = min(window[1:2])
+  if (mindim < minwindow) {
     warning("Minimum dimension should be greater than window size. Using only one level.")
     return(binssim(x=x,y=y, method=method,...))
   }
 
-  if (mindim < (2^(levels - 1))*window) {
-    levels = min(c(floor(log2(mindim/window) + 1),levels))
+  if (mindim < (2^(levels - 1))*minwindow) {
+    levels = min(c(floor(log2(dim(x)/window[1:2]) + 1),levels))
     warning("Truncating levels because of minimum dimension.")
   }
   weights = weights[1:levels]
@@ -540,8 +533,10 @@ catmssim_2d <- function(x, y, weights = c(0.0448, 0.2856, 0.3001, 0.2363, 0.1333
 #'
 #' @param x,y a binary or categorical image
 #' @param window by default 11
-#' @param method whether to use Cohen's kappa, Jaccard Index, Dice Index, accuracy/Hamming index,  or Adjusted Rand Index as
-#'     the similarity index. Note Jaccard or Dice should only be used on binary data.
+#' @param method whether to use Cohen's kappa (\code{Cohen}), Jaccard Index (\code{Jaccard}),
+#'     Dice index (\code{Dice}),  accuracy (\code{accuracy}),  Rand index (\code{Rand}),
+#'     or Adjusted Rand Index (\code{AdjRand} or \code{ARI}) as
+#'     the similarity index. Note Jaccard and Dice should only be used on binary data.
 #' @param ...
 #'
 #' @return SSIM componenets for the cube.
@@ -565,17 +560,18 @@ catssim_3d_cube <- function(x, y, window = 5, method = "Cohen", ...){
     if (is.null(dim(y))) stop("y is 1-dimensional")
     if (any(dim(x) != dim(y))) stop('x and y have nonconformable dimensions.')
     #method=methodparser(method)
-  #levels <- levels(factor(c(x,y)))
+                                        #levels <- levels(factor(c(x,y)))
+    if(length(window)==1) window = rep(window,3)
   k = length(unique(c(x,y)))
   dims = dim(x)
   if (any(dims < window)) return(ssimcomponents(x=(x), y=(y),k=k, method=method, ...))
 
-  cuberesults = array(0,c(dims-window+1,3))# c(0,0,0)
-  for (i in 1:(dims[1] - (window-1))) {
-    for (j in 1:(dims[2] - (window-1))) {
-      for (k in 1:(dims[3] - (window-1))) {
-        subx = x[i:(i + (window-1)), j:(j + (window-1)), k:(k + (window-1))]
-        suby = y[i:(i + (window-1)), j:(j + (window-1)), k:(k + (window-1))]
+  cuberesults = array(0,c(dims-window[1:3]+1,3))# c(0,0,0)
+  for (i in 1:(dims[1] - (window[1]-1))) {
+    for (j in 1:(dims[2] - (window[2]-1))) {
+      for (k in 1:(dims[3] - (window[3]-1))) {
+        subx = x[i:(i + (window[1]-1)), j:(j + (window[2]-1)), k:(k + (window[3]-1))]
+        suby = y[i:(i + (window[1]-1)), j:(j + (window[2]-1)), k:(k + (window[3]-1))]
 
         cuberesults[i,j,k,] = ssimcomponents(x=subx, y=suby, k=k, method=method, ...)
       }
@@ -611,7 +607,7 @@ catssim_3d_cube <- function(x, y, window = 5, method = "Cohen", ...){
 #' # Now using a different similarity score
 #' catmssim_3d_slice(x,y, weights = c(.75,.25), method = "Jaccard")
 #' # And using the last possible similarity score
-#' catmssim_3d_slice(x,y, weights = c(.75,.25), method = "Rand")
+#' catmssim_3d_slice(x,y, weights = c(.75,.25), method = "AdjRand")
 catmssim_3d_slice <- function(x, y, weights = c(0.0448, 0.2856, 0.3001, 0.2363, 0.1333),
                               window = 11, method = "Cohen", ...){
   # the weights are from the original MS-SSIM program
@@ -621,12 +617,14 @@ catmssim_3d_slice <- function(x, y, weights = c(0.0448, 0.2856, 0.3001, 0.2363, 
     if (any(dim(x) != dim(y))) stop('x and y have nonconformable dimensions.')
     #method=methodparser(method)
   levels = length(weights)
-  dims = dim(x)
+    dims = dim(x)
+    if (length(window)==1) window = c(window,window)
   if (length(dims) < 3) stop('x and y are not 3-dimensional.')
-  mindim <- min(dim(x)[1:2])
-  if (mindim < window) stop("Minimum dimension must be greater than window size.")
-  if (mindim < (2^(levels - 1))*window) {
-    levels = min(c(floor(log2(mindim/window) + 1),levels))
+    mindim <- min(dim(x)[1:2])
+    minwindow = min(window[1:2])
+  if (any(dims[1:2] < window[1:2])) stop("Minimum dimension must be greater than window size.")
+  if (mindim < (2^(levels - 1))*minwindow) {
+    levels = min(c(floor(log2(dims/window[1:2]) + 1),levels))
     warning("Truncating levels because of minimum dimension.")
   }
 
@@ -685,17 +683,19 @@ catmssim_3d_cube <- function(x, y, weights = c(0.0448, 0.2856, 0.3001, 0.2363, 0
     if (length(dim(x)) != length(dim(y)))  stop('x and y have nonconformable dimensions.')
     if (any(dim(x) != dim(y))) stop('x and y have nonconformable dimensions.')
 #    method=methodparser(method)
-  levels = length(weights)
+    levels = length(weights)
+    if(length(window)==1) window = rep(window,3)
+    if(length(window) != 3) stop("Window not of length 1 or 3")
   dims = dim(x)
   if (length(dims) < 3) stop('x and y are not 3-dimensional.')
   mindim <- min(dim(x))
-  if (mindim < 2*window) {
-      warning("Minimum dimension must be greater than 2 * window.")
-      if(window > mindim) windox = mindim
+  if (mindim < 1.5*min(window)) {
+      warning("Minimum dimension must be greater than 1.5 * minimum window.")
+      if(min(window) > mindim) window = rep(mindim,3)
     return(catssim_3d_cube(x=x,y=y,window=window,method=method,...))
   }
-  if (mindim < (2^(levels - 1))*window) {
-    levels = min(c(floor(log2(mindim/window) + 1),levels))
+  if (mindim < (2^(levels - 1))*min(window)) {
+    levels = min(c(floor(log2(dims/window[1:3]) + 1),levels))
     warning("Truncating levels because of minimum dimension.")
   }
 
@@ -795,10 +795,13 @@ AdjRandIndex <- function(x,y){
 #'        2D slices.
 #' @param weights  a vector of weights for the different scales. By default,
 #'     five different scales are used.
-#' @param method whether to use Cohen's kappa (\code{Cohen}, the default), Jaccard Index (\code{Jaccard}),
-#'     Dice Index (\code{Dice}),  accuracy/Hamming index (\code{accuracy} or \code{Hamming}),
-#'     Rand Index (\code{Rand}), or Adjusted Rand Index (\code{AdjRand} or \code{ARI}) as
-#'     the similarity index. Note Jaccard or Dice should only be used on binary data.
+#' @param method whether to use Cohen's kappa (\code{Cohen}), Jaccard Index (\code{Jaccard}),
+#'     Dice index (\code{Dice}),  accuracy (\code{accuracy}),  Rand index (\code{Rand}),
+#'     or Adjusted Rand Index (\code{AdjRand} or \code{ARI}) as
+#'     the similarity index. Note Jaccard and Dice should only be used on binary data.
+#' @param window by default 11 for 2D and 5 for 3D images, but can be specified as a
+#'     vector if the window sizes differ by dimension. The vector must have the same number of
+#      of dimensions as the inputted \code{x} and \code{y}.
 #' @return a value less than 1 indicating the similarity between the images.
 #' @export
 #'
@@ -817,14 +820,18 @@ AdjRandIndex <- function(x,y){
 #' # And using the last possible similarity score
 #' catsim(x,y, weights = c(.75,.25), method = "AdjRand")
 #' # with the slice method:
-#' catsim(x,y, weights = c(.75,.25), cube = FALSE)
-catsim <- function(x,y,...,cube = TRUE, weights =  c(0.0448, 0.2856, 0.3001, 0.2363, 0.1333), method="Cohen"){
+#' catsim(x,y, weights = c(.75,.25), cube = FALSE, window = 8)
+catsim <- function(x,y,...,cube = TRUE, weights =  c(0.0448, 0.2856, 0.3001, 0.2363, 0.1333), method="Cohen",window=NULL){
     if (is.null(dim(x))) stop("x is 1-dimensional")
     if (is.null(dim(y))) stop("y is 1-dimensional")
     if (length(dim(x)) != length(dim(y)))  stop('x and y have nonconformable dimensions.')
     if (any(dim(x) != dim(y))) stop('x and y have nonconformable dimensions.')
     dims = dim(x)
-    if(length(dims)==2) catmssim_2d(x,y,weights=weights,method=method,...)
+    if (is.null(window)) {
+        if (cube && length(dims ==3)) window = 5
+        else window=11
+        }
+    if(length(dims)==2) catmssim_2d(x,y,weights=weights,method=method,window=window,...)
     else if (cube) catmssim_3d_cube(x,y,weights=weights,method=method,...)
     else catmssim_3d_slice(x,y,weights=weights,method=method,...)
 }
