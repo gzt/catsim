@@ -17,6 +17,7 @@ knitr::opts_chunk$set(
 ```{r setup}
 library(catsim)
 ```
+# Introduction to `catsim`
 
 The **Cat**egorial **S**tructural Similarity **I**mage **M**etric, or **CatSIM**, 
 provides a similarity metric for binary or multicategory images or maps after the 
@@ -29,6 +30,7 @@ It works by assessing similarity within a a sliding window across the image,
 then downsampling and doing the same on different scales, and then combining
 the ratings together.
 
+# Constructing an example
 To demonstrate how it works, first we construct a simple multicategory image and 
 blow it up to a larger size. The grid lines are added for reference. This is our
 "ground truth" image.
@@ -46,6 +48,7 @@ blow it up to a larger size. The grid lines are added for reference. This is our
  bigmat = exmat %x% onesmat
 
 ```
+
 Next, we construct two distorted versions. The first simply shifts the central
 portion of the image over six pixels. Then, we compute the percentage of pixels that 
 disagree with the baseline image and create a second distorted image by adding 
@@ -71,10 +74,12 @@ salt-and-pepper noise at that rate. Again, grid lines are added only for referen
  grid(col="black")
 
 ```
+
 Depending on your preferences, you may have reason to prefer one or the other,
 but, arguably, the shifted version is in some sense better, even though their
 pixelwise agreement is approximately the same.
 
+# Computing Image Similarity
 If we take only one level of `catsim`, we get the following results when
 comparing to the initial matrix:
 
@@ -111,6 +116,7 @@ catsim(basemat,errmat,weights=rep(.2,5))
 
 ```
 
+# CatSIM options
 By default, CatSIM uses [Cohen's kappa ($\kappa$)](https://en.wikipedia.org/wiki/Cohen's_kappa)
 as the similarity comparison for the images. This measures agreement between the classes with
 and adjustment for the probability of chance agreement. However, depending on the application,
@@ -133,6 +139,20 @@ catsim(basemat,shiftmat,weights=rep(.2,5), method="Rand")
 catsim(basemat,shiftmat,weights=rep(.2,5), method="AdjRand")
 catsim(basemat,shiftmat,weights=rep(.2,5), method="accuracy")
 ```
+The window size can also be adjusted. It should be large enough to capture
+the scale of the features that are relevant in the analysis. In this example,
+a portion of the image was displaced by 6 pixels. Too large of a window may 
+average out that difference too much while too small may miss the similarity 
+between the images. Here is a comparison between the shifted image and the 
+salt-and-pepper noise at different window sizes.
+
+```{r windowsize}
+catsim(basemat, shiftmat,weights=rep(.2,5), window = 20)
+catsim(basemat, shiftmat,weights=rep(.2,5), window = 5)
+catsim(basemat, errmat,weights=rep(.2,5), window = 20)
+catsim(basemat, errmat,weights=rep(.2,5), window = 5)
+
+```
 
 ## Advanced Functionality
 The `catsim()` function works for both 2-D and 3-D images. It is a wrapper
@@ -143,8 +163,13 @@ treats the image as either an isotropic 3-D image or a stack of 2-D slices.
 
 In images with different properties across dimensions, the sliding window
 used to assess the similarity might not need to be square.
-This can be specified by passing a vector to the `window` argument.
+This can be specified by passing a vector to the `window` argument. In the
+provided examples, this is not necessary, but some sources of 
+images may not be isotropic. Alternatively, the image may be 
+elongated in one direction and narrow in another. This makes
+it possible to accommodate these differences.
 
 ```{r windowarg}
 catsim(basemat,shiftmat,weights=rep(.2,5), window=c(11,5))
 ```
+
