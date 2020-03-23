@@ -596,17 +596,17 @@ catssim_3d_cube <- function(x, y, window = 5, method = "Cohen", ...){
 #'
 #' @examples
 #' set.seed(20181207)
-#' dim = 16
-#' x <- array(sample(0:4, dim^3, replace = TRUE), dim = c(dim,dim,dim))
+#' dim = 8
+#' x <- array(sample(0:4, dim^5, replace = TRUE), dim = c(dim^2,dim^2,dim))
 #' y <- x
-#' for (j in 1:dim){
-#' for (i in 1:dim) y[i, i, j] = 0
-#' for (i in 1:(dim-1)) y[i, i+1, j] = 0
+#' for (j in 1:(dim)){
+#' for (i in 1:(dim^2)) y[i, i, j] = 0
+#' for (i in 1:(dim^2-1)) y[i, i+1, j] = 0
 #' }
 #' catmssim_3d_slice(x,y, weights = c(.75,.25))
 #' # Now using a different similarity score
-#' catmssim_3d_slice(x,y, weights = c(.75,.25), method = "Jaccard")
-#' # And using the last possible similarity score
+#' catmssim_3d_slice(x,y, weights = c(.75,.25), method = "Rand")
+#' # And using another similarity score
 #' catmssim_3d_slice(x,y, weights = c(.75,.25), method = "AdjRand")
 catmssim_3d_slice <- function(x, y, weights = c(0.0448, 0.2856, 0.3001, 0.2363, 0.1333),
                               window = 11, method = "Cohen", ...){
@@ -672,7 +672,7 @@ catmssim_3d_slice <- function(x, y, weights = c(0.0448, 0.2856, 0.3001, 0.2363, 
 #' }
 #' catmssim_3d_cube(x,y, weights = c(.75,.25))
 #' # Now using a different similarity score
-#' catmssim_3d_cube(x,y, weights = c(.75,.25), method = "Jaccard")
+#' catmssim_3d_cube(x,y, weights = c(.75,.25), method = "Accuracy")
 #' # And using the last possible similarity score
 #' catmssim_3d_cube(x,y, weights = c(.75,.25), method = "Rand")
 catmssim_3d_cube <- function(x, y, weights = c(0.0448, 0.2856, 0.3001, 0.2363, 0.1333), window = 5,
