@@ -6,3 +6,4 @@ catsim.Rproj
 *~
 .#*
 *.o
+inst/doc
