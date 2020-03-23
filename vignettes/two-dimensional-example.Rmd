@@ -32,7 +32,7 @@ the ratings together.
 To demonstrate how it works, first we construct a simple multicategory image and 
 blow it up to a larger size. The grid lines are added for reference. This is our
 "ground truth" image.
-```{r construction, dependson="setup"}
+```{r construction}
 
  multfactor = 20
  onesmat <- matrix(1,multfactor,multfactor)
@@ -79,6 +79,7 @@ If we take only one level of `catsim`, we get the following results when
 comparing to the initial matrix:
 
 ```{r onelevel}
+load(catsim)
 ### comparing base to shifted
 catsim(basemat,shiftmat,weights=1)
 
