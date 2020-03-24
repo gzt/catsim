@@ -1,1 +1,15 @@
 destination: docs
+reference:
+	- title: "Main Function"
+	  desc: "The main function for CatSIM for comparing 2-D and 3-D images."
+	  contents:
+	  - catsim
+	- title: "Advanced Functions"
+	  desc: "Functions with more options for comparins 2-D and 3-D images."
+	  contents:
+	  - matches("ssim")
+	- title: "Utility Functions"
+	  desc: "Other useful functions."
+	  contents:
+	  - AdjRandIndex
+	  - matches("gini")
