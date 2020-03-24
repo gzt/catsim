@@ -9,7 +9,7 @@ reference:
       contents:
       - matches("ssim")
     - title: "Utility Functions"
-      desc: "Other Useful Functions."
+      desc: "Other useful functions."
       contents:
       - AdjRandIndex
       - matches("gini")
