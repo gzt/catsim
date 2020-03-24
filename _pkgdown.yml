@@ -5,11 +5,11 @@ reference:
 	  contents:
 	  - catsim
 	- title: "Advanced Functions"
-	  desc: "Functions with more options for comparins 2-D and 3-D images."
+	  desc: "Functions with more options for comparing 2-D and 3-D images."
 	  contents:
 	  - matches("ssim")
 	- title: "Utility Functions"
-	  desc: "Other useful functions."
+	  desc: "Other Useful Functions."
 	  contents:
 	  - AdjRandIndex
 	  - matches("gini")
