@@ -269,19 +269,20 @@ binssim <- function(x, y, alpha = 1, beta = 1, gamma = 1, c1 = 0.01, c2 = 0.01, 
 #'     the similarity index. Note Jaccard should only be used on binary data.
 #' @param c1 constant for the means function
 #' @param c2 constant for the chrominance function
+#' @param sqrtgini whether to use sqrtgini or gini, by default \code{TRUE}
 #' @param ... constants can be passed to the internal functions
 #' @noRd
 #' @return the three components of the Categorical SSIM.
 #' @keywords internal
 #'
-ssimcomponents <- function(x, y, k, method = "Cohen", c1 = 0.01, c2 = 0.01, ...){
+ssimcomponents <- function(x, y, k, method = "Cohen", c1 = 0.01, c2 = 0.01, sqrtgini=TRUE){
   #k = length(levels)
   #levels <- levels(factor(c(x,y)))
   
     naxy <- (!is.na(x) & !is.na(y))
     if (length(x[naxy]) == 0) return(c(NA,NA,NA))
     methodflag=methodparser(method)
-  c(meansfunc(x[naxy], y[naxy], c1),cfunc(x=x[naxy], y=y[naxy], c2=c2, k = k, ...),sfunc(x[naxy], y[naxy],methodflag=methodflag))
+  c(meansfunc(x[naxy], y[naxy], c1),cfunc(x=x[naxy], y=y[naxy], c2=c2, k = k, sqrtgini),sfunc(x[naxy], y[naxy],methodflag=methodflag))
 }
 
 

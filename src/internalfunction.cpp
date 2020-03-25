@@ -205,16 +205,13 @@ double C_AdjRand(NumericVector x, NumericVector y){
 double C_Rand(NumericVector x, NumericVector y){
   R_xlen_t n = x.size();
   if (x.size() != y.size()) Rcpp::stop("X and Y must have the same length.");
-
   double sg = 0.0;
-  double xx = 0.0;
-  double yy = 0.0;
+  NumericVector xx; 
+  NumericVector yy; 
     for ( int  i = 0; i != n; ++i) {
-      for ( int j = i; j != n; ++j) {
-	xx =  1.0 * (x[i] != x[j]);
-	yy =  1.0 * (y[i] != y[j]);
-	sg = sg + abs(xx-yy);
-      }
+	xx =  1.0 * (x[i] != x);
+	yy =  1.0 * (y[i] != y);
+	sg = sg + sum(abs(xx-yy))/2;
     }
   double bc = n * (n-1) /2.0;
   return 1.0-sg/bc;
