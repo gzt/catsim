@@ -4,14 +4,7 @@
 \alias{catmssim_2d}
 \title{Multiscale Categorical Structural Similarity Index Measure (2D)}
 \usage{
-catmssim_2d(
-  x,
-  y,
-  weights = c(0.0448, 0.2856, 0.3001, 0.2363, 0.1333),
-  window = 11,
-  method = "Cohen",
-  ...
-)
+catmssim_2d(x, y, weights = rep(0.2, 5), window = 11, method = "Cohen", ...)
 }
 \arguments{
 \item{x, y}{a binary or categorical image}

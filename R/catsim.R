@@ -486,9 +486,10 @@ catssim_2d <- function(x,y, window = 11, method = "Cohen", ...){
 #' # now using a different similarity score (Adjusted Rand Index)
 #'  catmssim_2d(x,y, method = "AdjRand")
 #'
-catmssim_2d <- function(x, y, weights = c(0.0448, 0.2856, 0.3001, 0.2363, 0.1333), window = 11,
+catmssim_2d <- function(x, y, weights = rep(.2,5), window = 11,
                         method = "Cohen", ...){
     # the weights are from the original MS-SSIM program
+    ## c(0.0448, 0.2856, 0.3001, 0.2363, 0.1333)
     if (is.null(dim(x))) stop("x is 1-dimensional")
     if (is.null(dim(y))) stop("y is 1-dimensional")
     if (length(dim(x)) != length(dim(y)))  stop('x and y have nonconformable dimensions.')
@@ -608,9 +609,10 @@ catssim_3d_cube <- function(x, y, window = 5, method = "Cohen", ...){
 #' catmssim_3d_slice(x,y, weights = c(.75,.25), method = "Rand")
 #' # And using another similarity score
 #' catmssim_3d_slice(x,y, weights = c(.75,.25), method = "AdjRand")
-catmssim_3d_slice <- function(x, y, weights = c(0.0448, 0.2856, 0.3001, 0.2363, 0.1333),
+catmssim_3d_slice <- function(x, y, weights = rep(.2,5),
                               window = 11, method = "Cohen", ...){
   # the weights are from the original MS-SSIM program
+    ## c(0.0448, 0.2856, 0.3001, 0.2363, 0.1333)
     if (is.null(dim(x))) stop("x is 1-dimensional")
     if (is.null(dim(y))) stop("y is 1-dimensional")
     if (length(dim(x)) != length(dim(y)))  stop('x and y have nonconformable dimensions.')
@@ -675,9 +677,10 @@ catmssim_3d_slice <- function(x, y, weights = c(0.0448, 0.2856, 0.3001, 0.2363, 
 #' catmssim_3d_cube(x,y, weights = c(.75,.25), method = "Accuracy")
 #' # And using the last possible similarity score
 #' catmssim_3d_cube(x,y, weights = c(.75,.25), method = "Rand")
-catmssim_3d_cube <- function(x, y, weights = c(0.0448, 0.2856, 0.3001, 0.2363, 0.1333), window = 5,
+catmssim_3d_cube <- function(x, y, weights =rep(.2,5), window = 5,
                              method = "Cohen", ...){
-   # the weights are from the original MS-SSIM program
+    ## the weights are from the original MS-SSIM program
+    ##  c(0.0448, 0.2856, 0.3001, 0.2363, 0.1333)
     if (is.null(dim(x))) stop("x is 1-dimensional")
     if (is.null(dim(y))) stop("y is 1-dimensional")
     if (length(dim(x)) != length(dim(y)))  stop('x and y have nonconformable dimensions.')
@@ -821,7 +824,8 @@ AdjRandIndex <- function(x,y){
 #' catsim(x,y, weights = c(.75,.25), method = "AdjRand")
 #' # with the slice method:
 #' catsim(x,y, weights = c(.75,.25), cube = FALSE, window = 8)
-catsim <- function(x,y,...,cube = TRUE, weights =  c(0.0448, 0.2856, 0.3001, 0.2363, 0.1333), method="Cohen",window=NULL){
+catsim <- function(x,y,...,cube = TRUE, weights = rep(.2,5), method="Cohen",window=NULL){
+    ##  old weights: c(0.0448, 0.2856, 0.3001, 0.2363, 0.1333)
     if (is.null(dim(x))) stop("x is 1-dimensional")
     if (is.null(dim(y))) stop("y is 1-dimensional")
     if (length(dim(x)) != length(dim(y)))  stop('x and y have nonconformable dimensions.')
