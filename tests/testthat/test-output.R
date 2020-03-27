@@ -10,6 +10,7 @@ test_that("Same input should have 1 as its result", {
     expect_equal(catmssim_2d(x,x, weights = 1), 1.0)
     expect_equal(catmssim_2d(x,x, weights = 1, method = "Rand"), 1.0)
     expect_equal(catmssim_2d(x,x, weights = 1, method = "hamming"), 1.0)
+        expect_equal(catmssim_2d(x,x, weights = 1, method = "Accuracy"), 1.0)
     expect_equal(catmssim_2d(x,x, weights = 1, method = "jaccard"), 1.0)
         expect_equal(catsim(x,x, weights = 1, method = "dice"), 1.0)
     expect_equal(binssim(x,x, method = "Jaccard"), 1.0)
@@ -18,6 +19,15 @@ test_that("Same input should have 1 as its result", {
     expect_warning(catmssim_2d(x,x))
     
 })
+
+test_that("Bad dimensions fail",{
+    expect_equal(catmssim_2d(x,x, weights = 1), 1.0)
+    expect_error(catmssim_2d(x,c(x),weights=1))
+    expect_error(catmssim_2d(c(x),(x),weights=1))
+    expect_error(catsim(x,c(x),weights=1))
+    expect_error(catsim(c(x),(x),weights=1))
+}
+)
 
 test_that("Gini works",{
     x = c(1,1)
@@ -102,6 +112,9 @@ test_that("dimensions 3D work", {
         for (i in 1:dim) y[i, i, j] = 1
         for (i in 1:(dim-1)) y[i, i+1, j] = 1
     }
+    expect_equal(catsim(x,x, weights = c(.5,.5),window=c(5,5,5),method="accuracy"),1.0)
+    expect_equal(catsim(x,x, weights = c(.5,.5),cube=FALSE,window=c(4,4)),1.0)
+    expect_error(catsim(x,x[1:15,,], weights = c(.5,.5)))
     expect_error(catmssim_3d_slice(x,y[1:10,,]))
     expect_error(catmssim_3d_slice(x,y[,1:10,]))
     expect_error(catmssim_3d_cube(x,y[,1:10,]))
@@ -141,6 +154,8 @@ for (i in 1:31) y[i, i + 1] = 1
 test_that("Zero weights should have result of 1.0", {
   expect_equal(catmssim_2d(x,y, weights = c(0.0)), 1.0)
   expect_equal(binssim(x,x, sqrtgini = TRUE), 1.0)
+    expect_equal(catsim(x,y, weights = c(0.0)), 1.0)
+
 })
 
 ##x <- matrix(c(0,1), nrow = 512, ncol = 512)
