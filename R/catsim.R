@@ -110,12 +110,12 @@ sqrtginicorr <- function(x, k){
 #' @return variance function
 #' @keywords internal
 #' @examples
-#' \dontrun{
+#' 
 #' x <- rep(1:4,4)
 #' y <- c(rep(1:4,3),rep(4,4))
 #' cfunc(x,y, k = 4)
 #'
-#' }
+#' 
 cfunc <- function(x, y, c2 = 0.01, k, sqrtgini = TRUE){
   C_cfunc(x, y, c2, k, sqrtgini)
 }
@@ -132,6 +132,7 @@ cfunc <- function(x, y, c2 = 0.01, k, sqrtgini = TRUE){
 ##'        \code{Accuracy}, \code{accuracy}, \code{Hamming}, \code{hamming}, \code{H}, and \code{h} yield the accuracy.
 ##' @return the name of the similarity metric.
 ##' @keywords internal
+##' @noRd
 methodparser <- function(method){
     methodflag = NULL
     if (method %in% c("Cohen", "cohen","C","c","kappa","Kappa")) methodflag = C_Cohen # "Cohen"
@@ -152,13 +153,13 @@ methodparser <- function(method){
 #'
 #' @return Jaccard index - note this privileges 1 over 0
 #' @keywords internal
-#'
+#' @noRd
 #' @examples
-#' \dontrun{
+#' 
 #' x <- rep(c(0,1), 7)
 #' y <- rep(c(1,1), 7)
 #' jaccard(x,y)
-#'}
+#'
 jaccard <- function(x, y){
     if (length(x) != length(y)) stop("x and y have differing lengths.")
     sumxy <- sum(x|y,na.rm=TRUE)
@@ -174,13 +175,11 @@ jaccard <- function(x, y){
 #' 
 #' @return Dice index
 #' @keywords internal
-#'
+#' @noRd
 #' @examples
-#' \dontrun{
 #' x <- rep(c(0,1), 7)
 #' y <- rep(c(1,1), 7)
 #' dice(x,y)
-#'}
 dice <- function(x, y){
     jacc=jaccard(x,y)
     2*jacc/(1+jacc)
@@ -192,13 +191,11 @@ dice <- function(x, y){
 #'
 #' @return Accuracy (Hamming index). Proportion of pixels (voxels) that agree.
 #' @keywords internal
-#'
+#' @noRd
 #' @examples
-#' \dontrun{
 #' x <- rep(c(0,1), 7)
 #' y <- rep(c(1,1), 7)
 #' hamming(x,y)
-#'}
 hamming <- function(x, y){
     if (length(x) != length(y)) stop("x and y have differing lengths.")
   n <- sum(!is.na(x)|!is.na(y))
@@ -214,11 +211,11 @@ hamming <- function(x, y){
 #'
 #' @return Covariance function
 #' @keywords internal
-#' \dontrun{
+#' @examples
 #' x <- rep(1:4,4)
 #' y <- c(rep(1:4,3),rep(4,4))
 #' sfunc(x,y)
-#' }
+#' 
 sfunc <- function(x, y, methodflag = C_Cohen){
     x <- as.vector(x)
     y <- as.vector(y)
@@ -416,14 +413,12 @@ downsample_3d_cube <- function(x){
 #' @noRd
 #'
 #' @examples
-#' \dontrun{
 #' set.seed(20181207)
 #' x <- matrix(sample(1:4, 400, replace = TRUE), nrow=20)
 #' y <- x
 #' for (i in 1:20) y[i, i] = 1
 #' for (i in 1:19) y[i, i+1] = 1
 #' catssim_2d(x,y)
-#' }
 catssim_2d <- function(x,y, window = 11, method = "Cohen", ...){
     if (is.null(dim(x))) stop("x is 1-dimensional")
     if (is.null(dim(y))) stop("y is 1-dimensional")
