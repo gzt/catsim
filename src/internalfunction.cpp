@@ -151,10 +151,9 @@ double C_Cohen(NumericVector x, NumericVector y){
 
 
 
-// [[Rcpp::export]]
-double C_AdjRand(NumericVector x, NumericVector y){
-  double eps = 1e-9;
-  R_xlen_t n = x.size();
+Rcpp::NumericVector C_RandRaw(NumericVector x, NumericVector y){
+  Rcpp::NumericVector resultvector(3);
+   R_xlen_t n = x.size();
   if (x.size() != y.size()) Rcpp::stop("X and Y must have the same length.");
   NumericMatrix xy(n, 2);
   xy.column(0) = x;
@@ -195,6 +194,34 @@ double C_AdjRand(NumericVector x, NumericVector y){
     nij += (tmp) * (tmp - 1.0)/2.0;
   }
 
+  resultvector[0] = nij;
+  resultvector[1] = ai;
+  resultvector[2] = bi;
+
+  return resultvector;
+  
+}
+
+
+
+// [[Rcpp::export]]
+double C_AdjRand(NumericVector x, NumericVector y){
+  double eps = 0.0;
+  R_xlen_t n = x.size();
+
+
+   double ai = 0.0;
+   double bi = 0.0;
+   double nij = 0.0;
+
+
+  NumericVector resultvector(3);
+  resultvector = C_RandRaw(x,y);
+  nij = resultvector[0];
+  ai = resultvector[1];
+  bi = resultvector[2];
+  if ((.5 * (ai + bi) - ai * bi / (1.0 * n * (n-1.0)/2)) < 1e-9) eps = 1e-9;
+      
   return (nij - ai * bi / (1.0 * n * (n-1.0)/2) + eps) / (.5 * (ai + bi) - ai * bi / (1.0 * n * (n-1.0)/2) + eps);
 
 }
@@ -205,46 +232,17 @@ double C_AdjRand(NumericVector x, NumericVector y){
 double C_Rand(NumericVector x, NumericVector y){
   
   R_xlen_t n = x.size();
-  if (x.size() != y.size()) Rcpp::stop("X and Y must have the same length.");
-  NumericMatrix xy(n, 2);
-  xy.column(0) = x;
-  xy.column(1) = y;
-  std::map<double, double> countsx;
-  std::map<double, double> countsy;
-  std::map<std::vector<double>, double> count_rows;
-  countsx.clear();
-  countsy.clear();
-  count_rows.clear();
-  NumericVector::iterator x_i, y_i;
-  R_xlen_t xy_i = 0;
-  for (x_i = x.begin(),  y_i = y.begin(), xy_i = 0;
-       x_i != x.end() && y_i != y.end(), xy_i != n; ++x_i, ++y_i, ++xy_i) {
-    countsx[ *x_i ]++;
-    countsy[ *y_i ]++;
-        NumericVector a = xy.row(xy_i);
-       std::vector<double> b = Rcpp::as< std::vector<double> >(a);
+ 
 
-    // Add to map
-       count_rows[ b ] += 1.0;
-  }
+   double ai = 0.0;
+   double bi = 0.0;
+   double nij = 0.0;
 
-  double ai = 0.0;
-  double bi = 0.0;
-  double nij = 0.0;
-
-  for (std::map<double,double>::iterator it = countsx.begin(); it != countsx.end(); ++it)  {
-    double tmp = it->second;
-    ai += (tmp) * (tmp - 1.0)/2.0;
-  }
-  for (std::map<double,double>::iterator it = countsy.begin(); it != countsy.end(); ++it)  {
-    double tmp = it->second;
-    bi += (tmp) * (tmp - 1.0)/2.0;
-  }
-  for (std::map<std::vector<double>, double>::iterator it = count_rows.begin(); it != count_rows.end(); ++it)  {
-    double tmp = it->second;
-    nij += (tmp) * (tmp - 1.0)/2.0;
-  }
-
+  NumericVector resultvector(3);
+  resultvector = C_RandRaw(x,y);
+  nij = resultvector[0];
+  ai = resultvector[1];
+  bi = resultvector[2];
   
   return (n * (n-1.0)/2.0 + 2.0 * nij - ai - bi)/(n * (n-1.0)/2.0);
 
