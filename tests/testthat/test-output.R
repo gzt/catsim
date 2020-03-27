@@ -9,7 +9,9 @@ for (i in 1:31) y[i, i + 1] = 1
 test_that("Same input should have 1 as its result", {
     expect_equal(catmssim_2d(x,x, weights = 1), 1.0)
     expect_equal(catmssim_2d(x,x, weights = 1, method = "Rand"), 1.0)
-    expect_equal(catmssim_2d(x,x, weights = 1, method = "Jaccard"), 1.0)
+    expect_equal(catmssim_2d(x,x, weights = 1, method = "hamming"), 1.0)
+    expect_equal(catmssim_2d(x,x, weights = 1, method = "jaccard"), 1.0)
+        expect_equal(catsim(x,x, weights = 1, method = "dice"), 1.0)
     expect_equal(binssim(x,x, method = "Jaccard"), 1.0)
     expect_equal(binssim(x,x, method = "adjrand"), 1.0)
     expect_equal(binssim(x,x), 1.0)
@@ -36,7 +38,11 @@ test_that("Gini works",{
     expect_error(sqrtginicorr(sample(letters,size = 100, replace = TRUE), 5))
     })
 
-
+set.seed(20181215)
+x <- matrix(sample(1:4, 32^2, replace = TRUE), nrow = 32)
+y <- x
+for (i in 1:32) y[i, i] = 1
+for (i in 1:31) y[i, i + 1] = 1
 
 test_that("dimensions 2D work",{
     expect_error(catmssim_2d(x,y[,1:10]))
