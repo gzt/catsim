@@ -206,25 +206,16 @@ double C_Rand(NumericVector x, NumericVector y){
   R_xlen_t n = x.size();
   if (x.size() != y.size()) Rcpp::stop("X and Y must have the same length.");
   double sg = 0.0;
-  NumericVector xx; 
-  NumericVector yy;
-  if (n > 1e5){
-    // don't want to make 1e5 vectors of size 1e5! eats memory
-    double xtmp,ytmp;
-      for ( int  i = 0; i != n; ++i) {
-	for ( int j = i; j != n; ++j) {
-	xtmp =  1.0 * (x[i] != x[j]);
-	ytmp =  1.0 * (y[i] != y[j]);
-	sg = sg + (abs(xtmp-ytmp));
-	}
-    }
-  } else {
-    for ( int  i = 0; i != n; ++i) {
-	xx =  1.0 * (x[i] != x);
-	yy =  1.0 * (y[i] != y);
-	sg = sg + sum(abs(xx-yy))/2;
+  double xtmp,ytmp;
+  // this is faster than vectorizing
+  for ( int  i = 0; i != n; ++i) {
+    for ( int j = i; j != n; ++j) {
+      xtmp =  1.0 * (x[i] != x[j]);
+      ytmp =  1.0 * (y[i] != y[j]);
+      sg = sg + (abs(xtmp-ytmp));
     }
   }
+  
   double bc = n * (n-1) /2.0;
   return 1.0-sg/bc;
 }
