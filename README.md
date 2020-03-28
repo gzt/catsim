@@ -17,8 +17,21 @@ status](https://github.com/gzt/catsim/workflows/R-CMD-check/badge.svg)](https://
 # `catsim`: a Categorical Image Similarity Index
 
 The goal of `catsim` is to provide a similarity measure for binary or
-categorical images in either 2D or 3D similar to the MS-SSIM index for
-color images. It is still a work in progress.
+categorical images in either 2D or 3D similar to the [MS-SSIM
+index](https://en.wikipedia.org/wiki/Structural_similarity) for color
+images. Suppose you have a ground truth segmentation of some image that
+has been segmented into regions - perhaps a brain scan with different
+types of tissues or a map with different types of terrain - and a
+segmentation produced by some classification method. Comparing the two
+pixel-by pixel (or voxel-by-voxel) might work well, but a method that
+captures structural similarities might work better for your purposes.
+MS-SSIM is an image comparison metric that tries to match the assessment
+of the human visual system by considering structural similarities across
+multiple scales. CatSIM applies a similar logic in the case of 2-D and
+3-D binary and multicategory images, such as might be found in image
+segmentation or classification problems.
+
+This package is still a work in progress.
 
 ## Installation
 
@@ -32,6 +45,6 @@ devtools::install_github("gzt/catsim")
 
 This is not actually on CRAN yet. Install using github.
 
-Please note that the ‘catsim’ project is released with a [Contributor
+Please note that the `catsim` project is released with a [Contributor
 Code of Conduct](CODE_OF_CONDUCT.md). By contributing to this project,
 you agree to abide by its terms.
