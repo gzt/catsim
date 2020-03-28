@@ -50,18 +50,18 @@ can be accessed through the ... arguments.
 }
 \examples{
 set.seed(20181207)
-dim = 16
-x <- array(sample(0:4, dim^3, replace = TRUE), dim = c(dim,dim,dim))
+dim <- 16
+x <- array(sample(0:4, dim^3, replace = TRUE), dim = c(dim, dim, dim))
 y <- x
-for (j in 1:dim){
-for (i in 1:dim) y[i, i, j] = 0
-for (i in 1:(dim-1)) y[i, i+1, j] = 0
+for (j in 1:dim) {
+  for (i in 1:dim) y[i, i, j] <- 0
+  for (i in 1:(dim - 1)) y[i, i + 1, j] <- 0
 }
-catsim(x,y, weights = c(.75,.25))
+catsim(x, y, weights = c(.75, .25))
 # Now using a different similarity score
-catsim(x,y, weights = c(.75,.25), method = "Jaccard")
+catsim(x, y, weights = c(.75, .25), method = "Jaccard")
 # And using the last possible similarity score
-catsim(x,y, weights = c(.75,.25), method = "AdjRand")
+catsim(x, y, weights = c(.75, .25), method = "AdjRand")
 # with the slice method:
-catsim(x,y, weights = c(.75,.25), cube = FALSE, window = 8)
+catsim(x, y, weights = c(.75, .25), cube = FALSE, window = 8)
 }

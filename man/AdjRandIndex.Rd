@@ -26,7 +26,7 @@ account for NA values, but the Adjusted Rand and Cohen's Kappa cannot.
 \examples{
 
 x <- rep(0:5, 5)
-y <- c(rep(0:5, 4),rep(0,6))
+y <- c(rep(0:5, 4), rep(0, 6))
 AdjRandIndex(x, y)
 }
 \references{

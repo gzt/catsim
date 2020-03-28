@@ -45,9 +45,9 @@ on a whole-image scale.
 }
 \examples{
 set.seed(20181207)
-x <- matrix(sample(1:4, 10000, replace = TRUE), nrow=100)
+x <- matrix(sample(1:4, 10000, replace = TRUE), nrow = 100)
 y <- x
-for (i in 1:100) y[i, i] = 1
-for (i in 1:99) y[i, i+1] = 1
-binssim(x,y)
+for (i in 1:100) y[i, i] <- 1
+for (i in 1:99) y[i, i + 1] <- 1
+binssim(x, y)
 }

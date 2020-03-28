@@ -43,16 +43,16 @@ and then averages over the z-axis.
 }
 \examples{
 set.seed(20181207)
-dim = 8
-x <- array(sample(0:4, dim^5, replace = TRUE), dim = c(dim^2,dim^2,dim))
+dim <- 8
+x <- array(sample(0:4, dim^5, replace = TRUE), dim = c(dim^2, dim^2, dim))
 y <- x
-for (j in 1:(dim)){
-for (i in 1:(dim^2)) y[i, i, j] = 0
-for (i in 1:(dim^2-1)) y[i, i+1, j] = 0
+for (j in 1:(dim)) {
+  for (i in 1:(dim^2)) y[i, i, j] <- 0
+  for (i in 1:(dim^2 - 1)) y[i, i + 1, j] <- 0
 }
-catmssim_3d_slice(x,y, weights = c(.75,.25))
+catmssim_3d_slice(x, y, weights = c(.75, .25))
 # Now using a different similarity score
-catmssim_3d_slice(x,y, weights = c(.75,.25), method = "Rand")
+catmssim_3d_slice(x, y, weights = c(.75, .25), method = "Rand")
 # And using another similarity score
-catmssim_3d_slice(x,y, weights = c(.75,.25), method = "AdjRand")
+catmssim_3d_slice(x, y, weights = c(.75, .25), method = "AdjRand")
 }

@@ -48,20 +48,15 @@ The modified corrected Gini index then
 corrects the modified index for the number of categories, \code{k}.
 }
 \examples{
-x <- rep(c(1:4),5)
+x <- rep(c(1:4), 5)
 gini(x)
 
-
-
-x <- rep(c(1:4),5)
+x <- rep(c(1:4), 5)
 ginicorr(x, 4)
 
-
-x <- rep(c(1:4),5)
+x <- rep(c(1:4), 5)
 sqrtgini(x)
 
-
-x <- rep(c(1:4),5)
+x <- rep(c(1:4), 5)
 sqrtginicorr(x, 4)
-
 }

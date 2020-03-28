@@ -7,3 +7,4 @@ catsim.Rproj
 .#*
 *.o
 inst/doc
+/README.html
