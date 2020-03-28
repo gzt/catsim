@@ -39,4 +39,7 @@ Journal of the American Statistical Association. American Statistical Associatio
 
 Cohen, Jacob (1960). "A coefficient of agreement for nominal scales".
 Educational and Psychological Measurement. 20 (1): 37–46. \doi{10.1177/001316446002000104}
+
+Jaccard, Paul (1912). "The distribution of the flora in the alpine zone,” New Phytologist, vol. 11, no. 2, pp. 37–50.
+\doi{10.1111/j.1469-8137.1912.tb05611.x}
 }

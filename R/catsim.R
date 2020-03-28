@@ -420,12 +420,11 @@ downsample_3d_cube <- function(x){
 #' for (i in 1:19) y[i, i+1] = 1
 #' catssim_2d(x,y)
 catssim_2d <- function(x,y, window = 11, method = "Cohen", ...){
-    if (is.null(dim(x))) stop("x is 1-dimensional")
-    if (is.null(dim(y))) stop("y is 1-dimensional")
-    if (length(dim(x)) != length(dim(y)))  stop('x and y have nonconformable dimensions.')
-    if (any(dim(x) != dim(y))) stop('x and y have nonconformable dimensions.')
-#    method=methodparser(method)
-  #levels <- levels(factor(c(x,y)))
+    ## if (is.null(dim(x))) stop("x is 1-dimensional")
+    ## if (is.null(dim(y))) stop("y is 1-dimensional")
+    ## if (length(dim(x)) != length(dim(y)))  stop('x and y have nonconformable dimensions.')
+    ## if (any(dim(x) != dim(y))) stop('x and y have nonconformable dimensions.')
+
   if(length(window) == 1) window = c(window,window)
   k = length(unique(c(x,y)))
   dims = dim(x)
@@ -517,10 +516,8 @@ catmssim_2d <- function(x, y, weights = rep(.2,5), window = 11,
     results[is.na(results)] <- 1 # fix Jaccard NA results
   # use "luminosity" only from top level, use C and S from all levels
   csresults <- prod(results[,2:3]^(weights))
-  #print(results)
 
   (results[levels,1]^weights[levels])*csresults
-
 }
 
 
@@ -542,9 +539,9 @@ catmssim_2d <- function(x, y, weights = rep(.2,5), window = 11,
 #' @noRd
 #'
 catssim_3d_slice <- function(x, y, window = 11, method = "Cohen", ...){
-    if (is.null(dim(x))) stop("x is 1-dimensional")
-    if (is.null(dim(y))) stop("y is 1-dimensional")
-  if (any(dim(x) != dim(y))) stop('x and y have nonconformable dimensions.')
+  ##   if (is.null(dim(x))) stop("x is 1-dimensional")
+  ##   if (is.null(dim(y))) stop("y is 1-dimensional")
+  ## if (any(dim(x) != dim(y))) stop('x and y have nonconformable dimensions.')
   dims = dim(x)
   sliceresults = matrix(0, nrow = dims[3], ncol = 3)
     for (i in 1:dims[3]) sliceresults[i,] = catssim_2d(x=x[,,i],y=y[,,i], window=window, method=method,...)
@@ -553,12 +550,10 @@ catssim_3d_slice <- function(x, y, window = 11, method = "Cohen", ...){
 }
 
 catssim_3d_cube <- function(x, y, window = 5, method = "Cohen", ...){
-    if (is.null(dim(x))) stop("x is 1-dimensional")
-    if (is.null(dim(y))) stop("y is 1-dimensional")
-    if (any(dim(x) != dim(y))) stop('x and y have nonconformable dimensions.')
-    #method=methodparser(method)
-                                        #levels <- levels(factor(c(x,y)))
-    if(length(window)==1) window = rep(window,3)
+    ## if (is.null(dim(x))) stop("x is 1-dimensional")
+    ## if (is.null(dim(y))) stop("y is 1-dimensional")
+    ## if (any(dim(x) != dim(y))) stop('x and y have nonconformable dimensions.')
+  if(length(window)==1) window = rep(window,3)
   k = length(unique(c(x,y)))
   dims = dim(x)
   if (any(dims < window)) return(ssimcomponents(x=(x), y=(y),k=k, method=method, ...))
@@ -574,9 +569,7 @@ catssim_3d_cube <- function(x, y, window = 5, method = "Cohen", ...){
       }
     }
   }
-    #cuberesults[is.na(cuberesults)] <- 1 # fix Jaccard NAs
-    colMeans(cuberesults,na.rm=TRUE,dims=3)
-#  (cuberesults / prod(dims - (window-1)) )
+      colMeans(cuberesults,na.rm=TRUE,dims=3)
 }
 
 #' Multiscale Categorical Structural Similarity Index Measure by Slice (3D)
@@ -641,7 +634,6 @@ catmssim_3d_slice <- function(x, y, weights = rep(.2,5),
     results[is.na(results)] <- 1 # fixing Jaccard NAs
   # use "luminosity" only from top level, use C and S from all levels
   csresults <- prod(results[,2:3]^(weights))
-  #print(results)
 
   (results[levels,1]^weights[levels])*csresults
 
@@ -681,7 +673,6 @@ catmssim_3d_cube <- function(x, y, weights =rep(.2,5), window = 5,
     if (is.null(dim(y))) stop("y is 1-dimensional")
     if (length(dim(x)) != length(dim(y)))  stop('x and y have nonconformable dimensions.')
     if (any(dim(x) != dim(y))) stop('x and y have nonconformable dimensions.')
-#    method=methodparser(method)
     levels = length(weights)
     if(length(window)==1) window = rep(window,3)
     if(length(window) != 3) stop("Window not of length 1 or 3")
@@ -713,10 +704,8 @@ catmssim_3d_cube <- function(x, y, weights =rep(.2,5), window = 5,
     results[is.na(results)] <- 1 # fixing Jaccard NAs
   # use "luminosity" only from top level, use C and S from all levels
   csresults <- prod(results[,2:3]^(weights))
-  #print(results)
-
+ 
   (results[levels,1]^weights[levels])*csresults
-
 }
 
 #' Adjusted Rand Index

@@ -30,6 +30,8 @@ context("Simple function checks"){
     expect_true(std::abs(C_ginicorr(y, 2)-1.0)< 1e-5);
     expect_true(std::abs(C_cfunc(x,x,.001,2,TRUE)-1.0) < 1e-5);
     expect_true(std::abs(C_cfunc(x,y,0.0,2,TRUE)) < 1e-5);
+    expect_true(std::abs(C_cfunc(x,x,.001,2,FALSE)-1.0) < 1e-5);
+    expect_true(std::abs(C_cfunc(x,y,0.0,2,FALSE)) < 1e-5);
 
   }
   test_that("Difference measures correct"){

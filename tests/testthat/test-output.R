@@ -26,6 +26,9 @@ test_that("Bad dimensions fail",{
     expect_error(catmssim_2d(c(x),(x),weights=1))
     expect_error(catsim(x,c(x),weights=1))
     expect_error(catsim(c(x),(x),weights=1))
+    expect_error(catmssim_3d_slice(x,(x),weights=1))
+    expect_error(catmssim_3d_cube(x,(x),weights=1))
+
 }
 )
 
@@ -76,7 +79,7 @@ test_that("3D is not 2D", {
 
 test_that("Inputs are symmetric 2D", {
     expect_equal(catmssim_2d(x,y, weights = 1), catmssim_2d(y,x, weights = 1))
-      expect_equal(catmssim_2d(x,y, weights = c(.5,.5), method = "j"), catmssim_2d(y,x, weights = c(.5,.5), method = "j"))
+    expect_equal(catmssim_2d(x,y, weights = c(.5,.5), method = "j"), catmssim_2d(y,x, weights = c(.5,.5), method = "j"))
     expect_equal(catmssim_2d(x,y, weights = 1, method = "dice"), catmssim_2d(y,x, weights = 1, method = "dice"))
   })
 
@@ -129,10 +132,10 @@ test_that("dimensions 3D work", {
     expect_error(catmssim_3d_slice(x[,,1],y[,1,1]))
     expect_error(catmssim_3d_cube(x[,1,1],y[,1,1]))
     expect_error(catmssim_3d_cube(x[,,1],y[,1,1]))
-
     expect_error(catmssim_3d_slice(x[,1:3,],y[,1:3,]))
     expect_warning(catmssim_3d_cube(x[,1:3,],y[,1:3,]))
-
+    expect_error(catmssim_2d(x,y[1,,]))
+    expect_error(catsim(x,y[1,,]))
     expect_warning(catmssim_3d_cube(x[,1:3,],y[,1:3,], window = 3))
 
    # expect_warning(catmssim_3d_slice(x[,1:3,],y[,1:3,], window = 3, weight = 1))
