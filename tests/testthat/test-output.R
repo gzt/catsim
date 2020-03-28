@@ -10,9 +10,9 @@ test_that("Same input should have 1 as its result", {
     expect_equal(catmssim_2d(x,x, weights = 1), 1.0)
     expect_equal(catmssim_2d(x,x, weights = 1, method = "Rand"), 1.0)
     expect_equal(catmssim_2d(x,x, weights = 1, method = "hamming"), 1.0)
-        expect_equal(catmssim_2d(x,x, weights = 1, method = "Accuracy"), 1.0)
-    expect_equal(catmssim_2d(x,x, weights = 1, method = "jaccard"), 1.0)
-        expect_equal(catsim(x,x, weights = 1, method = "dice"), 1.0)
+    expect_equal(catmssim_2d(x,x, weights = 1, method = "Accuracy"), 1.0)
+    expect_equal(catsim(x,x, weights = 1, method = "jaccard"), 1.0)
+    expect_equal(catsim(x,x, weights = 1, method = "dice"), 1.0)
     expect_equal(binssim(x,x, method = "Jaccard"), 1.0)
     expect_equal(binssim(x,x, method = "adjrand"), 1.0)
     expect_equal(binssim(x,x), 1.0)
@@ -94,10 +94,11 @@ test_that("Inputs are symmetric 2D", {
  }
  expect_equal(catmssim_3d_slice(x,x, weights = c(.75,.25),window=2), 1.0)
  expect_equal(catmssim_3d_cube(x,x, weights = c(.75,.25),window=2), 1.0)
-
  expect_equal(catmssim_3d_slice(x,y, weights = c(.75,.25),window=2), catmssim_3d_slice(y,x, weights = c(.75,.25),window=2))
+ expect_equal(catmssim_3d_slice(x,y, weights = c(.75,.25),window=2), catsim(y,x, weights = c(.75,.25),window=2,cube=FALSE))
  expect_equal(catmssim_3d_cube(x,y,weights=1),catsim(x,y,weights=1))
- expect_equal(catmssim_3d_cube(x,y, weights = c(.75,.25), method = "dice"), catmssim_3d_cube(y,x, weights = c(.75,.25), method = "dice"))
+ expect_equal(catmssim_3d_cube(x,y, weights = c(.75,.25), method = "dice"),
+              catmssim_3d_cube(y,x, weights = c(.75,.25), method = "dice"))
  expect_warning(catmssim_3d_slice(x,y))
  expect_warning(catmssim_3d_cube(x,y))
  expect_error(catmssim_3d_slice(x,y[,,1:2]))
