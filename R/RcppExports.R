@@ -29,3 +29,7 @@ C_Rand <- function(x, y) {
     .Call(`_catsim_C_Rand`, x, y)
 }
 
+C_NMI <- function(x, y) {
+    .Call(`_catsim_C_NMI`, x, y)
+}
+

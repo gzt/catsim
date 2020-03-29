@@ -17,7 +17,8 @@ The Jaccard index will not make sense if this is not binary.
 Computes the adjusted Rand index for two
 inputs. These inputs should be binary or categorical and of the same length.
 It also computes the PSNR, which is generalized here as simply
-\eqn{-10 log_{10}(MSE)}. The adjusted Rand index, Jaccard Index, and Cohen's Kappa are used as a measure of
+\eqn{-10 log_{10}(MSE)}. The adjusted Rand index, Jaccard Index, Cohen's Kappa, and
+normalized mutual information (NMI) are used as a measure of
 the similarity of the structure of the two images. A small constant is added to the numerator
 and denominator of the Adjusted Rand index to ensure stability, as it is possible to have a zero
 denominator. The PSNR can be infinite if the error rate is 0. The Jaccard index and accuracy can

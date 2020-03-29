@@ -126,19 +126,25 @@ the `method` argument):
 
 * [Jaccard index](https://en.wikipedia.org/wiki/Jaccard_index), suitable for binary images where presence of 
 one class is important (for instance, fMRI activation maps), with `method="Jaccard"`.
-* [Dice index](), which is similar to the Jaccard index, with `method="Dice"`.
+* [Dice index](https://en.wikipedia.org/wiki/S%C3%B8rensen%E2%80%93Dice_coefficient), 
+ which is similar to the Jaccard index, with `method="Dice"`.
 * [Rand index](https://en.wikipedia.org/wiki/Rand_index), a similarity metric for comparing clusterings based
 on whether pairs of points are in the same group, with `method="Rand"`.
 * [Adjusted Rand index](https://en.wikipedia.org/wiki/Rand_index#Adjusted_Rand_index), 
 a modification of the Rand index which corrects for the probability of chance agreements, with 
 `method ="AdjRand"` or `ARI`.
 * Accuracy, or pixel-wise agreement, which is simply `(# pixels agreeing)/(# pixels)`, with `method="accuracy"`. 
+* [Normalized mutual information](https://nlp.stanford.edu/IR-book/html/htmledition/evaluation-of-clustering-1.html), 
+a information theory similarity metric based on the Kullback-Liebler divergence between the 
+ two distributions, with `method = "NMI"` or `MI`. 
 
 
 ```{r differentmetrics}
 catsim(basemat,shiftmat,weights=rep(.2,5), method="Rand")
 catsim(basemat,shiftmat,weights=rep(.2,5), method="AdjRand")
 catsim(basemat,shiftmat,weights=rep(.2,5), method="accuracy")
+catsim(basemat,shiftmat,weights=rep(.2,5), method="NMI")
+
 ```
 The window size can also be adjusted. It should be large enough to capture
 the scale of the features that are relevant in the analysis. In this example,

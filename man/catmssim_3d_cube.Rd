@@ -27,7 +27,8 @@ of dimensions as the inputted \code{x} and \code{y}.}
 
 \item{method}{whether to use Cohen's kappa (\code{Cohen}), Jaccard Index (\code{Jaccard}),
 Dice index (\code{Dice}),  accuracy (\code{accuracy}),  Rand index (\code{Rand}),
-or Adjusted Rand Index (\code{AdjRand} or \code{ARI}) as
+Adjusted Rand Index (\code{AdjRand} or \code{ARI}), or normalized mutual
+information (\code{NMI} or \code{MI}) as
 the similarity index. Note Jaccard and Dice should only be used on binary data.}
 
 \item{...}{additional constants can be passed to internal functions.}

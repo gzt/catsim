@@ -92,6 +92,18 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// C_NMI
+double C_NMI(NumericVector x, NumericVector y);
+RcppExport SEXP _catsim_C_NMI(SEXP xSEXP, SEXP ySEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericVector >::type x(xSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type y(ySEXP);
+    rcpp_result_gen = Rcpp::wrap(C_NMI(x, y));
+    return rcpp_result_gen;
+END_RCPP
+}
 
 RcppExport SEXP run_testthat_tests();
 
@@ -103,6 +115,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_catsim_C_Cohen", (DL_FUNC) &_catsim_C_Cohen, 2},
     {"_catsim_C_AdjRand", (DL_FUNC) &_catsim_C_AdjRand, 2},
     {"_catsim_C_Rand", (DL_FUNC) &_catsim_C_Rand, 2},
+    {"_catsim_C_NMI", (DL_FUNC) &_catsim_C_NMI, 2},
     {"run_testthat_tests", (DL_FUNC) &run_testthat_tests, 0},
     {NULL, NULL, 0}
 };

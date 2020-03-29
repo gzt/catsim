@@ -52,5 +52,8 @@ context("Simple function checks"){
     expect_true(std::abs(C_Rand(x,y)) < 1e-6);
     expect_true(std::abs(C_Rand(x,y) - C_Rand(y,x)) < 1e-6);
     expect_true(std::abs(C_Rand(x,x) - C_Rand(y,y)) < 1e-6);
+    expect_true(std::abs(C_NMI(x,y)) < 1e-5);
+    expect_true(std::abs(C_NMI(y,y)-1.0) < 1e-5);
+		
   }
 }

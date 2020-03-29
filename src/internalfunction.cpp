@@ -247,3 +247,54 @@ double C_Rand(NumericVector x, NumericVector y){
   return (n * (n-1.0)/2.0 + 2.0 * nij - ai - bi)/(n * (n-1.0)/2.0);
 
 }
+
+
+// [[Rcpp::export]]
+double C_NMI(NumericVector x, NumericVector y){
+  R_xlen_t n = x.size();
+  if (x.size() != y.size()) Rcpp::stop("X and Y must have the same length.");
+  NumericMatrix xy(n, 2);
+  xy.column(0) = x;
+  xy.column(1) = y;
+  std::map<double, double> countsx;
+  std::map<double, double> countsy;
+  std::map<std::vector<double>, double> count_rows;
+  countsx.clear();
+  countsy.clear();
+  count_rows.clear();
+  NumericVector::iterator x_i, y_i;
+  R_xlen_t xy_i = 0;
+  for (x_i = x.begin(),  y_i = y.begin(), xy_i = 0;
+       x_i != x.end() && y_i != y.end(), xy_i != n; ++x_i, ++y_i, ++xy_i) {
+    countsx[ *x_i ]++;
+    countsy[ *y_i ]++;
+    NumericVector a = xy.row(xy_i);
+    std::vector<double> b = Rcpp::as< std::vector<double> >(a);
+
+    // Add to map
+    count_rows[ b ] += 1.0;
+  }
+
+  double IXY = 0.0;
+  double HX = 0.0;
+  double HY = 0.0;
+  
+  for (std::map<double,double>::iterator it = countsx.begin(); it != countsx.end(); ++it)  {
+    double tmp = it->second;
+    HX += -tmp/n * log(tmp/n);
+  }
+  for (std::map<double,double>::iterator it = countsy.begin(); it != countsy.end(); ++it)  {
+    double tmp = it->second;
+    HY += -tmp/n * log(tmp/n);
+  }
+  for (std::map<std::vector<double>, double>::iterator it = count_rows.begin(); it != count_rows.end(); ++it)  {
+    double tmp = it->second;
+    std::vector<double> tmpvec = it->first;
+    double xn = countsx[tmpvec[0]];
+    double yn = countsy[tmpvec[1]];
+    IXY += tmp/n * log(tmp*n/(xn*yn));
+  }
+  if (HX + HY <1e-9) return 0.0;
+  
+  return 2*IXY/(HX+HY);  
+}

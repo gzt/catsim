@@ -75,7 +75,8 @@ test_that("3D is not 2D", {
 })
 
 test_that("Inputs are symmetric 2D", {
-  expect_equal(catmssim_2d(x, y, weights = 1), catmssim_2d(y, x, weights = 1))
+    expect_equal(catmssim_2d(x, y, weights = 1), catmssim_2d(y, x, weights = 1))
+    expect_equal(catmssim_2d(x, y, weights = 1, method = "NMI"), catmssim_2d(y, x, weights = 1, method="NMI"))
   expect_equal(catmssim_2d(x, y, weights = c(.5, .5), method = "j"), catmssim_2d(y, x, weights = c(.5, .5), method = "j"))
   expect_equal(catmssim_2d(x, y, weights = 1, method = "dice"), catmssim_2d(y, x, weights = 1, method = "dice"))
 })
@@ -115,6 +116,8 @@ test_that("dimensions 3D work", {
     for (i in 1:(dim - 1)) y[i, i + 1, j] <- 1
   }
   expect_equal(catsim(x, x, weights = c(.5, .5), window = c(5, 5, 5), method = "accuracy"), 1.0)
+  expect_equal(catsim(x, x, weights = c(.5, .5), window = c(5, 5, 5), method = "NMI"), 1.0)
+
   expect_equal(catsim(x, x, weights = c(.5, .5), cube = FALSE, window = c(4, 4)), 1.0)
   expect_error(catsim(x, x[1:15, , ], weights = c(.5, .5)))
   expect_error(catmssim_3d_slice(x, y[1:10, , ]))
