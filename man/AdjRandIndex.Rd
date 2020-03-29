@@ -21,7 +21,9 @@ It also computes the PSNR, which is generalized here as simply
 normalized mutual information (NMI) are used as a measure of
 the similarity of the structure of the two images. A small constant is added to the numerator
 and denominator of the Adjusted Rand index to ensure stability, as it is possible to have a zero
-denominator. The PSNR can be infinite if the error rate is 0. The Jaccard index and accuracy can
+denominator. The normalized mutual information is defined here as:
+\eqn{2H(X,Y)/(H(X)+H(Y)),} but is set to be 0 if both H(X) and H(Y) are 0.
+The PSNR can be infinite if the error rate is 0. The Jaccard index and accuracy can
 account for NA values, but the Adjusted Rand and Cohen's Kappa cannot.
 }
 \examples{
@@ -43,4 +45,8 @@ Educational and Psychological Measurement. 20 (1): 37–46. \doi{10.1177/0013164
 
 Jaccard, Paul (1912). "The distribution of the flora in the alpine zone,” New Phytologist, vol. 11, no. 2, pp. 37–50.
 \doi{10.1111/j.1469-8137.1912.tb05611.x}
+
+Nguyen Xuan Vinh, Julien Epps, and James Bailey (2010). Information Theoretic Measures for Clusterings Comparison:
+Variants, Properties, Normalization and Correction for Chance. J. Mach. Learn. Res. 11 (December 2010), 2837–2854.
+\doi{10.5555/1756006.1953024}
 }

@@ -10,6 +10,7 @@
  double C_AdjRand(Rcpp::NumericVector x, Rcpp::NumericVector y);
  double C_Rand(Rcpp::NumericVector x, Rcpp::NumericVector y);
  double C_NMI(Rcpp::NumericVector x, Rcpp::NumericVector y);
+ double C_AMI(Rcpp::NumericVector x, Rcpp::NumericVector y);
  double C_sqrtginicorr(Rcpp::NumericVector x, double k);
 
 

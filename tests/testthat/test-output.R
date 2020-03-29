@@ -27,6 +27,7 @@ test_that("Bad dimensions fail", {
   expect_error(catsim(c(x), (x), weights = 1))
   expect_error(catmssim_3d_slice(x, (x), weights = 1))
   expect_error(catmssim_3d_cube(x, (x), weights = 1))
+  expect_error(catsim(x, x, method = "bob", weights = 1))
 })
 
 test_that("Gini works", {
@@ -75,8 +76,9 @@ test_that("3D is not 2D", {
 })
 
 test_that("Inputs are symmetric 2D", {
-    expect_equal(catmssim_2d(x, y, weights = 1), catmssim_2d(y, x, weights = 1))
-    expect_equal(catmssim_2d(x, y, weights = 1, method = "NMI"), catmssim_2d(y, x, weights = 1, method="NMI"))
+  expect_equal(catmssim_2d(x, y, weights = 1), catmssim_2d(y, x, weights = 1))
+  expect_equal(catmssim_2d(x, y, weights = 1, method = "NMI"), catmssim_2d(y, x, weights = 1, method = "NMI"))
+  expect_equal(catmssim_2d(x, y, weights = 1, method = "AMI"), catmssim_2d(y, x, weights = 1, method = "AMI"))
   expect_equal(catmssim_2d(x, y, weights = c(.5, .5), method = "j"), catmssim_2d(y, x, weights = c(.5, .5), method = "j"))
   expect_equal(catmssim_2d(x, y, weights = 1, method = "dice"), catmssim_2d(y, x, weights = 1, method = "dice"))
 })

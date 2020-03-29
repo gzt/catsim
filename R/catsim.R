@@ -138,7 +138,8 @@ methodparser <- function(method) {
   if (method %in% c("Jaccard", "jaccard", "j", "J")) methodflag <- jaccard # "Jaccard"
   if (method %in% c("Dice", "dice", "D", "d")) methodflag <- dice # "Dice"
   if (method %in% c("Accuracy", "accuracy", "Hamming", "hamming", "H", "h")) methodflag <- hamming # "hamming"
-  if (method %in% c("NMI", "MI", "mutual","information", "nmi","mi")) methodflag <- C_NMI # normalized mutual information
+  if (method %in% c("NMI", "MI", "mutual", "information", "nmi", "mi")) methodflag <- C_NMI # normalized mutual information
+  if (method %in% c("AMI", "ami")) methodflag <- C_AMI # normalized mutual information
   if (is.null(methodflag)) stop("Error: invalid method")
   methodflag
 }
@@ -464,8 +465,8 @@ catssim_2d <- function(x, y, window = 11, method = "Cohen", ...) {
 #'      of dimensions as the inputted \code{x} and \code{y}.
 #' @param method whether to use Cohen's kappa (\code{Cohen}), Jaccard Index (\code{Jaccard}),
 #'     Dice index (\code{Dice}),  accuracy (\code{accuracy}),  Rand index (\code{Rand}),
-  #'     Adjusted Rand Index (\code{AdjRand} or \code{ARI}), or normalized mutual
-  #'   information (\code{NMI} or \code{MI}) as
+#'     Adjusted Rand Index (\code{AdjRand} or \code{ARI}), or normalized mutual
+#'   information (\code{NMI} or \code{MI}) as
 #'     the similarity index. Note Jaccard and Dice should only be used on binary data.
 #' @param ... additional constants can be passed to internal functions.
 #'
@@ -531,8 +532,8 @@ catmssim_2d <- function(x, y, weights = rep(.2, 5), window = 11,
 #' @param window by default 11
 #' @param method whether to use Cohen's kappa (\code{Cohen}), Jaccard Index (\code{Jaccard}),
 #'     Dice index (\code{Dice}),  accuracy (\code{accuracy}),  Rand index (\code{Rand}),
-  #'     Adjusted Rand Index (\code{AdjRand} or \code{ARI}), or normalized mutual
-  #'   information (\code{NMI} or \code{MI}) as
+#'     Adjusted Rand Index (\code{AdjRand} or \code{ARI}), or normalized mutual
+#'   information (\code{NMI} or \code{MI}) as
 #'     the similarity index. Note Jaccard and Dice should only be used on binary data.
 #' @param ...
 #'
@@ -721,7 +722,9 @@ catmssim_3d_cube <- function(x, y, weights = rep(.2, 5), window = 5,
 #' normalized mutual information (NMI) are used as a measure of
 #' the similarity of the structure of the two images. A small constant is added to the numerator
 #' and denominator of the Adjusted Rand index to ensure stability, as it is possible to have a zero
-#' denominator. The PSNR can be infinite if the error rate is 0. The Jaccard index and accuracy can
+#' denominator. The normalized mutual information is defined here as:
+#' \eqn{2H(X,Y)/(H(X)+H(Y)),} but is set to be 0 if both H(X) and H(Y) are 0.
+#' The PSNR can be infinite if the error rate is 0. The Jaccard index and accuracy can
 #' account for NA values, but the Adjusted Rand and Cohen's Kappa cannot.
 #'
 #'
@@ -742,6 +745,10 @@ catmssim_3d_cube <- function(x, y, weights = rep(.2, 5), window = 5,
 #'
 #'  Jaccard, Paul (1912). "The distribution of the flora in the alpine zone,” New Phytologist, vol. 11, no. 2, pp. 37–50.
 #'   \doi{10.1111/j.1469-8137.1912.tb05611.x}
+#'
+#' Nguyen Xuan Vinh, Julien Epps, and James Bailey (2010). Information Theoretic Measures for Clusterings Comparison:
+#' Variants, Properties, Normalization and Correction for Chance. J. Mach. Learn. Res. 11 (December 2010), 2837–2854.
+#' \doi{10.5555/1756006.1953024}
 #'
 #' @export
 #'
@@ -765,7 +772,9 @@ AdjRandIndex <- function(x, y) {
   y <- as.numeric(y)
   AdjRand <- C_AdjRand(x, y)
   Rand <- C_Rand(x, y)
-  NMI <- C_NMI(x,y)
+  NMI <- C_NMI(x, y)
+  AMI <- C_AMI(x, y)
+
   list(
     Accuracy = Accuracy,
     Jaccard = BinJaccard,
@@ -773,7 +782,8 @@ AdjRandIndex <- function(x, y) {
     Rand = Rand,
     PSNR = -10 * log10(1 - Accuracy),
     Cohen = Cohen,
-    NMI=NMI
+    NMI = NMI,
+    AMI = AMI
   )
 }
 
@@ -798,8 +808,8 @@ AdjRandIndex <- function(x, y) {
 #'     five different scales are used.
 #' @param method whether to use Cohen's kappa (\code{Cohen}), Jaccard Index (\code{Jaccard}),
 #'     Dice index (\code{Dice}),  accuracy (\code{accuracy}),  Rand index (\code{Rand}),
-  #'     Adjusted Rand Index (\code{AdjRand} or \code{ARI}), or normalized mutual
-  #'   information (\code{NMI} or \code{MI}) as
+#'     Adjusted Rand Index (\code{AdjRand} or \code{ARI}), normalized mutual
+#'   information (\code{NMI} or \code{MI}), or adjusted mutual information (\code{AMI}) as
 #'     the similarity index. Note Jaccard and Dice should only be used on binary data.
 #' @param window by default 11 for 2D and 5 for 3D images, but can be specified as a
 #'     vector if the window sizes differ by dimension. The vector must have the same number of

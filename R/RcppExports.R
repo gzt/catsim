@@ -33,3 +33,7 @@ C_NMI <- function(x, y) {
     .Call(`_catsim_C_NMI`, x, y)
 }
 
+C_AMI <- function(x, y) {
+    .Call(`_catsim_C_AMI`, x, y)
+}
+
