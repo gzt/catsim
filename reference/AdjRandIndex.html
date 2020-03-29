@@ -43,7 +43,8 @@
 <meta property="og:description" content="Computes the adjusted Rand index for two
 inputs. These inputs should be binary or categorical and of the same length.
 It also computes the PSNR, which is generalized here as simply
-\(-10 log_{10}(MSE)\). The adjusted Rand index, Jaccard Index, and Cohen's Kappa are used as a measure of
+\(-10 log_{10}(MSE)\). The adjusted Rand index, Jaccard Index, Cohen's Kappa, and
+normalized mutual information (NMI) are used as a measure of
 the similarity of the structure of the two images. A small constant is added to the numerator
 and denominator of the Adjusted Rand index to ensure stability, as it is possible to have a zero
 denominator. The PSNR can be infinite if the error rate is 0. The Jaccard index and accuracy can
@@ -79,7 +80,7 @@ account for NA values, but the Adjusted Rand and Cohen's Kappa cannot." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">catsim</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9037</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9038</span>
       </span>
     </div>
 
@@ -139,7 +140,8 @@ account for NA values, but the Adjusted Rand and Cohen's Kappa cannot." />
     <p>Computes the adjusted Rand index for two
 inputs. These inputs should be binary or categorical and of the same length.
 It also computes the PSNR, which is generalized here as simply
-\(-10 log_{10}(MSE)\). The adjusted Rand index, Jaccard Index, and Cohen's Kappa are used as a measure of
+\(-10 log_{10}(MSE)\). The adjusted Rand index, Jaccard Index, Cohen's Kappa, and
+normalized mutual information (NMI) are used as a measure of
 the similarity of the structure of the two images. A small constant is added to the numerator
 and denominator of the Adjusted Rand index to ensure stability, as it is possible to have a zero
 denominator. The PSNR can be infinite if the error rate is 0. The Jaccard index and accuracy can
@@ -194,6 +196,9 @@ doi: <a href='https://doi.org/10.1111/j.1469-8137.1912.tb05611.x'>10.1111/j.1469
 #&gt; 
 #&gt; $Cohen
 #&gt; [1] 0.8
+#&gt; 
+#&gt; $NMI
+#&gt; [1] 0.7382948
 #&gt; </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
