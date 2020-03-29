@@ -715,11 +715,11 @@ catmssim_3d_cube <- function(x, y, weights = rep(.2, 5), window = 5,
 
 #' Adjusted Rand Index
 #'
-#' Computes the adjusted Rand index for two
+#' Computes the adjusted Rand index and several other similarity measures for two
 #' inputs. These inputs should be binary or categorical and of the same length.
 #' It also computes the PSNR, which is generalized here as simply
-#' \eqn{-10 log_{10}(MSE)}. The adjusted Rand index, Jaccard Index, Cohen's Kappa, and
-#' normalized mutual information (NMI) are used as a measure of
+#' \eqn{-10 log_{10}(MSE)}. The adjusted Rand index, Jaccard Index, Cohen's Kappa,
+#' normalized mutual information (NMI) and adjusted mutual information (AMI) are used as a measure of
 #' the similarity of the structure of the two images. A small constant is added to the numerator
 #' and denominator of the Adjusted Rand index to ensure stability, as it is possible to have a zero
 #' denominator. The normalized mutual information is defined here as:
@@ -730,7 +730,8 @@ catmssim_3d_cube <- function(x, y, weights = rep(.2, 5), window = 5,
 #'
 #' @param x,y  a numeric or factor vector or image
 #'
-#' @return The accuracy, Jaccard index, the Adjusted Rand Index, the Rand index, the PSNR, and Cohen's Kappa. Note:
+#' @return The accuracy, Jaccard index, the Adjusted Rand Index, the Rand index, the PSNR, and Cohen's Kappan
+#'     normalized mutual information (NMI) and adjusted mutual information (AMI). Note:
 #'     The Jaccard index will not make sense if this is not binary.
 #'
 #' @references Lawrence Hubert and Phipps Arabie (1985).
