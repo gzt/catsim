@@ -62,7 +62,7 @@ test_that("dimensions 2D work", {
   expect_error(catmssim_2d(x, y[1:10, ]))
   expect_warning(catmssim_2d(x[1:2, ], y[1:2, ], weights = 1, method = "rand"))
   expect_error(catmssim_2d(x[1:3, ], y[1:2, ], weights = 1, method = "jaccard"))
-  expect_error(catmssim_2d(x[1:2, ], y[1, ], weights = 1, method = "adjrand"))
+  expect_error(catsim(x[1:2, ], y[1, ], weights = 1, method = "adjrand"))
   expect_error(catmssim_2d(y[1, ], x[1, ], weights = 1, method = "accuracy"))
   expect_warning(catmssim_2d(y[1, , drop = FALSE], x[1, , drop = FALSE], weights = 1, method = "jaccard"))
   expect_message(AdjRandIndex(y[1, , drop = FALSE], x[1, , drop = FALSE]))

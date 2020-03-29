@@ -182,16 +182,13 @@ Rcpp::NumericVector C_RandRaw(NumericVector x, NumericVector y){
   double nij = 0.0;
 
   for (std::map<double,double>::iterator it = countsx.begin(); it != countsx.end(); ++it)  {
-    double tmp = it->second;
-    ai += (tmp) * (tmp - 1.0)/2.0;
+    ai += (it->second) * (( it->second) - 1.0)/2.0;
   }
   for (std::map<double,double>::iterator it = countsy.begin(); it != countsy.end(); ++it)  {
-    double tmp = it->second;
-    bi += (tmp) * (tmp - 1.0)/2.0;
+    bi += (it->second) * ((it->second) - 1.0)/2.0;
   }
   for (std::map<std::vector<double>, double>::iterator it = count_rows.begin(); it != count_rows.end(); ++it)  {
-    double tmp = it->second;
-    nij += (tmp) * (tmp - 1.0)/2.0;
+    nij += (it->second) * ( (it->second) - 1.0)/2.0;
   }
 
   resultvector[0] = nij;
@@ -299,10 +296,8 @@ double C_NMI(NumericVector x, NumericVector y){
   return 2*IXY/(HX+HY);  
 }
 
-double fact(int x){
-  Rcpp::NumericVector xvec(1);
-  xvec[0] = 1.0*x;
-  return lfactorial(xvec)[0];
+double lfact(int x){
+  return lgamma(x+1.0);
 }
 
 double hypergeomfunc(double ai, double bj, R_xlen_t N){
@@ -311,7 +306,7 @@ double hypergeomfunc(double ai, double bj, R_xlen_t N){
   int minval = (1 > (ai + bj - N) ? 1 : round(ai + bj -N)); //max(1,ai + bj - N);
   for(int nij =  minval; nij <= maxval; ++nij){
     if(ai > 0 && bj > 0){
-      tmp += nij/N * log(N * nij / (ai * bj)) * exp( fact(ai) + fact(bj) + fact(N-ai) + fact(N-bj) - fact(N) - fact(nij) - fact(ai -nij) - fact(bj - nij) - fact(N - ai - bj  + nij));
+      tmp += nij/N * log(N * nij / (ai * bj)) * exp( lfact(ai) + lfact(bj) + lfact(N-ai) + lfact(N-bj) - lfact(N) - lfact(nij) - lfact(ai -nij) - lfact(bj - nij) - lfact(N - ai - bj  + nij));
     }
   }
   return tmp;
@@ -357,9 +352,8 @@ double C_AMI(NumericVector x, NumericVector y){
   }
   for (std::map<std::vector<double>, double>::iterator it = count_rows.begin(); it != count_rows.end(); ++it)  {
     double tmp = it->second;
-    std::vector<double> tmpvec = it->first;
-    double xn = countsx[tmpvec[0]];
-    double yn = countsy[tmpvec[1]];
+    double xn = countsx[(it->first)[0]];
+    double yn = countsy[(it->first)[1]];
     IXY += tmp/n * log(tmp*n/(xn*yn));
     EMI += hypergeomfunc(xn, yn, n);
   }
