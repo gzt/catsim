@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Adjusted Rand Index and other similarity indexes (Deprecated) — AdjRandIndex • catsim</title>
+<title>Similarity Indexes — rand • catsim</title>
 
 
 <!-- jquery -->
@@ -39,18 +39,10 @@
 
 
 
-<meta property="og:title" content="Adjusted Rand Index and other similarity indexes (Deprecated) — AdjRandIndex" />
-<meta property="og:description" content="Computes the adjusted Rand index and several other similarity measures for two
-inputs. These inputs should be binary or categorical and of the same length.
-It also computes the PSNR, which is generalized here as simply
-\(-10 log_{10}(MSE)\). The adjusted Rand index, Jaccard Index, Cohen's Kappa,
-normalized mutual information (NMI) and adjusted mutual information (AMI) are used as a measure of
-the similarity of the structure of the two images. A small constant is added to the numerator
-and denominator of the Adjusted Rand index to ensure stability, as it is possible to have a zero
-denominator. The normalized mutual information is defined here as:
-\(2H(X,Y)/(H(X)+H(Y)),\) but is set to be 0 if both H(X) and H(Y) are 0.
-The PSNR can be infinite if the error rate is 0. The Jaccard index and accuracy can
-account for NA values, but the Adjusted Rand and Cohen's Kappa cannot." />
+<meta property="og:title" content="Similarity Indexes — rand" />
+<meta property="og:description" content="The Rand index, RandIndex, computes the agreement between two different clusterings or
+partitions of the same
+set of objects. The inputs to the function should be binary or categorical and of the same length.#'" />
 
 
 
@@ -133,41 +125,41 @@ account for NA values, but the Adjusted Rand and Cohen's Kappa cannot." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Adjusted Rand Index and other similarity indexes (Deprecated)</h1>
-    <small class="dont-index">Source: <a href='https://github.com/gzt/catsim/blob/master/R/catsim.R'><code>R/catsim.R</code></a></small>
-    <div class="hidden name"><code>AdjRandIndex.Rd</code></div>
+    <h1>Similarity Indexes</h1>
+    <small class="dont-index">Source: <a href='https://github.com/gzt/catsim/blob/master/R/similarity.R'><code>R/similarity.R</code></a></small>
+    <div class="hidden name"><code>rand.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Computes the adjusted Rand index and several other similarity measures for two
-inputs. These inputs should be binary or categorical and of the same length.
-It also computes the PSNR, which is generalized here as simply
-\(-10 log_{10}(MSE)\). The adjusted Rand index, Jaccard Index, Cohen's Kappa,
-normalized mutual information (NMI) and adjusted mutual information (AMI) are used as a measure of
-the similarity of the structure of the two images. A small constant is added to the numerator
-and denominator of the Adjusted Rand index to ensure stability, as it is possible to have a zero
-denominator. The normalized mutual information is defined here as:
-\(2H(X,Y)/(H(X)+H(Y)),\) but is set to be 0 if both H(X) and H(Y) are 0.
-The PSNR can be infinite if the error rate is 0. The Jaccard index and accuracy can
-account for NA values, but the Adjusted Rand and Cohen's Kappa cannot.</p>
+    <p>The Rand index, <code>RandIndex</code>, computes the agreement between two different clusterings or
+partitions of the same
+set of objects. The inputs to the function should be binary or categorical and of the same length.#'</p>
     </div>
 
-    <pre class="usage"><span class='fu'>AdjRandIndex</span>(<span class='no'>x</span>, <span class='no'>y</span>)</pre>
+    <pre class="usage"><span class='fu'>RandIndex</span>(<span class='no'>x</span>, <span class='no'>y</span>)
+
+<span class='fu'>AdjustedRand</span>(<span class='no'>x</span>, <span class='no'>y</span>)
+
+<span class='fu'>CohenKappa</span>(<span class='no'>x</span>, <span class='no'>y</span>)
+
+<span class='fu'>normalizedMI</span>(<span class='no'>x</span>, <span class='no'>y</span>)
+
+<span class='fu'>adjustedMI</span>(<span class='no'>x</span>, <span class='no'>y</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>x, y</th>
-      <td><p>a numeric or factor vector or image</p></td>
+      <td><p>a numeric or factor vector or array</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>The accuracy, Jaccard index, the Adjusted Rand Index, the Rand index, the PSNR, Cohen's Kappa,
-normalized mutual information (NMI) and adjusted mutual information (AMI). Note:
-The Jaccard index will not make sense if this is not binary.</p>
+    <p>the similarity index, which is between 0 and 1 for most of the options. The adjusted Rand and
+Cohen's kappa can be negative, but are bounded above by 1.</p>
+<p>the Adjusted Rand Index, which is generally between 0 and 1.</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p>Lawrence Hubert and Phipps Arabie (1985).
@@ -184,35 +176,12 @@ Variants, Properties, Normalization and Correction for Chance. J. Mach. Learn. R
 doi: <a href='https://doi.org/10.5555/1756006.1953024'>10.5555/1756006.1953024</a></p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>
+    <pre class="examples"><div class='input'><span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span>(<span class='fl'>0</span>:<span class='fl'>5</span>, <span class='fl'>5</span>)
+<span class='no'>y</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span>(<span class='fl'>0</span>:<span class='fl'>5</span>, <span class='fl'>4</span>), <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span>(<span class='fl'>0</span>, <span class='fl'>6</span>))
+<span class='fu'>Rand</span>(<span class='no'>x</span>, <span class='no'>y</span>)</div><div class='output co'>#&gt; <span class='error'>Error in Rand(x, y): could not find function "Rand"</span></div><div class='input'><span class='fu'>AdjustedRand</span>(<span class='no'>x</span>, <span class='no'>y</span>)</div><div class='output co'>#&gt; [1] 0.5188537</div><div class='input'><span class='fu'>CohenKappa</span>(<span class='no'>x</span>, <span class='no'>y</span>)</div><div class='output co'>#&gt; [1] 0.8</div><div class='input'><span class='fu'>normalizedMI</span>(<span class='no'>x</span>, <span class='no'>y</span>)</div><div class='output co'>#&gt; [1] 0.7382948</div><div class='input'><span class='fu'>adjustedMI</span>(<span class='no'>x</span>, <span class='no'>y</span>)</div><div class='output co'>#&gt; [1] 0.7213417</div><div class='input'>
 <span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span>(<span class='fl'>0</span>:<span class='fl'>5</span>, <span class='fl'>5</span>)
 <span class='no'>y</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span>(<span class='fl'>0</span>:<span class='fl'>5</span>, <span class='fl'>4</span>), <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span>(<span class='fl'>0</span>, <span class='fl'>6</span>))
-<span class='fu'>AdjRandIndex</span>(<span class='no'>x</span>, <span class='no'>y</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: 'AdjRandIndex' is deprecated.</span>
-#&gt; <span class='warning'>Use 'AdjustedRand' instead.</span>
-#&gt; <span class='warning'>See help("Deprecated")</span></div><div class='output co'>#&gt; <span class='message'>Jaccard index may not make sense if more than two classes are present.</span></div><div class='output co'>#&gt; $Accuracy
-#&gt; [1] 0.8333333
-#&gt; 
-#&gt; $Jaccard
-#&gt; [1] 0.8
-#&gt; 
-#&gt; $AdjRand
-#&gt; [1] 0.5188537
-#&gt; 
-#&gt; $Rand
-#&gt; [1] 0.8735632
-#&gt; 
-#&gt; $PSNR
-#&gt; [1] 7.781513
-#&gt; 
-#&gt; $Cohen
-#&gt; [1] 0.8
-#&gt; 
-#&gt; $NMI
-#&gt; [1] 0.7382948
-#&gt; 
-#&gt; $AMI
-#&gt; [1] 0.7213417
-#&gt; </div></pre>
+<span class='fu'>AdjustedRand</span>(<span class='no'>x</span>, <span class='no'>y</span>)</div><div class='output co'>#&gt; [1] 0.5188537</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
