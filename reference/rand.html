@@ -42,7 +42,20 @@
 <meta property="og:title" content="Similarity Indexes — rand" />
 <meta property="og:description" content="The Rand index, RandIndex, computes the agreement between two different clusterings or
 partitions of the same
-set of objects. The inputs to the function should be binary or categorical and of the same length.#'" />
+set of objects. The inputs to the function should be binary or categorical and of the same length.#'
+The adjusted Rand index computes a corrected version of the Rand index, adjusting for the probability
+of chance agreement. A small constant is added to the numerator
+and denominator of the adjusted Rand index to ensure stability if there is a small or 0 denominator,
+as it is possible to have a zero
+denominator.
+Cohen's kappa is an inter-rater agreement metric for two raters which
+corrects for the probability of chance agreement.
+Like the Rand index, the mutual information is computes the agreement between two different clusterings or
+partitions of the same set of objects. The normalized mutual information is defined here as:
+\(2H(X,Y)/(H(X)+H(Y)),\) but is set to be 0 if both H(X) and H(Y) are 0.
+The adjusted mutual information is a correction of the mutual information to account
+for the probability of chance agreement in a manner similar to the adjusted Rand index
+or Cohen's kappa." />
 
 
 
@@ -134,6 +147,19 @@ set of objects. The inputs to the function should be binary or categorical and o
     <p>The Rand index, <code>RandIndex</code>, computes the agreement between two different clusterings or
 partitions of the same
 set of objects. The inputs to the function should be binary or categorical and of the same length.#'</p>
+<p>The adjusted Rand index computes a corrected version of the Rand index, adjusting for the probability
+of chance agreement. A small constant is added to the numerator
+and denominator of the adjusted Rand index to ensure stability if there is a small or 0 denominator,
+as it is possible to have a zero
+denominator.</p>
+<p>Cohen's kappa is an inter-rater agreement metric for two raters which
+corrects for the probability of chance agreement.</p>
+<p>Like the Rand index, the mutual information is computes the agreement between two different clusterings or
+partitions of the same set of objects. The normalized mutual information is defined here as:
+\(2H(X,Y)/(H(X)+H(Y)),\) but is set to be 0 if both H(X) and H(Y) are 0.</p>
+<p>The adjusted mutual information is a correction of the mutual information to account
+for the probability of chance agreement in a manner similar to the adjusted Rand index
+or Cohen's kappa.</p>
     </div>
 
     <pre class="usage"><span class='fu'>RandIndex</span>(<span class='no'>x</span>, <span class='no'>y</span>)
@@ -178,10 +204,7 @@ doi: <a href='https://doi.org/10.5555/1756006.1953024'>10.5555/1756006.1953024</
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span>(<span class='fl'>0</span>:<span class='fl'>5</span>, <span class='fl'>5</span>)
 <span class='no'>y</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span>(<span class='fl'>0</span>:<span class='fl'>5</span>, <span class='fl'>4</span>), <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span>(<span class='fl'>0</span>, <span class='fl'>6</span>))
-<span class='fu'>RandIndex</span>(<span class='no'>x</span>, <span class='no'>y</span>)</div><div class='output co'>#&gt; [1] 0.8735632</div><div class='input'><span class='fu'>AdjustedRand</span>(<span class='no'>x</span>, <span class='no'>y</span>)</div><div class='output co'>#&gt; [1] 0.5188537</div><div class='input'><span class='fu'>CohenKappa</span>(<span class='no'>x</span>, <span class='no'>y</span>)</div><div class='output co'>#&gt; [1] 0.8</div><div class='input'><span class='fu'>normalizedMI</span>(<span class='no'>x</span>, <span class='no'>y</span>)</div><div class='output co'>#&gt; [1] 0.7382948</div><div class='input'><span class='fu'>adjustedMI</span>(<span class='no'>x</span>, <span class='no'>y</span>)</div><div class='output co'>#&gt; [1] 0.7213417</div><div class='input'>
-<span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span>(<span class='fl'>0</span>:<span class='fl'>5</span>, <span class='fl'>5</span>)
-<span class='no'>y</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span>(<span class='fl'>0</span>:<span class='fl'>5</span>, <span class='fl'>4</span>), <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span>(<span class='fl'>0</span>, <span class='fl'>6</span>))
-<span class='fu'>AdjustedRand</span>(<span class='no'>x</span>, <span class='no'>y</span>)</div><div class='output co'>#&gt; [1] 0.5188537</div></pre>
+<span class='fu'>RandIndex</span>(<span class='no'>x</span>, <span class='no'>y</span>)</div><div class='output co'>#&gt; [1] 0.8735632</div><div class='input'><span class='fu'>AdjustedRand</span>(<span class='no'>x</span>, <span class='no'>y</span>)</div><div class='output co'>#&gt; [1] 0.5188537</div><div class='input'><span class='fu'>CohenKappa</span>(<span class='no'>x</span>, <span class='no'>y</span>)</div><div class='output co'>#&gt; [1] 0.8</div><div class='input'><span class='fu'>normalizedMI</span>(<span class='no'>x</span>, <span class='no'>y</span>)</div><div class='output co'>#&gt; [1] 0.7382948</div><div class='input'><span class='fu'>adjustedMI</span>(<span class='no'>x</span>, <span class='no'>y</span>)</div><div class='output co'>#&gt; [1] 0.7213417</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
