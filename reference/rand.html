@@ -170,15 +170,15 @@ for the probability of chance agreement in a manner similar to the adjusted Rand
 or Cohen's kappa.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>RandIndex</span>(<span class='no'>x</span>, <span class='no'>y</span>)
+    <pre class="usage"><span class='fu'>RandIndex</span>(<span class='no'>x</span>, <span class='no'>y</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
 
-<span class='fu'>AdjustedRand</span>(<span class='no'>x</span>, <span class='no'>y</span>)
+<span class='fu'>AdjustedRand</span>(<span class='no'>x</span>, <span class='no'>y</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
 
-<span class='fu'>CohenKappa</span>(<span class='no'>x</span>, <span class='no'>y</span>)
+<span class='fu'>CohenKappa</span>(<span class='no'>x</span>, <span class='no'>y</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
 
-<span class='fu'>normalizedMI</span>(<span class='no'>x</span>, <span class='no'>y</span>)
+<span class='fu'>normalizedMI</span>(<span class='no'>x</span>, <span class='no'>y</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
 
-<span class='fu'>adjustedMI</span>(<span class='no'>x</span>, <span class='no'>y</span>)</pre>
+<span class='fu'>adjustedMI</span>(<span class='no'>x</span>, <span class='no'>y</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -186,6 +186,11 @@ or Cohen's kappa.</p>
     <tr>
       <th>x, y</th>
       <td><p>a numeric or factor vector or array</p></td>
+    </tr>
+    <tr>
+      <th>na.rm</th>
+      <td><p>whether to remove <code>NA</code> values. By default, <code>FALSE</code>. If <code>TRUE</code>, will
+perform pair-wise deletion.</p></td>
     </tr>
     </table>
 
