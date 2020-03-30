@@ -57,7 +57,7 @@ set of objects. The inputs to the function should be binary or categorical and o
 \examples{
 x <- rep(0:5, 5)
 y <- c(rep(0:5, 4), rep(0, 6))
-Rand(x, y)
+RandIndex(x, y)
 AdjustedRand(x, y)
 CohenKappa(x, y)
 normalizedMI(x, y)
