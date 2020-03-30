@@ -716,7 +716,7 @@ catmssim_3d_cube <- function(x, y, weights = rep(.2, 5), window = 5,
   (results[levels, 1]^weights[levels]) * csresults
 }
 
-#' Adjusted Rand Index and other similarity metrics
+#' Adjusted Rand Index and other similarity indexes (Deprecated)
 #'
 #' Computes the adjusted Rand index and several other similarity measures for two
 #' inputs. These inputs should be binary or categorical and of the same length.

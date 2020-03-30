@@ -2,7 +2,7 @@
 % Please edit documentation in R/catsim.R
 \name{AdjRandIndex}
 \alias{AdjRandIndex}
-\title{Adjusted Rand Index and other similarity metrics}
+\title{Adjusted Rand Index and other similarity indexes (Deprecated)}
 \usage{
 AdjRandIndex(x, y)
 }

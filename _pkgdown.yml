@@ -11,5 +11,10 @@ reference:
     - title: "Utility Functions"
       desc: "Other useful functions."
       contents:
-      - AdjRandIndex
       - matches("gini")
+      - RandIndex
+      - AdjustedRand
+      - CohenKappa
+      - normalizedMI
+      - adjustedMI
+      - AdjRandIndex
