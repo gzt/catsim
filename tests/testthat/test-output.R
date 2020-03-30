@@ -47,6 +47,10 @@ test_that("Gini works", {
   expect_equal(ginicorr(1:15, 15), 1)
   expect_error(ginicorr(y, 1))
   expect_error(sqrtginicorr(sample(letters, size = 100, replace = TRUE), 5))
+  adjrand <- suppressWarnings(AdjRandIndex(x, y))
+  expect_equal(normalizedMI(x, y), adjrand$NMI)
+  expect_equal(adjustedMI(x, y), adjrand$AMI)
+  expect_equal(jaccard(x, y), adjrand$Jaccard)  
 })
 
 set.seed(20181215)
@@ -82,8 +86,17 @@ test_that("Inputs are symmetric 2D", {
   expect_equal(catmssim_2d(x, y, weights = 1), catmssim_2d(y, x, weights = 1))
   expect_equal(catmssim_2d(x, y, weights = 1, method = "NMI"), catmssim_2d(y, x, weights = 1, method = "NMI"))
   expect_equal(catmssim_2d(x, y, weights = 1, method = "AMI"), catmssim_2d(y, x, weights = 1, method = "AMI"))
-  expect_equal(catmssim_2d(x, y, weights = c(.5, .5), method = "j"), catsim(y, x, weights = c(.5, .5), method = "j"))
+  expect_equal(catmssim_2d(x, y, weights = c(.5, .5), method = "j"), catmssim_2d(y, x, weights = c(.5, .5), method = "j"))
   expect_equal(catmssim_2d(x, y, weights = 1, method = "dice"), catmssim_2d(y, x, weights = 1, method = "dice"))
+  expect_equal(normalizedMI(x, y), normalizedMI(y, x))
+})
+
+test_that("catmssim_2d equivalent to catsim in 2D",{
+    expect_equal(catmssim_2d(x, y, weights = 1), catsim(x, y, weights = 1))
+    expect_equal(catmssim_2d(x, y, weights = c(.23, 77)), catsim(x, y, weights = c(.23, 77)))
+    expect_equal(catmssim_2d(x, y, window=5, weights=1), catsim(x, y, window=5, weights=1))
+    expect_equal(catmssim_2d(x, y, window=c(5,6), weights=1), catsim(x, y, window=c(5,6), weights=1))
+    expect_equal(catmssim_2d(x, y, window=c(5), weights=1), catsim(x, y, window=c(5,5), weights=1))
 })
 
 test_that("Inputs are symmetric 3D", {
