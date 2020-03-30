@@ -57,9 +57,9 @@ raters agreed on individual points.
 Like the Rand index, the mutual information computes the agreement between two different clusterings or
 partitions of the same set of objects. If \(H(X)\) is the entropy of some probability distribution \(X\), then
 the mutual information of two distributions is \(I(X;Y) = -H(X,Y) +H(X) + H(Y)\).
-The normalized mutual information is defined here as:
+The normalized mutual information, normalizeMI, is defined here as:
 \(2I(X;Y)/(H(X)+H(Y)),\) but is set to be 0 if both H(X) and H(Y) are 0.
-The adjusted mutual information is a correction of the mutual information to account
+The adjusted mutual information, adjustedMI, is a correction of the mutual information to account
 for the probability of chance agreement in a manner similar to the adjusted Rand index
 or Cohen's kappa." />
 
@@ -167,9 +167,9 @@ raters agreed on individual points.</p>
 <p>Like the Rand index, the mutual information computes the agreement between two different clusterings or
 partitions of the same set of objects. If \(H(X)\) is the entropy of some probability distribution \(X\), then
 the mutual information of two distributions is \(I(X;Y) = -H(X,Y) +H(X) + H(Y)\).
-The normalized mutual information is defined here as:
+The normalized mutual information, <code>normalizeMI</code>, is defined here as:
 \(2I(X;Y)/(H(X)+H(Y)),\) but is set to be 0 if both H(X) and H(Y) are 0.</p>
-<p>The adjusted mutual information is a correction of the mutual information to account
+<p>The adjusted mutual information, <code>adjustedMI</code>, is a correction of the mutual information to account
 for the probability of chance agreement in a manner similar to the adjusted Rand index
 or Cohen's kappa.</p>
     </div>
