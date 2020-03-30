@@ -482,11 +482,9 @@ catssim_2d <- function(x, y, window = 11, method = "Cohen", ...) {
 #' y <- x
 #' for (i in 1:128) y[i, i] <- 0
 #' for (i in 1:127) y[i, i + 1] <- 0
-#' catmssim_2d(x, y)
+#' catmssim_2d(x, y, method = "Cohen") # the default
 #' # now using a different similarity score (Jaccard Index)
 #' catmssim_2d(x, y, method = "Jaccard")
-#' # now using a different similarity score (Adjusted Rand Index)
-#' catmssim_2d(x, y, method = "AdjRand")
 catmssim_2d <- function(x, y, weights = rep(.2, 5), window = 11,
                         method = "Cohen", ...) {
   # the weights are from the original MS-SSIM program
@@ -602,11 +600,9 @@ catssim_3d_cube <- function(x, y, window = 5, method = "Cohen", ...) {
 #'   for (i in 1:(dim^2)) y[i, i, j] <- 0
 #'   for (i in 1:(dim^2 - 1)) y[i, i + 1, j] <- 0
 #' }
-#' catmssim_3d_slice(x, y, weights = c(.75, .25))
+#' catmssim_3d_slice(x, y, weights = c(.75, .25)) # by default method = "Cohen"
 #' # Now using a different similarity score
 #' catmssim_3d_slice(x, y, weights = c(.75, .25), method = "Rand")
-#' # And using another similarity score
-#' catmssim_3d_slice(x, y, weights = c(.75, .25), method = "AdjRand")
 catmssim_3d_slice <- function(x, y, weights = rep(.2, 5),
                               window = 11, method = "Cohen", ...) {
   # the weights are from the original MS-SSIM program
@@ -755,12 +751,6 @@ catmssim_3d_cube <- function(x, y, weights = rep(.2, 5), window = 5,
 #' \doi{10.5555/1756006.1953024}
 #'
 #' @export
-#'
-#' @examples
-#'
-#' x <- rep(0:5, 5)
-#' y <- c(rep(0:5, 4), rep(0, 6))
-#' AdjRandIndex(x, y)
 AdjRandIndex <- function(x, y) {
     .Deprecated("AdjustedRand")
   if (length(x) != length(y)) stop("x and y have differing lengths.")

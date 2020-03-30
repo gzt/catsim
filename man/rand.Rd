@@ -3,30 +3,13 @@
 \name{rand}
 \alias{rand}
 \alias{RandIndex}
-\alias{Adjusted Rand Index
-
-The adjusted Rand index computes a corrected version of the Rand index, adjusting for the probability
-of chance agreement. A small constant is added to the numerator
-and denominator of the adjusted Rand index to ensure stability if there is a small or 0 denominator,
-as it is possible to have a zero
-denominator.}
+\alias{Adjusted Rand Index}
 \alias{AdjustedRand}
-\alias{Cohen's kappa
-
-Cohen's kappa is an inter-rater agreement metric for two raters which
-corrects for the probability of chance agreement.}
+\alias{Cohen's kappa}
 \alias{CohenKappa}
-\alias{Normalized Mutual Information
-
-Like the Rand index, the mutual information is computes the agreement between two different clusterings or
-partitions of the same set of objects. The normalized mutual information is defined here as:
-\eqn{2H(X,Y)/(H(X)+H(Y)),} but is set to be 0 if both H(X) and H(Y) are 0.}
+\alias{Normalized Mutual Information}
 \alias{normalizedMI}
-\alias{Adjusted Mutual Information
-
-The adjusted mutual information is a correction of the mutual information to account
-for the probability of chance agreement in a manner similar to the adjusted Rand index
-or Cohen's kappa.}
+\alias{Adjusted Mutual Information}
 \alias{adjustedMI}
 \title{Similarity Indexes}
 \usage{
@@ -53,6 +36,23 @@ the Adjusted Rand Index, which is generally between 0 and 1.
 The Rand index, \code{RandIndex}, computes the agreement between two different clusterings or
 partitions of the same
 set of objects. The inputs to the function should be binary or categorical and of the same length.#'
+
+The adjusted Rand index computes a corrected version of the Rand index, adjusting for the probability
+of chance agreement. A small constant is added to the numerator
+and denominator of the adjusted Rand index to ensure stability if there is a small or 0 denominator,
+as it is possible to have a zero
+denominator.
+
+Cohen's kappa is an inter-rater agreement metric for two raters which
+corrects for the probability of chance agreement.
+
+Like the Rand index, the mutual information is computes the agreement between two different clusterings or
+partitions of the same set of objects. The normalized mutual information is defined here as:
+\eqn{2H(X,Y)/(H(X)+H(Y)),} but is set to be 0 if both H(X) and H(Y) are 0.
+
+The adjusted mutual information is a correction of the mutual information to account
+for the probability of chance agreement in a manner similar to the adjusted Rand index
+or Cohen's kappa.
 }
 \examples{
 x <- rep(0:5, 5)
@@ -62,10 +62,6 @@ AdjustedRand(x, y)
 CohenKappa(x, y)
 normalizedMI(x, y)
 adjustedMI(x, y)
-
-x <- rep(0:5, 5)
-y <- c(rep(0:5, 4), rep(0, 6))
-AdjustedRand(x, y)
 }
 \references{
 Lawrence Hubert and Phipps Arabie (1985).

@@ -49,7 +49,7 @@ RandIndex <- function(x, y){
 
 #' @name Adjusted Rand Index
 #'
-#' The adjusted Rand index computes a corrected version of the Rand index, adjusting for the probability
+#' @description The adjusted Rand index computes a corrected version of the Rand index, adjusting for the probability
 #' of chance agreement. A small constant is added to the numerator
 #' and denominator of the adjusted Rand index to ensure stability if there is a small or 0 denominator,
 #' as it is possible to have a zero
@@ -57,12 +57,7 @@ RandIndex <- function(x, y){
 #' @rdname rand
 #' @return the Adjusted Rand Index, which is generally between 0 and 1.
 #' @export
-#'
-#' @examples
-#'
-#' x <- rep(0:5, 5)
-#' y <- c(rep(0:5, 4), rep(0, 6))
-#' AdjustedRand(x, y)
+
 AdjustedRand <- function(x, y){
   if (length(x) != length(y)) stop("x and y have differing lengths.")
   if (!all(!is.na(x), !is.na(y))) warning("NAs present in x or y, Adjusted Rand doesn't account for NA values.")
@@ -73,7 +68,7 @@ AdjustedRand <- function(x, y){
 
 #' @name Cohen's kappa
 #' 
-#' Cohen's kappa is an inter-rater agreement metric for two raters which
+#' @description Cohen's kappa is an inter-rater agreement metric for two raters which
 #' corrects for the probability of chance agreement.
 #' @rdname rand
 #' @export
@@ -87,7 +82,7 @@ CohenKappa <- function(x, y){
 
 #' @name Normalized Mutual Information
 #' 
-#' Like the Rand index, the mutual information is computes the agreement between two different clusterings or
+#' @description Like the Rand index, the mutual information is computes the agreement between two different clusterings or
 #' partitions of the same set of objects. The normalized mutual information is defined here as:
 #' \eqn{2H(X,Y)/(H(X)+H(Y)),} but is set to be 0 if both H(X) and H(Y) are 0.
 #' @rdname rand
@@ -102,7 +97,7 @@ normalizedMI <- function(x, y){
 
 #' @name Adjusted Mutual Information
 #' 
-#' The adjusted mutual information is a correction of the mutual information to account
+#' @description The adjusted mutual information is a correction of the mutual information to account
 #' for the probability of chance agreement in a manner similar to the adjusted Rand index
 #' or Cohen's kappa.
 #' @rdname rand 

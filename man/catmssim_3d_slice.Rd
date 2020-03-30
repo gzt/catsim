@@ -51,9 +51,7 @@ for (j in 1:(dim)) {
   for (i in 1:(dim^2)) y[i, i, j] <- 0
   for (i in 1:(dim^2 - 1)) y[i, i + 1, j] <- 0
 }
-catmssim_3d_slice(x, y, weights = c(.75, .25))
+catmssim_3d_slice(x, y, weights = c(.75, .25)) # by default method = "Cohen"
 # Now using a different similarity score
 catmssim_3d_slice(x, y, weights = c(.75, .25), method = "Rand")
-# And using another similarity score
-catmssim_3d_slice(x, y, weights = c(.75, .25), method = "AdjRand")
 }

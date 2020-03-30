@@ -37,9 +37,7 @@ x <- matrix(sample(0:3, 128^2, replace = TRUE), nrow = 128)
 y <- x
 for (i in 1:128) y[i, i] <- 0
 for (i in 1:127) y[i, i + 1] <- 0
-catmssim_2d(x, y)
+catmssim_2d(x, y, method = "Cohen") # the default
 # now using a different similarity score (Jaccard Index)
 catmssim_2d(x, y, method = "Jaccard")
-# now using a different similarity score (Adjusted Rand Index)
-catmssim_2d(x, y, method = "AdjRand")
 }
