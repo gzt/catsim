@@ -31,7 +31,8 @@ binssim(
 
 \item{method}{whether to use Cohen's kappa (\code{Cohen}), Jaccard Index (\code{Jaccard}),
 Dice index (\code{Dice}),  accuracy (\code{accuracy}),  Rand index (\code{Rand}),
-or Adjusted Rand Index (\code{AdjRand} or \code{ARI}) as
+Adjusted Rand Index (\code{AdjRand} or \code{ARI}), or normalized mutual
+information (\code{NMI} or \code{MI}) as
 the similarity index. Note Jaccard and Dice should only be used on binary data.}
 
 \item{...}{Constants can be passed to the components of the index.}
@@ -41,7 +42,9 @@ Structural similarity index.
 }
 \description{
 This computes the categorical or binary structural similarity index metric
-on a whole-image scale.
+on a whole-image scale. The difference between this and the default 2-D method
+is that this considers the whole image at once and one scale rather than computing the index over
+a sliding window and downsampling to consider it at other scales.
 }
 \examples{
 set.seed(20181207)

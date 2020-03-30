@@ -225,7 +225,9 @@ sfunc <- function(x, y, methodflag = C_Cohen) {
 #' Categorical Structural Similarity Index Metric (whole image)
 #'
 #' This computes the categorical or binary structural similarity index metric
-#' on a whole-image scale.
+#' on a whole-image scale. The difference between this and the default 2-D method
+#' is that this considers the whole image at once and one scale rather than computing the index over
+#' a sliding window and downsampling to consider it at other scales.
 #'
 #' @param x,y binary or categorical image
 #' @param alpha normalizing parameter, by default 1
@@ -235,7 +237,8 @@ sfunc <- function(x, y, methodflag = C_Cohen) {
 #' @param c2 small normalization constant for the \code{s} function, by default 0.01
 #' @param method whether to use Cohen's kappa (\code{Cohen}), Jaccard Index (\code{Jaccard}),
 #'     Dice index (\code{Dice}),  accuracy (\code{accuracy}),  Rand index (\code{Rand}),
-#'     or Adjusted Rand Index (\code{AdjRand} or \code{ARI}) as
+#'     Adjusted Rand Index (\code{AdjRand} or \code{ARI}), or normalized mutual
+#'   information (\code{NMI} or \code{MI}) as
 #'     the similarity index. Note Jaccard and Dice should only be used on binary data.
 #' @param ... Constants can be passed to the components of the index.
 #'
@@ -713,7 +716,7 @@ catmssim_3d_cube <- function(x, y, weights = rep(.2, 5), window = 5,
   (results[levels, 1]^weights[levels]) * csresults
 }
 
-#' Adjusted Rand Index
+#' Adjusted Rand Index and other similarity metrics
 #'
 #' Computes the adjusted Rand index and several other similarity measures for two
 #' inputs. These inputs should be binary or categorical and of the same length.
@@ -730,7 +733,7 @@ catmssim_3d_cube <- function(x, y, weights = rep(.2, 5), window = 5,
 #'
 #' @param x,y  a numeric or factor vector or image
 #'
-#' @return The accuracy, Jaccard index, the Adjusted Rand Index, the Rand index, the PSNR, and Cohen's Kappan
+#' @return The accuracy, Jaccard index, the Adjusted Rand Index, the Rand index, the PSNR, Cohen's Kappa,
 #'     normalized mutual information (NMI) and adjusted mutual information (AMI). Note:
 #'     The Jaccard index will not make sense if this is not binary.
 #'
@@ -759,6 +762,7 @@ catmssim_3d_cube <- function(x, y, weights = rep(.2, 5), window = 5,
 #' y <- c(rep(0:5, 4), rep(0, 6))
 #' AdjRandIndex(x, y)
 AdjRandIndex <- function(x, y) {
+    .Deprecated("AdjustedRand")
   if (length(x) != length(y)) stop("x and y have differing lengths.")
   if (!all(!is.na(x), !is.na(y))) warning("NAs present in x or y, Adjusted Rand and Cohen don't account for NA values.")
   if (length(table(c(x, y))) > 2) {
