@@ -3,7 +3,7 @@
 #'
 #' @description The Rand index, \code{RandIndex}, computes the agreement between two different clusterings or
 #' partitions of the same
-#' set of objects. The inputs to the function should be binary or categorical and of the same length.#' 
+#' set of objects. The inputs to the function should be binary or categorical and of the same length. 
 #'
 #' @param x,y  a numeric or factor vector or array
 #'
@@ -32,6 +32,10 @@
 #' @examples
 #' x <- rep(0:5, 5)
 #' y <- c(rep(0:5, 4), rep(0, 6))
+#' # Simple Matching, or Accuracy
+#' mean(x == y)
+#' # Hamming distance
+#' sum(x != y)
 #' RandIndex(x, y)
 #' AdjustedRand(x, y)
 #' CohenKappa(x, y)
@@ -49,8 +53,9 @@ RandIndex <- function(x, y){
 
 #' @name Adjusted Rand Index
 #'
-#' @description The adjusted Rand index computes a corrected version of the Rand index, adjusting for the probability
-#' of chance agreement. A small constant is added to the numerator
+#' @description The adjusted Rand index,  \code{AdjustedRand},  computes a corrected version
+#' of the Rand index, adjusting for the probability
+#' of chance agreement of clusterings. A small constant is added to the numerator
 #' and denominator of the adjusted Rand index to ensure stability if there is a small or 0 denominator,
 #' as it is possible to have a zero
 #' denominator. 
@@ -69,7 +74,10 @@ AdjustedRand <- function(x, y){
 #' @name Cohen's kappa
 #' 
 #' @description Cohen's kappa is an inter-rater agreement metric for two raters which
-#' corrects for the probability of chance agreement.
+#' corrects for the probability of chance agreement. Note there is a difference here
+#' between this measure and the Rand indices and mutual information: those consider
+#' the similarities of the groupings of points, while this considers how often the
+#' raters agreed on individual points.
 #' @rdname rand
 #' @export
 CohenKappa <- function(x, y){
