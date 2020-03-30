@@ -543,7 +543,7 @@ catmssim_2d <- function(x, y, weights = rep(.2, 5), window = 11,
 #'
 #' @noRd
 #'
-catssim_3d_slice <- function(x, y, window = 11, method = "Cohen", ...) {
+catssim_3d_slice <- function(x, y, window = c(11,11), method = "Cohen", ...) {
   ##   if (is.null(dim(x))) stop("x is 1-dimensional")
   ##   if (is.null(dim(y))) stop("y is 1-dimensional")
   ## if (any(dim(x) != dim(y))) stop('x and y have nonconformable dimensions.')
@@ -554,11 +554,7 @@ catssim_3d_slice <- function(x, y, window = 11, method = "Cohen", ...) {
   colMeans(sliceresults, na.rm = TRUE)
 }
 
-catssim_3d_cube <- function(x, y, window = 5, method = "Cohen", ...) {
-  ## if (is.null(dim(x))) stop("x is 1-dimensional")
-  ## if (is.null(dim(y))) stop("y is 1-dimensional")
-  ## if (any(dim(x) != dim(y))) stop('x and y have nonconformable dimensions.')
-  if (length(window) == 1) window <- rep(window, 3)
+catssim_3d_cube <- function(x, y, window = c(5,5,5), method = "Cohen", ...) {
   k <- length(unique(c(x, y)))
   dims <- dim(x)
   if (any(dims < window)) {
@@ -836,7 +832,7 @@ catsim <- function(x, y, ..., cube = TRUE, weights = rep(.2, 5), method = "Cohen
   if (any(dim(x) != dim(y))) stop("x and y have nonconformable dimensions.")
   dims <- dim(x)
   if (is.null(window)) {
-    if (cube && length(dims == 3)) {
+    if (cube && length(dims) == 3) {
       window <- 5
     } else {
       window <- 11
