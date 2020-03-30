@@ -67,9 +67,7 @@ RandIndex <- function(x, y, na.rm=FALSE){
 #' as it is possible to have a zero
 #' denominator. 
 #' @rdname rand
-#' @return the Adjusted Rand Index, which is generally between 0 and 1.
 #' @export
-
 AdjustedRand <- function(x, y, na.rm=FALSE){
     if (length(x) != length(y)) stop("x and y have differing lengths.")
         if(na.rm) {
