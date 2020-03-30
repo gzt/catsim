@@ -166,6 +166,25 @@ test_that("Zero weights should have result of 1.0", {
   expect_equal(catsim(x, y, weights = c(0.0)), 1.0)
 })
 
+test_that("NA RM works",{
+     x <- c(rep(0:5, 5),NA)
+     y <- c(rep(0:5, 4), rep(0, 6),3)
+     xtrim = x[1:30]
+     ytrim = y[1:30]
+     expect_warning(RandIndex(x, y))
+     expect_warning(AdjustedRand(x, y))
+     expect_warning(CohenKappa(x, y))
+     expect_warning(normalizedMI(x, y))
+     expect_warning(adjustedMI(x, y))
+     expect_equal(RandIndex(x, y, na.rm=TRUE), RandIndex(xtrim, ytrim))
+     expect_equal(AdjustedRand(x, y, na.rm=TRUE), AdjustedRand(xtrim, ytrim))
+     expect_equal(CohenKappa(x, y, na.rm=TRUE), CohenKappa(xtrim, ytrim))
+     expect_equal(normalizedMI(x, y, na.rm=TRUE), normalizedMI(xtrim, ytrim))
+     expect_equal(adjustedMI(x, y, na.rm=TRUE), adjustedMI(xtrim, ytrim))
+}
+)
+
+
 ## x <- matrix(c(0,1), nrow = 512, ncol = 512)
 ## y <- matrix(c(0,0,1,1), nrow = 512, ncol = 512)
 ## test_that("Large matrices should work", {

@@ -6,6 +6,8 @@
 #' set of objects. The inputs to the function should be binary or categorical and of the same length. 
 #'
 #' @param x,y  a numeric or factor vector or array
+#' @param na.rm whether to remove \code{NA} values. By default, \code{FALSE}. If \code{TRUE}, will
+#'    perform pair-wise deletion.
 #'
 #' @return the similarity index, which is between 0 and 1 for most of the options. The adjusted Rand and
 #'    Cohen's kappa can be negative, but are bounded above by 1. 
@@ -41,8 +43,13 @@
 #' CohenKappa(x, y)
 #' normalizedMI(x, y)
 #' adjustedMI(x, y)
-RandIndex <- function(x, y){
-  if (length(x) != length(y)) stop("x and y have differing lengths.")
+RandIndex <- function(x, y, na.rm=FALSE){
+    if (length(x) != length(y)) stop("x and y have differing lengths.")
+    if(na.rm) {
+        naxy = (!is.na(x) & !is.na(y))
+        x<-x[naxy]
+        y<-y[naxy]
+        }
   if (!all(!is.na(x), !is.na(y))) warning("NAs present in x or y, the Rand index doesn't account for NA values.")
   x <- as.numeric(x)
   y <- as.numeric(y)
@@ -63,8 +70,13 @@ RandIndex <- function(x, y){
 #' @return the Adjusted Rand Index, which is generally between 0 and 1.
 #' @export
 
-AdjustedRand <- function(x, y){
-  if (length(x) != length(y)) stop("x and y have differing lengths.")
+AdjustedRand <- function(x, y, na.rm=FALSE){
+    if (length(x) != length(y)) stop("x and y have differing lengths.")
+        if(na.rm) {
+        naxy = (!is.na(x) & !is.na(y))
+        x<-x[naxy]
+        y<-y[naxy]
+        }
   if (!all(!is.na(x), !is.na(y))) warning("NAs present in x or y, Adjusted Rand doesn't account for NA values.")
   x <- as.numeric(x)
   y <- as.numeric(y)
@@ -80,8 +92,13 @@ AdjustedRand <- function(x, y){
 #' raters agreed on individual points.
 #' @rdname rand
 #' @export
-CohenKappa <- function(x, y){
-  if (length(x) != length(y)) stop("x and y have differing lengths.")
+CohenKappa <- function(x, y, na.rm=FALSE){
+    if (length(x) != length(y)) stop("x and y have differing lengths.")
+        if(na.rm) {
+        naxy = (!is.na(x) & !is.na(y))
+        x<-x[naxy]
+        y<-y[naxy]
+        }
   if (!all(!is.na(x), !is.na(y))) warning("NAs present in x or y, Cohen's Kappa doesn't account for NA values.")
   x <- as.numeric(x)
   y <- as.numeric(y)
@@ -95,12 +112,17 @@ CohenKappa <- function(x, y){
 #' \eqn{2H(X,Y)/(H(X)+H(Y)),} but is set to be 0 if both H(X) and H(Y) are 0.
 #' @rdname rand
 #' @export
-normalizedMI <- function(x, y){
-  if (length(x) != length(y)) stop("x and y have differing lengths.")
-  if (!all(!is.na(x), !is.na(y))) warning("NAs present in x or y, normalized mutual information doesn't account for NA values.")
-  x <- as.numeric(x)
-  y <- as.numeric(y)
-  C_NMI(x, y)
+normalizedMI <- function(x, y, na.rm=FALSE){
+    if (length(x) != length(y)) stop("x and y have differing lengths.")
+    if(na.rm) {
+        naxy = (!is.na(x) & !is.na(y))
+        x<-x[naxy]
+        y<-y[naxy]
+    }
+    if (!all(!is.na(x), !is.na(y))) warning("NAs present in x or y, normalized mutual information doesn't account for NA values.")
+    x <- as.numeric(x)
+    y <- as.numeric(y)
+    C_NMI(x, y)
 }
 
 #' @name Adjusted Mutual Information
@@ -110,10 +132,15 @@ normalizedMI <- function(x, y){
 #' or Cohen's kappa.
 #' @rdname rand 
 #' @export
-adjustedMI <- function(x, y){
-  if (length(x) != length(y)) stop("x and y have differing lengths.")
-  if (!all(!is.na(x), !is.na(y))) warning("NAs present in x or y, adjusted mutual information doesn't account for NA values.")
-  x <- as.numeric(x)
-  y <- as.numeric(y)
-  C_AMI(x, y)
+adjustedMI <- function(x, y, na.rm=FALSE){
+    if (length(x) != length(y)) stop("x and y have differing lengths.")
+    if(na.rm) {
+        naxy = (!is.na(x) & !is.na(y))
+        x<-x[naxy]
+        y<-y[naxy]
+    }
+    if (!all(!is.na(x), !is.na(y))) warning("NAs present in x or y, adjusted mutual information doesn't account for NA values.")
+    x <- as.numeric(x)
+    y <- as.numeric(y)
+    C_AMI(x, y)
 }

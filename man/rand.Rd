@@ -13,18 +13,21 @@
 \alias{adjustedMI}
 \title{Similarity Indexes}
 \usage{
-RandIndex(x, y)
+RandIndex(x, y, na.rm = FALSE)
 
-AdjustedRand(x, y)
+AdjustedRand(x, y, na.rm = FALSE)
 
-CohenKappa(x, y)
+CohenKappa(x, y, na.rm = FALSE)
 
-normalizedMI(x, y)
+normalizedMI(x, y, na.rm = FALSE)
 
-adjustedMI(x, y)
+adjustedMI(x, y, na.rm = FALSE)
 }
 \arguments{
 \item{x, y}{a numeric or factor vector or array}
+
+\item{na.rm}{whether to remove \code{NA} values. By default, \code{FALSE}. If \code{TRUE}, will
+perform pair-wise deletion.}
 }
 \value{
 the similarity index, which is between 0 and 1 for most of the options. The adjusted Rand and
