@@ -30,6 +30,15 @@ test_that("Bad dimensions fail", {
   expect_error(catsim(x, x, method = "bob", weights = 1))
 })
 
+test_that("Weights and levels work",{
+    expect_error(catsim(x, y, weights = 1:3, levels = 5))
+    expect_equal(catsim(x, y, weights = c(.5,.5)), catsim(x, y, levels = 2))
+    expect_equal(catsim(x, y, weights = c(.5,.5, .5), levels = 2), catsim(x, y, weights = c(.5, .5)))
+    expect_equal(catsim(x, y, window = 2), catsim(x, y, window = 2, weights = rep(1,5)/5))
+    expect_equal(catsim(x, y, window = 2), catsim(x, y, window = 2, levels = 5))
+}
+)
+
 test_that("Gini works", {
   x <- c(1, 1)
   y <- c(1, 0)

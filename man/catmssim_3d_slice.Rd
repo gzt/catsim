@@ -53,5 +53,5 @@ for (j in 1:(dim)) {
 }
 catmssim_3d_slice(x, y, weights = c(.75, .25)) # by default method = "Cohen"
 # Now using a different similarity score
-catmssim_3d_slice(x, y, weights = c(.75, .25), method = "Rand")
+catmssim_3d_slice(x, y, weights = c(.75, .25), method = "accuracy")
 }

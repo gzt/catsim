@@ -9,7 +9,8 @@ catsim(
   y,
   ...,
   cube = TRUE,
-  weights = rep(0.2, 5),
+  levels = NULL,
+  weights = NULL,
   method = "Cohen",
   window = NULL
 )
@@ -25,8 +26,14 @@ or compute the metric using 2D slices which are then averaged.
 By default, \code{TRUE}, which evaluates as a cube. \code{FALSE} will treat it as
 2D slices.}
 
+\item{levels}{how many levels of downsampling to use. By default, 5. If
+\code{weights} is specified and this is left blank, the argument
+will be inferred from the number of weights specified.}
+
 \item{weights}{a vector of weights for the different scales. By default,
-five different scales are used.}
+equal to \code{rep(1,levels)/levels}. If specified, there must
+at least as many  weights as there are levels and the first \code{levels}
+weights will be used.}
 
 \item{method}{whether to use Cohen's kappa (\code{Cohen}), Jaccard Index (\code{Jaccard}),
 Dice index (\code{Dice}),  accuracy (\code{accuracy}),  Rand index (\code{Rand}),
@@ -60,9 +67,7 @@ for (j in 1:dim) {
 }
 catsim(x, y, weights = c(.75, .25))
 # Now using a different similarity score
-catsim(x, y, weights = c(.75, .25), method = "Jaccard")
-# And using the last possible similarity score
-catsim(x, y, weights = c(.75, .25), method = "AdjRand")
+catsim(x, y, levels = 2, method = "accuracy")
 # with the slice method:
 catsim(x, y, weights = c(.75, .25), cube = FALSE, window = 8)
 }

@@ -54,6 +54,4 @@ for (j in 1:dim) {
 catmssim_3d_cube(x, y, weights = c(.75, .25))
 # Now using a different similarity score
 catmssim_3d_cube(x, y, weights = c(.75, .25), method = "Accuracy")
-# And using the last possible similarity score
-catmssim_3d_cube(x, y, weights = c(.75, .25), method = "Rand")
 }
