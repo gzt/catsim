@@ -1,3 +1,14 @@
+# catsim 0.1.0.9040
+
+* Features still being added.
+
+# catsim 0.1.0.9039
+
+* Added `levels` argument to `catsim()`. Weights or levels can be specifed. 
+  `levels` alone will define `weights = rep(1, levels)/levels`. If `weights` 
+  and `levels` are both specified, `weights = weights[1:levels]`. 
+* Added documentation.
+
 # catsim 0.1.0.9038
 
 * Added normalized mutual information and adjusted mutual information
