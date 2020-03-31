@@ -784,13 +784,15 @@ AdjRandIndex <- function(x, y) {
 #' This determines whether this is a 2D or 3D image and applies the appropriate
 #' windowing, weighting, and scaling. Additional arguments can be passed.
 #' This is a wrapper function for the 2D and 3D functions whose functionality
-#' can be accessed through the ... arguments.
+#' can be accessed through the ... arguments. This function is a wrapper for the
+#' \code{\link{catmssim_2d}}, \code{\link{catmssim_3d_slice}}, and \code{\link{catmssim_3d_cube}}
+#' functions.
 #'
 #' @param x,y a binary or categorical image
 #' @param ... additional arguments, such as window, can be passed
 #'        as well as arguments for internal functions.
-#' @param cube for the 3D method, whether to use the true 3D method (cube)
-#'        or compute the metric using 2D slices which are then averaged.
+#' @param cube for the 3D method, whether to use the true 3D method (cube or \code{\link{catmssim_3d_cube}})
+#'        or compute the metric using 2D slices which are then averaged (\code{\link{catmssim_3d_slice}}).
 #'        By default, \code{TRUE}, which evaluates as a cube. \code{FALSE} will treat it as
 #'        2D slices.
 #' @param levels how many levels of downsampling to use. By default, 5. If
