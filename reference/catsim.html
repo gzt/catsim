@@ -147,7 +147,8 @@ can be accessed through the ... arguments.</p>
   <span class='no'>y</span>,
   <span class='no'>...</span>,
   <span class='kw'>cube</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>weights</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span>(<span class='fl'>0.2</span>, <span class='fl'>5</span>),
+  <span class='kw'>levels</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>weights</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"Cohen"</span>,
   <span class='kw'>window</span> <span class='kw'>=</span> <span class='kw'>NULL</span>
 )</pre>
@@ -172,9 +173,17 @@ By default, <code>TRUE</code>, which evaluates as a cube. <code>FALSE</code> wil
 2D slices.</p></td>
     </tr>
     <tr>
+      <th>levels</th>
+      <td><p>how many levels of downsampling to use. By default, 5. If
+<code>weights</code> is specified and this is left blank, the argument
+will be inferred from the number of weights specified.</p></td>
+    </tr>
+    <tr>
       <th>weights</th>
       <td><p>a vector of weights for the different scales. By default,
-five different scales are used.</p></td>
+equal to <code>rep(1,levels)/levels</code>. If specified, there must
+at least as many  weights as there are levels and the first <code>levels</code>
+weights will be used.</p></td>
     </tr>
     <tr>
       <th>method</th>
@@ -206,8 +215,7 @@ dimensions as the inputted <code>x</code> and <code>y</code>.</p></td>
   <span class='kw'>for</span> (<span class='no'>i</span> <span class='kw'>in</span> <span class='fl'>1</span>:(<span class='no'>dim</span> - <span class='fl'>1</span>)) <span class='no'>y</span>[<span class='no'>i</span>, <span class='no'>i</span> + <span class='fl'>1</span>, <span class='no'>j</span>] <span class='kw'>&lt;-</span> <span class='fl'>0</span>
 }
 <span class='fu'>catsim</span>(<span class='no'>x</span>, <span class='no'>y</span>, <span class='kw'>weights</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>.75</span>, <span class='fl'>.25</span>))</div><div class='output co'>#&gt; [1] 0.8297478</div><div class='input'><span class='co'># Now using a different similarity score</span>
-<span class='fu'>catsim</span>(<span class='no'>x</span>, <span class='no'>y</span>, <span class='kw'>weights</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>.75</span>, <span class='fl'>.25</span>), <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"Jaccard"</span>)</div><div class='output co'>#&gt; [1] 0.8297743</div><div class='input'><span class='co'># And using the last possible similarity score</span>
-<span class='fu'>catsim</span>(<span class='no'>x</span>, <span class='no'>y</span>, <span class='kw'>weights</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>.75</span>, <span class='fl'>.25</span>), <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"AdjRand"</span>)</div><div class='output co'>#&gt; [1] 0.6880138</div><div class='input'><span class='co'># with the slice method:</span>
+<span class='fu'>catsim</span>(<span class='no'>x</span>, <span class='no'>y</span>, <span class='kw'>levels</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"accuracy"</span>)</div><div class='output co'>#&gt; [1] 0.8334888</div><div class='input'><span class='co'># with the slice method:</span>
 <span class='fu'>catsim</span>(<span class='no'>x</span>, <span class='no'>y</span>, <span class='kw'>weights</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>.75</span>, <span class='fl'>.25</span>), <span class='kw'>cube</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>window</span> <span class='kw'>=</span> <span class='fl'>8</span>)</div><div class='output co'>#&gt; [1] 0.8385772</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
