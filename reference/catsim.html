@@ -45,7 +45,9 @@ images for multiple scales. The default is to compute over 5 scales.
 This determines whether this is a 2D or 3D image and applies the appropriate
 windowing, weighting, and scaling. Additional arguments can be passed.
 This is a wrapper function for the 2D and 3D functions whose functionality
-can be accessed through the ... arguments." />
+can be accessed through the ... arguments. This function is a wrapper for the
+catmssim_2d, catmssim_3d_slice, and catmssim_3d_cube
+functions." />
 
 
 
@@ -139,7 +141,9 @@ images for multiple scales. The default is to compute over 5 scales.
 This determines whether this is a 2D or 3D image and applies the appropriate
 windowing, weighting, and scaling. Additional arguments can be passed.
 This is a wrapper function for the 2D and 3D functions whose functionality
-can be accessed through the ... arguments.</p>
+can be accessed through the ... arguments. This function is a wrapper for the
+<code><a href='catmssim_2d.html'>catmssim_2d</a></code>, <code><a href='catmssim_3d_slice.html'>catmssim_3d_slice</a></code>, and <code><a href='catmssim_3d_cube.html'>catmssim_3d_cube</a></code>
+functions.</p>
     </div>
 
     <pre class="usage"><span class='fu'>catsim</span>(
@@ -167,8 +171,8 @@ as well as arguments for internal functions.</p></td>
     </tr>
     <tr>
       <th>cube</th>
-      <td><p>for the 3D method, whether to use the true 3D method (cube)
-or compute the metric using 2D slices which are then averaged.
+      <td><p>for the 3D method, whether to use the true 3D method (cube or <code><a href='catmssim_3d_cube.html'>catmssim_3d_cube</a></code>)
+or compute the metric using 2D slices which are then averaged (<code><a href='catmssim_3d_slice.html'>catmssim_3d_slice</a></code>).
 By default, <code>TRUE</code>, which evaluates as a cube. <code>FALSE</code> will treat it as
 2D slices.</p></td>
     </tr>
