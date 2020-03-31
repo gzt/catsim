@@ -3,14 +3,14 @@
 #'
 #' @description The Rand index, \code{RandIndex}, computes the agreement between two different clusterings or
 #' partitions of the same
-#' set of objects. The inputs to the function should be binary or categorical and of the same length. 
+#' set of objects. The inputs to the function should be binary or categorical and of the same length.
 #'
 #' @param x,y  a numeric or factor vector or array
 #' @param na.rm whether to remove \code{NA} values. By default, \code{FALSE}. If \code{TRUE}, will
 #'    perform pair-wise deletion.
 #'
 #' @return the similarity index, which is between 0 and 1 for most of the options. The adjusted Rand and
-#'    Cohen's kappa can be negative, but are bounded above by 1. 
+#'    Cohen's kappa can be negative, but are bounded above by 1.
 #'
 #' @references
 #' Lawrence Hubert and Phipps Arabie (1985).
@@ -19,7 +19,7 @@
 #'  W. M. Rand (1971). "Objective criteria for the evaluation of clustering methods".
 #'  Journal of the American Statistical Association. American Statistical Association. 66 (336): 846–850.
 #'  \doi{10.2307/2284239}
-#' 
+#'
 #'  Cohen, Jacob (1960). "A coefficient of agreement for nominal scales".
 #'   Educational and Psychological Measurement. 20 (1): 37–46. \doi{10.1177/001316446002000104}
 #'
@@ -43,13 +43,13 @@
 #' CohenKappa(x, y)
 #' normalizedMI(x, y)
 #' adjustedMI(x, y)
-RandIndex <- function(x, y, na.rm=FALSE){
-    if (length(x) != length(y)) stop("x and y have differing lengths.")
-    if(na.rm) {
-        naxy = (!is.na(x) & !is.na(y))
-        x<-x[naxy]
-        y<-y[naxy]
-        }
+RandIndex <- function(x, y, na.rm = FALSE) {
+  if (length(x) != length(y)) stop("x and y have differing lengths.")
+  if (na.rm) {
+    naxy <- (!is.na(x) & !is.na(y))
+    x <- x[naxy]
+    y <- y[naxy]
+  }
   if (!all(!is.na(x), !is.na(y))) warning("NAs present in x or y, the Rand index doesn't account for NA values.")
   x <- as.numeric(x)
   y <- as.numeric(y)
@@ -65,16 +65,16 @@ RandIndex <- function(x, y, na.rm=FALSE){
 #' of chance agreement of clusterings. A small constant is added to the numerator
 #' and denominator of the adjusted Rand index to ensure stability if there is a small or 0 denominator,
 #' as it is possible to have a zero
-#' denominator. 
+#' denominator.
 #' @rdname rand
 #' @export
-AdjustedRand <- function(x, y, na.rm=FALSE){
-    if (length(x) != length(y)) stop("x and y have differing lengths.")
-        if(na.rm) {
-        naxy = (!is.na(x) & !is.na(y))
-        x<-x[naxy]
-        y<-y[naxy]
-        }
+AdjustedRand <- function(x, y, na.rm = FALSE) {
+  if (length(x) != length(y)) stop("x and y have differing lengths.")
+  if (na.rm) {
+    naxy <- (!is.na(x) & !is.na(y))
+    x <- x[naxy]
+    y <- y[naxy]
+  }
   if (!all(!is.na(x), !is.na(y))) warning("NAs present in x or y, Adjusted Rand doesn't account for NA values.")
   x <- as.numeric(x)
   y <- as.numeric(y)
@@ -82,7 +82,7 @@ AdjustedRand <- function(x, y, na.rm=FALSE){
 }
 
 #' @name Cohen's kappa
-#' 
+#'
 #' @description Cohen's kappa, \code{CohenKappa}, is an inter-rater agreement metric for two raters which
 #' corrects for the probability of chance agreement. Note there is a difference here
 #' between this measure and the Rand indices and mutual information: those consider
@@ -90,13 +90,13 @@ AdjustedRand <- function(x, y, na.rm=FALSE){
 #' raters agreed on individual points.
 #' @rdname rand
 #' @export
-CohenKappa <- function(x, y, na.rm=FALSE){
-    if (length(x) != length(y)) stop("x and y have differing lengths.")
-        if(na.rm) {
-        naxy = (!is.na(x) & !is.na(y))
-        x<-x[naxy]
-        y<-y[naxy]
-        }
+CohenKappa <- function(x, y, na.rm = FALSE) {
+  if (length(x) != length(y)) stop("x and y have differing lengths.")
+  if (na.rm) {
+    naxy <- (!is.na(x) & !is.na(y))
+    x <- x[naxy]
+    y <- y[naxy]
+  }
   if (!all(!is.na(x), !is.na(y))) warning("NAs present in x or y, Cohen's Kappa doesn't account for NA values.")
   x <- as.numeric(x)
   y <- as.numeric(y)
@@ -104,7 +104,7 @@ CohenKappa <- function(x, y, na.rm=FALSE){
 }
 
 #' @name Normalized Mutual Information
-#' 
+#'
 #' @description Like the Rand index, the mutual information computes the agreement between two different clusterings or
 #' partitions of the same set of objects. If \eqn{H(X)} is the entropy of some probability distribution \eqn{X}, then
 #' the mutual information of two distributions is \eqn{I(X;Y) = -H(X,Y) +H(X) + H(Y)}.
@@ -112,35 +112,35 @@ CohenKappa <- function(x, y, na.rm=FALSE){
 #' \eqn{2I(X;Y)/(H(X)+H(Y)),} but is set to be 0 if both H(X) and H(Y) are 0.
 #' @rdname rand
 #' @export
-normalizedMI <- function(x, y, na.rm=FALSE){
-    if (length(x) != length(y)) stop("x and y have differing lengths.")
-    if(na.rm) {
-        naxy = (!is.na(x) & !is.na(y))
-        x<-x[naxy]
-        y<-y[naxy]
-    }
-    if (!all(!is.na(x), !is.na(y))) warning("NAs present in x or y, normalized mutual information doesn't account for NA values.")
-    x <- as.numeric(x)
-    y <- as.numeric(y)
-    C_NMI(x, y)
+normalizedMI <- function(x, y, na.rm = FALSE) {
+  if (length(x) != length(y)) stop("x and y have differing lengths.")
+  if (na.rm) {
+    naxy <- (!is.na(x) & !is.na(y))
+    x <- x[naxy]
+    y <- y[naxy]
+  }
+  if (!all(!is.na(x), !is.na(y))) warning("NAs present in x or y, normalized mutual information doesn't account for NA values.")
+  x <- as.numeric(x)
+  y <- as.numeric(y)
+  C_NMI(x, y)
 }
 
 #' @name Adjusted Mutual Information
-#' 
+#'
 #' @description The adjusted mutual information, \code{adjustedMI}, is a correction of the mutual information to account
 #' for the probability of chance agreement in a manner similar to the adjusted Rand index
 #' or Cohen's kappa.
-#' @rdname rand 
+#' @rdname rand
 #' @export
-adjustedMI <- function(x, y, na.rm=FALSE){
-    if (length(x) != length(y)) stop("x and y have differing lengths.")
-    if(na.rm) {
-        naxy = (!is.na(x) & !is.na(y))
-        x<-x[naxy]
-        y<-y[naxy]
-    }
-    if (!all(!is.na(x), !is.na(y))) warning("NAs present in x or y, adjusted mutual information doesn't account for NA values.")
-    x <- as.numeric(x)
-    y <- as.numeric(y)
-    C_AMI(x, y)
+adjustedMI <- function(x, y, na.rm = FALSE) {
+  if (length(x) != length(y)) stop("x and y have differing lengths.")
+  if (na.rm) {
+    naxy <- (!is.na(x) & !is.na(y))
+    x <- x[naxy]
+    y <- y[naxy]
+  }
+  if (!all(!is.na(x), !is.na(y))) warning("NAs present in x or y, adjusted mutual information doesn't account for NA values.")
+  x <- as.numeric(x)
+  y <- as.numeric(y)
+  C_AMI(x, y)
 }

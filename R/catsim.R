@@ -543,7 +543,7 @@ catmssim_2d <- function(x, y, weights = rep(.2, 5), window = 11,
 #'
 #' @noRd
 #'
-catssim_3d_slice <- function(x, y, window = c(11,11), method = "Cohen", ...) {
+catssim_3d_slice <- function(x, y, window = c(11, 11), method = "Cohen", ...) {
   ##   if (is.null(dim(x))) stop("x is 1-dimensional")
   ##   if (is.null(dim(y))) stop("y is 1-dimensional")
   ## if (any(dim(x) != dim(y))) stop('x and y have nonconformable dimensions.')
@@ -554,7 +554,7 @@ catssim_3d_slice <- function(x, y, window = c(11,11), method = "Cohen", ...) {
   colMeans(sliceresults, na.rm = TRUE)
 }
 
-catssim_3d_cube <- function(x, y, window = c(5,5,5), method = "Cohen", ...) {
+catssim_3d_cube <- function(x, y, window = c(5, 5, 5), method = "Cohen", ...) {
   k <- length(unique(c(x, y)))
   dims <- dim(x)
   if (any(dims < window)) {
@@ -748,7 +748,7 @@ catmssim_3d_cube <- function(x, y, weights = rep(.2, 5), window = 5,
 #'
 #' @export
 AdjRandIndex <- function(x, y) {
-    .Deprecated("AdjustedRand")
+  .Deprecated("AdjustedRand")
   if (length(x) != length(y)) stop("x and y have differing lengths.")
   if (!all(!is.na(x), !is.na(y))) warning("NAs present in x or y, Adjusted Rand and Cohen don't account for NA values.")
   if (length(table(c(x, y))) > 2) {
