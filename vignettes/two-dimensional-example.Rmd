@@ -29,7 +29,8 @@ a way which is similar to human assessments of similarity.
 
 It works by assessing similarity within a a sliding window across the image,
 then downsampling and doing the same on different scales, and then combining
-the ratings together.
+the ratings together. The first scale is the entire image, the second scale is 
+the image shrunk down to half its size, and so on.
 
 # Constructing an example
 To demonstrate how it works, first we construct a simple multicategory image and 
@@ -38,14 +39,14 @@ blow it up to a larger size. The grid lines are added for reference. This is our
 ```{r construction, fig.width=6, fig.height=6}
 
  multfactor = 20
- onesmat <- matrix(1,multfactor,multfactor)
- exmat <- matrix(0,12,12)
- exmat[2:10,c(2,3,9,10)] <- 1
- exmat[2:10,c(4,5,7,8)] <- 2
- exmat[5:7,2:10]<-1
- exmat[2:10,c(6)] <- 3
- image(exmat[11:1,1:11])
-  grid(col="black")
+ onesmat <- matrix(1, multfactor, multfactor)
+ exmat <- matrix(0, 12, 12)
+ exmat[2:10, c(2, 3, 9, 10)] <- 1
+ exmat[2:10,c(4, 5, 7, 8)] <- 2
+ exmat[5:7, 2:10] <-1
+ exmat[2:10, c(6)] <- 3
+ image(exmat[11:1, 1:11])
+  grid(col="black", lwd = 3)
  bigmat = exmat %x% onesmat
 
 ```
@@ -58,21 +59,21 @@ salt-and-pepper noise at that rate. Again, grid lines are added only for referen
 ```{r distortion}
  set.seed(20200323)
  shift=6 # we are shifting horizontally by six pixels
- basemat <- bigmat[1:(11*multfactor),1:(11*multfactor)]
- shiftmat <- bigmat[(1+shift):(11*multfactor+shift),1:(11*multfactor)]
+ basemat <- bigmat[1:(11*multfactor), 1:(11*multfactor)]
+ shiftmat <- bigmat[(1+shift):(11*multfactor+shift), 1:(11*multfactor)]
  ### Here we have shifted the matrix slightly
- par(mfrow=c(1,2))
+ par(mfrow = c(1,2))
  image(shiftmat)
- grid(col="black")
+ grid(col = "black", lwd=3)
 
  ### computing the error rate
- acc = mean(basemat==shiftmat)
- errmat <- (matrix(sample(0:3,121*(multfactor^2),replace=TRUE,prob=c(acc,rep((1-acc)/3,3))),
-    (11*multfactor),(11*multfactor))+basemat) %% 4
+ acc = mean(basemat == shiftmat)
+ errmat <- (matrix(sample(0:3,121*(multfactor^2), replace=TRUE, prob=c(acc,rep((1-acc)/3,3))),
+    (11*multfactor), (11*multfactor))+basemat) %% 4
 
  ### here we have made an image that matches its accuracy with salt and pepper noise
  image(errmat)
- grid(col="black")
+ grid(col = "black", lwd=3)
 
 ```
 
@@ -87,10 +88,10 @@ comparing to the initial matrix:
 ```{r onelevel}
 library(catsim)
 ### comparing base to shifted
-catsim(basemat,shiftmat,weights=1)
+catsim(basemat, shiftmat, weights = 1)
 
 ### comparing base to salt-and-pepper
-catsim(basemat,errmat,weights=1)
+catsim(basemat, errmat, weights = 1)
 
 ### looking at accuracy
 mean(basemat == shiftmat)
@@ -110,10 +111,10 @@ With five levels, the difference is smaller, but still prefers the shifted versi
 over the salt and pepper error.
 
 ```{r fivelevels}
-catsim(basemat,shiftmat,weights=rep(.2,5))
+catsim(basemat, shiftmat, weights = rep(.2, 5))
 
 ### comparing base to salt-and-pepper
-catsim(basemat,errmat,weights=rep(.2,5))
+catsim(basemat, errmat, weights = rep(.2, 5))
 
 ```
 
@@ -121,7 +122,7 @@ catsim(basemat,errmat,weights=rep(.2,5))
 By default, CatSIM uses [Cohen's kappa ($\kappa$)](https://en.wikipedia.org/wiki/Cohen's_kappa)
 as the similarity comparison for the images. This measures agreement between the classes with
 and adjustment for the probability of chance agreement. However, depending on the application,
-a different comparison might make sense. The following options are availabe (using 
+a different comparison might make sense. The following options are available (using 
 the `method` argument):
 
 * [Jaccard index](https://en.wikipedia.org/wiki/Jaccard_index), suitable for binary images where presence of 
@@ -140,10 +141,10 @@ a information theory similarity metric based on the Kullback-Liebler divergence 
 
 
 ```{r differentmetrics}
-catsim(basemat,shiftmat,weights=rep(.2,5), method="Rand")
-catsim(basemat,shiftmat,weights=rep(.2,5), method="AdjRand")
-catsim(basemat,shiftmat,weights=rep(.2,5), method="accuracy")
-catsim(basemat,shiftmat,weights=rep(.2,5), method="NMI")
+catsim(basemat, shiftmat, weights = rep(.2,5), method="Rand")
+catsim(basemat, shiftmat, weights = rep(.2,5), method="AdjRand")
+catsim(basemat, shiftmat, weights = rep(.2,5), method="accuracy")
+catsim(basemat, shiftmat, weights = rep(.2,5), method="NMI")
 
 ```
 The window size can also be adjusted. It should be large enough to capture
@@ -154,12 +155,19 @@ between the images. Here is a comparison between the shifted image and the
 salt-and-pepper noise at different window sizes.
 
 ```{r windowsize}
-catsim(basemat, shiftmat,weights=rep(1/3,3), window = 20)
-catsim(basemat, shiftmat,weights=rep(1/3,3), window = 5)
-catsim(basemat, errmat,weights=rep(1/3,3), window = 20)
-catsim(basemat, errmat,weights=rep(1/3,3), window = 5)
+catsim(basemat, shiftmat, weights = rep(1/3, 3), window = 20)
+catsim(basemat, shiftmat, weights = rep(1/3, 3), window = 5)
+catsim(basemat, errmat, weights = rep(1/3, 3), window = 20)
+catsim(basemat, errmat, weights = rep(1/3, 3), window = 5)
 
 ```
+
+The number of levels CatSIM uses can be set by specifying either the `levels`
+argument or passing a vector to `weights`, where the length of the vector
+dictates how many levels of downsampling will be performed. By default,
+if the number of levels are specified without specifying the weights, 
+the weights are set to be equal across levels and add up to 1.
+Specifying `weights = rep(1/3,3)` is the same as specifying `levels = 3`.
 
 ## Advanced Functionality
 The `catsim()` function works for both 2-D and 3-D images. It is a wrapper
