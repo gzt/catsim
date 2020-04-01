@@ -40,27 +40,37 @@
 
 
 <meta property="og:title" content="Similarity Indexes — rand" />
-<meta property="og:description" content="The Rand index, RandIndex, computes the agreement between two different clusterings or
-partitions of the same
-set of objects. The inputs to the function should be binary or categorical and of the same length.
-The adjusted Rand index,  AdjustedRand,  computes a corrected version
+<meta property="og:description" content="The Rand index, RandIndex, computes the agreement between
+two different clusterings or partitions of the same  set of objects.
+The inputs to the function should be binary or categorical and of the same
+length.
+The adjusted Rand index,  AdjustedRand,
+computes a corrected version
 of the Rand index, adjusting for the probability
-of chance agreement of clusterings. A small constant is added to the numerator
-and denominator of the adjusted Rand index to ensure stability if there is a small or 0 denominator,
-as it is possible to have a zero
+of chance agreement of clusterings. A small constant is added to the
+numerator and denominator of the adjusted Rand index to ensure stability
+when there is a small or 0 denominator, as it is possible to have a zero
 denominator.
-Cohen's kappa, CohenKappa, is an inter-rater agreement metric for two raters which
-corrects for the probability of chance agreement. Note there is a difference here
-between this measure and the Rand indices and mutual information: those consider
-the similarities of the groupings of points, while this considers how often the
+Cohen's kappa, CohenKappa,
+is an inter-rater agreement metric for two raters which
+corrects for the probability of chance agreement. Note
+there is a difference here
+between this measure and the Rand indices and mutual information:
+those consider the similarities of the groupings of points,
+while this considers how often the
 raters agreed on individual points.
-Like the Rand index, the mutual information computes the agreement between two different clusterings or
-partitions of the same set of objects. If \(H(X)\) is the entropy of some probability distribution \(X\), then
-the mutual information of two distributions is \(I(X;Y) = -H(X,Y) +H(X) + H(Y)\).
+Like the Rand index, the mutual information
+computes the agreement between two different clusterings or
+partitions of the same set of objects. If \(H(X)\) is the
+entropy of some probability distribution \(X\), then
+the mutual information of two distributions is
+\(I(X;Y) = -H(X,Y) +H(X) + H(Y)\).
 The normalized mutual information, normalizeMI, is defined here as:
 \(2I(X;Y)/(H(X)+H(Y)),\) but is set to be 0 if both H(X) and H(Y) are 0.
-The adjusted mutual information, adjustedMI, is a correction of the mutual information to account
-for the probability of chance agreement in a manner similar to the adjusted Rand index
+The adjusted mutual information, adjustedMI,
+is a correction of the mutual information to account
+for the probability of chance agreement in a manner similar to the
+adjusted Rand index
 or Cohen's kappa." />
 
 
@@ -150,27 +160,37 @@ or Cohen's kappa." />
     </div>
 
     <div class="ref-description">
-    <p>The Rand index, <code>RandIndex</code>, computes the agreement between two different clusterings or
-partitions of the same
-set of objects. The inputs to the function should be binary or categorical and of the same length.</p>
-<p>The adjusted Rand index,  <code>AdjustedRand</code>,  computes a corrected version
+    <p>The Rand index, <code>RandIndex</code>, computes the agreement between
+two different clusterings or partitions of the same  set of objects.
+The inputs to the function should be binary or categorical and of the same
+length.</p>
+<p>The adjusted Rand index,  <code>AdjustedRand</code>,
+computes a corrected version
 of the Rand index, adjusting for the probability
-of chance agreement of clusterings. A small constant is added to the numerator
-and denominator of the adjusted Rand index to ensure stability if there is a small or 0 denominator,
-as it is possible to have a zero
+of chance agreement of clusterings. A small constant is added to the
+numerator and denominator of the adjusted Rand index to ensure stability
+when there is a small or 0 denominator, as it is possible to have a zero
 denominator.</p>
-<p>Cohen's kappa, <code>CohenKappa</code>, is an inter-rater agreement metric for two raters which
-corrects for the probability of chance agreement. Note there is a difference here
-between this measure and the Rand indices and mutual information: those consider
-the similarities of the groupings of points, while this considers how often the
+<p>Cohen's kappa, <code>CohenKappa</code>,
+is an inter-rater agreement metric for two raters which
+corrects for the probability of chance agreement. Note
+there is a difference here
+between this measure and the Rand indices and mutual information:
+those consider the similarities of the groupings of points,
+while this considers how often the
 raters agreed on individual points.</p>
-<p>Like the Rand index, the mutual information computes the agreement between two different clusterings or
-partitions of the same set of objects. If \(H(X)\) is the entropy of some probability distribution \(X\), then
-the mutual information of two distributions is \(I(X;Y) = -H(X,Y) +H(X) + H(Y)\).
+<p>Like the Rand index, the mutual information
+computes the agreement between two different clusterings or
+partitions of the same set of objects. If \(H(X)\) is the
+entropy of some probability distribution \(X\), then
+the mutual information of two distributions is
+\(I(X;Y) = -H(X,Y) +H(X) + H(Y)\).
 The normalized mutual information, <code>normalizeMI</code>, is defined here as:
 \(2I(X;Y)/(H(X)+H(Y)),\) but is set to be 0 if both H(X) and H(Y) are 0.</p>
-<p>The adjusted mutual information, <code>adjustedMI</code>, is a correction of the mutual information to account
-for the probability of chance agreement in a manner similar to the adjusted Rand index
+<p>The adjusted mutual information, <code>adjustedMI</code>,
+is a correction of the mutual information to account
+for the probability of chance agreement in a manner similar to the
+adjusted Rand index
 or Cohen's kappa.</p>
     </div>
 
@@ -193,28 +213,35 @@ or Cohen's kappa.</p>
     </tr>
     <tr>
       <th>na.rm</th>
-      <td><p>whether to remove <code>NA</code> values. By default, <code>FALSE</code>. If <code>TRUE</code>, will
-perform pair-wise deletion.</p></td>
+      <td><p>whether to remove <code>NA</code> values. By default, <code>FALSE</code>.
+If <code>TRUE</code>, will perform pair-wise deletion.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>the similarity index, which is between 0 and 1 for most of the options. The adjusted Rand and
-Cohen's kappa can be negative, but are bounded above by 1.</p>
+    <p>the similarity index, which is between 0 and 1 for most of the
+options. The adjusted Rand and Cohen's kappa can be negative, but are
+bounded above by 1.</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
-    <p>Lawrence Hubert and Phipps Arabie (1985).
-"Comparing partitions". Journal of Classification. 2 (1): 193–218. doi: <a href='https://doi.org/10.1007/BF01908075'>10.1007/BF01908075</a></p>
-<p>W. M. Rand (1971). "Objective criteria for the evaluation of clustering methods".
-Journal of the American Statistical Association. American Statistical Association. 66 (336): 846–850.
+    <p>W. M. Rand (1971). "Objective criteria for the evaluation of clustering
+methods". Journal of the American Statistical Association.
+American Statistical Association. 66 (336): 846–850.
 doi: <a href='https://doi.org/10.2307/2284239'>10.2307/2284239</a></p>
+<p>Lawrence Hubert and Phipps Arabie (1985).
+"Comparing partitions". Journal of Classification. 2 (1): 193–218.
+doi: <a href='https://doi.org/10.1007/BF01908075'>10.1007/BF01908075</a></p>
 <p>Cohen, Jacob (1960). "A coefficient of agreement for nominal scales".
-Educational and Psychological Measurement. 20 (1): 37–46. doi: <a href='https://doi.org/10.1177/001316446002000104'>10.1177/001316446002000104</a></p>
-<p>Jaccard, Paul (1912). "The distribution of the flora in the alpine zone,” New Phytologist, vol. 11, no. 2, pp. 37–50.
+Educational and Psychological Measurement. 20 (1): 37–46.
+doi: <a href='https://doi.org/10.1177/001316446002000104'>10.1177/001316446002000104</a></p>
+<p>Jaccard, Paul (1912). "The distribution of the flora in the alpine zone,”
+New Phytologist, vol. 11, no. 2, pp. 37–50.
 doi: <a href='https://doi.org/10.1111/j.1469-8137.1912.tb05611.x'>10.1111/j.1469-8137.1912.tb05611.x</a></p>
-<p>Nguyen Xuan Vinh, Julien Epps, and James Bailey (2010). Information Theoretic Measures for Clusterings Comparison:
-Variants, Properties, Normalization and Correction for Chance. J. Mach. Learn. Res. 11 (December 2010), 2837–2854.
+<p>Nguyen Xuan Vinh, Julien Epps, and James Bailey (2010).
+Information Theoretic Measures for Clusterings Comparison:
+Variants, Properties, Normalization and Correction for Chance.
+J. Mach. Learn. Res. 11 (December 2010), 2837–2854.
 doi: <a href='https://doi.org/10.5555/1756006.1953024'>10.5555/1756006.1953024</a></p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>

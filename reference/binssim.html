@@ -41,9 +41,10 @@
 
 <meta property="og:title" content="Categorical Structural Similarity Index Metric (whole image) — binssim" />
 <meta property="og:description" content="This computes the categorical or binary structural similarity index metric
-on a whole-image scale. The difference between this and the default 2-D method
-is that this considers the whole image at once and one scale rather than computing the index over
-a sliding window and downsampling to consider it at other scales." />
+on a whole-image scale. The difference between this and the default 2-D
+method is that this considers the whole image at once and one scale rather
+than computing the index over a sliding window and downsampling to consider
+it at other scales." />
 
 
 
@@ -133,9 +134,10 @@ a sliding window and downsampling to consider it at other scales." />
 
     <div class="ref-description">
     <p>This computes the categorical or binary structural similarity index metric
-on a whole-image scale. The difference between this and the default 2-D method
-is that this considers the whole image at once and one scale rather than computing the index over
-a sliding window and downsampling to consider it at other scales.</p>
+on a whole-image scale. The difference between this and the default 2-D
+method is that this considers the whole image at once and one scale rather
+than computing the index over a sliding window and downsampling to consider
+it at other scales.</p>
     </div>
 
     <pre class="usage"><span class='fu'>binssim</span>(
@@ -171,19 +173,22 @@ a sliding window and downsampling to consider it at other scales.</p>
     </tr>
     <tr>
       <th>c1</th>
-      <td><p>small normalization constant for the <code>c</code> function, by default 0.01</p></td>
+      <td><p>small normalization constant for the <code>c</code> function,
+by default 0.01</p></td>
     </tr>
     <tr>
       <th>c2</th>
-      <td><p>small normalization constant for the <code>s</code> function, by default 0.01</p></td>
+      <td><p>small normalization constant for the <code>s</code> function,
+by default 0.01</p></td>
     </tr>
     <tr>
       <th>method</th>
-      <td><p>whether to use Cohen's kappa (<code>Cohen</code>), Jaccard Index (<code>Jaccard</code>),
-Dice index (<code>Dice</code>),  accuracy (<code>accuracy</code>),  Rand index (<code>Rand</code>),
+      <td><p>whether to use Cohen's kappa (<code>Cohen</code>),
+Jaccard Index (<code>Jaccard</code>), Dice index (<code>Dice</code>),
+accuracy (<code>accuracy</code>),  Rand index (<code>Rand</code>),
 Adjusted Rand Index (<code>AdjRand</code> or <code>ARI</code>), or normalized mutual
-information (<code>NMI</code> or <code>MI</code>) as
-the similarity index. Note Jaccard and Dice should only be used on binary data.</p></td>
+information (<code>NMI</code> or <code>MI</code>) as the similarity index.
+Note Jaccard and Dice should only be used on binary data.</p></td>
     </tr>
     <tr>
       <th>...</th>

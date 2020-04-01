@@ -40,12 +40,13 @@
 
 
 <meta property="og:title" content="Diversity Indexes — gini" />
-<meta property="og:description" content="gini() is a measure of diversity that goes by a number of different names, such as
-the probability of interspecific encounter or the Gibbs-Martin index.
-It is \(1 - sum(p_i^2)\), where \(p_i\) is the probability of observing class i.
-The corrected Gini-Simpson index, ginicorr takes the index and  corrects it
-so that the maximum possible is 1. If there are k categories,
-the maximum possible of the uncorrected index is \(1-1/k\).
+<meta property="og:description" content="gini() is a measure of diversity that goes by a
+number of different names, such as the probability of interspecific encounter
+or the Gibbs-Martin index. It is \(1 - sum(p_i^2)\), where \(p_i\) is the
+probability of observing class i.
+The corrected Gini-Simpson index, ginicorr takes the
+index and  corrects it so that the maximum possible is 1. If there are
+k categories, the maximum possible of the uncorrected index is \(1-1/k\).
 It corrects the index by dividing by the maximum. k must be specified.
 The modified Gini-Simpson index is similar to the unmodified,
 except it uses the square root of the summed squared
@@ -141,12 +142,13 @@ corrects the modified index for the number of categories, k." />
     </div>
 
     <div class="ref-description">
-    <p><code>gini()</code> is a measure of diversity that goes by a number of different names, such as
-the probability of interspecific encounter or the Gibbs-Martin index.
-It is \(1 - sum(p_i^2)\), where \(p_i\) is the probability of observing class i.</p>
-<p>The corrected Gini-Simpson index, <code>ginicorr</code> takes the index and  corrects it
-so that the maximum possible is 1. If there are <code>k</code> categories,
-the maximum possible of the uncorrected index is \(1-1/k\).
+    <p><code>gini()</code> is a measure of diversity that goes by a
+number of different names, such as the probability of interspecific encounter
+or the Gibbs-Martin index. It is \(1 - sum(p_i^2)\), where \(p_i\) is the
+probability of observing class i.</p>
+<p>The corrected Gini-Simpson index, <code>ginicorr</code> takes the
+index and  corrects it so that the maximum possible is 1. If there are
+<code>k</code> categories, the maximum possible of the uncorrected index is \(1-1/k\).
 It corrects the index by dividing by the maximum. <code>k</code> must be specified.</p>
 <p>The modified Gini-Simpson index is similar to the unmodified,
 except it uses the square root of the summed squared
@@ -179,10 +181,11 @@ corrects the modified index for the number of categories, <code>k</code>.</p>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>The index (between 0 and 1), with 0 indicating no variation and 1 being maximal.
-The Gini index is bounded above by \(1-1/k\) for a group with <code>k</code> categories.
-The modified index is bounded above by \(1-1/\sqrt{k}\).
-The corrected indexes fix this by dividing by the maximum.</p>
+    <p>The index (between 0 and 1), with 0 indicating no variation and 1
+being maximal. The Gini index is bounded above by \(1-1/k\) for a group
+with <code>k</code> categories. The modified index is bounded above by
+\(1-1/\sqrt{k}\).  The corrected indexes fix this by dividing by the
+maximum.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>:<span class='fl'>4</span>), <span class='fl'>5</span>)
