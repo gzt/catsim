@@ -275,9 +275,6 @@ binssim <- function(x, y, alpha = 1, beta = 1, gamma = 1, c1 = 0.01, c2 = 0.01, 
 #' @keywords internal
 #'
 ssimcomponents <- function(x, y, k, method = "Cohen", c1 = 0.01, c2 = 0.01, sqrtgini = TRUE) {
-  # k = length(levels)
-  # levels <- levels(factor(c(x,y)))
-
   naxy <- (!is.na(x) & !is.na(y))
   if (length(x[naxy]) == 0) {
     return(c(NA, NA, NA))
