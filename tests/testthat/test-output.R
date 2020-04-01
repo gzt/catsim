@@ -36,11 +36,6 @@ test_that("Weights and levels work 2D", {
   expect_equal(catsim(x, y, weights = c(.5, .5, .5), levels = 2), catsim(x, y, weights = c(.5, .5)))
   expect_equal(catsim(x, y, window = 2), catsim(x, y, window = 2, weights = rep(1, 5) / 5))
   expect_equal(catsim(x, y, window = 2), catsim(x, y, window = 2, levels = 5))
-  expect_error(catmssim_2d(x, y, weights = 1:3, levels = 5))
-  expect_equal(catmssim_2d(x, y, weights = c(.5, .5)), catmssim_2d(x, y, levels = 2))
-  expect_equal(catmssim_2d(x, y, weights = c(.5, .5, .5), levels = 2), catmssim_2d(x, y, weights = c(.5, .5)))
-  expect_equal(catmssim_2d(x, y, window = 2), catmssim_2d(x, y, window = 2, weights = rep(1, 5) / 5))
-  expect_equal(catmssim_2d(x, y, window = 2), catmssim_2d(x, y, window = 2, levels = 5))
 })
 
 test_that("Gini works", {
@@ -177,26 +172,6 @@ test_that("dimensions 3D work", {
   #    expect_error(catmssim_3d_slice(x[,1:6,],y[,1:6,], window = 3, weight = 1))
   #    expect_error(catmssim_3d_cube(x[,1:6,],y[,1:6,], window = 3, weight = 1))
 })
-
-test_that("3D levels work", {
-  set.seed(20181207)
-  dim <- 32
-  x <- array(sample(1:4, dim^3, replace = TRUE), dim = c(dim, dim, dim))
-  y <- x
-  for (j in 1:dim) {
-    for (i in 1:dim) y[i, i, j] <- 1
-    for (i in 1:(dim - 1)) y[i, i + 1, j] <- 1
-  }
-  expect_error(catmssim_3d_cube(x, y, weights = 1:3, levels = 5))
-  expect_equal(catmssim_3d_cube(x, y, weights = c(.5, .5)), catmssim_3d_cube(x, y, levels = 2))
-  expect_equal(catmssim_3d_cube(x, y, weights = c(.5, .5, .5), levels = 2), catmssim_3d_cube(x, y, weights = c(.5, .5)))
-  expect_equal(catmssim_3d_cube(x, y, window = 2), catmssim_3d_cube(x, y, window = 2, weights = rep(1, 5) / 5))
-  expect_error(catmssim_3d_slice(x, y, weights = 1:3, levels = 5))
-  expect_equal(catmssim_3d_slice(x, y, weights = c(.5, .5)), catmssim_3d_slice(x, y, levels = 2))
-  expect_equal(catmssim_3d_slice(x, y, weights = c(.5, .5, .5), levels = 2), catmssim_3d_slice(x, y, weights = c(.5, .5)))
-  expect_equal(catmssim_3d_slice(x, y, window = 2), catmssim_3d_slice(x, y, window = 2, weights = rep(1, 5) / 5))
-})
-
 
 set.seed(20181215)
 x <- matrix(sample(1:4, 32^2, replace = TRUE), nrow = 32)
