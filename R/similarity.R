@@ -58,9 +58,10 @@ RandIndex <- function(x, y, na.rm = FALSE) {
     x <- x[naxy]
     y <- y[naxy]
   }
-  if (!all(!is.na(x), !is.na(y)))
-      warning("NAs present in x or y,
+  if (!all(!is.na(x), !is.na(y))) {
+    warning("NAs present in x or y,
               the Rand index doesn't account for NA values.")
+  }
   x <- as.numeric(x)
   y <- as.numeric(y)
   C_Rand(x, y)
@@ -86,9 +87,10 @@ AdjustedRand <- function(x, y, na.rm = FALSE) {
     x <- x[naxy]
     y <- y[naxy]
   }
-  if (!all(!is.na(x), !is.na(y)))
-      warning("NAs present in x or y,
+  if (!all(!is.na(x), !is.na(y))) {
+    warning("NAs present in x or y,
                Adjusted Rand doesn't account for NA values.")
+  }
   x <- as.numeric(x)
   y <- as.numeric(y)
   C_AdjRand(x, y)
@@ -113,9 +115,10 @@ CohenKappa <- function(x, y, na.rm = FALSE) {
     x <- x[naxy]
     y <- y[naxy]
   }
-  if (!all(!is.na(x), !is.na(y)))
-      warning("NAs present in x or y, Cohen's Kappa doesn't
+  if (!all(!is.na(x), !is.na(y))) {
+    warning("NAs present in x or y, Cohen's Kappa doesn't
                account for NA values.")
+  }
   x <- as.numeric(x)
   y <- as.numeric(y)
   C_Cohen(x, y)
@@ -140,9 +143,10 @@ normalizedMI <- function(x, y, na.rm = FALSE) {
     x <- x[naxy]
     y <- y[naxy]
   }
-  if (!all(!is.na(x), !is.na(y)))
-      warning("NAs present in x or y, normalized mutual
+  if (!all(!is.na(x), !is.na(y))) {
+    warning("NAs present in x or y, normalized mutual
                information doesn't account for NA values.")
+  }
   x <- as.numeric(x)
   y <- as.numeric(y)
   C_NMI(x, y)
@@ -164,9 +168,10 @@ adjustedMI <- function(x, y, na.rm = FALSE) {
     x <- x[naxy]
     y <- y[naxy]
   }
-  if (!all(!is.na(x), !is.na(y)))
-      warning("NAs present in x or y, adjusted mutual
+  if (!all(!is.na(x), !is.na(y))) {
+    warning("NAs present in x or y, adjusted mutual
                information doesn't account for NA values.")
+  }
   x <- as.numeric(x)
   y <- as.numeric(y)
   C_AMI(x, y)

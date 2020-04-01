@@ -63,6 +63,6 @@ for (j in 1:(dim)) {
   for (i in 1:(dim^2 - 1)) y[i, i + 1, j] <- 0
 }
 catmssim_3d_slice(x, y, weights = c(.75, .25)) # by default method = "Cohen"
-#compare to some simple metric:
+# compare to some simple metric:
 mean(x == y)
 }

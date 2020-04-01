@@ -138,22 +138,30 @@ cfunc <- function(x, y, c2 = 0.01, k, sqrtgini = TRUE) {
 ##' @noRd
 methodparser <- function(method) {
   methodflag <- NULL
-  if (method %in% c("Cohen", "cohen", "C", "c", "kappa", "Kappa"))
-      methodflag <- C_Cohen # "Cohen"
-  if (method %in% c("AdjRand", "adjrand", "Adj", "adj", "a", "A", "ARI", "ari"))
-      methodflag <- C_AdjRand # "AdjRand"
-  if (method %in% c("Rand", "rand", "r", "R"))
-      methodflag <- C_Rand # "Rand"
-  if (method %in% c("Jaccard", "jaccard", "j", "J"))
-      methodflag <- jaccard # "Jaccard"
-  if (method %in% c("Dice", "dice", "D", "d"))
-      methodflag <- dice # "Dice"
-  if (method %in% c("Accuracy", "accuracy", "Hamming", "hamming", "H", "h"))
-      methodflag <- hamming # "hamming"
-  if (method %in% c("NMI", "MI", "mutual", "information", "nmi", "mi"))
-      methodflag <- C_NMI # normalized mutual information
-  if (method %in% c("AMI", "ami"))
-      methodflag <- C_AMI # normalized mutual information
+  if (method %in% c("Cohen", "cohen", "C", "c", "kappa", "Kappa")) {
+    methodflag <- C_Cohen
+  } # "Cohen"
+  if (method %in% c("AdjRand", "adjrand", "Adj", "adj", "a", "A", "ARI", "ari")) {
+    methodflag <- C_AdjRand
+  } # "AdjRand"
+  if (method %in% c("Rand", "rand", "r", "R")) {
+    methodflag <- C_Rand
+  } # "Rand"
+  if (method %in% c("Jaccard", "jaccard", "j", "J")) {
+    methodflag <- jaccard
+  } # "Jaccard"
+  if (method %in% c("Dice", "dice", "D", "d")) {
+    methodflag <- dice
+  } # "Dice"
+  if (method %in% c("Accuracy", "accuracy", "Hamming", "hamming", "H", "h")) {
+    methodflag <- hamming
+  } # "hamming"
+  if (method %in% c("NMI", "MI", "mutual", "information", "nmi", "mi")) {
+    methodflag <- C_NMI
+  } # normalized mutual information
+  if (method %in% c("AMI", "ami")) {
+    methodflag <- C_AMI
+  } # normalized mutual information
   if (is.null(methodflag)) stop("Error: invalid method")
   methodflag
 }
@@ -168,8 +176,9 @@ methodparser <- function(method) {
 ##' @return the parsed weights
 levelparser <- function(weights, levels) {
   if (!is.null(weights) && !is.null(levels)) {
-      if (levels > length(weights))
-          stop("Inconsistent weight and levels specified.")
+    if (levels > length(weights)) {
+      stop("Inconsistent weight and levels specified.")
+    }
     weights <- weights[1:levels]
   }
   if (is.null(weights) && is.null(levels)) {
@@ -475,7 +484,6 @@ downsample_3d_cube <- function(x) {
 #' for (i in 1:19) y[i, i + 1] <- 1
 #' catssim_2d(x, y)
 catssim_2d <- function(x, y, window = 11, method = "Cohen", ...) {
-
   if (length(window) == 1) window <- c(window, window)
   k <- length(unique(c(x, y)))
   dims <- dim(x)
@@ -491,8 +499,10 @@ catssim_2d <- function(x, y, window = 11, method = "Cohen", ...) {
       subx <- x[i:(i + (window[1] - 1)), j:(j + (window[2] - 1))]
       suby <- y[i:(i + (window[1] - 1)), j:(j + (window[2] - 1))]
 
-        resultmatrix[i, j, ] <- ssimcomponents(x = subx, y = suby,
-                                               k = k, method = method, ...)
+      resultmatrix[i, j, ] <- ssimcomponents(
+        x = subx, y = suby,
+        k = k, method = method, ...
+      )
     }
   }
   resultmatrix[resultmatrix < 0.0] <- 0.0
@@ -545,8 +555,9 @@ catmssim_2d <- function(x, y, levels = NULL, weights = NULL, window = 11,
                         method = "Cohen", ...) {
   if (is.null(dim(x))) stop("x is 1-dimensional")
   if (is.null(dim(y))) stop("y is 1-dimensional")
-    if (length(dim(x)) != length(dim(y)))
-        stop("x and y have nonconformable dimensions.")
+  if (length(dim(x)) != length(dim(y))) {
+    stop("x and y have nonconformable dimensions.")
+  }
   if (any(dim(x) != dim(y))) stop("x and y have nonconformable dimensions.")
   if (length(window) == 1) window <- c(window, window)
   weights <- levelparser(weights = weights, levels = levels)
@@ -554,31 +565,35 @@ catmssim_2d <- function(x, y, levels = NULL, weights = NULL, window = 11,
   mindim <- min(dim(x))
   minwindow <- min(window[1:2])
   if (mindim < minwindow) {
-      warning("Minimum dimension should be greater than window size.
+    warning("Minimum dimension should be greater than window size.
              Using only one level.")
     return(binssim(x = x, y = y, method = method, ...))
   }
 
-    if (mindim < (2^(levels - 1)) * minwindow) {
-        levels <- min(c(floor(log2(dim(x) / window[1:2]) + 1), levels))
-        warning("Truncating levels because of minimum dimension.")
-    }
-    weights <- weights[1:levels]
-    results <- matrix(0, nrow = levels, ncol = 3)
-    results[1, ] <- catssim_2d(x = x, y = y,
-                               window = window, method = method, ...)
+  if (mindim < (2^(levels - 1)) * minwindow) {
+    levels <- min(c(floor(log2(dim(x) / window[1:2]) + 1), levels))
+    warning("Truncating levels because of minimum dimension.")
+  }
+  weights <- weights[1:levels]
+  results <- matrix(0, nrow = levels, ncol = 3)
+  results[1, ] <- catssim_2d(
+    x = x, y = y,
+    window = window, method = method, ...
+  )
 
   if (levels > 1) {
     for (i in 2:levels) {
       x <- downsample_2d(x)
       y <- downsample_2d(y)
-      results[i, ] <- catssim_2d(x = x, y = y,
-                                 window = window, method = method, ...)
+      results[i, ] <- catssim_2d(
+        x = x, y = y,
+        window = window, method = method, ...
+      )
     }
   }
   results[is.na(results)] <- 1 # fix Jaccard NA results
   # use "luminosity" only from top level, use C and S from all levels
-    csresults <- prod(results[, 2:3]^(weights))
+  csresults <- prod(results[, 2:3]^(weights))
 
   (results[levels, 1]^weights[levels]) * csresults
 }
@@ -669,28 +684,34 @@ catssim_3d_cube <- function(x, y, window = c(5, 5, 5), method = "Cohen", ...) {
 #'   for (i in 1:(dim^2 - 1)) y[i, i + 1, j] <- 0
 #' }
 #' catmssim_3d_slice(x, y, weights = c(.75, .25)) # by default method = "Cohen"
-#' #compare to some simple metric:
+#' # compare to some simple metric:
 #' mean(x == y)
 catmssim_3d_slice <- function(x, y, levels = NULL, weights = NULL,
                               window = 11, method = "Cohen", ...) {
-    if (is.null(dim(x)))
-        stop("x is 1-dimensional")
-    if (is.null(dim(y)))
-        stop("y is 1-dimensional")
-    if (length(dim(x)) != length(dim(y)))
-        stop("x and y have nonconformable dimensions.")
-    if (any(dim(x) != dim(y)))
-        stop("x and y have nonconformable dimensions.")(method)
+  if (is.null(dim(x))) {
+    stop("x is 1-dimensional")
+  }
+  if (is.null(dim(y))) {
+    stop("y is 1-dimensional")
+  }
+  if (length(dim(x)) != length(dim(y))) {
+    stop("x and y have nonconformable dimensions.")
+  }
+  if (any(dim(x) != dim(y))) {
+    stop("x and y have nonconformable dimensions.")(method)
+  }
   weights <- levelparser(weights = weights, levels = levels)
   levels <- length(weights)
   dims <- dim(x)
   if (length(window) == 1) window <- c(window, window)
-    if (length(dims) < 3)
-        stop("x and y are not 3-dimensional.")
+  if (length(dims) < 3) {
+    stop("x and y are not 3-dimensional.")
+  }
   mindim <- min(dim(x)[1:2])
   minwindow <- min(window[1:2])
-    if (any(dims[1:2] < window[1:2]))
-        stop("Minimum dimension must be greater than window size.")
+  if (any(dims[1:2] < window[1:2])) {
+    stop("Minimum dimension must be greater than window size.")
+  }
   if (mindim < (2^(levels - 1)) * minwindow) {
     levels <- min(c(floor(log2(dims[1:2] / window[1:2]) + 1), levels))
     warning("Truncating levels because of minimum dimension.")
@@ -699,15 +720,19 @@ catmssim_3d_slice <- function(x, y, levels = NULL, weights = NULL,
   weights <- weights[1:levels]
   results <- matrix(0, nrow = levels, ncol = 3)
 
-    results[1, ] <- catssim_3d_slice(x = x, y = y,
-                                     window = window, method = method, ...)
+  results[1, ] <- catssim_3d_slice(
+    x = x, y = y,
+    window = window, method = method, ...
+  )
 
   if (levels > 1) {
     for (j in 2:levels) {
       x <- downsample_3d_slice(x)
       y <- downsample_3d_slice(y)
-      results[j, ] <- catssim_3d_slice(x = x, y = y,
-                                       window = window, method = method, ...)
+      results[j, ] <- catssim_3d_slice(
+        x = x, y = y,
+        window = window, method = method, ...
+      )
     }
   }
   results[is.na(results)] <- 1 # fixing Jaccard NAs
@@ -743,22 +768,28 @@ catmssim_3d_slice <- function(x, y, levels = NULL, weights = NULL,
 #' catmssim_3d_cube(x, y, weights = c(.75, .25), method = "Accuracy")
 catmssim_3d_cube <- function(x, y, levels = NULL, weights = NULL, window = 5,
                              method = "Cohen", ...) {
-     if (is.null(dim(x)))
-        stop("x is 1-dimensional")
-    if (is.null(dim(y)))
-        stop("y is 1-dimensional")
-    if (length(dim(x)) != length(dim(y)))
-        stop("x and y have nonconformable dimensions.")
-    if (any(dim(x) != dim(y)))
-        stop("x and y have nonconformable dimensions.")
+  if (is.null(dim(x))) {
+    stop("x is 1-dimensional")
+  }
+  if (is.null(dim(y))) {
+    stop("y is 1-dimensional")
+  }
+  if (length(dim(x)) != length(dim(y))) {
+    stop("x and y have nonconformable dimensions.")
+  }
+  if (any(dim(x) != dim(y))) {
+    stop("x and y have nonconformable dimensions.")
+  }
   weights <- levelparser(weights = weights, levels = levels)
   levels <- length(weights)
   if (length(window) == 1) window <- rep(window, 3)
-    if (length(window) != 3)
-        stop("Window not of length 1 or 3")
+  if (length(window) != 3) {
+    stop("Window not of length 1 or 3")
+  }
   dims <- dim(x)
-    if (length(dims) < 3)
-        stop("x and y are not 3-dimensional.")
+  if (length(dims) < 3) {
+    stop("x and y are not 3-dimensional.")
+  }
   mindim <- min(dim(x))
   if (mindim < 1.5 * min(window)) {
     warning("Minimum dimension must be greater than 1.5 * minimum window.")
@@ -773,15 +804,19 @@ catmssim_3d_cube <- function(x, y, levels = NULL, weights = NULL, window = 5,
   weights <- weights[1:levels]
   results <- matrix(0, nrow = levels, ncol = 3)
 
-    results[1, ] <- catssim_3d_cube(x = x, y = y,
-                                    window = window, method = method, ...)
+  results[1, ] <- catssim_3d_cube(
+    x = x, y = y,
+    window = window, method = method, ...
+  )
 
   if (levels > 1) {
     for (j in 2:levels) {
       x <- downsample_3d_cube(x)
       y <- downsample_3d_cube(y)
-      results[j, ] <- catssim_3d_cube(x = x, y = y,
-                                      window = window, method = method, ...)
+      results[j, ] <- catssim_3d_cube(
+        x = x, y = y,
+        window = window, method = method, ...
+      )
     }
   }
   results[is.na(results)] <- 1 # fixing Jaccard NAs
@@ -847,11 +882,13 @@ catmssim_3d_cube <- function(x, y, levels = NULL, weights = NULL, window = 5,
 #' @export
 AdjRandIndex <- function(x, y) {
   .Deprecated("AdjustedRand")
-  if (length(x) != length(y))
-      stop("x and y have differing lengths.")
-  if (!all(!is.na(x), !is.na(y)))
-      warning("NAs present in x or y, Adjusted Rand and Cohen
+  if (length(x) != length(y)) {
+    stop("x and y have differing lengths.")
+  }
+  if (!all(!is.na(x), !is.na(y))) {
+    warning("NAs present in x or y, Adjusted Rand and Cohen
                don't account for NA values.")
+  }
   if (length(table(c(x, y))) > 2) {
     message("Jaccard index may not make sense if more than
              two classes are present.")
@@ -940,14 +977,18 @@ AdjRandIndex <- function(x, y) {
 catsim <- function(x, y, ..., cube = TRUE, levels = NULL, weights = NULL,
                    method = "Cohen", window = NULL) {
   ##  old weights: c(0.0448, 0.2856, 0.3001, 0.2363, 0.1333)
-    if (is.null(dim(x)))
-        stop("x is 1-dimensional")
-    if (is.null(dim(y)))
-        stop("y is 1-dimensional")
-    if (length(dim(x)) != length(dim(y)))
-        stop("x and y have nonconformable dimensions.")
-    if (any(dim(x) != dim(y)))
-        stop("x and y have nonconformable dimensions.")
+  if (is.null(dim(x))) {
+    stop("x is 1-dimensional")
+  }
+  if (is.null(dim(y))) {
+    stop("y is 1-dimensional")
+  }
+  if (length(dim(x)) != length(dim(y))) {
+    stop("x and y have nonconformable dimensions.")
+  }
+  if (any(dim(x) != dim(y))) {
+    stop("x and y have nonconformable dimensions.")
+  }
   dims <- dim(x)
   if (is.null(window)) {
     if (cube && length(dims) == 3) {
@@ -958,13 +999,19 @@ catsim <- function(x, y, ..., cube = TRUE, levels = NULL, weights = NULL,
   }
   weights <- levelparser(weights = weights, levels = levels)
   if (length(dims) == 2) {
-      catmssim_2d(x, y, weights = weights, method = method,
-                  levels = levels, window = window, ...)
+    catmssim_2d(x, y,
+      weights = weights, method = method,
+      levels = levels, window = window, ...
+    )
   } else if (cube) {
-      catmssim_3d_cube(x, y, weights = weights, levels = levels,
-                       method = method, window = window, ...)
+    catmssim_3d_cube(x, y,
+      weights = weights, levels = levels,
+      method = method, window = window, ...
+    )
   } else {
-      catmssim_3d_slice(x, y, weights = weights, levels = levels,
-                        method = method, window = window, ...)
+    catmssim_3d_slice(x, y,
+      weights = weights, levels = levels,
+      method = method, window = window, ...
+    )
   }
 }
