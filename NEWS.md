@@ -1,5 +1,6 @@
 # catsim 0.1.0.9040
 
+* Add `besag` image as a data example.
 * Features still being added.
 
 # catsim 0.1.0.9039

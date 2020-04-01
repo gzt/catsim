@@ -473,7 +473,7 @@ catssim_2d <- function(x, y, window = 11, method = "Cohen", ...) {
 #'     Adjusted Rand Index (\code{AdjRand} or \code{ARI}), or normalized mutual
 #'   information (\code{NMI} or \code{MI}) as
 #'     the similarity index. Note Jaccard and Dice should only be used on binary data.
-#' 
+#'
 #' @param ... additional constants can be passed to internal functions.
 #'
 #' @return a value less than 1 indicating the similarity between the images.
