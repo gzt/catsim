@@ -40,18 +40,18 @@
 
 
 <meta property="og:title" content="Similarity Indexes — rand" />
-<meta property="og:description" content="The Rand index, RandIndex, computes the agreement between
+<meta property="og:description" content="The Rand index, rand_index, computes the agreement between
 two different clusterings or partitions of the same  set of objects.
 The inputs to the function should be binary or categorical and of the same
 length.
-The adjusted Rand index,  AdjustedRand,
+The adjusted Rand index,  adj_rand,
 computes a corrected version
 of the Rand index, adjusting for the probability
 of chance agreement of clusterings. A small constant is added to the
 numerator and denominator of the adjusted Rand index to ensure stability
 when there is a small or 0 denominator, as it is possible to have a zero
 denominator.
-Cohen's kappa, CohenKappa,
+Cohen's kappa, cohen_kappa,
 is an inter-rater agreement metric for two raters which
 corrects for the probability of chance agreement. Note
 there is a difference here
@@ -67,7 +67,7 @@ the mutual information of two distributions is
 \(I(X;Y) = -H(X,Y) +H(X) + H(Y)\).
 The normalized mutual information, normalizeMI, is defined here as:
 \(2I(X;Y)/(H(X)+H(Y)),\) but is set to be 0 if both H(X) and H(Y) are 0.
-The adjusted mutual information, adjustedMI,
+The adjusted mutual information, adjusted_mi,
 is a correction of the mutual information to account
 for the probability of chance agreement in a manner similar to the
 adjusted Rand index
@@ -160,18 +160,18 @@ or Cohen's kappa." />
     </div>
 
     <div class="ref-description">
-    <p>The Rand index, <code>RandIndex</code>, computes the agreement between
+    <p>The Rand index, <code>rand_index</code>, computes the agreement between
 two different clusterings or partitions of the same  set of objects.
 The inputs to the function should be binary or categorical and of the same
 length.</p>
-<p>The adjusted Rand index,  <code>AdjustedRand</code>,
+<p>The adjusted Rand index,  <code>adj_rand</code>,
 computes a corrected version
 of the Rand index, adjusting for the probability
 of chance agreement of clusterings. A small constant is added to the
 numerator and denominator of the adjusted Rand index to ensure stability
 when there is a small or 0 denominator, as it is possible to have a zero
 denominator.</p>
-<p>Cohen's kappa, <code>CohenKappa</code>,
+<p>Cohen's kappa, <code>cohen_kappa</code>,
 is an inter-rater agreement metric for two raters which
 corrects for the probability of chance agreement. Note
 there is a difference here
@@ -187,22 +187,22 @@ the mutual information of two distributions is
 \(I(X;Y) = -H(X,Y) +H(X) + H(Y)\).
 The normalized mutual information, <code>normalizeMI</code>, is defined here as:
 \(2I(X;Y)/(H(X)+H(Y)),\) but is set to be 0 if both H(X) and H(Y) are 0.</p>
-<p>The adjusted mutual information, <code>adjustedMI</code>,
+<p>The adjusted mutual information, <code>adjusted_mi</code>,
 is a correction of the mutual information to account
 for the probability of chance agreement in a manner similar to the
 adjusted Rand index
 or Cohen's kappa.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>RandIndex</span>(<span class='no'>x</span>, <span class='no'>y</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+    <pre class="usage"><span class='fu'>rand_index</span>(<span class='no'>x</span>, <span class='no'>y</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
 
-<span class='fu'>AdjustedRand</span>(<span class='no'>x</span>, <span class='no'>y</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+<span class='fu'>adj_rand</span>(<span class='no'>x</span>, <span class='no'>y</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
 
-<span class='fu'>CohenKappa</span>(<span class='no'>x</span>, <span class='no'>y</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+<span class='fu'>cohen_kappa</span>(<span class='no'>x</span>, <span class='no'>y</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
 
-<span class='fu'>normalizedMI</span>(<span class='no'>x</span>, <span class='no'>y</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+<span class='fu'>normalized_mi</span>(<span class='no'>x</span>, <span class='no'>y</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
 
-<span class='fu'>adjustedMI</span>(<span class='no'>x</span>, <span class='no'>y</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
+<span class='fu'>adjusted_mi</span>(<span class='no'>x</span>, <span class='no'>y</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -249,7 +249,7 @@ doi: <a href='https://doi.org/10.5555/1756006.1953024'>10.5555/1756006.1953024</
 <span class='no'>y</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span>(<span class='fl'>0</span>:<span class='fl'>5</span>, <span class='fl'>4</span>), <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span>(<span class='fl'>0</span>, <span class='fl'>6</span>))
 <span class='co'># Simple Matching, or Accuracy</span>
 <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>(<span class='no'>x</span> <span class='kw'>==</span> <span class='no'>y</span>)</div><div class='output co'>#&gt; [1] 0.8333333</div><div class='input'><span class='co'># Hamming distance</span>
-<span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span>(<span class='no'>x</span> <span class='kw'>!=</span> <span class='no'>y</span>)</div><div class='output co'>#&gt; [1] 5</div><div class='input'><span class='fu'>RandIndex</span>(<span class='no'>x</span>, <span class='no'>y</span>)</div><div class='output co'>#&gt; [1] 0.8735632</div><div class='input'><span class='fu'>AdjustedRand</span>(<span class='no'>x</span>, <span class='no'>y</span>)</div><div class='output co'>#&gt; [1] 0.5188537</div><div class='input'><span class='fu'>CohenKappa</span>(<span class='no'>x</span>, <span class='no'>y</span>)</div><div class='output co'>#&gt; [1] 0.8</div><div class='input'><span class='fu'>normalizedMI</span>(<span class='no'>x</span>, <span class='no'>y</span>)</div><div class='output co'>#&gt; [1] 0.7382948</div><div class='input'><span class='fu'>adjustedMI</span>(<span class='no'>x</span>, <span class='no'>y</span>)</div><div class='output co'>#&gt; [1] 0.7213417</div></pre>
+<span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span>(<span class='no'>x</span> <span class='kw'>!=</span> <span class='no'>y</span>)</div><div class='output co'>#&gt; [1] 5</div><div class='input'><span class='fu'>rand_index</span>(<span class='no'>x</span>, <span class='no'>y</span>)</div><div class='output co'>#&gt; [1] 0.8735632</div><div class='input'><span class='fu'>adj_rand</span>(<span class='no'>x</span>, <span class='no'>y</span>)</div><div class='output co'>#&gt; [1] 0.5188537</div><div class='input'><span class='fu'>cohen_kappa</span>(<span class='no'>x</span>, <span class='no'>y</span>)</div><div class='output co'>#&gt; [1] 0.8</div><div class='input'><span class='fu'>normalized_mi</span>(<span class='no'>x</span>, <span class='no'>y</span>)</div><div class='output co'>#&gt; [1] 0.7382948</div><div class='input'><span class='fu'>adjusted_mi</span>(<span class='no'>x</span>, <span class='no'>y</span>)</div><div class='output co'>#&gt; [1] 0.7213417</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
