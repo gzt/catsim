@@ -43,7 +43,7 @@ You can install the released version of catsim from
 devtools::install_github("gzt/catsim")
 ```
 
-This is not actually on CRAN yet. Install using github.
+This is not on CRAN yet. Install using github.
 
 Please note that the `catsim` project is released with a [Contributor
 Code of Conduct](CODE_OF_CONDUCT.md). By contributing to this project,
