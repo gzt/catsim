@@ -23,18 +23,21 @@ will be inferred from the number of weights specified.}
 
 \item{weights}{a vector of weights for the different scales. By default,
 equal to \code{rep(1,levels)/levels}. If specified, there must
-at least as many  weights as there are levels and the first \code{levels}
-weights will be used.}
+at least as many  weights as there are levels and the first
+\code{levels} weights will be used.}
 
 \item{window}{by default 11 for 2D and 5 for 3D images, but can be specified as a
-vector if the window sizes differ by dimension. The vector must have the same number of
+vector if the window sizes differ by dimension.
+The vector must have the same number of
 dimensions as the inputted \code{x} and \code{y}.}
 
-\item{method}{whether to use Cohen's kappa (\code{Cohen}), Jaccard Index (\code{Jaccard}),
-Dice index (\code{Dice}),  accuracy (\code{accuracy}),  Rand index (\code{Rand}),
+\item{method}{whether to use Cohen's kappa (\code{Cohen}),
+Jaccard Index (\code{Jaccard}), Dice index (\code{Dice}),
+accuracy (\code{accuracy}),  Rand index (\code{Rand}),
 Adjusted Rand Index (\code{AdjRand} or \code{ARI}), or normalized mutual
 information (\code{NMI} or \code{MI}) as
-the similarity index. Note Jaccard and Dice should only be used on binary data.}
+the similarity index. Note Jaccard and Dice should only be used on
+binary data.}
 
 \item{...}{additional constants can be passed to internal functions.}
 }

@@ -21,9 +21,11 @@ catsim(
 \item{...}{additional arguments, such as window, can be passed
 as well as arguments for internal functions.}
 
-\item{cube}{for the 3D method, whether to use the true 3D method (cube or \code{\link{catmssim_3d_cube}})
-or compute the metric using 2D slices which are then averaged (\code{\link{catmssim_3d_slice}}).
-By default, \code{TRUE}, which evaluates as a cube. \code{FALSE} will treat it as
+\item{cube}{for the 3D method, whether to use the true 3D method
+(cube or \code{\link{catmssim_3d_cube}})
+or compute the metric using 2D slices which are then averaged
+(\code{\link{catmssim_3d_slice}}). By default, \code{TRUE},
+which evaluates as a cube. \code{FALSE} will treat it as
 2D slices.}
 
 \item{levels}{how many levels of downsampling to use. By default, 5. If
@@ -35,27 +37,31 @@ equal to \code{rep(1,levels)/levels}. If specified, there must
 at least as many  weights as there are levels and the first \code{levels}
 weights will be used.}
 
-\item{method}{whether to use Cohen's kappa (\code{Cohen}), Jaccard Index (\code{Jaccard}),
-Dice index (\code{Dice}),  accuracy (\code{accuracy}),  Rand index (\code{Rand}),
+\item{method}{whether to use Cohen's kappa (\code{Cohen}),
+Jaccard Index (\code{Jaccard}), Dice index (\code{Dice}),
+accuracy (\code{accuracy}),  Rand index (\code{Rand}),
 Adjusted Rand Index (\code{AdjRand} or \code{ARI}), normalized mutual
-information (\code{NMI} or \code{MI}), or adjusted mutual information (\code{AMI}) as
-the similarity index. Note Jaccard and Dice should only be used on binary data.}
+information (\code{NMI} or \code{MI}), or adjusted mutual information
+(\code{AMI}) as the similarity index.
+Note Jaccard and Dice should only be used on binary data.}
 
-\item{window}{by default 11 for 2D and 5 for 3D images, but can be specified as a
-vector if the window sizes differ by dimension. The vector must have the same number of
+\item{window}{by default 11 for 2D and 5 for 3D images, but can be
+specified as a vector if the window sizes differ by dimension.
+The vector must have the same number of
 dimensions as the inputted \code{x} and \code{y}.}
 }
 \value{
 a value less than 1 indicating the similarity between the images.
 }
 \description{
-The categorical structural similary index measure for 2D or 3D categorical or binary
-images for multiple scales. The default is to compute over 5 scales.
+The categorical structural similary index measure for 2D or 3D categorical or
+binary images for multiple scales. The default is to compute over 5 scales.
 This determines whether this is a 2D or 3D image and applies the appropriate
 windowing, weighting, and scaling. Additional arguments can be passed.
 This is a wrapper function for the 2D and 3D functions whose functionality
 can be accessed through the ... arguments. This function is a wrapper for the
-\code{\link{catmssim_2d}}, \code{\link{catmssim_3d_slice}}, and \code{\link{catmssim_3d_cube}}
+\code{\link{catmssim_2d}}, \code{\link{catmssim_3d_slice}}, and
+\code{\link{catmssim_3d_cube}}
 functions.
 }
 \examples{

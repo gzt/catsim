@@ -252,9 +252,10 @@ sfunc <- function(x, y, methodflag = C_Cohen) {
 #' Categorical Structural Similarity Index Metric (whole image)
 #'
 #' This computes the categorical or binary structural similarity index metric
-#' on a whole-image scale. The difference between this and the default 2-D method
-#' is that this considers the whole image at once and one scale rather than computing the index over
-#' a sliding window and downsampling to consider it at other scales.
+#' on a whole-image scale. The difference between this and the default 2-D
+#' method is that this considers the whole image at once and one scale rather
+#' than computing the index over a sliding window and downsampling to consider
+#' it at other scales.
 #'
 #' @param x,y binary or categorical image
 #' @param alpha normalizing parameter, by default 1
@@ -297,8 +298,8 @@ binssim <- function(x, y, alpha = 1, beta = 1, gamma = 1,
 #' Categorical SSIM Components
 #'
 #' @param x,y binary or categorical image
-#' @param method whether to use Cohen's kappa, Jaccard, or Adjusted Rand Index as
-#'     the similarity index. Note Jaccard should only be used on binary data.
+#' @param method whether to use Cohen's kappa, Jaccard, or Adjusted Rand Index
+#'   as the similarity index. Note Jaccard should only be used on binary data.
 #' @param c1 constant for the means function
 #' @param c2 constant for the chrominance function
 #' @param sqrtgini whether to use sqrtgini or gini, by default \code{TRUE}
@@ -307,7 +308,8 @@ binssim <- function(x, y, alpha = 1, beta = 1, gamma = 1,
 #' @return the three components of the Categorical SSIM.
 #' @keywords internal
 #'
-ssimcomponents <- function(x, y, k, method = "Cohen", c1 = 0.01, c2 = 0.01, sqrtgini = TRUE) {
+ssimcomponents <- function(x, y, k, method = "Cohen",
+                           c1 = 0.01, c2 = 0.01, sqrtgini = TRUE) {
   naxy <- (!is.na(x) & !is.na(y))
   if (length(x[naxy]) == 0) {
     return(c(NA, NA, NA))
@@ -340,9 +342,9 @@ pickmode <- function(x) {
 
 #' Downsampling by a factor of 2 for a 2D categorical image
 #'
-#' Cuts the image into a grid of \eqn{2 \times 2}{2x2} squares and selects the mode of each
-#' (discarding any odd boundary). In case there is more than one mode, it selects
-#' the first in lexicographic order.
+#' Cuts the image into a grid of \eqn{2 \times 2}{2x2} squares and selects
+#' the mode of each (discarding any odd boundary). In case there is more than
+#' one mode, it selects the first in lexicographic order.
 #' @param x an \eqn{n \times m}{n x m} binary or categorical image
 #'
 #' @return an \eqn{n/2 \times m/2}{n/2 x m/2} binary or categorical image
@@ -372,13 +374,14 @@ downsample_2d <- function(x) {
 #' Downsampling by a factor of 2 for a 3D categorical image
 #'
 #' This function presumes that only the x and y axis are subsampled and the
-#' z-axis is preserved. Cuts the image into a grid of \eqn{2 \times 2}{2 x 2} squares and selects
-#' the mode of each (discarding any odd boundary). It treats each level of z as
-#' an independent slice. In case there is more than one mode, it selects
-#' the first in lexicographic order.
+#' z-axis is preserved. Cuts the image into a grid of \eqn{2 \times 2}{2 x 2}
+#' squares and selects the mode of each (discarding any odd boundary).
+#' It treats each level of z as an independent slice. In case there is more
+#' than one mode, it selects the first in lexicographic order.
 #' @param x an \eqn{n \times m \times q}{n x m x q} binary or categorical image
 #'
-#' @return a an \eqn{n/2 \times m/2 \times q}{n/2 x m/2 x q} binary or categorical image
+#' @return a an \eqn{n/2 \times m/2 \times q}{n/2 x m/2 x q}
+#'     binary or categorical image
 #'
 #' @keywords internal
 #'
@@ -402,13 +405,15 @@ downsample_3d_slice <- function(x) {
 #' Downsampling by a factor of 2 for a 3D categorical image
 #'
 #' This function presumes that only the x and y axis are subsampled and the
-#' z-axis is preserved. Cuts the image into a grid of \eqn{2 \times 2 \times 2}{2 x 2 x 2} cubes and selects
+#' z-axis is preserved. Cuts the image into a grid of
+#' \eqn{2 \times 2 \times 2}{2 x 2 x 2} cubes and selects
 #' the mode of each (discarding any odd boundary). It treats each direction as
 #' equal. In case there is more than one mode, it selects
 #' the first in lexicographic order.
 #' @param x an \eqn{n \times m \times q}{n x m x q} binary or categorical image
 #'
-#' @return  an \eqn{n/2 \times m/2 \times q/2}{n/2 x m/2 x q/2} binary or categorical image
+#' @return  an \eqn{n/2 \times m/2 \times q/2}{n/2 x m/2 x q/2}
+#' binary or categorical image
 #'
 #' @keywords internal
 #'
@@ -438,9 +443,10 @@ downsample_3d_cube <- function(x) {
 
 #' Categorical Structural Similarity Index Measure (2D)
 #'
-#' The categorical structural similary index measure for 2D categorical or binary
-#' images for a single scale. This computes it using moving \eqn{11 \times 11}{11 x 11} windows and is
-#' suitable for modestly-sized images which are not large enough to warrant
+#' The categorical structural similary index measure for 2D categorical or
+#' binary images for a single scale. This computes it using moving
+#' \eqn{11 \times 11}{11 x 11} windows and is suitable for modestly-sized
+#' images which are not large enough to warrant
 #' looking at multiple scales.
 #'
 #' @inheritParams catmssim_2d
@@ -458,11 +464,7 @@ downsample_3d_cube <- function(x) {
 #' for (i in 1:19) y[i, i + 1] <- 1
 #' catssim_2d(x, y)
 catssim_2d <- function(x, y, window = 11, method = "Cohen", ...) {
-  ## if (is.null(dim(x))) stop("x is 1-dimensional")
-  ## if (is.null(dim(y))) stop("y is 1-dimensional")
-  ## if (length(dim(x)) != length(dim(y)))  stop('x and y have nonconformable dimensions.')
-  ## if (any(dim(x) != dim(y))) stop('x and y have nonconformable dimensions.')
-
+ 
   if (length(window) == 1) window <- c(window, window)
   k <- length(unique(c(x, y)))
   dims <- dim(x)
@@ -471,20 +473,19 @@ catssim_2d <- function(x, y, window = 11, method = "Cohen", ...) {
   if (any(dims < (window - 1))) {
     return(ssimcomponents(x = (x), y = (y), k = k, method = method, ...))
   }
-  resultmatrix <- array(0, c(nrow - window[1] + 1, ncol - window[2] + 1, 3)) # c(0,0,0)
+  resultmatrix <- array(0, c(nrow - window[1] + 1, ncol - window[2] + 1, 3))
 
   for (i in 1:(nrow - (window[1] - 1))) {
     for (j in 1:(ncol - (window[2] - 1))) {
-      # place = j + (ncol - (window - 1))*(i - 1)
       subx <- x[i:(i + (window[1] - 1)), j:(j + (window[2] - 1))]
       suby <- y[i:(i + (window[1] - 1)), j:(j + (window[2] - 1))]
 
-      resultmatrix[i, j, ] <- ssimcomponents(x = subx, y = suby, k = k, method = method, ...)
+        resultmatrix[i, j, ] <- ssimcomponents(x = subx, y = suby,
+                                               k = k, method = method, ...)
     }
   }
   resultmatrix[resultmatrix < 0.0] <- 0.0
 
-  # resultmatrix / ((nrow - (window - 1)) * (ncol - (window - 1)))
   colMeans(resultmatrix, na.rm = TRUE, dims = 2)
 }
 
@@ -500,16 +501,19 @@ catssim_2d <- function(x, y, window = 11, method = "Cohen", ...) {
 #'        will be inferred from the number of weights specified.
 #' @param weights a vector of weights for the different scales. By default,
 #'        equal to \code{rep(1,levels)/levels}. If specified, there must
-#'        at least as many  weights as there are levels and the first \code{levels}
-#'        weights will be used.
+#'        at least as many  weights as there are levels and the first
+#'        \code{levels} weights will be used.
 #' @param window by default 11 for 2D and 5 for 3D images, but can be specified as a
-#'     vector if the window sizes differ by dimension. The vector must have the same number of
+#'     vector if the window sizes differ by dimension.
+#'     The vector must have the same number of
 #'     dimensions as the inputted \code{x} and \code{y}.
-#' @param method whether to use Cohen's kappa (\code{Cohen}), Jaccard Index (\code{Jaccard}),
-#'     Dice index (\code{Dice}),  accuracy (\code{accuracy}),  Rand index (\code{Rand}),
+#' @param method whether to use Cohen's kappa (\code{Cohen}),
+#'     Jaccard Index (\code{Jaccard}), Dice index (\code{Dice}),
+#'     accuracy (\code{accuracy}),  Rand index (\code{Rand}),
 #'     Adjusted Rand Index (\code{AdjRand} or \code{ARI}), or normalized mutual
-#'   information (\code{NMI} or \code{MI}) as
-#'     the similarity index. Note Jaccard and Dice should only be used on binary data.
+#'     information (\code{NMI} or \code{MI}) as
+#'     the similarity index. Note Jaccard and Dice should only be used on
+#'     binary data.
 #'
 #' @param ... additional constants can be passed to internal functions.
 #'
@@ -531,7 +535,8 @@ catmssim_2d <- function(x, y, levels = NULL, weights = NULL, window = 11,
   ## c(0.0448, 0.2856, 0.3001, 0.2363, 0.1333)
   if (is.null(dim(x))) stop("x is 1-dimensional")
   if (is.null(dim(y))) stop("y is 1-dimensional")
-  if (length(dim(x)) != length(dim(y))) stop("x and y have nonconformable dimensions.")
+    if (length(dim(x)) != length(dim(y)))
+        stop("x and y have nonconformable dimensions.")
   if (any(dim(x) != dim(y))) stop("x and y have nonconformable dimensions.")
   if (length(window) == 1) window <- c(window, window)
   weights <- levelparser(weights = weights, levels = levels)
@@ -549,13 +554,15 @@ catmssim_2d <- function(x, y, levels = NULL, weights = NULL, window = 11,
   }
   weights <- weights[1:levels]
   results <- matrix(0, nrow = levels, ncol = 3)
-  results[1, ] <- catssim_2d(x = x, y = y, window = window, method = method, ...)
+    results[1, ] <- catssim_2d(x = x, y = y,
+                               window = window, method = method, ...)
 
   if (levels > 1) {
     for (i in 2:levels) {
       x <- downsample_2d(x)
       y <- downsample_2d(y)
-      results[i, ] <- catssim_2d(x = x, y = y, window = window, method = method, ...)
+      results[i, ] <- catssim_2d(x = x, y = y,
+                                 window = window, method = method, ...)
     }
   }
   results[is.na(results)] <- 1 # fix Jaccard NA results
@@ -572,11 +579,13 @@ catmssim_2d <- function(x, y, levels = NULL, weights = NULL, window = 11,
 #'
 #' @param x,y a binary or categorical image
 #' @param window by default 11
-#' @param method whether to use Cohen's kappa (\code{Cohen}), Jaccard Index (\code{Jaccard}),
-#'     Dice index (\code{Dice}),  accuracy (\code{accuracy}),  Rand index (\code{Rand}),
+#' @param method whether to use Cohen's kappa (\code{Cohen}),
+#'    Jaccard Index (\code{Jaccard}), Dice index (\code{Dice}),
+#'       accuracy (\code{accuracy}),  Rand index (\code{Rand}),
 #'     Adjusted Rand Index (\code{AdjRand} or \code{ARI}), or normalized mutual
 #'   information (\code{NMI} or \code{MI}) as
-#'     the similarity index. Note Jaccard and Dice should only be used on binary data.
+#'     the similarity index. Note Jaccard and Dice should only be used on
+#' binary data.
 #' @param ...
 #'
 #' @return SSIM componenets for the cube.
@@ -649,24 +658,30 @@ catssim_3d_cube <- function(x, y, window = c(5, 5, 5), method = "Cohen", ...) {
 #'   for (i in 1:(dim^2 - 1)) y[i, i + 1, j] <- 0
 #' }
 #' catmssim_3d_slice(x, y, weights = c(.75, .25)) # by default method = "Cohen"
-#' # Now using a different similarity score
-#' catmssim_3d_slice(x, y, weights = c(.75, .25), method = "accuracy")
+#' #compare to some simple metric:
+#' mean(x == y)
 catmssim_3d_slice <- function(x, y, levels = NULL, weights = NULL,
                               window = 11, method = "Cohen", ...) {
   # the weights are from the original MS-SSIM program
   ## c(0.0448, 0.2856, 0.3001, 0.2363, 0.1333)
-  if (is.null(dim(x))) stop("x is 1-dimensional")
-  if (is.null(dim(y))) stop("y is 1-dimensional")
-  if (length(dim(x)) != length(dim(y))) stop("x and y have nonconformable dimensions.")
-  if (any(dim(x) != dim(y))) stop("x and y have nonconformable dimensions.")(method)
+    if (is.null(dim(x)))
+        stop("x is 1-dimensional")
+    if (is.null(dim(y)))
+        stop("y is 1-dimensional")
+    if (length(dim(x)) != length(dim(y)))
+        stop("x and y have nonconformable dimensions.")
+    if (any(dim(x) != dim(y)))
+        stop("x and y have nonconformable dimensions.")(method)
   weights <- levelparser(weights = weights, levels = levels)
   levels <- length(weights)
   dims <- dim(x)
   if (length(window) == 1) window <- c(window, window)
-  if (length(dims) < 3) stop("x and y are not 3-dimensional.")
+    if (length(dims) < 3)
+        stop("x and y are not 3-dimensional.")
   mindim <- min(dim(x)[1:2])
   minwindow <- min(window[1:2])
-  if (any(dims[1:2] < window[1:2])) stop("Minimum dimension must be greater than window size.")
+    if (any(dims[1:2] < window[1:2]))
+        stop("Minimum dimension must be greater than window size.")
   if (mindim < (2^(levels - 1)) * minwindow) {
     levels <- min(c(floor(log2(dims[1:2] / window[1:2]) + 1), levels))
     warning("Truncating levels because of minimum dimension.")
@@ -675,13 +690,15 @@ catmssim_3d_slice <- function(x, y, levels = NULL, weights = NULL,
   weights <- weights[1:levels]
   results <- matrix(0, nrow = levels, ncol = 3)
 
-  results[1, ] <- catssim_3d_slice(x = x, y = y, window = window, method = method, ...)
+    results[1, ] <- catssim_3d_slice(x = x, y = y,
+                                     window = window, method = method, ...)
 
   if (levels > 1) {
     for (j in 2:levels) {
       x <- downsample_3d_slice(x)
       y <- downsample_3d_slice(y)
-      results[j, ] <- catssim_3d_slice(x = x, y = y, window = window, method = method, ...)
+      results[j, ] <- catssim_3d_slice(x = x, y = y,
+                                       window = window, method = method, ...)
     }
   }
   results[is.na(results)] <- 1 # fixing Jaccard NAs
@@ -719,16 +736,22 @@ catmssim_3d_cube <- function(x, y, levels = NULL, weights = NULL, window = 5,
                              method = "Cohen", ...) {
   ## the weights are from the original MS-SSIM program
   ##  c(0.0448, 0.2856, 0.3001, 0.2363, 0.1333)
-  if (is.null(dim(x))) stop("x is 1-dimensional")
-  if (is.null(dim(y))) stop("y is 1-dimensional")
-  if (length(dim(x)) != length(dim(y))) stop("x and y have nonconformable dimensions.")
-  if (any(dim(x) != dim(y))) stop("x and y have nonconformable dimensions.")
+    if (is.null(dim(x)))
+        stop("x is 1-dimensional")
+    if (is.null(dim(y)))
+        stop("y is 1-dimensional")
+    if (length(dim(x)) != length(dim(y)))
+        stop("x and y have nonconformable dimensions.")
+    if (any(dim(x) != dim(y)))
+        stop("x and y have nonconformable dimensions.")
   weights <- levelparser(weights = weights, levels = levels)
   levels <- length(weights)
   if (length(window) == 1) window <- rep(window, 3)
-  if (length(window) != 3) stop("Window not of length 1 or 3")
+    if (length(window) != 3)
+        stop("Window not of length 1 or 3")
   dims <- dim(x)
-  if (length(dims) < 3) stop("x and y are not 3-dimensional.")
+    if (length(dims) < 3)
+        stop("x and y are not 3-dimensional.")
   mindim <- min(dim(x))
   if (mindim < 1.5 * min(window)) {
     warning("Minimum dimension must be greater than 1.5 * minimum window.")
@@ -743,13 +766,15 @@ catmssim_3d_cube <- function(x, y, levels = NULL, weights = NULL, window = 5,
   weights <- weights[1:levels]
   results <- matrix(0, nrow = levels, ncol = 3)
 
-  results[1, ] <- catssim_3d_cube(x = x, y = y, window = window, method = method, ...)
+    results[1, ] <- catssim_3d_cube(x = x, y = y,
+                                    window = window, method = method, ...)
 
   if (levels > 1) {
     for (j in 2:levels) {
       x <- downsample_3d_cube(x)
       y <- downsample_3d_cube(y)
-      results[j, ] <- catssim_3d_cube(x = x, y = y, window = window, method = method, ...)
+      results[j, ] <- catssim_3d_cube(x = x, y = y,
+                                      window = window, method = method, ...)
     }
   }
   results[is.na(results)] <- 1 # fixing Jaccard NAs
@@ -764,37 +789,51 @@ catmssim_3d_cube <- function(x, y, levels = NULL, weights = NULL, window = 5,
 #' Computes the adjusted Rand index and several other similarity measures for two
 #' inputs. These inputs should be binary or categorical and of the same length.
 #' It also computes the PSNR, which is generalized here as simply
-#' \eqn{-10 log_{10}(MSE)}. The adjusted Rand index, Jaccard Index, Cohen's Kappa,
-#' normalized mutual information (NMI) and adjusted mutual information (AMI) are used as a measure of
-#' the similarity of the structure of the two images. A small constant is added to the numerator
-#' and denominator of the Adjusted Rand index to ensure stability, as it is possible to have a zero
+#' \eqn{-10 log_{10}(MSE)}.
+#' The adjusted Rand index, Jaccard Index, Cohen's Kappa,
+#' normalized mutual information (NMI) and adjusted mutual information (AMI)
+#' are used as a measure of the similarity of the structure of the two images.
+#' A small constant is added to the numerator
+#' and denominator of the Adjusted Rand index to ensure stability,
+#' as it is possible to have a zero
 #' denominator. The normalized mutual information is defined here as:
 #' \eqn{2H(X,Y)/(H(X)+H(Y)),} but is set to be 0 if both H(X) and H(Y) are 0.
-#' The PSNR can be infinite if the error rate is 0. The Jaccard index and accuracy can
+#' The PSNR can be infinite if the error rate is 0.
+#' The Jaccard index and accuracy can
 #' account for NA values, but the Adjusted Rand and Cohen's Kappa cannot.
 #'
 #'
 #' @param x,y  a numeric or factor vector or image
 #'
-#' @return The accuracy, Jaccard index, the Adjusted Rand Index, the Rand index, the PSNR, Cohen's Kappa,
-#'     normalized mutual information (NMI) and adjusted mutual information (AMI). Note:
-#'     The Jaccard index will not make sense if this is not binary.
+#' @return The accuracy, Jaccard index, the Adjusted Rand Index,
+#'  the Rand index, the PSNR, Cohen's Kappa,
+#'  normalized mutual information (NMI) and adjusted mutual information (AMI).
+#'  Note: The Jaccard index will not make sense if this is not binary.
 #'
-#' @references Lawrence Hubert and Phipps Arabie (1985).
-#' "Comparing partitions". Journal of Classification. 2 (1): 193–218. \doi{10.1007/BF01908075}
-#'
-#'  W. M. Rand (1971). "Objective criteria for the evaluation of clustering methods".
-#'  Journal of the American Statistical Association. American Statistical Association. 66 (336): 846–850.
+#' @references
+#'  W. M. Rand (1971).
+#' "Objective criteria for the evaluation of clustering methods".
+#'  Journal of the American Statistical Association.
+#' American Statistical Association. 66 (336): 846–850.
 #'  \doi{10.2307/2284239}
 #'
-#'  Cohen, Jacob (1960). "A coefficient of agreement for nominal scales".
-#'   Educational and Psychological Measurement. 20 (1): 37–46. \doi{10.1177/001316446002000104}
+#' Lawrence Hubert and Phipps Arabie (1985).
+#' "Comparing partitions". Journal of Classification. 2 (1): 193–218.
+#' \doi{10.1007/BF01908075}
 #'
-#'  Jaccard, Paul (1912). "The distribution of the flora in the alpine zone,” New Phytologist, vol. 11, no. 2, pp. 37–50.
+#'
+#'  Cohen, Jacob (1960). "A coefficient of agreement for nominal scales".
+#'   Educational and Psychological Measurement. 20 (1): 37–46.
+#' \doi{10.1177/001316446002000104}
+#'
+#'  Jaccard, Paul (1912). "The distribution of the flora in the alpine zone,”
+#' New Phytologist, vol. 11, no. 2, pp. 37–50.
 #'   \doi{10.1111/j.1469-8137.1912.tb05611.x}
 #'
-#' Nguyen Xuan Vinh, Julien Epps, and James Bailey (2010). Information Theoretic Measures for Clusterings Comparison:
-#' Variants, Properties, Normalization and Correction for Chance. J. Mach. Learn. Res. 11 (December 2010), 2837–2854.
+#' Nguyen Xuan Vinh, Julien Epps, and James Bailey (2010).
+#' Information Theoretic Measures for Clusterings Comparison:
+#' Variants, Properties, Normalization and Correction for Chance.
+#' J. Mach. Learn. Res. 11 (December 2010), 2837–2854.
 #' \doi{10.5555/1756006.1953024}
 #'
 #' @export
@@ -832,21 +871,24 @@ AdjRandIndex <- function(x, y) {
 
 #' Multiscale Categorical Structural Similarity Index Measure
 #'
-#' The categorical structural similary index measure for 2D or 3D categorical or binary
-#' images for multiple scales. The default is to compute over 5 scales.
+#' The categorical structural similary index measure for 2D or 3D categorical or
+#' binary images for multiple scales. The default is to compute over 5 scales.
 #' This determines whether this is a 2D or 3D image and applies the appropriate
 #' windowing, weighting, and scaling. Additional arguments can be passed.
 #' This is a wrapper function for the 2D and 3D functions whose functionality
 #' can be accessed through the ... arguments. This function is a wrapper for the
-#' \code{\link{catmssim_2d}}, \code{\link{catmssim_3d_slice}}, and \code{\link{catmssim_3d_cube}}
+#' \code{\link{catmssim_2d}}, \code{\link{catmssim_3d_slice}}, and
+#' \code{\link{catmssim_3d_cube}}
 #' functions.
 #'
 #' @param x,y a binary or categorical image
 #' @param ... additional arguments, such as window, can be passed
 #'        as well as arguments for internal functions.
-#' @param cube for the 3D method, whether to use the true 3D method (cube or \code{\link{catmssim_3d_cube}})
-#'        or compute the metric using 2D slices which are then averaged (\code{\link{catmssim_3d_slice}}).
-#'        By default, \code{TRUE}, which evaluates as a cube. \code{FALSE} will treat it as
+#' @param cube for the 3D method, whether to use the true 3D method
+#'        (cube or \code{\link{catmssim_3d_cube}})
+#'        or compute the metric using 2D slices which are then averaged
+#'        (\code{\link{catmssim_3d_slice}}). By default, \code{TRUE},
+#'        which evaluates as a cube. \code{FALSE} will treat it as
 #'        2D slices.
 #' @param levels how many levels of downsampling to use. By default, 5. If
 #'        \code{weights} is specified and this is left blank, the argument
@@ -855,13 +897,16 @@ AdjRandIndex <- function(x, y) {
 #'        equal to \code{rep(1,levels)/levels}. If specified, there must
 #'        at least as many  weights as there are levels and the first \code{levels}
 #'        weights will be used.
-#' @param method whether to use Cohen's kappa (\code{Cohen}), Jaccard Index (\code{Jaccard}),
-#'     Dice index (\code{Dice}),  accuracy (\code{accuracy}),  Rand index (\code{Rand}),
+#' @param method whether to use Cohen's kappa (\code{Cohen}),
+#'     Jaccard Index (\code{Jaccard}), Dice index (\code{Dice}),
+#'     accuracy (\code{accuracy}),  Rand index (\code{Rand}),
 #'     Adjusted Rand Index (\code{AdjRand} or \code{ARI}), normalized mutual
-#'   information (\code{NMI} or \code{MI}), or adjusted mutual information (\code{AMI}) as
-#'     the similarity index. Note Jaccard and Dice should only be used on binary data.
-#' @param window by default 11 for 2D and 5 for 3D images, but can be specified as a
-#'     vector if the window sizes differ by dimension. The vector must have the same number of
+#'     information (\code{NMI} or \code{MI}), or adjusted mutual information
+#'     (\code{AMI}) as the similarity index.
+#'     Note Jaccard and Dice should only be used on binary data.
+#' @param window by default 11 for 2D and 5 for 3D images, but can be
+#'     specified as a vector if the window sizes differ by dimension.
+#'     The vector must have the same number of
 #'     dimensions as the inputted \code{x} and \code{y}.
 #' @return a value less than 1 indicating the similarity between the images.
 #' @export
@@ -882,10 +927,14 @@ AdjRandIndex <- function(x, y) {
 #' catsim(x, y, weights = c(.75, .25), cube = FALSE, window = 8)
 catsim <- function(x, y, ..., cube = TRUE, levels = NULL, weights = NULL, method = "Cohen", window = NULL) {
   ##  old weights: c(0.0448, 0.2856, 0.3001, 0.2363, 0.1333)
-  if (is.null(dim(x))) stop("x is 1-dimensional")
-  if (is.null(dim(y))) stop("y is 1-dimensional")
-  if (length(dim(x)) != length(dim(y))) stop("x and y have nonconformable dimensions.")
-  if (any(dim(x) != dim(y))) stop("x and y have nonconformable dimensions.")
+    if (is.null(dim(x)))
+        stop("x is 1-dimensional")
+    if (is.null(dim(y)))
+        stop("y is 1-dimensional")
+    if (length(dim(x)) != length(dim(y)))
+        stop("x and y have nonconformable dimensions.")
+    if (any(dim(x) != dim(y)))
+        stop("x and y have nonconformable dimensions.")
   dims <- dim(x)
   if (is.null(window)) {
     if (cube && length(dims) == 3) {

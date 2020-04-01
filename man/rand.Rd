@@ -26,23 +26,25 @@ adjustedMI(x, y, na.rm = FALSE)
 \arguments{
 \item{x, y}{a numeric or factor vector or array}
 
-\item{na.rm}{whether to remove \code{NA} values. By default, \code{FALSE}. If \code{TRUE}, will
-perform pair-wise deletion.}
+\item{na.rm}{whether to remove \code{NA} values. By default, \code{FALSE}.
+If \code{TRUE}, will perform pair-wise deletion.}
 }
 \value{
-the similarity index, which is between 0 and 1 for most of the options. The adjusted Rand and
-Cohen's kappa can be negative, but are bounded above by 1.
+the similarity index, which is between 0 and 1 for most of the options.
+The adjusted Rand and Cohen's kappa can be negative, but are bounded above by 1.
 }
 \description{
-The Rand index, \code{RandIndex}, computes the agreement between two different clusterings or
-partitions of the same
-set of objects. The inputs to the function should be binary or categorical and of the same length.
+The Rand index, \code{RandIndex}, computes the agreement between
+two different clusterings or partitions of the same  set of objects.
+The inputs to the function should be binary or categorical and of the same
+length.
 
-The adjusted Rand index,  \code{AdjustedRand},  computes a corrected version
+The adjusted Rand index,  \code{AdjustedRand},
+computes a corrected version
 of the Rand index, adjusting for the probability
-of chance agreement of clusterings. A small constant is added to the numerator
-and denominator of the adjusted Rand index to ensure stability if there is a small or 0 denominator,
-as it is possible to have a zero
+of chance agreement of clusterings. A small constant is added to the
+numerator and denominator of the adjusted Rand index to ensure stability
+when there is a small or 0 denominator, as it is possible to have a zero
 denominator.
 
 Cohen's kappa, \code{CohenKappa}, is an inter-rater agreement metric for two raters which
@@ -75,20 +77,26 @@ normalizedMI(x, y)
 adjustedMI(x, y)
 }
 \references{
-Lawrence Hubert and Phipps Arabie (1985).
-"Comparing partitions". Journal of Classification. 2 (1): 193–218. \doi{10.1007/BF01908075}
-
-W. M. Rand (1971). "Objective criteria for the evaluation of clustering methods".
-Journal of the American Statistical Association. American Statistical Association. 66 (336): 846–850.
+W. M. Rand (1971). "Objective criteria for the evaluation of clustering
+methods". Journal of the American Statistical Association.
+American Statistical Association. 66 (336): 846–850.
 \doi{10.2307/2284239}
 
-Cohen, Jacob (1960). "A coefficient of agreement for nominal scales".
-Educational and Psychological Measurement. 20 (1): 37–46. \doi{10.1177/001316446002000104}
+Lawrence Hubert and Phipps Arabie (1985).
+"Comparing partitions". Journal of Classification. 2 (1): 193–218.
+\doi{10.1007/BF01908075}
 
-Jaccard, Paul (1912). "The distribution of the flora in the alpine zone,” New Phytologist, vol. 11, no. 2, pp. 37–50.
+Cohen, Jacob (1960). "A coefficient of agreement for nominal scales".
+Educational and Psychological Measurement. 20 (1): 37–46.
+\doi{10.1177/001316446002000104}
+
+Jaccard, Paul (1912). "The distribution of the flora in the alpine zone,”
+New Phytologist, vol. 11, no. 2, pp. 37–50.
 \doi{10.1111/j.1469-8137.1912.tb05611.x}
 
-Nguyen Xuan Vinh, Julien Epps, and James Bailey (2010). Information Theoretic Measures for Clusterings Comparison:
-Variants, Properties, Normalization and Correction for Chance. J. Mach. Learn. Res. 11 (December 2010), 2837–2854.
+Nguyen Xuan Vinh, Julien Epps, and James Bailey (2010).
+Information Theoretic Measures for Clusterings Comparison:
+Variants, Properties, Normalization and Correction for Chance.
+J. Mach. Learn. Res. 11 (December 2010), 2837–2854.
 \doi{10.5555/1756006.1953024}
 }

@@ -19,7 +19,7 @@ awkward features for an image reconstruction method
 evaluated in the paper.
 }
 \examples{
-image(besag[,88:1])
+image(besag[, 88:1])
 }
 \references{
 J. Besag, “On the statistical analysis of dirty pictures,”

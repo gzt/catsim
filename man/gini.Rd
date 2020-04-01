@@ -24,19 +24,21 @@ sqrtginicorr(x, k)
 \item{k}{number of categories}
 }
 \value{
-The index (between 0 and 1), with 0 indicating no variation and 1 being maximal.
-The Gini index is bounded above by \eqn{1-1/k} for a group with \code{k} categories.
-The modified index is bounded above by \eqn{1-1/\sqrt{k}}.
-The corrected indexes fix this by dividing by the maximum.
+The index (between 0 and 1), with 0 indicating no variation and 1
+being maximal. The Gini index is bounded above by \eqn{1-1/k} for a group
+with \code{k} categories. The modified index is bounded above by
+\eqn{1-1/\sqrt{k}}.  The corrected indexes fix this by dividing by the
+maximum.
 }
 \description{
-\code{gini()} is a measure of diversity that goes by a number of different names, such as
-the probability of interspecific encounter or the Gibbs-Martin index.
-It is \eqn{1 - sum(p_i^2)}, where \eqn{p_i} is the probability of observing class i.
+\code{gini()} is a measure of diversity that goes by a
+number of different names, such as the probability of interspecific encounter
+or the Gibbs-Martin index. It is \eqn{1 - sum(p_i^2)}, where \eqn{p_i} is the
+probability of observing class i.
 
-The corrected Gini-Simpson index, \code{ginicorr} takes the index and  corrects it
-so that the maximum possible is 1. If there are \code{k} categories,
-the maximum possible of the uncorrected index is \eqn{1-1/k}.
+The corrected Gini-Simpson index, \code{ginicorr} takes the
+index and  corrects it so that the maximum possible is 1. If there are
+\code{k} categories, the maximum possible of the uncorrected index is \eqn{1-1/k}.
 It corrects the index by dividing by the maximum. \code{k} must be specified.
 
 The modified Gini-Simpson index is similar to the unmodified,
