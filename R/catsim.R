@@ -461,8 +461,6 @@ catssim_2d <- function(x, y, window = 11, method = "Cohen", ...) {
 #' images for multiple scales. The default is to compute over 5 scales.
 #'
 #' @param x,y a binary or categorical image
-#' @param weights a vector of weights for the different scales. By default,
-#'     five different scales are used.
 #' @param levels how many levels of downsampling to use. By default, 5. If
 #'        \code{weights} is specified and this is left blank, the argument
 #'        will be inferred from the number of weights specified.
@@ -470,11 +468,15 @@ catssim_2d <- function(x, y, window = 11, method = "Cohen", ...) {
 #'        equal to \code{rep(1,levels)/levels}. If specified, there must
 #'        at least as many  weights as there are levels and the first \code{levels}
 #'        weights will be used.
+#' @param window by default 11 for 2D and 5 for 3D images, but can be specified as a
+#'     vector if the window sizes differ by dimension. The vector must have the same number of
+#'     dimensions as the inputted \code{x} and \code{y}.
 #' @param method whether to use Cohen's kappa (\code{Cohen}), Jaccard Index (\code{Jaccard}),
 #'     Dice index (\code{Dice}),  accuracy (\code{accuracy}),  Rand index (\code{Rand}),
 #'     Adjusted Rand Index (\code{AdjRand} or \code{ARI}), or normalized mutual
 #'   information (\code{NMI} or \code{MI}) as
 #'     the similarity index. Note Jaccard and Dice should only be used on binary data.
+#' 
 #' @param ... additional constants can be passed to internal functions.
 #'
 #' @return a value less than 1 indicating the similarity between the images.
