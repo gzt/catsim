@@ -155,7 +155,7 @@ between the images. Here is a comparison between the shifted image and the
 salt-and-pepper noise at different window sizes.
 
 ```{r windowsize}
-catsim(basemat, shiftmat, weights = rep(1/3, 3, window = 20)
+catsim(basemat, shiftmat, weights = rep(1/3, 3), window = 20)
 catsim(basemat, shiftmat, weights = rep(1/3, 3), window = 5)
 catsim(basemat, errmat, weights = rep(1/3, 3), window = 20)
 catsim(basemat, errmat, weights = rep(1/3, 3), window = 5)
