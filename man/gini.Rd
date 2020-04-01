@@ -38,8 +38,9 @@ probability of observing class i.
 
 The corrected Gini-Simpson index, \code{ginicorr} takes the
 index and  corrects it so that the maximum possible is 1. If there are
-\code{k} categories, the maximum possible of the uncorrected index is \eqn{1-1/k}.
-It corrects the index by dividing by the maximum. \code{k} must be specified.
+\code{k} categories, the maximum possible of the uncorrected index is
+\eqn{1-1/k}. It corrects the index by dividing by the maximum.
+\code{k} must be specified.
 
 The modified Gini-Simpson index is similar to the unmodified,
 except it uses the square root of the summed squared

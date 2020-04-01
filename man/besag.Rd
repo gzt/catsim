@@ -10,7 +10,7 @@ denoting the color of the corresponding pixels. The example code will
 produce the image as it is in the original paper.
 }
 \usage{
-besag
+data(besag)
 }
 \description{
 An \eqn{100 \times 88} matrix representing a two-color

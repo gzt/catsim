@@ -1,7 +1,7 @@
 #' @title Similarity Indexes
 #' @name rand
 #'
-#' @description The Rand index, \code{RandIndex}, computes the agreement between
+#' @description The Rand index, \code{rand_index}, computes the agreement between
 #' two different clusterings or partitions of the same  set of objects.
 #' The inputs to the function should be binary or categorical and of the same
 #' length.
@@ -46,12 +46,12 @@
 #' mean(x == y)
 #' # Hamming distance
 #' sum(x != y)
-#' RandIndex(x, y)
-#' AdjustedRand(x, y)
-#' CohenKappa(x, y)
-#' normalizedMI(x, y)
-#' adjustedMI(x, y)
-RandIndex <- function(x, y, na.rm = FALSE) {
+#' rand_index(x, y)
+#' adj_rand(x, y)
+#' cohen_kappa(x, y)
+#' normalized_mi(x, y)
+#' adjusted_mi(x, y)
+rand_index <- function(x, y, na.rm = FALSE) {
   if (length(x) != length(y)) stop("x and y have differing lengths.")
   if (na.rm) {
     naxy <- (!is.na(x) & !is.na(y))
@@ -71,7 +71,7 @@ RandIndex <- function(x, y, na.rm = FALSE) {
 
 #' @name Adjusted Rand Index
 #'
-#' @description The adjusted Rand index,  \code{AdjustedRand},
+#' @description The adjusted Rand index,  \code{adj_rand},
 #' computes a corrected version
 #' of the Rand index, adjusting for the probability
 #' of chance agreement of clusterings. A small constant is added to the
@@ -80,7 +80,7 @@ RandIndex <- function(x, y, na.rm = FALSE) {
 #' denominator.
 #' @rdname rand
 #' @export
-AdjustedRand <- function(x, y, na.rm = FALSE) {
+adj_rand <- function(x, y, na.rm = FALSE) {
   if (length(x) != length(y)) stop("x and y have differing lengths.")
   if (na.rm) {
     naxy <- (!is.na(x) & !is.na(y))
@@ -98,7 +98,7 @@ AdjustedRand <- function(x, y, na.rm = FALSE) {
 
 #' @name Cohen's kappa
 #'
-#' @description Cohen's kappa, \code{CohenKappa},
+#' @description Cohen's kappa, \code{cohen_kappa},
 #' is an inter-rater agreement metric for two raters which
 #' corrects for the probability of chance agreement. Note
 #' there is a difference here
@@ -108,7 +108,7 @@ AdjustedRand <- function(x, y, na.rm = FALSE) {
 #' raters agreed on individual points.
 #' @rdname rand
 #' @export
-CohenKappa <- function(x, y, na.rm = FALSE) {
+cohen_kappa <- function(x, y, na.rm = FALSE) {
   if (length(x) != length(y)) stop("x and y have differing lengths.")
   if (na.rm) {
     naxy <- (!is.na(x) & !is.na(y))
@@ -136,7 +136,7 @@ CohenKappa <- function(x, y, na.rm = FALSE) {
 #' \eqn{2I(X;Y)/(H(X)+H(Y)),} but is set to be 0 if both H(X) and H(Y) are 0.
 #' @rdname rand
 #' @export
-normalizedMI <- function(x, y, na.rm = FALSE) {
+normalized_mi <- function(x, y, na.rm = FALSE) {
   if (length(x) != length(y)) stop("x and y have differing lengths.")
   if (na.rm) {
     naxy <- (!is.na(x) & !is.na(y))
@@ -154,14 +154,14 @@ normalizedMI <- function(x, y, na.rm = FALSE) {
 
 #' @name Adjusted Mutual Information
 #'
-#' @description The adjusted mutual information, \code{adjustedMI},
+#' @description The adjusted mutual information, \code{adjusted_mi},
 #' is a correction of the mutual information to account
 #' for the probability of chance agreement in a manner similar to the
 #' adjusted Rand index
 #' or Cohen's kappa.
 #' @rdname rand
 #' @export
-adjustedMI <- function(x, y, na.rm = FALSE) {
+adjusted_mi <- function(x, y, na.rm = FALSE) {
   if (length(x) != length(y)) stop("x and y have differing lengths.")
   if (na.rm) {
     naxy <- (!is.na(x) & !is.na(y))

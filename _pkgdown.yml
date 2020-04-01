@@ -12,11 +12,11 @@ reference:
       desc: "Other useful functions."
       contents:
       - matches("gini")
-      - RandIndex
-      - AdjustedRand
-      - CohenKappa
-      - normalizedMI
-      - adjustedMI
+      - rand_index
+      - adj_rand
+      - cohen_kappa
+      - normalized_mi
+      - adjusted_mi
       - AdjRandIndex
     - title: "Data"
       desc: "Data sets"

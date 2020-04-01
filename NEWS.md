@@ -1,6 +1,7 @@
 # catsim 0.1.0.9040
 
 * Add `besag` image as a data example.
+* Changed names of similarity functions to use "_" instead of "camel case".
 * Features still being added.
 
 # catsim 0.1.0.9039

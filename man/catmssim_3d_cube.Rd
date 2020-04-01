@@ -48,8 +48,9 @@ binary data.}
 a value less than 1 indicating the similarity between the images.
 }
 \description{
-The categorical structural similary index measure for 3D categorical or binary
-images for multiple scales. The default is to compute over 5 scales.
+The categorical structural similary index measure for 3D
+categorical or binary images for multiple scales.
+The default is to compute over 5 scales.
 This computes a 3D measure based on \eqn{5 \times 5 \times 5}{5x5x5}
 windows by default with 5 levels of downsampling.
 }

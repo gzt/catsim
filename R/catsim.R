@@ -46,8 +46,9 @@ gini <- function(x) {
 #'
 #' @description The corrected Gini-Simpson index, \code{ginicorr} takes the
 #' index and  corrects it so that the maximum possible is 1. If there are
-#' \code{k} categories, the maximum possible of the uncorrected index is \eqn{1-1/k}.
-#' It corrects the index by dividing by the maximum. \code{k} must be specified.
+#' \code{k} categories, the maximum possible of the uncorrected index is
+#' \eqn{1-1/k}. It corrects the index by dividing by the maximum.
+#' \code{k} must be specified.
 #'
 #' @param k number of categories
 #' @export
@@ -126,44 +127,46 @@ cfunc <- function(x, y, c2 = 0.01, k, sqrtgini = TRUE) {
 ##'    Certain abbreviations work.
 ##'    \code{Cohen}, \code{cohen}, \code{C}, \code{c}, \code{Kappa} and
 ##'    \code{kappa} yield Cohen's kappa.
-##'    \code{AdjRand}, \code{adjrand}, \code{Adj}, \code{adj}, \code{a}, \code{A},
-##'    \code{ARI}, and \code{ari} yield the adjusted Rand index.
+##'    \code{AdjRand}, \code{adjrand}, \code{Adj}, \code{adj}, \code{a},
+##'    \code{A}, \code{ARI}, and \code{ari} yield the adjusted Rand index.
 ##'    \code{Rand}, \code{rand}, \code{r}, and \code{R} yield the Rand index.
-##'    \code{Jaccard}, \code{jaccard}, \code{j}, and \code{J} yield the Jaccard index.
+##'    \code{Jaccard}, \code{jaccard}, \code{j}, and \code{J} yield the
+##'    Jaccard index.
 ##'    \code{Dice}, \code{dice}, \code{D}, and \code{d} yield the Dice index.
-##'    \code{Accuracy}, \code{accuracy}, \code{Hamming}, \code{hamming}, \code{H},
-##'    and \code{h} yield the accuracy.
+##'    \code{Accuracy}, \code{accuracy}, \code{Hamming}, \code{hamming},
+##'    \code{H}, and \code{h} yield the accuracy.
 ##' @return the name of the similarity metric.
 ##' @keywords internal
 ##' @noRd
 methodparser <- function(method) {
-  methodflag <- NULL
-  if (method %in% c("Cohen", "cohen", "C", "c", "kappa", "Kappa")) {
-    methodflag <- C_Cohen
-  } # "Cohen"
-  if (method %in% c("AdjRand", "adjrand", "Adj", "adj", "a", "A", "ARI", "ari")) {
-    methodflag <- C_AdjRand
-  } # "AdjRand"
-  if (method %in% c("Rand", "rand", "r", "R")) {
-    methodflag <- C_Rand
-  } # "Rand"
-  if (method %in% c("Jaccard", "jaccard", "j", "J")) {
-    methodflag <- jaccard
-  } # "Jaccard"
-  if (method %in% c("Dice", "dice", "D", "d")) {
-    methodflag <- dice
-  } # "Dice"
-  if (method %in% c("Accuracy", "accuracy", "Hamming", "hamming", "H", "h")) {
-    methodflag <- hamming
-  } # "hamming"
-  if (method %in% c("NMI", "MI", "mutual", "information", "nmi", "mi")) {
-    methodflag <- C_NMI
-  } # normalized mutual information
-  if (method %in% c("AMI", "ami")) {
-    methodflag <- C_AMI
-  } # normalized mutual information
-  if (is.null(methodflag)) stop("Error: invalid method")
-  methodflag
+    methodflag <- NULL
+    if (method %in% c("Cohen", "cohen", "C", "c", "kappa", "Kappa")) {
+        methodflag <- C_Cohen
+    } # "Cohen"
+    if (method %in% c("AdjRand", "adjrand", "Adj", "adj",
+                      "a", "A", "ARI", "ari")) {
+        methodflag <- C_AdjRand
+    } # "AdjRand"
+    if (method %in% c("Rand", "rand", "r", "R")) {
+        methodflag <- C_Rand
+    } # "Rand"
+    if (method %in% c("Jaccard", "jaccard", "j", "J")) {
+        methodflag <- jaccard
+    } # "Jaccard"
+    if (method %in% c("Dice", "dice", "D", "d")) {
+        methodflag <- dice
+    } # "Dice"
+    if (method %in% c("Accuracy", "accuracy", "Hamming", "hamming", "H", "h")) {
+        methodflag <- hamming
+    } # "hamming"
+    if (method %in% c("NMI", "MI", "mutual", "information", "nmi", "mi")) {
+        methodflag <- C_NMI
+    } # normalized mutual information
+    if (method %in% c("AMI", "ami")) {
+        methodflag <- C_AMI
+    } # normalized mutual information
+    if (is.null(methodflag)) stop("Error: invalid method")
+    methodflag
 }
 
 ##' Level Parser
@@ -210,8 +213,8 @@ jaccard <- function(x, y) {
     return(NA)
   }
 
-  Jaccard <- sum(x & y, na.rm = TRUE) / sumxy
-  Jaccard
+  jaccard <- sum(x & y, na.rm = TRUE) / sumxy
+  jaccard
 }
 
 #' Dice Index
@@ -570,7 +573,7 @@ catmssim_2d <- function(x, y, levels = NULL, weights = NULL, window = 11,
     return(binssim(x = x, y = y, method = method, ...))
   }
 
-  if (mindim < (2^(levels - 1)) * minwindow) {
+  if (mindim < (2 ^ (levels - 1)) * minwindow) {
     levels <- min(c(floor(log2(dim(x) / window[1:2]) + 1), levels))
     warning("Truncating levels because of minimum dimension.")
   }
@@ -593,7 +596,7 @@ catmssim_2d <- function(x, y, levels = NULL, weights = NULL, window = 11,
   }
   results[is.na(results)] <- 1 # fix Jaccard NA results
   # use "luminosity" only from top level, use C and S from all levels
-  csresults <- prod(results[, 2:3]^(weights))
+  csresults <- prod(results[, 2:3] ^ (weights))
 
   (results[levels, 1]^weights[levels]) * csresults
 }
@@ -712,7 +715,7 @@ catmssim_3d_slice <- function(x, y, levels = NULL, weights = NULL,
   if (any(dims[1:2] < window[1:2])) {
     stop("Minimum dimension must be greater than window size.")
   }
-  if (mindim < (2^(levels - 1)) * minwindow) {
+  if (mindim < (2 ^ (levels - 1)) * minwindow) {
     levels <- min(c(floor(log2(dims[1:2] / window[1:2]) + 1), levels))
     warning("Truncating levels because of minimum dimension.")
   }
@@ -737,15 +740,16 @@ catmssim_3d_slice <- function(x, y, levels = NULL, weights = NULL,
   }
   results[is.na(results)] <- 1 # fixing Jaccard NAs
   # use "luminosity" only from top level, use C and S from all levels
-  csresults <- prod(results[, 2:3]^(weights))
+  csresults <- prod(results[, 2:3] ^ (weights))
 
   (results[levels, 1]^weights[levels]) * csresults
 }
 
 #' Multiscale Categorical Structural Similarity Index Measure for a Cube (3D)
 #'
-#' The categorical structural similary index measure for 3D categorical or binary
-#' images for multiple scales. The default is to compute over 5 scales.
+#' The categorical structural similary index measure for 3D
+#' categorical or binary images for multiple scales.
+#' The default is to compute over 5 scales.
 #' This computes a 3D measure based on \eqn{5 \times 5 \times 5}{5x5x5}
 #' windows by default with 5 levels of downsampling.
 #'
@@ -796,7 +800,7 @@ catmssim_3d_cube <- function(x, y, levels = NULL, weights = NULL, window = 5,
     if (min(window) > mindim) window <- rep(mindim, 3)
     return(catssim_3d_cube(x = x, y = y, window = window, method = method, ...))
   }
-  if (mindim < (2^(levels - 1)) * min(window)) {
+  if (mindim < (2 ^ (levels - 1)) * min(window)) {
     levels <- min(c(floor(log2(dims / window[1:3]) + 1), levels))
     warning("Truncating levels because of minimum dimension.")
   }
@@ -821,7 +825,7 @@ catmssim_3d_cube <- function(x, y, levels = NULL, weights = NULL, window = 5,
   }
   results[is.na(results)] <- 1 # fixing Jaccard NAs
   # use "luminosity" only from top level, use C and S from all levels
-  csresults <- prod(results[, 2:3]^(weights))
+  csresults <- prod(results[, 2:3] ^ (weights))
 
   (results[levels, 1]^weights[levels]) * csresults
 }
@@ -881,7 +885,7 @@ catmssim_3d_cube <- function(x, y, levels = NULL, weights = NULL, window = 5,
 #'
 #' @export
 AdjRandIndex <- function(x, y) {
-  .Deprecated("AdjustedRand")
+  .Deprecated("adj_rand")
   if (length(x) != length(y)) {
     stop("x and y have differing lengths.")
   }
@@ -895,25 +899,25 @@ AdjRandIndex <- function(x, y) {
   }
   n <- sum(!is.na(x) | !is.na(y))
   a <- sum(x == y, na.rm = TRUE)
-  Accuracy <- a / n
-  BinJaccard <- jaccard(x, y)
-  Cohen <- C_Cohen(x, y)
+  accuracy <- a / n
+  jaccard <- jaccard(x, y)
+  cohen <- C_Cohen(x, y)
   x <- as.numeric(x)
   y <- as.numeric(y)
-  AdjRand <- C_AdjRand(x, y)
-  Rand <- C_Rand(x, y)
-  NMI <- C_NMI(x, y)
-  AMI <- C_AMI(x, y)
+  adjrand <- C_AdjRand(x, y)
+  rand <- C_Rand(x, y)
+  nmi <- C_NMI(x, y)
+  ami <- C_AMI(x, y)
 
   list(
-    Accuracy = Accuracy,
-    Jaccard = BinJaccard,
-    AdjRand = AdjRand,
-    Rand = Rand,
-    PSNR = -10 * log10(1 - Accuracy),
-    Cohen = Cohen,
-    NMI = NMI,
-    AMI = AMI
+    Accuracy = accuracy,
+    Jaccard = jaccard,
+    AdjRand = adjrand,
+    Rand = rand,
+    PSNR = -10 * log10(1 - accuracy),
+    Cohen = cohen,
+    NMI = nmi,
+    AMI = ami
   )
 }
 

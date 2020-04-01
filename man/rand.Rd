@@ -2,26 +2,26 @@
 % Please edit documentation in R/similarity.R
 \name{rand}
 \alias{rand}
-\alias{RandIndex}
+\alias{rand_index}
 \alias{Adjusted Rand Index}
-\alias{AdjustedRand}
+\alias{adj_rand}
 \alias{Cohen's kappa}
-\alias{CohenKappa}
+\alias{cohen_kappa}
 \alias{Normalized Mutual Information}
-\alias{normalizedMI}
+\alias{normalized_mi}
 \alias{Adjusted Mutual Information}
-\alias{adjustedMI}
+\alias{adjusted_mi}
 \title{Similarity Indexes}
 \usage{
-RandIndex(x, y, na.rm = FALSE)
+rand_index(x, y, na.rm = FALSE)
 
-AdjustedRand(x, y, na.rm = FALSE)
+adj_rand(x, y, na.rm = FALSE)
 
-CohenKappa(x, y, na.rm = FALSE)
+cohen_kappa(x, y, na.rm = FALSE)
 
-normalizedMI(x, y, na.rm = FALSE)
+normalized_mi(x, y, na.rm = FALSE)
 
-adjustedMI(x, y, na.rm = FALSE)
+adjusted_mi(x, y, na.rm = FALSE)
 }
 \arguments{
 \item{x, y}{a numeric or factor vector or array}
@@ -35,12 +35,12 @@ options. The adjusted Rand and Cohen's kappa can be negative, but are
 bounded above by 1.
 }
 \description{
-The Rand index, \code{RandIndex}, computes the agreement between
+The Rand index, \code{rand_index}, computes the agreement between
 two different clusterings or partitions of the same  set of objects.
 The inputs to the function should be binary or categorical and of the same
 length.
 
-The adjusted Rand index,  \code{AdjustedRand},
+The adjusted Rand index,  \code{adj_rand},
 computes a corrected version
 of the Rand index, adjusting for the probability
 of chance agreement of clusterings. A small constant is added to the
@@ -48,7 +48,7 @@ numerator and denominator of the adjusted Rand index to ensure stability
 when there is a small or 0 denominator, as it is possible to have a zero
 denominator.
 
-Cohen's kappa, \code{CohenKappa},
+Cohen's kappa, \code{cohen_kappa},
 is an inter-rater agreement metric for two raters which
 corrects for the probability of chance agreement. Note
 there is a difference here
@@ -66,7 +66,7 @@ the mutual information of two distributions is
 The normalized mutual information, \code{normalizeMI}, is defined here as:
 \eqn{2I(X;Y)/(H(X)+H(Y)),} but is set to be 0 if both H(X) and H(Y) are 0.
 
-The adjusted mutual information, \code{adjustedMI},
+The adjusted mutual information, \code{adjusted_mi},
 is a correction of the mutual information to account
 for the probability of chance agreement in a manner similar to the
 adjusted Rand index
@@ -79,11 +79,11 @@ y <- c(rep(0:5, 4), rep(0, 6))
 mean(x == y)
 # Hamming distance
 sum(x != y)
-RandIndex(x, y)
-AdjustedRand(x, y)
-CohenKappa(x, y)
-normalizedMI(x, y)
-adjustedMI(x, y)
+rand_index(x, y)
+adj_rand(x, y)
+cohen_kappa(x, y)
+normalized_mi(x, y)
+adjusted_mi(x, y)
 }
 \references{
 W. M. Rand (1971). "Objective criteria for the evaluation of clustering
