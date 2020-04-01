@@ -463,9 +463,13 @@ catssim_2d <- function(x, y, window = 11, method = "Cohen", ...) {
 #' @param x,y a binary or categorical image
 #' @param weights a vector of weights for the different scales. By default,
 #'     five different scales are used.
-#' @param window  by default 11 for 2D and 5 for 3D images, but can be specified as a
-#'     vector if the window sizes differ by dimension. The vector must have the same number of
-#'      of dimensions as the inputted \code{x} and \code{y}.
+#' @param levels how many levels of downsampling to use. By default, 5. If
+#'        \code{weights} is specified and this is left blank, the argument
+#'        will be inferred from the number of weights specified.
+#' @param weights a vector of weights for the different scales. By default,
+#'        equal to \code{rep(1,levels)/levels}. If specified, there must
+#'        at least as many  weights as there are levels and the first \code{levels}
+#'        weights will be used.
 #' @param method whether to use Cohen's kappa (\code{Cohen}), Jaccard Index (\code{Jaccard}),
 #'     Dice index (\code{Dice}),  accuracy (\code{accuracy}),  Rand index (\code{Rand}),
 #'     Adjusted Rand Index (\code{AdjRand} or \code{ARI}), or normalized mutual
@@ -485,7 +489,7 @@ catssim_2d <- function(x, y, window = 11, method = "Cohen", ...) {
 #' catmssim_2d(x, y, method = "Cohen") # the default
 #' # now using a different similarity score (Jaccard Index)
 #' catmssim_2d(x, y, method = "Jaccard")
-catmssim_2d <- function(x, y, weights = rep(.2, 5), window = 11,
+catmssim_2d <- function(x, y, levels = NULL, weights = NULL, window = 11,
                         method = "Cohen", ...) {
   # the weights are from the original MS-SSIM program
   ## c(0.0448, 0.2856, 0.3001, 0.2363, 0.1333)
@@ -494,6 +498,16 @@ catmssim_2d <- function(x, y, weights = rep(.2, 5), window = 11,
   if (length(dim(x)) != length(dim(y))) stop("x and y have nonconformable dimensions.")
   if (any(dim(x) != dim(y))) stop("x and y have nonconformable dimensions.")
   if (length(window) == 1) window <- c(window, window)
+  if (!is.null(weights) && !is.null(levels)) {
+    if (levels > length(weights)) stop("Inconsistent weight and levels specified.")
+    weights <- weights[1:levels]
+  }
+  if (is.null(weights) && is.null(levels)) {
+    levels <- 5
+  }
+  if (is.null(weights)) {
+    weights <- rep(1, levels) / levels
+  }
   levels <- length(weights)
   mindim <- min(dim(x))
   minwindow <- min(window[1:2])
@@ -599,7 +613,7 @@ catssim_3d_cube <- function(x, y, window = c(5, 5, 5), method = "Cohen", ...) {
 #' catmssim_3d_slice(x, y, weights = c(.75, .25)) # by default method = "Cohen"
 #' # Now using a different similarity score
 #' catmssim_3d_slice(x, y, weights = c(.75, .25), method = "accuracy")
-catmssim_3d_slice <- function(x, y, weights = rep(.2, 5),
+catmssim_3d_slice <- function(x, y, levels = NULL, weights = NULL,
                               window = 11, method = "Cohen", ...) {
   # the weights are from the original MS-SSIM program
   ## c(0.0448, 0.2856, 0.3001, 0.2363, 0.1333)
@@ -607,6 +621,16 @@ catmssim_3d_slice <- function(x, y, weights = rep(.2, 5),
   if (is.null(dim(y))) stop("y is 1-dimensional")
   if (length(dim(x)) != length(dim(y))) stop("x and y have nonconformable dimensions.")
   if (any(dim(x) != dim(y))) stop("x and y have nonconformable dimensions.")
+  if (!is.null(weights) && !is.null(levels)) {
+    if (levels > length(weights)) stop("Inconsistent weight and levels specified.")
+    weights <- weights[1:levels]
+  }
+  if (is.null(weights) && is.null(levels)) {
+    levels <- 5
+  }
+  if (is.null(weights)) {
+    weights <- rep(1, levels) / levels
+  }
   # method=methodparser(method)
   levels <- length(weights)
   dims <- dim(x)
@@ -663,7 +687,7 @@ catmssim_3d_slice <- function(x, y, weights = rep(.2, 5),
 #' catmssim_3d_cube(x, y, weights = c(.75, .25))
 #' # Now using a different similarity score
 #' catmssim_3d_cube(x, y, weights = c(.75, .25), method = "Accuracy")
-catmssim_3d_cube <- function(x, y, weights = rep(.2, 5), window = 5,
+catmssim_3d_cube <- function(x, y, levels = NULL, weights = NULL, window = 5,
                              method = "Cohen", ...) {
   ## the weights are from the original MS-SSIM program
   ##  c(0.0448, 0.2856, 0.3001, 0.2363, 0.1333)
@@ -671,6 +695,16 @@ catmssim_3d_cube <- function(x, y, weights = rep(.2, 5), window = 5,
   if (is.null(dim(y))) stop("y is 1-dimensional")
   if (length(dim(x)) != length(dim(y))) stop("x and y have nonconformable dimensions.")
   if (any(dim(x) != dim(y))) stop("x and y have nonconformable dimensions.")
+  if (!is.null(weights) && !is.null(levels)) {
+    if (levels > length(weights)) stop("Inconsistent weight and levels specified.")
+    weights <- weights[1:levels]
+  }
+  if (is.null(weights) && is.null(levels)) {
+    levels <- 5
+  }
+  if (is.null(weights)) {
+    weights <- rep(1, levels) / levels
+  }
   levels <- length(weights)
   if (length(window) == 1) window <- rep(window, 3)
   if (length(window) != 3) stop("Window not of length 1 or 3")
@@ -801,8 +835,7 @@ AdjRandIndex <- function(x, y) {
 #' @param weights a vector of weights for the different scales. By default,
 #'        equal to \code{rep(1,levels)/levels}. If specified, there must
 #'        at least as many  weights as there are levels and the first \code{levels}
-#'        weights will be used.
-#' @param method whether to use Cohen's kappa (\code{Cohen}), Jaccard Index (\code{Jaccard}),
+#'        weights will be used.#' @param method whether to use Cohen's kappa (\code{Cohen}), Jaccard Index (\code{Jaccard}),
 #'     Dice index (\code{Dice}),  accuracy (\code{accuracy}),  Rand index (\code{Rand}),
 #'     Adjusted Rand Index (\code{AdjRand} or \code{ARI}), normalized mutual
 #'   information (\code{NMI} or \code{MI}), or adjusted mutual information (\code{AMI}) as
@@ -827,7 +860,7 @@ AdjRandIndex <- function(x, y) {
 #' catsim(x, y, levels = 2, method = "accuracy")
 #' # with the slice method:
 #' catsim(x, y, weights = c(.75, .25), cube = FALSE, window = 8)
-catsim <- function(x, y, ..., cube = TRUE,  levels=NULL, weights = NULL, method = "Cohen", window = NULL) {
+catsim <- function(x, y, ..., cube = TRUE, levels = NULL, weights = NULL, method = "Cohen", window = NULL) {
   ##  old weights: c(0.0448, 0.2856, 0.3001, 0.2363, 0.1333)
   if (is.null(dim(x))) stop("x is 1-dimensional")
   if (is.null(dim(y))) stop("y is 1-dimensional")
@@ -841,16 +874,16 @@ catsim <- function(x, y, ..., cube = TRUE,  levels=NULL, weights = NULL, method 
       window <- 11
     }
   }
-    if (!is.null(weights) && !is.null(levels)) {
-        if (levels > length(weights)) stop("Inconsistent weight and levels specified.")
-        weights = weights[1:levels]
-    }
-    if (is.null(weights) && is.null(levels)){
-        levels = 5
-    }
-    if (is.null(weights)) {
-        weights = rep(1,levels)/levels
-    }
+  if (!is.null(weights) && !is.null(levels)) {
+    if (levels > length(weights)) stop("Inconsistent weight and levels specified.")
+    weights <- weights[1:levels]
+  }
+  if (is.null(weights) && is.null(levels)) {
+    levels <- 5
+  }
+  if (is.null(weights)) {
+    weights <- rep(1, levels) / levels
+  }
   if (length(dims) == 2) {
     catmssim_2d(x, y, weights = weights, method = method, window = window, ...)
   } else if (cube) {

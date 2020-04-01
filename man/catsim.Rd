@@ -33,9 +33,7 @@ will be inferred from the number of weights specified.}
 \item{weights}{a vector of weights for the different scales. By default,
 equal to \code{rep(1,levels)/levels}. If specified, there must
 at least as many  weights as there are levels and the first \code{levels}
-weights will be used.}
-
-\item{method}{whether to use Cohen's kappa (\code{Cohen}), Jaccard Index (\code{Jaccard}),
+weights will be used.#' @param method whether to use Cohen's kappa (\code{Cohen}), Jaccard Index (\code{Jaccard}),
 Dice index (\code{Dice}),  accuracy (\code{accuracy}),  Rand index (\code{Rand}),
 Adjusted Rand Index (\code{AdjRand} or \code{ARI}), normalized mutual
 information (\code{NMI} or \code{MI}), or adjusted mutual information (\code{AMI}) as

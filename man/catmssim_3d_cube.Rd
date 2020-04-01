@@ -7,7 +7,8 @@
 catmssim_3d_cube(
   x,
   y,
-  weights = rep(0.2, 5),
+  levels = NULL,
+  weights = NULL,
   window = 5,
   method = "Cohen",
   ...
@@ -18,12 +19,14 @@ catmssim_3d_cube(
 
 \item{y}{a binary or categorical image}
 
-\item{weights}{a vector of weights for the different scales. By default,
-five different scales are used.}
+\item{levels}{how many levels of downsampling to use. By default, 5. If
+\code{weights} is specified and this is left blank, the argument
+will be inferred from the number of weights specified.}
 
-\item{window}{by default 11 for 2D and 5 for 3D images, but can be specified as a
-vector if the window sizes differ by dimension. The vector must have the same number of
-of dimensions as the inputted \code{x} and \code{y}.}
+\item{weights}{a vector of weights for the different scales. By default,
+equal to \code{rep(1,levels)/levels}. If specified, there must
+at least as many  weights as there are levels and the first \code{levels}
+weights will be used.}
 
 \item{method}{whether to use Cohen's kappa (\code{Cohen}), Jaccard Index (\code{Jaccard}),
 Dice index (\code{Dice}),  accuracy (\code{accuracy}),  Rand index (\code{Rand}),
