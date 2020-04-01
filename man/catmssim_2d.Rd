@@ -35,8 +35,9 @@ dimensions as the inputted \code{x} and \code{y}.}
 \item{method}{whether to use Cohen's kappa (\code{Cohen}),
 Jaccard Index (\code{Jaccard}), Dice index (\code{Dice}),
 accuracy (\code{accuracy}),  Rand index (\code{Rand}),
-Adjusted Rand Index (\code{AdjRand} or \code{ARI}), or normalized mutual
-information (\code{NMI} or \code{MI}) as
+Adjusted Rand Index (\code{AdjRand} or \code{ARI}), normalized mutual
+information (\code{NMI} or \code{MI}) or the adjusted mutual
+information, \code{AMI} and \code{ami}, as
 the similarity index. Note Jaccard and Dice should only be used on
 binary data.}
 
@@ -55,7 +56,7 @@ x <- matrix(sample(0:3, 128^2, replace = TRUE), nrow = 128)
 y <- x
 for (i in 1:128) y[i, i] <- 0
 for (i in 1:127) y[i, i + 1] <- 0
-catmssim_2d(x, y, method = "Cohen") # the default
+catmssim_2d(x, y, method = "Cohen", levels = 2) # the default
 # now using a different similarity score (Jaccard Index)
-catmssim_2d(x, y, method = "Jaccard")
+catmssim_2d(x, y, method = "NMI")
 }

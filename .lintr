@@ -1,0 +1,22 @@
+linters: with_defaults(
+    object_name_linter = NULL, # 6
+    spaces_left_parentheses_linter = NULL, # 6
+    dummy_linter = NULL
+  )
+exclusions: list(
+    "data/besag.rda",
+    "man/AdjRandIndex.Rd",
+    "man/besag.Rd",
+    "man/binssim.Rd",
+    "man/catmssim_2d.Rd",
+    "man/catmssim_3d_cube.Rd",
+    "man/catmssim_3d_slice.Rd",
+    "man/catsim.Rd",
+    "man/figures/README-pressure-1.png",
+    "man/gini.Rd",
+    "man/rand.Rd",
+    "vignettes/how-catsim-works.Rmd",
+    "vignettes/how-catsim-works.Rmd~",
+    "vignettes/two-dimensional-example.Rmd",
+    "vignettes/two-dimensional-example.Rmd~"
+  )

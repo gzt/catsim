@@ -135,6 +135,9 @@ cfunc <- function(x, y, c2 = 0.01, k, sqrtgini = TRUE) {
 ##'    \code{Dice}, \code{dice}, \code{D}, and \code{d} yield the Dice index.
 ##'    \code{Accuracy}, \code{accuracy}, \code{Hamming}, \code{hamming},
 ##'    \code{H}, and \code{h} yield the accuracy.
+##'    \code{NMI}, \code{MI}, \code{mutual}, \code{information}, \code{nmi},
+##'    \code{mi} yield the normalized mutual information.
+##'    \code{AMI} and \code{ami} yield the adjusted mutual information.
 ##' @return the name of the similarity metric.
 ##' @keywords internal
 ##' @noRd
@@ -166,7 +169,7 @@ methodparser <- function(method) {
   } # normalized mutual information
   if (method %in% c("AMI", "ami")) {
     methodflag <- C_AMI
-  } # normalized mutual information
+  } # adjusted mutual information
   if (is.null(methodflag)) stop("Error: invalid method")
   methodflag
 }
@@ -539,8 +542,9 @@ catssim_2d <- function(x, y, window = 11, method = "Cohen", ...) {
 #' @param method whether to use Cohen's kappa (\code{Cohen}),
 #'     Jaccard Index (\code{Jaccard}), Dice index (\code{Dice}),
 #'     accuracy (\code{accuracy}),  Rand index (\code{Rand}),
-#'     Adjusted Rand Index (\code{AdjRand} or \code{ARI}), or normalized mutual
-#'     information (\code{NMI} or \code{MI}) as
+#'     Adjusted Rand Index (\code{AdjRand} or \code{ARI}), normalized mutual
+#'     information (\code{NMI} or \code{MI}) or the adjusted mutual
+#'     information, \code{AMI} and \code{ami}, as
 #'     the similarity index. Note Jaccard and Dice should only be used on
 #'     binary data.
 #'
@@ -555,9 +559,9 @@ catssim_2d <- function(x, y, window = 11, method = "Cohen", ...) {
 #' y <- x
 #' for (i in 1:128) y[i, i] <- 0
 #' for (i in 1:127) y[i, i + 1] <- 0
-#' catmssim_2d(x, y, method = "Cohen") # the default
+#' catmssim_2d(x, y, method = "Cohen", levels = 2) # the default
 #' # now using a different similarity score (Jaccard Index)
-#' catmssim_2d(x, y, method = "Jaccard")
+#' catmssim_2d(x, y, method = "NMI")
 catmssim_2d <- function(x, y, levels = NULL, weights = NULL, window = 11,
                         method = "Cohen", ...) {
   if (is.null(dim(x))) stop("x is 1-dimensional")

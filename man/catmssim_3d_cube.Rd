@@ -37,8 +37,9 @@ dimensions as the inputted \code{x} and \code{y}.}
 \item{method}{whether to use Cohen's kappa (\code{Cohen}),
 Jaccard Index (\code{Jaccard}), Dice index (\code{Dice}),
 accuracy (\code{accuracy}),  Rand index (\code{Rand}),
-Adjusted Rand Index (\code{AdjRand} or \code{ARI}), or normalized mutual
-information (\code{NMI} or \code{MI}) as
+Adjusted Rand Index (\code{AdjRand} or \code{ARI}), normalized mutual
+information (\code{NMI} or \code{MI}) or the adjusted mutual
+information, \code{AMI} and \code{ami}, as
 the similarity index. Note Jaccard and Dice should only be used on
 binary data.}
 
