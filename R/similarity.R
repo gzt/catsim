@@ -1,8 +1,8 @@
 #' @title Similarity Indexes
 #' @name rand
 #'
-#' @description The Rand index, \code{rand_index}, computes the agreement between
-#' two different clusterings or partitions of the same  set of objects.
+#' @description The Rand index, \code{rand_index}, computes the agreement
+#' between two different clusterings or partitions of the same  set of objects.
 #' The inputs to the function should be binary or categorical and of the same
 #' length.
 #'

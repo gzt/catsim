@@ -139,34 +139,36 @@ cfunc <- function(x, y, c2 = 0.01, k, sqrtgini = TRUE) {
 ##' @keywords internal
 ##' @noRd
 methodparser <- function(method) {
-    methodflag <- NULL
-    if (method %in% c("Cohen", "cohen", "C", "c", "kappa", "Kappa")) {
-        methodflag <- C_Cohen
-    } # "Cohen"
-    if (method %in% c("AdjRand", "adjrand", "Adj", "adj",
-                      "a", "A", "ARI", "ari")) {
-        methodflag <- C_AdjRand
-    } # "AdjRand"
-    if (method %in% c("Rand", "rand", "r", "R")) {
-        methodflag <- C_Rand
-    } # "Rand"
-    if (method %in% c("Jaccard", "jaccard", "j", "J")) {
-        methodflag <- jaccard
-    } # "Jaccard"
-    if (method %in% c("Dice", "dice", "D", "d")) {
-        methodflag <- dice
-    } # "Dice"
-    if (method %in% c("Accuracy", "accuracy", "Hamming", "hamming", "H", "h")) {
-        methodflag <- hamming
-    } # "hamming"
-    if (method %in% c("NMI", "MI", "mutual", "information", "nmi", "mi")) {
-        methodflag <- C_NMI
-    } # normalized mutual information
-    if (method %in% c("AMI", "ami")) {
-        methodflag <- C_AMI
-    } # normalized mutual information
-    if (is.null(methodflag)) stop("Error: invalid method")
-    methodflag
+  methodflag <- NULL
+  if (method %in% c("Cohen", "cohen", "C", "c", "kappa", "Kappa")) {
+    methodflag <- C_Cohen
+  } # "Cohen"
+  if (method %in% c(
+    "AdjRand", "adjrand", "Adj", "adj",
+    "a", "A", "ARI", "ari"
+  )) {
+    methodflag <- C_AdjRand
+  } # "AdjRand"
+  if (method %in% c("Rand", "rand", "r", "R")) {
+    methodflag <- C_Rand
+  } # "Rand"
+  if (method %in% c("Jaccard", "jaccard", "j", "J")) {
+    methodflag <- jaccard
+  } # "Jaccard"
+  if (method %in% c("Dice", "dice", "D", "d")) {
+    methodflag <- dice
+  } # "Dice"
+  if (method %in% c("Accuracy", "accuracy", "Hamming", "hamming", "H", "h")) {
+    methodflag <- hamming
+  } # "hamming"
+  if (method %in% c("NMI", "MI", "mutual", "information", "nmi", "mi")) {
+    methodflag <- C_NMI
+  } # normalized mutual information
+  if (method %in% c("AMI", "ami")) {
+    methodflag <- C_AMI
+  } # normalized mutual information
+  if (is.null(methodflag)) stop("Error: invalid method")
+  methodflag
 }
 
 ##' Level Parser
@@ -454,9 +456,11 @@ downsample_3d_cube <- function(x) {
         xstart <- 2 * i - 1
         ystart <- 2 * j - 1
         zstart <- 2 * k - 1
-        newx[i, j, k] <- pickmode(c(x[xstart:(xstart + 1),
-                                      ystart:(ystart + 1),
-                                      zstart:(zstart + 1)]))
+        newx[i, j, k] <- pickmode(c(x[
+          xstart:(xstart + 1),
+          ystart:(ystart + 1),
+          zstart:(zstart + 1)
+        ]))
       }
     }
   }
@@ -573,7 +577,7 @@ catmssim_2d <- function(x, y, levels = NULL, weights = NULL, window = 11,
     return(binssim(x = x, y = y, method = method, ...))
   }
 
-  if (mindim < (2 ^ (levels - 1)) * minwindow) {
+  if (mindim < (2^(levels - 1)) * minwindow) {
     levels <- min(c(floor(log2(dim(x) / window[1:2]) + 1), levels))
     warning("Truncating levels because of minimum dimension.")
   }
@@ -596,7 +600,7 @@ catmssim_2d <- function(x, y, levels = NULL, weights = NULL, window = 11,
   }
   results[is.na(results)] <- 1 # fix Jaccard NA results
   # use "luminosity" only from top level, use C and S from all levels
-  csresults <- prod(results[, 2:3] ^ (weights))
+  csresults <- prod(results[, 2:3]^(weights))
 
   (results[levels, 1]^weights[levels]) * csresults
 }
@@ -715,7 +719,7 @@ catmssim_3d_slice <- function(x, y, levels = NULL, weights = NULL,
   if (any(dims[1:2] < window[1:2])) {
     stop("Minimum dimension must be greater than window size.")
   }
-  if (mindim < (2 ^ (levels - 1)) * minwindow) {
+  if (mindim < (2^(levels - 1)) * minwindow) {
     levels <- min(c(floor(log2(dims[1:2] / window[1:2]) + 1), levels))
     warning("Truncating levels because of minimum dimension.")
   }
@@ -740,7 +744,7 @@ catmssim_3d_slice <- function(x, y, levels = NULL, weights = NULL,
   }
   results[is.na(results)] <- 1 # fixing Jaccard NAs
   # use "luminosity" only from top level, use C and S from all levels
-  csresults <- prod(results[, 2:3] ^ (weights))
+  csresults <- prod(results[, 2:3]^(weights))
 
   (results[levels, 1]^weights[levels]) * csresults
 }
@@ -800,7 +804,7 @@ catmssim_3d_cube <- function(x, y, levels = NULL, weights = NULL, window = 5,
     if (min(window) > mindim) window <- rep(mindim, 3)
     return(catssim_3d_cube(x = x, y = y, window = window, method = method, ...))
   }
-  if (mindim < (2 ^ (levels - 1)) * min(window)) {
+  if (mindim < (2^(levels - 1)) * min(window)) {
     levels <- min(c(floor(log2(dims / window[1:3]) + 1), levels))
     warning("Truncating levels because of minimum dimension.")
   }
@@ -825,7 +829,7 @@ catmssim_3d_cube <- function(x, y, levels = NULL, weights = NULL, window = 5,
   }
   results[is.na(results)] <- 1 # fixing Jaccard NAs
   # use "luminosity" only from top level, use C and S from all levels
-  csresults <- prod(results[, 2:3] ^ (weights))
+  csresults <- prod(results[, 2:3]^(weights))
 
   (results[levels, 1]^weights[levels]) * csresults
 }
