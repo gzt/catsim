@@ -141,7 +141,8 @@ and then averages over the z-axis.</p>
     <pre class="usage"><span class='fu'>catmssim_3d_slice</span>(
   <span class='no'>x</span>,
   <span class='no'>y</span>,
-  <span class='kw'>weights</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span>(<span class='fl'>0.2</span>, <span class='fl'>5</span>),
+  <span class='kw'>levels</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>weights</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>window</span> <span class='kw'>=</span> <span class='fl'>11</span>,
   <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"Cohen"</span>,
   <span class='no'>...</span>
@@ -159,15 +160,17 @@ and then averages over the z-axis.</p>
       <td><p>a binary or categorical image</p></td>
     </tr>
     <tr>
-      <th>weights</th>
-      <td><p>a vector of weights for the different scales. By default,
-five different scales are used.</p></td>
+      <th>levels</th>
+      <td><p>how many levels of downsampling to use. By default, 5. If
+<code>weights</code> is specified and this is left blank, the argument
+will be inferred from the number of weights specified.</p></td>
     </tr>
     <tr>
-      <th>window</th>
-      <td><p>by default 11 for 2D and 5 for 3D images, but can be specified as a
-vector if the window sizes differ by dimension. The vector must have the same number of
-of dimensions as the inputted <code>x</code> and <code>y</code>.</p></td>
+      <th>weights</th>
+      <td><p>a vector of weights for the different scales. By default,
+equal to <code>rep(1,levels)/levels</code>. If specified, there must
+at least as many  weights as there are levels and the first <code>levels</code>
+weights will be used.</p></td>
     </tr>
     <tr>
       <th>method</th>
