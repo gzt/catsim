@@ -28,7 +28,8 @@ equal to \code{rep(1,levels)/levels}. If specified, there must
 at least as many  weights as there are levels and the first
 \code{levels} weights will be used.}
 
-\item{window}{by default 11 for 2D and 5 for 3D images, but can be specified as a
+\item{window}{by default 11 for 2D and 5 for 3D images,
+but can be specified as a
 vector if the window sizes differ by dimension.
 The vector must have the same number of
 dimensions as the inputted \code{x} and \code{y}.}
@@ -47,8 +48,8 @@ binary data.}
 a value less than 1 indicating the similarity between the images.
 }
 \description{
-The categorical structural similary index measure for 3D categorical or binary
-images for multiple scales. The default is to compute over 5 scales.
+The categorical structural similary index measure for 3D categorical or
+binary images for multiple scales. The default is to compute over 5 scales.
 This computes a 2D measure for each x-y slice of the z-axis
 and then averages over the z-axis.
 }

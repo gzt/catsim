@@ -138,14 +138,22 @@ cfunc <- function(x, y, c2 = 0.01, k, sqrtgini = TRUE) {
 ##' @noRd
 methodparser <- function(method) {
   methodflag <- NULL
-  if (method %in% c("Cohen", "cohen", "C", "c", "kappa", "Kappa")) methodflag <- C_Cohen # "Cohen"
-  if (method %in% c("AdjRand", "adjrand", "Adj", "adj", "a", "A", "ARI", "ari")) methodflag <- C_AdjRand # "AdjRand"
-  if (method %in% c("Rand", "rand", "r", "R")) methodflag <- C_Rand # "Rand"
-  if (method %in% c("Jaccard", "jaccard", "j", "J")) methodflag <- jaccard # "Jaccard"
-  if (method %in% c("Dice", "dice", "D", "d")) methodflag <- dice # "Dice"
-  if (method %in% c("Accuracy", "accuracy", "Hamming", "hamming", "H", "h")) methodflag <- hamming # "hamming"
-  if (method %in% c("NMI", "MI", "mutual", "information", "nmi", "mi")) methodflag <- C_NMI # normalized mutual information
-  if (method %in% c("AMI", "ami")) methodflag <- C_AMI # normalized mutual information
+  if (method %in% c("Cohen", "cohen", "C", "c", "kappa", "Kappa"))
+      methodflag <- C_Cohen # "Cohen"
+  if (method %in% c("AdjRand", "adjrand", "Adj", "adj", "a", "A", "ARI", "ari"))
+      methodflag <- C_AdjRand # "AdjRand"
+  if (method %in% c("Rand", "rand", "r", "R"))
+      methodflag <- C_Rand # "Rand"
+  if (method %in% c("Jaccard", "jaccard", "j", "J"))
+      methodflag <- jaccard # "Jaccard"
+  if (method %in% c("Dice", "dice", "D", "d"))
+      methodflag <- dice # "Dice"
+  if (method %in% c("Accuracy", "accuracy", "Hamming", "hamming", "H", "h"))
+      methodflag <- hamming # "hamming"
+  if (method %in% c("NMI", "MI", "mutual", "information", "nmi", "mi"))
+      methodflag <- C_NMI # normalized mutual information
+  if (method %in% c("AMI", "ami"))
+      methodflag <- C_AMI # normalized mutual information
   if (is.null(methodflag)) stop("Error: invalid method")
   methodflag
 }
@@ -160,7 +168,8 @@ methodparser <- function(method) {
 ##' @return the parsed weights
 levelparser <- function(weights, levels) {
   if (!is.null(weights) && !is.null(levels)) {
-    if (levels > length(weights)) stop("Inconsistent weight and levels specified.")
+      if (levels > length(weights))
+          stop("Inconsistent weight and levels specified.")
     weights <- weights[1:levels]
   }
   if (is.null(weights) && is.null(levels)) {
@@ -433,7 +442,9 @@ downsample_3d_cube <- function(x) {
         xstart <- 2 * i - 1
         ystart <- 2 * j - 1
         zstart <- 2 * k - 1
-        newx[i, j, k] <- pickmode(c(x[xstart:(xstart + 1), ystart:(ystart + 1), zstart:(zstart + 1)]))
+        newx[i, j, k] <- pickmode(c(x[xstart:(xstart + 1),
+                                      ystart:(ystart + 1),
+                                      zstart:(zstart + 1)]))
       }
     }
   }
@@ -464,7 +475,7 @@ downsample_3d_cube <- function(x) {
 #' for (i in 1:19) y[i, i + 1] <- 1
 #' catssim_2d(x, y)
 catssim_2d <- function(x, y, window = 11, method = "Cohen", ...) {
- 
+
   if (length(window) == 1) window <- c(window, window)
   k <- length(unique(c(x, y)))
   dims <- dim(x)
@@ -492,8 +503,8 @@ catssim_2d <- function(x, y, window = 11, method = "Cohen", ...) {
 
 #' Multiscale Categorical Structural Similarity Index Measure (2D)
 #'
-#' The categorical structural similary index measure for 2D categorical or binary
-#' images for multiple scales. The default is to compute over 5 scales.
+#' The categorical structural similary index measure for 2D categorical or
+#' binary images for multiple scales. The default is to compute over 5 scales.
 #'
 #' @param x,y a binary or categorical image
 #' @param levels how many levels of downsampling to use. By default, 5. If
@@ -503,7 +514,8 @@ catssim_2d <- function(x, y, window = 11, method = "Cohen", ...) {
 #'        equal to \code{rep(1,levels)/levels}. If specified, there must
 #'        at least as many  weights as there are levels and the first
 #'        \code{levels} weights will be used.
-#' @param window by default 11 for 2D and 5 for 3D images, but can be specified as a
+#' @param window by default 11 for 2D and 5 for 3D images,
+#'     but can be specified as a
 #'     vector if the window sizes differ by dimension.
 #'     The vector must have the same number of
 #'     dimensions as the inputted \code{x} and \code{y}.
@@ -531,8 +543,6 @@ catssim_2d <- function(x, y, window = 11, method = "Cohen", ...) {
 #' catmssim_2d(x, y, method = "Jaccard")
 catmssim_2d <- function(x, y, levels = NULL, weights = NULL, window = 11,
                         method = "Cohen", ...) {
-  # the weights are from the original MS-SSIM program
-  ## c(0.0448, 0.2856, 0.3001, 0.2363, 0.1333)
   if (is.null(dim(x))) stop("x is 1-dimensional")
   if (is.null(dim(y))) stop("y is 1-dimensional")
     if (length(dim(x)) != length(dim(y)))
@@ -544,16 +554,17 @@ catmssim_2d <- function(x, y, levels = NULL, weights = NULL, window = 11,
   mindim <- min(dim(x))
   minwindow <- min(window[1:2])
   if (mindim < minwindow) {
-    warning("Minimum dimension should be greater than window size. Using only one level.")
+      warning("Minimum dimension should be greater than window size.
+             Using only one level.")
     return(binssim(x = x, y = y, method = method, ...))
   }
 
-  if (mindim < (2^(levels - 1)) * minwindow) {
-    levels <- min(c(floor(log2(dim(x) / window[1:2]) + 1), levels))
-    warning("Truncating levels because of minimum dimension.")
-  }
-  weights <- weights[1:levels]
-  results <- matrix(0, nrow = levels, ncol = 3)
+    if (mindim < (2^(levels - 1)) * minwindow) {
+        levels <- min(c(floor(log2(dim(x) / window[1:2]) + 1), levels))
+        warning("Truncating levels because of minimum dimension.")
+    }
+    weights <- weights[1:levels]
+    results <- matrix(0, nrow = levels, ncol = 3)
     results[1, ] <- catssim_2d(x = x, y = y,
                                window = window, method = method, ...)
 
@@ -567,7 +578,7 @@ catmssim_2d <- function(x, y, levels = NULL, weights = NULL, window = 11,
   }
   results[is.na(results)] <- 1 # fix Jaccard NA results
   # use "luminosity" only from top level, use C and S from all levels
-  csresults <- prod(results[, 2:3]^(weights))
+    csresults <- prod(results[, 2:3]^(weights))
 
   (results[levels, 1]^weights[levels]) * csresults
 }
@@ -638,8 +649,8 @@ catssim_3d_cube <- function(x, y, window = c(5, 5, 5), method = "Cohen", ...) {
 
 #' Multiscale Categorical Structural Similarity Index Measure by Slice (3D)
 #'
-#' The categorical structural similary index measure for 3D categorical or binary
-#' images for multiple scales. The default is to compute over 5 scales.
+#' The categorical structural similary index measure for 3D categorical or
+#' binary images for multiple scales. The default is to compute over 5 scales.
 #' This computes a 2D measure for each x-y slice of the z-axis
 #' and then averages over the z-axis.
 #'
@@ -662,8 +673,6 @@ catssim_3d_cube <- function(x, y, window = c(5, 5, 5), method = "Cohen", ...) {
 #' mean(x == y)
 catmssim_3d_slice <- function(x, y, levels = NULL, weights = NULL,
                               window = 11, method = "Cohen", ...) {
-  # the weights are from the original MS-SSIM program
-  ## c(0.0448, 0.2856, 0.3001, 0.2363, 0.1333)
     if (is.null(dim(x)))
         stop("x is 1-dimensional")
     if (is.null(dim(y)))
@@ -734,9 +743,7 @@ catmssim_3d_slice <- function(x, y, levels = NULL, weights = NULL,
 #' catmssim_3d_cube(x, y, weights = c(.75, .25), method = "Accuracy")
 catmssim_3d_cube <- function(x, y, levels = NULL, weights = NULL, window = 5,
                              method = "Cohen", ...) {
-  ## the weights are from the original MS-SSIM program
-  ##  c(0.0448, 0.2856, 0.3001, 0.2363, 0.1333)
-    if (is.null(dim(x)))
+     if (is.null(dim(x)))
         stop("x is 1-dimensional")
     if (is.null(dim(y)))
         stop("y is 1-dimensional")
@@ -786,8 +793,9 @@ catmssim_3d_cube <- function(x, y, levels = NULL, weights = NULL, window = 5,
 
 #' Adjusted Rand Index and other similarity indexes (Deprecated)
 #'
-#' Computes the adjusted Rand index and several other similarity measures for two
-#' inputs. These inputs should be binary or categorical and of the same length.
+#' Computes the adjusted Rand index and several other similarity measures for
+#' two inputs. These inputs should be binary or categorical and of the same
+#' length.
 #' It also computes the PSNR, which is generalized here as simply
 #' \eqn{-10 log_{10}(MSE)}.
 #' The adjusted Rand index, Jaccard Index, Cohen's Kappa,
@@ -839,10 +847,14 @@ catmssim_3d_cube <- function(x, y, levels = NULL, weights = NULL, window = 5,
 #' @export
 AdjRandIndex <- function(x, y) {
   .Deprecated("AdjustedRand")
-  if (length(x) != length(y)) stop("x and y have differing lengths.")
-  if (!all(!is.na(x), !is.na(y))) warning("NAs present in x or y, Adjusted Rand and Cohen don't account for NA values.")
+  if (length(x) != length(y))
+      stop("x and y have differing lengths.")
+  if (!all(!is.na(x), !is.na(y)))
+      warning("NAs present in x or y, Adjusted Rand and Cohen
+               don't account for NA values.")
   if (length(table(c(x, y))) > 2) {
-    message("Jaccard index may not make sense if more than two classes are present.")
+    message("Jaccard index may not make sense if more than
+             two classes are present.")
   }
   n <- sum(!is.na(x) | !is.na(y))
   a <- sum(x == y, na.rm = TRUE)
@@ -895,8 +907,8 @@ AdjRandIndex <- function(x, y) {
 #'        will be inferred from the number of weights specified.
 #' @param weights a vector of weights for the different scales. By default,
 #'        equal to \code{rep(1,levels)/levels}. If specified, there must
-#'        at least as many  weights as there are levels and the first \code{levels}
-#'        weights will be used.
+#'        at least as many  weights as there are levels and the first
+#'        \code{levels} weights will be used.
 #' @param method whether to use Cohen's kappa (\code{Cohen}),
 #'     Jaccard Index (\code{Jaccard}), Dice index (\code{Dice}),
 #'     accuracy (\code{accuracy}),  Rand index (\code{Rand}),
@@ -925,7 +937,8 @@ AdjRandIndex <- function(x, y) {
 #' catsim(x, y, levels = 2, method = "accuracy")
 #' # with the slice method:
 #' catsim(x, y, weights = c(.75, .25), cube = FALSE, window = 8)
-catsim <- function(x, y, ..., cube = TRUE, levels = NULL, weights = NULL, method = "Cohen", window = NULL) {
+catsim <- function(x, y, ..., cube = TRUE, levels = NULL, weights = NULL,
+                   method = "Cohen", window = NULL) {
   ##  old weights: c(0.0448, 0.2856, 0.3001, 0.2363, 0.1333)
     if (is.null(dim(x)))
         stop("x is 1-dimensional")
@@ -945,10 +958,13 @@ catsim <- function(x, y, ..., cube = TRUE, levels = NULL, weights = NULL, method
   }
   weights <- levelparser(weights = weights, levels = levels)
   if (length(dims) == 2) {
-    catmssim_2d(x, y, weights = weights, method = method, window = window, ...)
+      catmssim_2d(x, y, weights = weights, method = method,
+                  levels = levels, window = window, ...)
   } else if (cube) {
-    catmssim_3d_cube(x, y, weights = weights, method = method, window = window, ...)
+      catmssim_3d_cube(x, y, weights = weights, levels = levels,
+                       method = method, window = window, ...)
   } else {
-    catmssim_3d_slice(x, y, weights = weights, method = method, window = window, ...)
+      catmssim_3d_slice(x, y, weights = weights, levels = levels,
+                        method = method, window = window, ...)
   }
 }

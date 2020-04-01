@@ -16,8 +16,9 @@ normalized mutual information (NMI) and adjusted mutual information (AMI).
 Note: The Jaccard index will not make sense if this is not binary.
 }
 \description{
-Computes the adjusted Rand index and several other similarity measures for two
-inputs. These inputs should be binary or categorical and of the same length.
+Computes the adjusted Rand index and several other similarity measures for
+two inputs. These inputs should be binary or categorical and of the same
+length.
 It also computes the PSNR, which is generalized here as simply
 \eqn{-10 log_{10}(MSE)}.
 The adjusted Rand index, Jaccard Index, Cohen's Kappa,

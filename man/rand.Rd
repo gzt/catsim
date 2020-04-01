@@ -30,8 +30,9 @@ adjustedMI(x, y, na.rm = FALSE)
 If \code{TRUE}, will perform pair-wise deletion.}
 }
 \value{
-the similarity index, which is between 0 and 1 for most of the options.
-The adjusted Rand and Cohen's kappa can be negative, but are bounded above by 1.
+the similarity index, which is between 0 and 1 for most of the
+options. The adjusted Rand and Cohen's kappa can be negative, but are
+bounded above by 1.
 }
 \description{
 The Rand index, \code{RandIndex}, computes the agreement between
@@ -47,20 +48,28 @@ numerator and denominator of the adjusted Rand index to ensure stability
 when there is a small or 0 denominator, as it is possible to have a zero
 denominator.
 
-Cohen's kappa, \code{CohenKappa}, is an inter-rater agreement metric for two raters which
-corrects for the probability of chance agreement. Note there is a difference here
-between this measure and the Rand indices and mutual information: those consider
-the similarities of the groupings of points, while this considers how often the
+Cohen's kappa, \code{CohenKappa},
+is an inter-rater agreement metric for two raters which
+corrects for the probability of chance agreement. Note
+there is a difference here
+between this measure and the Rand indices and mutual information:
+those consider the similarities of the groupings of points,
+while this considers how often the
 raters agreed on individual points.
 
-Like the Rand index, the mutual information computes the agreement between two different clusterings or
-partitions of the same set of objects. If \eqn{H(X)} is the entropy of some probability distribution \eqn{X}, then
-the mutual information of two distributions is \eqn{I(X;Y) = -H(X,Y) +H(X) + H(Y)}.
+Like the Rand index, the mutual information
+computes the agreement between two different clusterings or
+partitions of the same set of objects. If \eqn{H(X)} is the
+entropy of some probability distribution \eqn{X}, then
+the mutual information of two distributions is
+\eqn{I(X;Y) = -H(X,Y) +H(X) + H(Y)}.
 The normalized mutual information, \code{normalizeMI}, is defined here as:
 \eqn{2I(X;Y)/(H(X)+H(Y)),} but is set to be 0 if both H(X) and H(Y) are 0.
 
-The adjusted mutual information, \code{adjustedMI}, is a correction of the mutual information to account
-for the probability of chance agreement in a manner similar to the adjusted Rand index
+The adjusted mutual information, \code{adjustedMI},
+is a correction of the mutual information to account
+for the probability of chance agreement in a manner similar to the
+adjusted Rand index
 or Cohen's kappa.
 }
 \examples{
