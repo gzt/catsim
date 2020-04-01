@@ -19,16 +19,18 @@ meansfunc <- function(x, y, c1 = 0.01) {
 #' @title Diversity Indexes
 #' @name gini
 #'
-#' @description \code{gini()} is a measure of diversity that goes by a number of different names, such as
-#' the probability of interspecific encounter or the Gibbs-Martin index.
-#' It is \eqn{1 - sum(p_i^2)}, where \eqn{p_i} is the probability of observing class i.
+#' @description \code{gini()} is a measure of diversity that goes by a
+#' number of different names, such as the probability of interspecific encounter
+#' or the Gibbs-Martin index. It is \eqn{1 - sum(p_i^2)}, where \eqn{p_i} is the
+#' probability of observing class i.
 #'
 #' @param x binary or categorical image or vector
 #'
-#' @return The index (between 0 and 1), with 0 indicating no variation and 1 being maximal.
-#'    The Gini index is bounded above by \eqn{1-1/k} for a group with \code{k} categories.
-#'    The modified index is bounded above by \eqn{1-1/\sqrt{k}}.
-#'    The corrected indexes fix this by dividing by the maximum.
+#' @return The index (between 0 and 1), with 0 indicating no variation and 1
+#'    being maximal. The Gini index is bounded above by \eqn{1-1/k} for a group
+#'    with \code{k} categories. The modified index is bounded above by
+#'    \eqn{1-1/\sqrt{k}}.  The corrected indexes fix this by dividing by the
+#'    maximum.
 #' @export
 
 #' @examples
@@ -42,9 +44,9 @@ gini <- function(x) {
 
 #' @name Corrected Gini-Simpson index
 #'
-#' @description The corrected Gini-Simpson index, \code{ginicorr} takes the index and  corrects it
-#' so that the maximum possible is 1. If there are \code{k} categories,
-#' the maximum possible of the uncorrected index is \eqn{1-1/k}.
+#' @description The corrected Gini-Simpson index, \code{ginicorr} takes the
+#' index and  corrects it so that the maximum possible is 1. If there are
+#' \code{k} categories, the maximum possible of the uncorrected index is \eqn{1-1/k}.
 #' It corrects the index by dividing by the maximum. \code{k} must be specified.
 #'
 #' @param k number of categories
@@ -120,13 +122,17 @@ cfunc <- function(x, y, c2 = 0.01, k, sqrtgini = TRUE) {
 ##' Method Parser
 ##'
 ##' Parses input of method to a standardized name
-##' @param method The method used as a similarity metric. Certain abbreviations work.
-##'        \code{Cohen}, \code{cohen}, \code{C}, \code{c}, \code{Kappa} and \code{kappa} yield Cohen's kappa.
-##'        \code{AdjRand}, \code{adjrand}, \code{Adj}, \code{adj}, \code{a}, \code{A}, \code{ARI}, and \code{ari} yield the adjusted Rand index.
-##'        \code{Rand}, \code{rand}, \code{r}, and \code{R} yield the Rand index.
-##'        \code{Jaccard}, \code{jaccard}, \code{j}, and \code{J} yield the Jaccard index.
-##'        \code{Dice}, \code{dice}, \code{D}, and \code{d} yield the Dice index.
-##'        \code{Accuracy}, \code{accuracy}, \code{Hamming}, \code{hamming}, \code{H}, and \code{h} yield the accuracy.
+##' @param method The method used as a similarity metric.
+##'    Certain abbreviations work.
+##'    \code{Cohen}, \code{cohen}, \code{C}, \code{c}, \code{Kappa} and
+##'    \code{kappa} yield Cohen's kappa.
+##'    \code{AdjRand}, \code{adjrand}, \code{Adj}, \code{adj}, \code{a}, \code{A},
+##'    \code{ARI}, and \code{ari} yield the adjusted Rand index.
+##'    \code{Rand}, \code{rand}, \code{r}, and \code{R} yield the Rand index.
+##'    \code{Jaccard}, \code{jaccard}, \code{j}, and \code{J} yield the Jaccard index.
+##'    \code{Dice}, \code{dice}, \code{D}, and \code{d} yield the Dice index.
+##'    \code{Accuracy}, \code{accuracy}, \code{Hamming}, \code{hamming}, \code{H},
+##'    and \code{h} yield the accuracy.
 ##' @return the name of the similarity metric.
 ##' @keywords internal
 ##' @noRd
@@ -254,13 +260,16 @@ sfunc <- function(x, y, methodflag = C_Cohen) {
 #' @param alpha normalizing parameter, by default 1
 #' @param beta normalizing parameter, by default 1
 #' @param gamma normalizing parameter, by default 1
-#' @param c1 small normalization constant for the \code{c} function, by default 0.01
-#' @param c2 small normalization constant for the \code{s} function, by default 0.01
-#' @param method whether to use Cohen's kappa (\code{Cohen}), Jaccard Index (\code{Jaccard}),
-#'     Dice index (\code{Dice}),  accuracy (\code{accuracy}),  Rand index (\code{Rand}),
-#'     Adjusted Rand Index (\code{AdjRand} or \code{ARI}), or normalized mutual
-#'   information (\code{NMI} or \code{MI}) as
-#'     the similarity index. Note Jaccard and Dice should only be used on binary data.
+#' @param c1 small normalization constant for the \code{c} function,
+#' by default 0.01
+#' @param c2 small normalization constant for the \code{s} function,
+#' by default 0.01
+#' @param method whether to use Cohen's kappa (\code{Cohen}),
+#'   Jaccard Index (\code{Jaccard}), Dice index (\code{Dice}),
+#'   accuracy (\code{accuracy}),  Rand index (\code{Rand}),
+#'   Adjusted Rand Index (\code{AdjRand} or \code{ARI}), or normalized mutual
+#'   information (\code{NMI} or \code{MI}) as the similarity index.
+#'   Note Jaccard and Dice should only be used on binary data.
 #' @param ... Constants can be passed to the components of the index.
 #'
 #' @return Structural similarity index.
@@ -273,13 +282,16 @@ sfunc <- function(x, y, methodflag = C_Cohen) {
 #' for (i in 1:100) y[i, i] <- 1
 #' for (i in 1:99) y[i, i + 1] <- 1
 #' binssim(x, y)
-binssim <- function(x, y, alpha = 1, beta = 1, gamma = 1, c1 = 0.01, c2 = 0.01, method = "Cohen", ...) {
+binssim <- function(x, y, alpha = 1, beta = 1, gamma = 1,
+                    c1 = 0.01, c2 = 0.01, method = "Cohen", ...) {
   if (length(x) != length(y)) stop("x and y must be the same size.")
   naxy <- (!is.na(x) & !is.na(y))
   k <- length(unique(c(x[naxy], y[naxy])))
 
   methodflag <- methodparser(method)
-  (meansfunc(x[naxy], y[naxy], c1)^alpha) * (cfunc(x = x[naxy], y = y[naxy], c2 = c2, k = k, ...)^beta) * (sfunc(x[naxy], y[naxy], methodflag)^gamma)
+  (meansfunc(x[naxy], y[naxy], c1)^alpha) *
+    (cfunc(x = x[naxy], y = y[naxy], c2 = c2, k = k, ...)^beta) *
+    (sfunc(x[naxy], y[naxy], methodflag)^gamma)
 }
 
 #' Categorical SSIM Components
@@ -301,9 +313,11 @@ ssimcomponents <- function(x, y, k, method = "Cohen", c1 = 0.01, c2 = 0.01, sqrt
     return(c(NA, NA, NA))
   }
   methodflag <- methodparser(method)
-  c(meansfunc(x[naxy], y[naxy], c1),
+  c(
+    meansfunc(x[naxy], y[naxy], c1),
     cfunc(x = x[naxy], y = y[naxy], c2 = c2, k = k, sqrtgini),
-    sfunc(x[naxy], y[naxy], methodflag = methodflag))
+    sfunc(x[naxy], y[naxy], methodflag = methodflag)
+  )
 }
 
 
@@ -574,8 +588,10 @@ catssim_3d_slice <- function(x, y, window = c(11, 11), method = "Cohen", ...) {
   dims <- dim(x)
   sliceresults <- matrix(0, nrow = dims[3], ncol = 3)
   for (i in 1:dims[3]) {
-      sliceresults[i, ] <- catssim_2d(x = x[, , i], y = y[, , i],
-                                      window = window, method = method, ...)
+    sliceresults[i, ] <- catssim_2d(
+      x = x[, , i], y = y[, , i],
+      window = window, method = method, ...
+    )
   }
   colMeans(sliceresults, na.rm = TRUE)
 }
@@ -587,18 +603,24 @@ catssim_3d_cube <- function(x, y, window = c(5, 5, 5), method = "Cohen", ...) {
     return(ssimcomponents(x = (x), y = (y), k = k, method = method, ...))
   }
 
-  cuberesults <- array(0, c(dims - window[1:3] + 1, 3)) 
+  cuberesults <- array(0, c(dims - window[1:3] + 1, 3))
   for (i in 1:(dims[1] - (window[1] - 1))) {
     for (j in 1:(dims[2] - (window[2] - 1))) {
       for (k in 1:(dims[3] - (window[3] - 1))) {
-          subx <- x[i:(i + (window[1] - 1)),
-                    j:(j + (window[2] - 1)),
-                    k:(k + (window[3] - 1))]
-          suby <- y[i:(i + (window[1] - 1)),
-                    j:(j + (window[2] - 1)),
-                    k:(k + (window[3] - 1))]
-          cuberesults[i, j, k, ] <- ssimcomponents(x = subx, y = suby,
-                                                   k = k, method = method, ...)
+        subx <- x[
+          i:(i + (window[1] - 1)),
+          j:(j + (window[2] - 1)),
+          k:(k + (window[3] - 1))
+        ]
+        suby <- y[
+          i:(i + (window[1] - 1)),
+          j:(j + (window[2] - 1)),
+          k:(k + (window[3] - 1))
+        ]
+        cuberesults[i, j, k, ] <- ssimcomponents(
+          x = subx, y = suby,
+          k = k, method = method, ...
+        )
       }
     }
   }
