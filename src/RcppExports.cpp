@@ -43,16 +43,16 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// C_meansfunc
-double C_meansfunc(NumericVector x, NumericVector y, double c);
-RcppExport SEXP _catsim_C_meansfunc(SEXP xSEXP, SEXP ySEXP, SEXP cSEXP) {
+// c_meansfunc
+double c_meansfunc(NumericVector x, NumericVector y, double c);
+RcppExport SEXP _catsim_c_meansfunc(SEXP xSEXP, SEXP ySEXP, SEXP cSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< NumericVector >::type x(xSEXP);
     Rcpp::traits::input_parameter< NumericVector >::type y(ySEXP);
     Rcpp::traits::input_parameter< double >::type c(cSEXP);
-    rcpp_result_gen = Rcpp::wrap(C_meansfunc(x, y, c));
+    rcpp_result_gen = Rcpp::wrap(c_meansfunc(x, y, c));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -123,7 +123,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_catsim_c_gini", (DL_FUNC) &_catsim_c_gini, 1},
     {"_catsim_c_ginicorr", (DL_FUNC) &_catsim_c_ginicorr, 2},
     {"_catsim_c_cfunc", (DL_FUNC) &_catsim_c_cfunc, 5},
-    {"_catsim_C_meansfunc", (DL_FUNC) &_catsim_C_meansfunc, 3},
+    {"_catsim_c_meansfunc", (DL_FUNC) &_catsim_c_meansfunc, 3},
     {"_catsim_c_cohen", (DL_FUNC) &_catsim_c_cohen, 2},
     {"_catsim_c_adj_rand", (DL_FUNC) &_catsim_c_adj_rand, 2},
     {"_catsim_c_rand", (DL_FUNC) &_catsim_c_rand, 2},

@@ -27,7 +27,7 @@ double c_ginicorr(NumericVector x, double k){
   return c_gini(x) / (1.0-1.0/k);
 }
 
-double C_sqrtginicorr(NumericVector x, double k){
+double c_sqrtginicorr(NumericVector x, double k){
   double eps = 1e-5;
   if(std::abs(k - 1.0) < eps) return 1.0;
 
@@ -38,8 +38,8 @@ double C_sqrtginicorr(NumericVector x, double k){
 double c_cfunc(NumericVector x, NumericVector y, double c, double k, bool sqrtflag){
   double varx, vary;
   if(sqrtflag){
-    varx = C_sqrtginicorr(x, k);
-    vary = C_sqrtginicorr(y, k);
+    varx = c_sqrtginicorr(x, k);
+    vary = c_sqrtginicorr(y, k);
   } else {
   varx = c_ginicorr(x, k);
   vary = c_ginicorr(y, k);
@@ -49,7 +49,7 @@ double c_cfunc(NumericVector x, NumericVector y, double c, double k, bool sqrtfl
 }
 
 // [[Rcpp::export]]
-double C_meansfunc(NumericVector x, NumericVector y, double c){
+double c_meansfunc(NumericVector x, NumericVector y, double c){
   //R_xlen_t n = x.size();
   if (x.size() != y.size()) Rcpp::stop("X and Y must have the same length.");
   std::map<double, double> countsx;

@@ -13,8 +13,8 @@ c_cfunc <- function(x, y, c, k, sqrtflag) {
     .Call(`_catsim_c_cfunc`, x, y, c, k, sqrtflag)
 }
 
-C_meansfunc <- function(x, y, c) {
-    .Call(`_catsim_C_meansfunc`, x, y, c)
+c_meansfunc <- function(x, y, c) {
+    .Call(`_catsim_c_meansfunc`, x, y, c)
 }
 
 c_cohen <- function(x, y) {

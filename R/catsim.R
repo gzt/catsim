@@ -13,7 +13,7 @@ NULL
 #'
 #' @noRd
 meansfunc <- function(x, y, c1 = 0.01) {
-  C_meansfunc(x, y, c1)
+  c_meansfunc(x, y, c1)
 }
 
 #' @title Diversity Indexes
