@@ -3,7 +3,7 @@ using namespace Rcpp;
 
 
 // [[Rcpp::export]]
-double C_gini(NumericVector x){
+double c_gini(NumericVector x){
   std::map<double, double> counts;
   R_xlen_t n = x.size();
   // NumericVector::iterator i;
@@ -20,29 +20,29 @@ double C_gini(NumericVector x){
 
 
 // [[Rcpp::export]]
-double C_ginicorr(NumericVector x, double k){
+double c_ginicorr(NumericVector x, double k){
   double eps = 1e-5;
   if(std::abs(k - 1.0) < eps) return 1.0;
 
-  return C_gini(x) / (1.0-1.0/k);
+  return c_gini(x) / (1.0-1.0/k);
 }
 
 double C_sqrtginicorr(NumericVector x, double k){
   double eps = 1e-5;
   if(std::abs(k - 1.0) < eps) return 1.0;
 
-  return (1 - sqrt(1 - C_gini(x))) / (1-1.0/k);
+  return (1 - sqrt(1 - c_gini(x))) / (1-1.0/k);
 }
 
 // [[Rcpp::export]]
-double C_cfunc(NumericVector x, NumericVector y, double c, double k, bool sqrtflag){
+double c_cfunc(NumericVector x, NumericVector y, double c, double k, bool sqrtflag){
   double varx, vary;
   if(sqrtflag){
     varx = C_sqrtginicorr(x, k);
     vary = C_sqrtginicorr(y, k);
   } else {
-  varx = C_ginicorr(x, k);
-  vary = C_ginicorr(y, k);
+  varx = c_ginicorr(x, k);
+  vary = c_ginicorr(y, k);
   }
 
   return(2*sqrt(varx * vary) + c)/(varx + vary + c);
@@ -91,7 +91,7 @@ double C_meansfunc(NumericVector x, NumericVector y, double c){
 }
 
 // [[Rcpp::export]]
-double C_Cohen(NumericVector x, NumericVector y){
+double c_cohen(NumericVector x, NumericVector y){
   R_xlen_t n = x.size();
   if (x.size() != y.size()) Rcpp::stop("X and Y must have the same length.");
   NumericMatrix xy(n, 2);
@@ -151,7 +151,7 @@ double C_Cohen(NumericVector x, NumericVector y){
 
 
 
-Rcpp::NumericVector C_RandRaw(NumericVector x, NumericVector y){
+Rcpp::NumericVector c_randRaw(NumericVector x, NumericVector y){
   Rcpp::NumericVector resultvector(3);
    R_xlen_t n = x.size();
   if (x.size() != y.size()) Rcpp::stop("X and Y must have the same length.");
@@ -202,7 +202,7 @@ Rcpp::NumericVector C_RandRaw(NumericVector x, NumericVector y){
 
 
 // [[Rcpp::export]]
-double C_AdjRand(NumericVector x, NumericVector y){
+double c_adj_rand(NumericVector x, NumericVector y){
   double eps = 0.0;
   R_xlen_t n = x.size();
 
@@ -213,7 +213,7 @@ double C_AdjRand(NumericVector x, NumericVector y){
 
 
   NumericVector resultvector(3);
-  resultvector = C_RandRaw(x,y);
+  resultvector = c_randRaw(x,y);
   nij = resultvector[0];
   ai = resultvector[1];
   bi = resultvector[2];
@@ -226,7 +226,7 @@ double C_AdjRand(NumericVector x, NumericVector y){
 
 
 // [[Rcpp::export]]
-double C_Rand(NumericVector x, NumericVector y){
+double c_rand(NumericVector x, NumericVector y){
   
   R_xlen_t n = x.size();
  
@@ -236,7 +236,7 @@ double C_Rand(NumericVector x, NumericVector y){
    double nij = 0.0;
 
   NumericVector resultvector(3);
-  resultvector = C_RandRaw(x,y);
+  resultvector = c_randRaw(x,y);
   nij = resultvector[0];
   ai = resultvector[1];
   bi = resultvector[2];
@@ -247,7 +247,7 @@ double C_Rand(NumericVector x, NumericVector y){
 
 
 // [[Rcpp::export]]
-double C_NMI(NumericVector x, NumericVector y){
+double c_nmi(NumericVector x, NumericVector y){
   R_xlen_t n = x.size();
   if (x.size() != y.size()) Rcpp::stop("X and Y must have the same length.");
   NumericMatrix xy(n, 2);
@@ -313,7 +313,7 @@ double hypergeomfunc(double ai, double bj, R_xlen_t N){
 }
 
 // [[Rcpp::export]]
-double C_AMI(NumericVector x, NumericVector y){
+double c_ami(NumericVector x, NumericVector y){
  R_xlen_t n = x.size();
   if (x.size() != y.size()) Rcpp::stop("X and Y must have the same length.");
   NumericMatrix xy(n, 2);

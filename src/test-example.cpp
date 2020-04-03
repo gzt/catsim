@@ -24,14 +24,14 @@ context("Simple function checks"){
     for(int i = 0; i < 2; i++) x[i] = 0;
     y[0] = 0;
     y[1] = 1;
-    expect_true(std::abs(C_gini(x))< 1e-5);
-    expect_true(std::abs(C_gini(y)-.5) < 1e-5);
-    expect_true(std::abs(C_ginicorr(x, 2))< 1e-5);
-    expect_true(std::abs(C_ginicorr(y, 2)-1.0)< 1e-5);
-    expect_true(std::abs(C_cfunc(x,x,.001,2,TRUE)-1.0) < 1e-5);
-    expect_true(std::abs(C_cfunc(x,y,0.0,2,TRUE)) < 1e-5);
-    expect_true(std::abs(C_cfunc(x,x,.001,2,FALSE)-1.0) < 1e-5);
-    expect_true(std::abs(C_cfunc(x,y,0.0,2,FALSE)) < 1e-5);
+    expect_true(std::abs(c_gini(x))< 1e-5);
+    expect_true(std::abs(c_gini(y)-.5) < 1e-5);
+    expect_true(std::abs(c_ginicorr(x, 2))< 1e-5);
+    expect_true(std::abs(c_ginicorr(y, 2)-1.0)< 1e-5);
+    expect_true(std::abs(c_cfunc(x,x,.001,2,TRUE)-1.0) < 1e-5);
+    expect_true(std::abs(c_cfunc(x,y,0.0,2,TRUE)) < 1e-5);
+    expect_true(std::abs(c_cfunc(x,x,.001,2,FALSE)-1.0) < 1e-5);
+    expect_true(std::abs(c_cfunc(x,y,0.0,2,FALSE)) < 1e-5);
 
   }
   test_that("Difference measures correct"){
@@ -40,22 +40,22 @@ context("Simple function checks"){
     for(int i = 0; i < 2; i++) x[i] = 0;
     y[0] = 0;
     y[1] = 1;
-    expect_true(std::abs(C_Cohen(x,x)-1.0) < 1e-6);
-    expect_true(std::abs(C_Cohen(y,y)-1.0) < 1e-6);
-    expect_true(std::abs(C_AdjRand(x,x)-1.0) < 1e-3);
-    expect_true(std::abs(C_AdjRand(y,y)-1.0) < 1e-3);
-    expect_true(std::abs(C_Cohen(x,y)) < 1e-6);
-    expect_true(std::abs(C_Cohen(x,y)-C_Cohen(y,x)) < 1e-6);
-    expect_true(std::abs(C_AdjRand(x,y)) < 1e-2);
-    expect_true(std::abs(C_AdjRand(x,y) - C_AdjRand(y,x)) < 1e-6);
-    expect_true(std::abs(C_AdjRand(x,x) - C_AdjRand(y,y)) < 1e-6);
-    expect_true(std::abs(C_Rand(x,y)) < 1e-6);
-    expect_true(std::abs(C_Rand(x,y) - C_Rand(y,x)) < 1e-6);
-    expect_true(std::abs(C_Rand(x,x) - C_Rand(y,y)) < 1e-6);
-    expect_true(std::abs(C_NMI(x,y)) < 1e-5);
-    expect_true(std::abs(C_NMI(y,y)-1.0) < 1e-5);
-    expect_true(std::abs(C_AMI(x,y)) < 1e-5);
-    expect_true(std::abs(C_AMI(y,y)-1.0) < 1e-5);
+    expect_true(std::abs(c_cohen(x,x)-1.0) < 1e-6);
+    expect_true(std::abs(c_cohen(y,y)-1.0) < 1e-6);
+    expect_true(std::abs(c_adj_rand(x,x)-1.0) < 1e-3);
+    expect_true(std::abs(c_adj_rand(y,y)-1.0) < 1e-3);
+    expect_true(std::abs(c_cohen(x,y)) < 1e-6);
+    expect_true(std::abs(c_cohen(x,y)-c_cohen(y,x)) < 1e-6);
+    expect_true(std::abs(c_adj_rand(x,y)) < 1e-2);
+    expect_true(std::abs(c_adj_rand(x,y) - c_adj_rand(y,x)) < 1e-6);
+    expect_true(std::abs(c_adj_rand(x,x) - c_adj_rand(y,y)) < 1e-6);
+    expect_true(std::abs(c_rand(x,y)) < 1e-6);
+    expect_true(std::abs(c_rand(x,y) - c_rand(y,x)) < 1e-6);
+    expect_true(std::abs(c_rand(x,x) - c_rand(y,y)) < 1e-6);
+    expect_true(std::abs(c_nmi(x,y)) < 1e-5);
+    expect_true(std::abs(c_nmi(y,y)-1.0) < 1e-5);
+    expect_true(std::abs(c_ami(x,y)) < 1e-5);
+    expect_true(std::abs(c_ami(y,y)-1.0) < 1e-5);
 		
   }
 }

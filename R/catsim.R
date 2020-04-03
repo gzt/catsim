@@ -38,7 +38,7 @@ meansfunc <- function(x, y, c1 = 0.01) {
 #' gini(x)
 gini <- function(x) {
   x <- as.numeric(x)
-  C_gini(x)
+  c_gini(x)
 }
 
 
@@ -60,7 +60,7 @@ gini <- function(x) {
 ginicorr <- function(x, k) {
   if (k < length(unique(x))) stop("more unique values in x than k")
   if (k > 1) {
-    C_gini(x) / (1 - 1 / k)
+    c_gini(x) / (1 - 1 / k)
   } else {
     1
   }
@@ -80,7 +80,7 @@ ginicorr <- function(x, k) {
 #' x <- rep(c(1:4), 5)
 #' sqrtgini(x)
 sqrtgini <- function(x) {
-  1 - sqrt(1 - C_gini(x))
+  1 - sqrt(1 - c_gini(x))
 }
 
 #' @name Modified Corrected Gini index
@@ -117,7 +117,7 @@ sqrtginicorr <- function(x, k) {
 #' y <- c(rep(1:4, 3), rep(4, 4))
 #' cfunc(x, y, k = 4)
 cfunc <- function(x, y, c2 = 0.01, k, sqrtgini = TRUE) {
-  C_cfunc(x, y, c2, k, sqrtgini)
+  c_cfunc(x, y, c2, k, sqrtgini)
 }
 
 ##' Method Parser
@@ -144,16 +144,16 @@ cfunc <- function(x, y, c2 = 0.01, k, sqrtgini = TRUE) {
 methodparser <- function(method) {
   methodflag <- NULL
   if (method %in% c("Cohen", "cohen", "C", "c", "kappa", "Kappa")) {
-    methodflag <- C_Cohen
+    methodflag <- c_cohen
   } # "Cohen"
   if (method %in% c(
     "AdjRand", "adjrand", "Adj", "adj",
     "a", "A", "ARI", "ari"
   )) {
-    methodflag <- C_AdjRand
+    methodflag <- c_adj_rand
   } # "AdjRand"
   if (method %in% c("Rand", "rand", "r", "R")) {
-    methodflag <- C_Rand
+    methodflag <- c_rand
   } # "Rand"
   if (method %in% c("Jaccard", "jaccard", "j", "J")) {
     methodflag <- jaccard
@@ -165,10 +165,10 @@ methodparser <- function(method) {
     methodflag <- hamming
   } # "hamming"
   if (method %in% c("NMI", "MI", "mutual", "information", "nmi", "mi")) {
-    methodflag <- C_NMI
+    methodflag <- c_nmi
   } # normalized mutual information
   if (method %in% c("AMI", "ami")) {
-    methodflag <- C_AMI
+    methodflag <- c_ami
   } # adjusted mutual information
   if (is.null(methodflag)) stop("Error: invalid method")
   methodflag
@@ -268,7 +268,7 @@ hamming <- function(x, y) {
 #' x <- rep(1:4, 4)
 #' y <- c(rep(1:4, 3), rep(4, 4))
 #' sfunc(x, y)
-sfunc <- function(x, y, methodflag = C_Cohen) {
+sfunc <- function(x, y, methodflag = c_cohen) {
   x <- as.vector(x)
   y <- as.vector(y)
   methodflag(x, y)
@@ -909,13 +909,13 @@ AdjRandIndex <- function(x, y) {
   a <- sum(x == y, na.rm = TRUE)
   accuracy <- a / n
   jaccard <- jaccard(x, y)
-  cohen <- C_Cohen(x, y)
+  cohen <- c_cohen(x, y)
   x <- as.numeric(x)
   y <- as.numeric(y)
-  adjrand <- C_AdjRand(x, y)
-  rand <- C_Rand(x, y)
-  nmi <- C_NMI(x, y)
-  ami <- C_AMI(x, y)
+  adjrand <- c_adj_rand(x, y)
+  rand <- c_rand(x, y)
+  nmi <- c_nmi(x, y)
+  ami <- c_ami(x, y)
 
   list(
     Accuracy = accuracy,

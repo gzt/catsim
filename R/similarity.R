@@ -64,7 +64,7 @@ rand_index <- function(x, y, na.rm = FALSE) {
   }
   x <- as.numeric(x)
   y <- as.numeric(y)
-  C_Rand(x, y)
+  c_rand(x, y)
 }
 
 
@@ -93,7 +93,7 @@ adj_rand <- function(x, y, na.rm = FALSE) {
   }
   x <- as.numeric(x)
   y <- as.numeric(y)
-  C_AdjRand(x, y)
+  c_adj_rand(x, y)
 }
 
 #' @name Cohen's kappa
@@ -121,7 +121,7 @@ cohen_kappa <- function(x, y, na.rm = FALSE) {
   }
   x <- as.numeric(x)
   y <- as.numeric(y)
-  C_Cohen(x, y)
+  c_cohen(x, y)
 }
 
 #' @name Normalized Mutual Information
@@ -149,7 +149,7 @@ normalized_mi <- function(x, y, na.rm = FALSE) {
   }
   x <- as.numeric(x)
   y <- as.numeric(y)
-  C_NMI(x, y)
+  c_nmi(x, y)
 }
 
 #' @name Adjusted Mutual Information
@@ -174,5 +174,5 @@ adjusted_mi <- function(x, y, na.rm = FALSE) {
   }
   x <- as.numeric(x)
   y <- as.numeric(y)
-  C_AMI(x, y)
+  c_ami(x, y)
 }

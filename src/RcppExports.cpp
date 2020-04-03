@@ -5,32 +5,32 @@
 
 using namespace Rcpp;
 
-// C_gini
-double C_gini(NumericVector x);
-RcppExport SEXP _catsim_C_gini(SEXP xSEXP) {
+// c_gini
+double c_gini(NumericVector x);
+RcppExport SEXP _catsim_c_gini(SEXP xSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< NumericVector >::type x(xSEXP);
-    rcpp_result_gen = Rcpp::wrap(C_gini(x));
+    rcpp_result_gen = Rcpp::wrap(c_gini(x));
     return rcpp_result_gen;
 END_RCPP
 }
-// C_ginicorr
-double C_ginicorr(NumericVector x, double k);
-RcppExport SEXP _catsim_C_ginicorr(SEXP xSEXP, SEXP kSEXP) {
+// c_ginicorr
+double c_ginicorr(NumericVector x, double k);
+RcppExport SEXP _catsim_c_ginicorr(SEXP xSEXP, SEXP kSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< NumericVector >::type x(xSEXP);
     Rcpp::traits::input_parameter< double >::type k(kSEXP);
-    rcpp_result_gen = Rcpp::wrap(C_ginicorr(x, k));
+    rcpp_result_gen = Rcpp::wrap(c_ginicorr(x, k));
     return rcpp_result_gen;
 END_RCPP
 }
-// C_cfunc
-double C_cfunc(NumericVector x, NumericVector y, double c, double k, bool sqrtflag);
-RcppExport SEXP _catsim_C_cfunc(SEXP xSEXP, SEXP ySEXP, SEXP cSEXP, SEXP kSEXP, SEXP sqrtflagSEXP) {
+// c_cfunc
+double c_cfunc(NumericVector x, NumericVector y, double c, double k, bool sqrtflag);
+RcppExport SEXP _catsim_c_cfunc(SEXP xSEXP, SEXP ySEXP, SEXP cSEXP, SEXP kSEXP, SEXP sqrtflagSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -39,7 +39,7 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< double >::type c(cSEXP);
     Rcpp::traits::input_parameter< double >::type k(kSEXP);
     Rcpp::traits::input_parameter< bool >::type sqrtflag(sqrtflagSEXP);
-    rcpp_result_gen = Rcpp::wrap(C_cfunc(x, y, c, k, sqrtflag));
+    rcpp_result_gen = Rcpp::wrap(c_cfunc(x, y, c, k, sqrtflag));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -56,63 +56,63 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// C_Cohen
-double C_Cohen(NumericVector x, NumericVector y);
-RcppExport SEXP _catsim_C_Cohen(SEXP xSEXP, SEXP ySEXP) {
+// c_cohen
+double c_cohen(NumericVector x, NumericVector y);
+RcppExport SEXP _catsim_c_cohen(SEXP xSEXP, SEXP ySEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< NumericVector >::type x(xSEXP);
     Rcpp::traits::input_parameter< NumericVector >::type y(ySEXP);
-    rcpp_result_gen = Rcpp::wrap(C_Cohen(x, y));
+    rcpp_result_gen = Rcpp::wrap(c_cohen(x, y));
     return rcpp_result_gen;
 END_RCPP
 }
-// C_AdjRand
-double C_AdjRand(NumericVector x, NumericVector y);
-RcppExport SEXP _catsim_C_AdjRand(SEXP xSEXP, SEXP ySEXP) {
+// c_adj_rand
+double c_adj_rand(NumericVector x, NumericVector y);
+RcppExport SEXP _catsim_c_adj_rand(SEXP xSEXP, SEXP ySEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< NumericVector >::type x(xSEXP);
     Rcpp::traits::input_parameter< NumericVector >::type y(ySEXP);
-    rcpp_result_gen = Rcpp::wrap(C_AdjRand(x, y));
+    rcpp_result_gen = Rcpp::wrap(c_adj_rand(x, y));
     return rcpp_result_gen;
 END_RCPP
 }
-// C_Rand
-double C_Rand(NumericVector x, NumericVector y);
-RcppExport SEXP _catsim_C_Rand(SEXP xSEXP, SEXP ySEXP) {
+// c_rand
+double c_rand(NumericVector x, NumericVector y);
+RcppExport SEXP _catsim_c_rand(SEXP xSEXP, SEXP ySEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< NumericVector >::type x(xSEXP);
     Rcpp::traits::input_parameter< NumericVector >::type y(ySEXP);
-    rcpp_result_gen = Rcpp::wrap(C_Rand(x, y));
+    rcpp_result_gen = Rcpp::wrap(c_rand(x, y));
     return rcpp_result_gen;
 END_RCPP
 }
-// C_NMI
-double C_NMI(NumericVector x, NumericVector y);
-RcppExport SEXP _catsim_C_NMI(SEXP xSEXP, SEXP ySEXP) {
+// c_nmi
+double c_nmi(NumericVector x, NumericVector y);
+RcppExport SEXP _catsim_c_nmi(SEXP xSEXP, SEXP ySEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< NumericVector >::type x(xSEXP);
     Rcpp::traits::input_parameter< NumericVector >::type y(ySEXP);
-    rcpp_result_gen = Rcpp::wrap(C_NMI(x, y));
+    rcpp_result_gen = Rcpp::wrap(c_nmi(x, y));
     return rcpp_result_gen;
 END_RCPP
 }
-// C_AMI
-double C_AMI(NumericVector x, NumericVector y);
-RcppExport SEXP _catsim_C_AMI(SEXP xSEXP, SEXP ySEXP) {
+// c_ami
+double c_ami(NumericVector x, NumericVector y);
+RcppExport SEXP _catsim_c_ami(SEXP xSEXP, SEXP ySEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< NumericVector >::type x(xSEXP);
     Rcpp::traits::input_parameter< NumericVector >::type y(ySEXP);
-    rcpp_result_gen = Rcpp::wrap(C_AMI(x, y));
+    rcpp_result_gen = Rcpp::wrap(c_ami(x, y));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -120,15 +120,15 @@ END_RCPP
 RcppExport SEXP run_testthat_tests();
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_catsim_C_gini", (DL_FUNC) &_catsim_C_gini, 1},
-    {"_catsim_C_ginicorr", (DL_FUNC) &_catsim_C_ginicorr, 2},
-    {"_catsim_C_cfunc", (DL_FUNC) &_catsim_C_cfunc, 5},
+    {"_catsim_c_gini", (DL_FUNC) &_catsim_c_gini, 1},
+    {"_catsim_c_ginicorr", (DL_FUNC) &_catsim_c_ginicorr, 2},
+    {"_catsim_c_cfunc", (DL_FUNC) &_catsim_c_cfunc, 5},
     {"_catsim_C_meansfunc", (DL_FUNC) &_catsim_C_meansfunc, 3},
-    {"_catsim_C_Cohen", (DL_FUNC) &_catsim_C_Cohen, 2},
-    {"_catsim_C_AdjRand", (DL_FUNC) &_catsim_C_AdjRand, 2},
-    {"_catsim_C_Rand", (DL_FUNC) &_catsim_C_Rand, 2},
-    {"_catsim_C_NMI", (DL_FUNC) &_catsim_C_NMI, 2},
-    {"_catsim_C_AMI", (DL_FUNC) &_catsim_C_AMI, 2},
+    {"_catsim_c_cohen", (DL_FUNC) &_catsim_c_cohen, 2},
+    {"_catsim_c_adj_rand", (DL_FUNC) &_catsim_c_adj_rand, 2},
+    {"_catsim_c_rand", (DL_FUNC) &_catsim_c_rand, 2},
+    {"_catsim_c_nmi", (DL_FUNC) &_catsim_c_nmi, 2},
+    {"_catsim_c_ami", (DL_FUNC) &_catsim_c_ami, 2},
     {"run_testthat_tests", (DL_FUNC) &run_testthat_tests, 0},
     {NULL, NULL, 0}
 };
