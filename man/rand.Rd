@@ -35,7 +35,7 @@ options. The adjusted Rand and Cohen's kappa can be negative, but are
 bounded above by 1.
 }
 \description{
-The Rand index, \code{rand_index}, computes the agreement
+The Rand index, \link{rand_index}, computes the agreement
 between two different clusterings or partitions of the same  set of objects.
 The inputs to the function should be binary or categorical and of the same
 length.
@@ -63,7 +63,7 @@ partitions of the same set of objects. If \eqn{H(X)} is the
 entropy of some probability distribution \eqn{X}, then
 the mutual information of two distributions is
 \eqn{I(X;Y) = -H(X,Y) +H(X) + H(Y)}.
-The normalized mutual information, \code{normalizeMI}, is defined here as:
+The normalized mutual information, \code{normalized_mi}, is defined here as:
 \eqn{2I(X;Y)/(H(X)+H(Y)),} but is set to be 0 if both H(X) and H(Y) are 0.
 
 The adjusted mutual information, \code{adjusted_mi},

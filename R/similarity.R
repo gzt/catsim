@@ -1,14 +1,14 @@
 #' @title Similarity Indexes
 #' @name rand
 #'
-#' @description The Rand index, \code{rand_index}, computes the agreement
+#' @description The Rand index, [rand_index], computes the agreement
 #' between two different clusterings or partitions of the same  set of objects.
 #' The inputs to the function should be binary or categorical and of the same
 #' length.
 #'
 #' @param x,y  a numeric or factor vector or array
-#' @param na.rm whether to remove \code{NA} values. By default, \code{FALSE}.
-#' If \code{TRUE}, will perform pair-wise deletion.
+#' @param na.rm whether to remove `NA` values. By default, `FALSE`.
+#' If `TRUE`, will perform pair-wise deletion.
 #'
 #' @return the similarity index, which is between 0 and 1 for most of the
 #' options. The adjusted Rand and Cohen's kappa can be negative, but are
@@ -71,7 +71,7 @@ rand_index <- function(x, y, na.rm = FALSE) {
 
 #' @name Adjusted Rand Index
 #'
-#' @description The adjusted Rand index,  \code{adj_rand},
+#' @description The adjusted Rand index,  `adj_rand`,
 #' computes a corrected version
 #' of the Rand index, adjusting for the probability
 #' of chance agreement of clusterings. A small constant is added to the
@@ -98,7 +98,7 @@ adj_rand <- function(x, y, na.rm = FALSE) {
 
 #' @name Cohen's kappa
 #'
-#' @description Cohen's kappa, \code{cohen_kappa},
+#' @description Cohen's kappa, `cohen_kappa`,
 #' is an inter-rater agreement metric for two raters which
 #' corrects for the probability of chance agreement. Note
 #' there is a difference here
@@ -132,7 +132,7 @@ cohen_kappa <- function(x, y, na.rm = FALSE) {
 #' entropy of some probability distribution \eqn{X}, then
 #' the mutual information of two distributions is
 #' \eqn{I(X;Y) = -H(X,Y) +H(X) + H(Y)}.
-#' The normalized mutual information, \code{normalizeMI}, is defined here as:
+#' The normalized mutual information, `normalized_mi`, is defined here as:
 #' \eqn{2I(X;Y)/(H(X)+H(Y)),} but is set to be 0 if both H(X) and H(Y) are 0.
 #' @rdname rand
 #' @export
@@ -154,7 +154,7 @@ normalized_mi <- function(x, y, na.rm = FALSE) {
 
 #' @name Adjusted Mutual Information
 #'
-#' @description The adjusted mutual information, \code{adjusted_mi},
+#' @description The adjusted mutual information, `adjusted_mi`,
 #' is a correction of the mutual information to account
 #' for the probability of chance agreement in a manner similar to the
 #' adjusted Rand index

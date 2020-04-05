@@ -19,7 +19,7 @@ meansfunc <- function(x, y, c1 = 0.01) {
 #' @title Diversity Indexes
 #' @name gini
 #'
-#' @description \code{gini()} is a measure of diversity that goes by a
+#' @description `gini()` is a measure of diversity that goes by a
 #' number of different names, such as the probability of interspecific encounter
 #' or the Gibbs-Martin index. It is \eqn{1 - sum(p_i^2)}, where \eqn{p_i} is the
 #' probability of observing class i.
@@ -28,7 +28,7 @@ meansfunc <- function(x, y, c1 = 0.01) {
 #'
 #' @return The index (between 0 and 1), with 0 indicating no variation and 1
 #'    being maximal. The Gini index is bounded above by \eqn{1-1/k} for a group
-#'    with \code{k} categories. The modified index is bounded above by
+#'    with `k` categories. The modified index is bounded above by
 #'    \eqn{1-1/\sqrt{k}}.  The corrected indexes fix this by dividing by the
 #'    maximum.
 #' @export
@@ -44,11 +44,11 @@ gini <- function(x) {
 
 #' @name Corrected Gini-Simpson index
 #'
-#' @description The corrected Gini-Simpson index, \code{ginicorr} takes the
+#' @description The corrected Gini-Simpson index, `ginicorr` takes the
 #' index and  corrects it so that the maximum possible is 1. If there are
-#' \code{k} categories, the maximum possible of the uncorrected index is
+#' `k` categories, the maximum possible of the uncorrected index is
 #' \eqn{1-1/k}. It corrects the index by dividing by the maximum.
-#' \code{k} must be specified.
+#' `k` must be specified.
 #'
 #' @param k number of categories
 #' @export
@@ -86,7 +86,7 @@ sqrtgini <- function(x) {
 #' @name Modified Corrected Gini index
 #'
 #' @description The modified corrected Gini index then
-#' corrects the modified index for the number of categories, \code{k}.
+#' corrects the modified index for the number of categories, `k`.
 #'
 #' @export
 #' @rdname gini
@@ -125,19 +125,19 @@ cfunc <- function(x, y, c2 = 0.01, k, sqrtgini = TRUE) {
 ##' Parses input of method to a standardized name
 ##' @param method The method used as a similarity metric.
 ##'    Certain abbreviations work.
-##'    \code{Cohen}, \code{cohen}, \code{C}, \code{c}, \code{Kappa} and
-##'    \code{kappa} yield Cohen's kappa.
-##'    \code{AdjRand}, \code{adjrand}, \code{Adj}, \code{adj}, \code{a},
-##'    \code{A}, \code{ARI}, and \code{ari} yield the adjusted Rand index.
-##'    \code{Rand}, \code{rand}, \code{r}, and \code{R} yield the Rand index.
-##'    \code{Jaccard}, \code{jaccard}, \code{j}, and \code{J} yield the
+##'    `Cohen`, `cohen`, `C`, `c`, `Kappa` and
+##'    `kappa` yield Cohen's kappa.
+##'    `AdjRand`, `adjrand`, `Adj`, `adj`, `a`,
+##'    `A`, `ARI`, and `ari` yield the adjusted Rand index.
+##'    `Rand`, `rand`, `r`, and `R` yield the Rand index.
+##'    `Jaccard`, `jaccard`, `j`, and `J` yield the
 ##'    Jaccard index.
-##'    \code{Dice}, \code{dice}, \code{D}, and \code{d} yield the Dice index.
-##'    \code{Accuracy}, \code{accuracy}, \code{Hamming}, \code{hamming},
-##'    \code{H}, and \code{h} yield the accuracy.
-##'    \code{NMI}, \code{MI}, \code{mutual}, \code{information}, \code{nmi},
-##'    \code{mi} yield the normalized mutual information.
-##'    \code{AMI} and \code{ami} yield the adjusted mutual information.
+##'    `Dice`, `dice`, `D`, and `d` yield the Dice index.
+##'    `Accuracy`, `accuracy`, `Hamming`, `hamming`,
+##'    `H`, and `h` yield the accuracy.
+##'    `NMI`, `MI`, `mutual`, `information`, `nmi`,
+##'    `mi` yield the normalized mutual information.
+##'    `AMI` and `ami` yield the adjusted mutual information.
 ##' @return the name of the similarity metric.
 ##' @keywords internal
 ##' @noRd
@@ -287,15 +287,15 @@ sfunc <- function(x, y, methodflag = c_cohen) {
 #' @param alpha normalizing parameter, by default 1
 #' @param beta normalizing parameter, by default 1
 #' @param gamma normalizing parameter, by default 1
-#' @param c1 small normalization constant for the \code{c} function,
+#' @param c1 small normalization constant for the `c` function,
 #' by default 0.01
-#' @param c2 small normalization constant for the \code{s} function,
+#' @param c2 small normalization constant for the `s` function,
 #' by default 0.01
-#' @param method whether to use Cohen's kappa (\code{Cohen}),
-#'   Jaccard Index (\code{Jaccard}), Dice index (\code{Dice}),
-#'   accuracy (\code{accuracy}),  Rand index (\code{Rand}),
-#'   Adjusted Rand Index (\code{AdjRand} or \code{ARI}), or normalized mutual
-#'   information (\code{NMI} or \code{MI}) as the similarity index.
+#' @param method whether to use Cohen's kappa (`Cohen`),
+#'   Jaccard Index (`Jaccard`), Dice index (`Dice`),
+#'   accuracy (`accuracy`),  Rand index (`Rand`),
+#'   Adjusted Rand Index (`AdjRand` or `ARI`), or normalized mutual
+#'   information (`NMI` or `MI`) as the similarity index.
 #'   Note Jaccard and Dice should only be used on binary data.
 #' @param ... Constants can be passed to the components of the index.
 #'
@@ -328,7 +328,7 @@ binssim <- function(x, y, alpha = 1, beta = 1, gamma = 1,
 #'   as the similarity index. Note Jaccard should only be used on binary data.
 #' @param c1 constant for the means function
 #' @param c2 constant for the chrominance function
-#' @param sqrtgini whether to use sqrtgini or gini, by default \code{TRUE}
+#' @param sqrtgini whether to use sqrtgini or gini, by default `TRUE`
 #' @param ... constants can be passed to the internal functions
 #' @noRd
 #' @return the three components of the Categorical SSIM.
@@ -528,23 +528,23 @@ catssim_2d <- function(x, y, window = 11, method = "Cohen", ...) {
 #'
 #' @param x,y a binary or categorical image
 #' @param levels how many levels of downsampling to use. By default, 5. If
-#'        \code{weights} is specified and this is left blank, the argument
+#'        `weights` is specified and this is left blank, the argument
 #'        will be inferred from the number of weights specified.
 #' @param weights a vector of weights for the different scales. By default,
-#'        equal to \code{rep(1,levels)/levels}. If specified, there must
+#'        equal to `rep(1,levels)/levels`. If specified, there must
 #'        at least as many  weights as there are levels and the first
-#'        \code{levels} weights will be used.
+#'        `levels` weights will be used.
 #' @param window by default 11 for 2D and 5 for 3D images,
 #'     but can be specified as a
 #'     vector if the window sizes differ by dimension.
 #'     The vector must have the same number of
-#'     dimensions as the inputted \code{x} and \code{y}.
-#' @param method whether to use Cohen's kappa (\code{Cohen}),
-#'     Jaccard Index (\code{Jaccard}), Dice index (\code{Dice}),
-#'     accuracy (\code{accuracy}),  Rand index (\code{Rand}),
-#'     Adjusted Rand Index (\code{AdjRand} or \code{ARI}), normalized mutual
-#'     information (\code{NMI} or \code{MI}) or the adjusted mutual
-#'     information, \code{AMI} and \code{ami}, as
+#'     dimensions as the inputted `x` and `y`.
+#' @param method whether to use Cohen's kappa (`Cohen`),
+#'     Jaccard Index (`Jaccard`), Dice index (`Dice`),
+#'     accuracy (`accuracy`),  Rand index (`Rand`),
+#'     Adjusted Rand Index (`AdjRand` or `ARI`), normalized mutual
+#'     information (`NMI` or `MI`) or the adjusted mutual
+#'     information, `AMI` and `ami`, as
 #'     the similarity index. Note Jaccard and Dice should only be used on
 #'     binary data.
 #'
@@ -616,11 +616,11 @@ catmssim_2d <- function(x, y, levels = NULL, weights = NULL, window = 11,
 #'
 #' @param x,y a binary or categorical image
 #' @param window by default 11
-#' @param method whether to use Cohen's kappa (\code{Cohen}),
-#'    Jaccard Index (\code{Jaccard}), Dice index (\code{Dice}),
-#'       accuracy (\code{accuracy}),  Rand index (\code{Rand}),
-#'     Adjusted Rand Index (\code{AdjRand} or \code{ARI}), or normalized mutual
-#'   information (\code{NMI} or \code{MI}) as
+#' @param method whether to use Cohen's kappa (`Cohen`),
+#'    Jaccard Index (`Jaccard`), Dice index (`Dice`),
+#'       accuracy (`accuracy`),  Rand index (`Rand`),
+#'     Adjusted Rand Index (`AdjRand` or `ARI`), or normalized mutual
+#'   information (`NMI` or `MI`) as
 #'     the similarity index. Note Jaccard and Dice should only be used on
 #' binary data.
 #' @param ...
@@ -948,27 +948,27 @@ AdjRandIndex <- function(x, y) {
 #' @param cube for the 3D method, whether to use the true 3D method
 #'        (cube or \code{\link{catmssim_3d_cube}})
 #'        or compute the metric using 2D slices which are then averaged
-#'        (\code{\link{catmssim_3d_slice}}). By default, \code{TRUE},
-#'        which evaluates as a cube. \code{FALSE} will treat it as
+#'        (\code{\link{catmssim_3d_slice}}). By default, `TRUE`,
+#'        which evaluates as a cube. `FALSE` will treat it as
 #'        2D slices.
 #' @param levels how many levels of downsampling to use. By default, 5. If
-#'        \code{weights} is specified and this is left blank, the argument
+#'        `weights` is specified and this is left blank, the argument
 #'        will be inferred from the number of weights specified.
 #' @param weights a vector of weights for the different scales. By default,
-#'        equal to \code{rep(1,levels)/levels}. If specified, there must
+#'        equal to `rep(1,levels)/levels`. If specified, there must
 #'        at least as many  weights as there are levels and the first
-#'        \code{levels} weights will be used.
-#' @param method whether to use Cohen's kappa (\code{Cohen}),
-#'     Jaccard Index (\code{Jaccard}), Dice index (\code{Dice}),
-#'     accuracy (\code{accuracy}),  Rand index (\code{Rand}),
-#'     Adjusted Rand Index (\code{AdjRand} or \code{ARI}), normalized mutual
-#'     information (\code{NMI} or \code{MI}), or adjusted mutual information
-#'     (\code{AMI}) as the similarity index.
+#'        `levels` weights will be used.
+#' @param method whether to use Cohen's kappa (`Cohen`),
+#'     Jaccard Index (`Jaccard`), Dice index (`Dice`),
+#'     accuracy (`accuracy`),  Rand index (`Rand`),
+#'     Adjusted Rand Index (`AdjRand` or `ARI`), normalized mutual
+#'     information (`NMI` or `MI`), or adjusted mutual information
+#'     (`AMI`) as the similarity index.
 #'     Note Jaccard and Dice should only be used on binary data.
 #' @param window by default 11 for 2D and 5 for 3D images, but can be
 #'     specified as a vector if the window sizes differ by dimension.
 #'     The vector must have the same number of
-#'     dimensions as the inputted \code{x} and \code{y}.
+#'     dimensions as the inputted `x` and `y`.
 #' @return a value less than 1 indicating the similarity between the images.
 #' @export
 #'

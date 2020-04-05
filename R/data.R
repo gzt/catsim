@@ -5,7 +5,7 @@
 #' awkward features for an image reconstruction method
 #' evaluated in the paper.
 #'
-#' @format an \eqn{100 \times 88} matrix with entries \code{1} and \code{2}
+#' @format an \eqn{100 \times 88} matrix with entries `1` and `2`
 #' denoting the color of the corresponding pixels. The example code will
 #' produce the image as it is in the original paper.
 #' @docType data
