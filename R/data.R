@@ -7,7 +7,8 @@
 #'
 #' @format an \eqn{100 \times 88} matrix with entries `1` and `2`
 #' denoting the color of the corresponding pixels. The example code will
-#' produce the image as it is in the original paper.
+#' produce the image as it is in the original paper. To use as a `0-1` binary
+#' dataset, either use `besag - 1` or `besag %% 2`.
 #' @docType data
 #' @usage data(besag)
 #' @references
