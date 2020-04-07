@@ -407,7 +407,8 @@ downsample_2d <- function(x) {
     for (j in 1:newdims[2]) {
       xstart <- 2 * i - 1
       ystart <- 2 * j - 1
-      newx[i, j] <- pickmode(c(x[xstart:(xstart + 1), ystart:(ystart + 1)]), FALSE, .internal_catsim_modestate)
+      newx[i, j] <- pickmode(c(x[xstart:(xstart + 1), ystart:(ystart + 1)]),
+                             FALSE, .internal_catsim_modestate)
     }
   }
   newx
