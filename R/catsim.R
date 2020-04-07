@@ -352,17 +352,32 @@ ssimcomponents <- function(x, y, k, method = "Cohen",
 #' Picks the first mode
 #'
 #' @param x binary or categorical image
+#' @param rand if TRUE, samples using [sample()]. if FALSE,
+#'             cycles through options depending on an augmented
+#'             global variable (ie a simple PRNG)
+#' @param modepick changes each time you call the function and need to break
+#'             a tie if rand = FALSE using a simple PRNG.
 #'
 #' @return The first mode in the default order returned by R
 #' @noRd
 #' @keywords internal
 #'
-pickmode <- function(x) {
+pickmode <- function(x, rand = FALSE, modepick = 1) {
   ux <- unique(x)
   tab <- tabulate(match(x, ux))
-  # the random selection made things look too bad! so just taking the first
-  # mode programmatically.
-  ux[which.max(tab)]
+  # the completely random selection made things look too bad!
+  y <- seq_along(tab)[tab == max(tab)]
+  if (length(y) > 1L) {
+    if (!rand) {
+      ux[(modepick %% length(y)) + 1]
+      modepick <<- ((75 * modepick) %% 65537) + 1
+    } else {
+      ux[sample(y, 1L)]
+    }
+  }
+  else {
+    ux[y]
+  }
 }
 
 
@@ -380,6 +395,7 @@ pickmode <- function(x) {
 #' @noRd
 downsample_2d <- function(x) {
   dims <- dim(x)
+  modepick <- 1
   if (is.null(dims)) stop("x is 1-dimensional")
   newdims <- floor(dims / 2)
   if (any(newdims < 1)) {
@@ -391,7 +407,7 @@ downsample_2d <- function(x) {
     for (j in 1:newdims[2]) {
       xstart <- 2 * i - 1
       ystart <- 2 * j - 1
-      newx[i, j] <- pickmode(c(x[xstart:(xstart + 1), ystart:(ystart + 1)]))
+      newx[i, j] <- pickmode(c(x[xstart:(xstart + 1), ystart:(ystart + 1)]), FALSE, modepick)
     }
   }
   newx
@@ -446,6 +462,7 @@ downsample_3d_slice <- function(x) {
 #' @noRd
 downsample_3d_cube <- function(x) {
   dims <- dim(x)
+  modepick <- 1
   if (is.null(dims)) stop("x is 1-dimensional")
   newdims <- floor(dims / 2)
   if (any(newdims < 1)) {
@@ -463,7 +480,7 @@ downsample_3d_cube <- function(x) {
           xstart:(xstart + 1),
           ystart:(ystart + 1),
           zstart:(zstart + 1)
-        ]))
+        ]), FALSE, modepick)
       }
     }
   }

@@ -7,7 +7,8 @@
 \format{
 an \eqn{100 \times 88} matrix with entries \code{1} and \code{2}
 denoting the color of the corresponding pixels. The example code will
-produce the image as it is in the original paper.
+produce the image as it is in the original paper. To use as a \code{0-1} binary
+dataset, either use \code{besag - 1} or \code{besag \%\% 2}.
 }
 \usage{
 data(besag)
