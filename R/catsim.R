@@ -370,7 +370,7 @@ pickmode <- function(x, rand = FALSE, modepick = 1) {
   if (length(y) > 1L) {
     if (!rand) {
       ux[(modepick %% length(y)) + 1]
-      .internal_catsim_modestate <<- ((75 * modepick) %% 65537) + 1
+      .internal_catsim_modestate <- ((75 * modepick) %% 65537) + 1
     } else {
       ux[sample(y, 1L)]
     }
