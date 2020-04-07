@@ -15,6 +15,7 @@
 #' Journal of the Royal Statistical Society: Series B (Methodological),
 #' vol. 48, no. 3, pp. 259–279, 1986. \doi{10.1111/j.2517-6161.1986.tb01412.x}
 #' @keywords datasets
+#' @export
 #' @examples
 #' image(besag[, 88:1])
 "besag"
