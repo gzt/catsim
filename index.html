@@ -32,7 +32,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">catsim</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.2</span>
       </span>
     </div>
 
@@ -93,7 +93,7 @@
 <a href="#usage" class="anchor"></a>Usage</h2>
 <p>If you have two images, <code>x</code> and <code>y</code>, the simplest method of comparing them is:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">catsim</span>(x, y)</span></code></pre></div>
-<p>By default, this performs 5 levels of downsampling and uses Cohenâs <span class="math inline"><em>Îº</em></span> as the local similarity metric on <span class="math inline">11âÃâ11</span> windows for a 2-dimensional image and <span class="math inline">5âÃâ5âÃâ5</span> windows for a 3-D image. Those can be adjusted using the <code>levels</code>, <code>method</code>, and <code>window</code> arguments.</p>
+<p>By default, this performs 5 levels of downsampling and uses Cohenâs kappa as the local similarity metric on <code>11 x 11</code> windows for a 2-dimensional image and <code>5 x 5 x 5</code> windows for a 3-D image. Those can be adjusted using the <code>levels</code>, <code>method</code>, and <code>window</code> arguments.</p>
 </div>
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">

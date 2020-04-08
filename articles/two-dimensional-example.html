@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">catsim</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.2</span>
       </span>
     </div>
 
@@ -159,11 +159,11 @@
 <p>This captures the similarity between the original image and the shifted image, but is too “critical” of the salt-and-pepper error. We can correct this by looking at the image on multiple scales: we downsample by a factor of 2 and then compute the index for that layer, then repeat, and combine the layers at the end into one measure. By default, we use 5 layers of downsampling, but this can be specified based on your application and the size of the image. Downsampling should remove and smooth out a light level of salt-and-pepper error.</p>
 <p>With five levels, the difference is smaller, but still prefers the shifted version over the salt and pepper error.</p>
 <div class="sourceCode" id="cb6"><html><body><pre class="r"><span class="fu"><a href="../reference/catsim.html">catsim</a></span>(<span class="no">basemat</span>, <span class="no">shiftmat</span>, <span class="kw">weights</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="fl">.2</span>, <span class="fl">5</span>))
-<span class="co">#&gt; [1] 0.7597576</span>
+<span class="co">#&gt; [1] 0.9356065</span>
 
 <span class="co">### comparing base to salt-and-pepper</span>
 <span class="fu"><a href="../reference/catsim.html">catsim</a></span>(<span class="no">basemat</span>, <span class="no">errmat</span>, <span class="kw">weights</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="fl">.2</span>, <span class="fl">5</span>))
-<span class="co">#&gt; [1] 0.5935812</span></pre></body></html></div>
+<span class="co">#&gt; [1] 0.6385726</span></pre></body></html></div>
 </div>
 <div id="catsim-options" class="section level1">
 <h1 class="hasAnchor">
@@ -183,18 +183,18 @@
 <a href="https://nlp.stanford.edu/IR-book/html/htmledition/evaluation-of-clustering-1.html">Normalized mutual information</a>, a information theory similarity metric based on the Kullback-Liebler divergence between the two distributions, with <code>method = "NMI"</code> or <code>MI</code>.</li>
 </ul>
 <div class="sourceCode" id="cb7"><html><body><pre class="r"><span class="fu"><a href="../reference/catsim.html">catsim</a></span>(<span class="no">basemat</span>, <span class="no">shiftmat</span>, <span class="kw">weights</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="fl">.2</span>,<span class="fl">5</span>), <span class="kw">method</span><span class="kw">=</span><span class="st">"Rand"</span>)
-<span class="co">#&gt; [1] 0.8532614</span>
+<span class="co">#&gt; [1] 0.9577981</span>
 <span class="fu"><a href="../reference/catsim.html">catsim</a></span>(<span class="no">basemat</span>, <span class="no">shiftmat</span>, <span class="kw">weights</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="fl">.2</span>,<span class="fl">5</span>), <span class="kw">method</span><span class="kw">=</span><span class="st">"NMI"</span>)
-<span class="co">#&gt; [1] 0.4919799</span></pre></body></html></div>
+<span class="co">#&gt; [1] 0.7079175</span></pre></body></html></div>
 <p>The window size can also be adjusted. It should be large enough to capture the scale of the features that are relevant in the analysis. In this example, a portion of the image was displaced by 6 pixels. Too large of a window may average out that difference too much while too small may miss the similarity between the images. Here is a comparison between the shifted image and the salt-and-pepper noise at different window sizes.</p>
 <div class="sourceCode" id="cb8"><html><body><pre class="r"><span class="fu"><a href="../reference/catsim.html">catsim</a></span>(<span class="no">basemat</span>, <span class="no">shiftmat</span>, <span class="kw">weights</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="fl">1</span> / <span class="fl">3</span>, <span class="fl">3</span>), <span class="kw">window</span> <span class="kw">=</span> <span class="fl">20</span>)
-<span class="co">#&gt; [1] 0.777072</span>
+<span class="co">#&gt; [1] 0.8866088</span>
 <span class="fu"><a href="../reference/catsim.html">catsim</a></span>(<span class="no">basemat</span>, <span class="no">shiftmat</span>, <span class="kw">weights</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="fl">1</span> / <span class="fl">3</span>, <span class="fl">3</span>), <span class="kw">window</span> <span class="kw">=</span> <span class="fl">5</span>)
-<span class="co">#&gt; [1] 0.7337481</span>
+<span class="co">#&gt; [1] 0.9329088</span>
 <span class="fu"><a href="../reference/catsim.html">catsim</a></span>(<span class="no">basemat</span>, <span class="no">errmat</span>, <span class="kw">weights</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="fl">1</span> / <span class="fl">3</span>, <span class="fl">3</span>), <span class="kw">window</span> <span class="kw">=</span> <span class="fl">20</span>)
-<span class="co">#&gt; [1] 0.6727239</span>
+<span class="co">#&gt; [1] 0.7037384</span>
 <span class="fu"><a href="../reference/catsim.html">catsim</a></span>(<span class="no">basemat</span>, <span class="no">errmat</span>, <span class="kw">weights</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="fl">1</span> / <span class="fl">3</span>, <span class="fl">3</span>), <span class="kw">window</span> <span class="kw">=</span> <span class="fl">5</span>)
-<span class="co">#&gt; [1] 0.4197142</span></pre></body></html></div>
+<span class="co">#&gt; [1] 0.4657041</span></pre></body></html></div>
 <p>The number of levels CatSIM uses can be set by specifying either the <code>levels</code> argument or passing a vector to <code>weights</code>, where the length of the vector dictates how many levels of downsampling will be performed. By default, if the number of levels are specified without specifying the weights, the weights are set to be equal across levels and add up to 1. Specifying <code>weights = rep(1/3,3)</code> is the same as specifying <code>levels = 3</code>.</p>
 <div id="advanced-functionality" class="section level2">
 <h2 class="hasAnchor">
@@ -202,7 +202,7 @@
 <p>The <code><a href="../reference/catsim.html">catsim()</a></code> function works for both 2-D and 3-D images. It is a wrapper for other functions which give more control over the various options. On a 2-D image, it is calling <code><a href="../reference/catmssim_2d.html">catmssim_2d()</a></code> and on a 3-D image it is calling either <code><a href="../reference/catmssim_3d_cube.html">catmssim_3d_cube()</a></code> or <code><a href="../reference/catmssim_3d_slice.html">catmssim_3d_slice()</a></code>, which treats the image as either an isotropic 3-D image or a stack of 2-D slices.</p>
 <p>In images with different properties across dimensions, the sliding window used to assess the similarity might not need to be square. This can be specified by passing a vector to the <code>window</code> argument. In the provided examples, this is not necessary, but some sources of images may not be isotropic. Alternatively, the image may be elongated in one direction and narrow in another. This makes it possible to accommodate these differences.</p>
 <div class="sourceCode" id="cb9"><html><body><pre class="r"><span class="fu"><a href="../reference/catsim.html">catsim</a></span>(<span class="no">basemat</span>, <span class="no">shiftmat</span>, <span class="kw">weights</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="fl">.2</span>, <span class="fl">5</span>), <span class="kw">window</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">11</span>, <span class="fl">5</span>))
-<span class="co">#&gt; [1] 0.738169</span></pre></body></html></div>
+<span class="co">#&gt; [1] 0.9355324</span></pre></body></html></div>
 </div>
 </div>
   </div>

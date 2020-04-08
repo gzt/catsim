@@ -75,7 +75,7 @@ and then averages over the z-axis." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">catsim</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.2</span>
       </span>
     </div>
 
@@ -210,7 +210,7 @@ binary data.</p></td>
   <span class='kw'>for</span> (<span class='no'>i</span> <span class='kw'>in</span> <span class='fl'>1</span>:(<span class='no'>dim</span>^<span class='fl'>2</span>)) <span class='no'>y</span>[<span class='no'>i</span>, <span class='no'>i</span>, <span class='no'>j</span>] <span class='kw'>&lt;-</span> <span class='fl'>0</span>
   <span class='kw'>for</span> (<span class='no'>i</span> <span class='kw'>in</span> <span class='fl'>1</span>:(<span class='no'>dim</span>^<span class='fl'>2</span> - <span class='fl'>1</span>)) <span class='no'>y</span>[<span class='no'>i</span>, <span class='no'>i</span> + <span class='fl'>1</span>, <span class='no'>j</span>] <span class='kw'>&lt;-</span> <span class='fl'>0</span>
 }
-<span class='fu'>catmssim_3d_slice</span>(<span class='no'>x</span>, <span class='no'>y</span>, <span class='kw'>weights</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>.75</span>, <span class='fl'>.25</span>)) <span class='co'># by default method = "Cohen"</span></div><div class='output co'>#&gt; [1] 0.9549042</div><div class='input'><span class='co'># compare to some simple metric:</span>
+<span class='fu'>catmssim_3d_slice</span>(<span class='no'>x</span>, <span class='no'>y</span>, <span class='kw'>weights</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>.75</span>, <span class='fl'>.25</span>)) <span class='co'># by default method = "Cohen"</span></div><div class='output co'>#&gt; [1] 0.9735748</div><div class='input'><span class='co'># compare to some simple metric:</span>
 <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>(<span class='no'>x</span> <span class='kw'>==</span> <span class='no'>y</span>)</div><div class='output co'>#&gt; [1] 0.9750671</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
