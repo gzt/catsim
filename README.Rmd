@@ -39,7 +39,13 @@ images, such as might be found in image segmentation or classification problems.
 
 If you have two images, `x` and `y`, the simplest method of comparing them is:
 
-```r
+```{r displayimage}
+library(catsim)
+x <- besag
+y <- x
+y[10:20,10:20] <- 1
+par(mfrow = c(1, 2)
+image(x); image(y)
 catsim(x, y)
 ```
 
@@ -59,4 +65,5 @@ devtools::install_github("gzt/catsim")
 
 This is not on CRAN yet. Install using github.
 
-Please note that the `catsim` project is released with a [Contributor Code of Conduct](CODE_OF_CONDUCT.md). By contributing to this project, you agree to abide by its terms.
+Please note that the `catsim` project is released with a [Contributor Code of Conduct](CODE_OF_CONDUCT.md).
+By contributing to this project, you agree to abide by its terms.
