@@ -327,10 +327,6 @@ downsample_2d <- function(x, random = FALSE) {
   modepick <- 1
   if (is.null(dims)) stop("x is 1-dimensional")
   newdims <- floor(dims / 2)
-  if (any(newdims < 1)) {
-    warning("Cannot downsample, at least one dimension is of length 1")
-    return(x)
-  }
   newx <- matrix(nrow = newdims[1], ncol = newdims[2])
   for (i in seq(newdims[1])) {
     for (j in seq(newdims[2])) {
@@ -367,10 +363,6 @@ downsample_3d_slice <- function(x, random = FALSE) {
   dims <- dim(x)
   if (is.null(dims)) stop("x is 1-dimensional")
   newdims <- floor(c(dims[1:2] / 2, dims[3]))
-  if (any(newdims < 1)) {
-    warning("Cannot downsample, at least one dimension is of length 1.")
-    return(x)
-  }
   newx <- array(dim = newdims)
   for (i in seq(dims[3])) {
     newx[, , i] <- downsample_2d(x[, , i], random)
@@ -388,8 +380,9 @@ downsample_3d_slice <- function(x, random = FALSE) {
 #' equal. In case there is more than one mode, it selects
 #' the first in lexicographic order.
 #' @param x an \eqn{n \times m \times q}{n x m x q} binary or categorical image
-#' @param random by default FALSE, whether to have deterministic PRNG
-#'               or to use [sample()]
+#' @param random by default FALSE, whether to have
+#'       \href{deterministic PRNG}{https://en.wikipedia.org/wiki/Lehmer_RNG}
+#'       or to use [sample()]
 #' @return  an \eqn{n/2 \times m/2 \times q/2}{n/2 x m/2 x q/2}
 #' binary or categorical image
 #'
@@ -401,10 +394,6 @@ downsample_3d_cube <- function(x, random = FALSE) {
   modepick <- 1
   if (is.null(dims)) stop("x is 1-dimensional")
   newdims <- floor(dims / 2)
-  if (any(newdims < 1)) {
-    warning("Cannot downsample, at least one dimension is of length 1.")
-    return(x)
-  }
   newx <- array(dim = newdims)
   for (i in seq(newdims[1])) {
     for (j in seq(newdims[2])) {
@@ -456,14 +445,7 @@ catssim_2d <- function(x, y, window = 11, method = "Cohen", ...) {
   ncol <- dims[2]
   methodflag <- method_parser(method)
   dotlist <- dots_parser(...)
-  if (any(dims < (window - 1))) {
-    return(ssimcomponents(
-      x = (x), y = (y), k = k, method = methodflag,
-      c1 = dotlist[["c1"]],
-      c2 = dotlist[["c2"]],
-      sqrtgini = dotlist[["sqrtgini"]]
-    ))
-  }
+
   resultmatrix <- array(0, c(nrow - window[1] + 1, ncol - window[2] + 1, 3))
 
   for (i in seq(nrow - (window[1] - 1))) {
@@ -611,15 +593,6 @@ catssim_3d_cube <- function(x, y, window = c(5, 5, 5), method = "Cohen", ...) {
   dims <- dim(x)
   methodflag <- method_parser(method)
   dotlist <- dots_parser(...)
-
-  if (any(dims < window)) {
-    return(ssimcomponents(
-      x = x, y = y, k = k,
-      method = methodflag, c1 = dotlist[["c1"]],
-      c2 = dotlist[["c2"]],
-      sqrtgini = dotlist[["sqrtgini"]]
-    ))
-  }
 
   cuberesults <- array(0, c(dims - window[1:3] + 1, 3))
   for (i in seq(dims[1] - (window[1] - 1))) {

@@ -87,16 +87,16 @@ level_parser <- function(weights, levels) {
 ##' @keywords internal
 ##' @noRd
 dots_parser <- function(...) {
-    dotlist <- list(...)
-    ## list of args: with defaults
-    ## alpha: 1; beta: 1; gamma: 1
-    ## c1: 0.01
-    ## c2: 0.01
-    ## sqrtgini: TRUE
-    ## random or rand: FALSE
-    if (is.null(dotlist[["c1"]])) dotlist[["c1"]] <- 0.01
-    if (is.null(dotlist[["c2"]])) dotlist[["c2"]] <- 0.01
-    if (is.null(dotlist[["sqrtgini"]])) dotlist[["sqrtgini"]] <- TRUE
-    if (is.null(dotlist[["random"]])) dotlist[["random"]] <- FALSE
-    dotlist
+  dotlist <- list(...)
+  ## list of args: with defaults
+  ## alpha: 1; beta: 1; gamma: 1
+  ## c1: 0.01
+  ## c2: 0.01
+  ## sqrtgini: TRUE
+  ## random or rand: FALSE
+  if (is.null(dotlist[["c1"]])) dotlist[["c1"]] <- 0.01
+  if (is.null(dotlist[["c2"]])) dotlist[["c2"]] <- 0.01
+  if (is.null(dotlist[["sqrtgini"]])) dotlist[["sqrtgini"]] <- TRUE
+  if (is.null(dotlist[["random"]])) dotlist[["random"]] <- FALSE
+  dotlist
 }

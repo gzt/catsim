@@ -123,7 +123,7 @@ test_that("Inputs are symmetric 2D", {
     catmssim_2d(y, x, weights = 1, method = "dice")
   )
   expect_equal(normalized_mi(x, y), normalized_mi(y, x))
-
+  expect_equal(adjusted_mi(x, y), adjusted_mi(y, x))
 })
 
 test_that("catmssim_2d equivalent to catsim in 2D", {
