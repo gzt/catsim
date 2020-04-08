@@ -34,8 +34,8 @@ test_that("Weights and levels work 2D", {
   expect_error(catsim(x, y, weights = 1:3, levels = 5))
   expect_equal(catsim(x, y, weights = c(.5, .5)), catsim(x, y, levels = 2))
   expect_equal(
-    catsim(x, y, weights = c(.5, .5, .5), levels = 2),
-    catsim(x, y, weights = c(.5, .5))
+    catsim(x, y, random = TRUE, weights = c(.5, .5, .5), levels = 2),
+    catsim(x, y, random = TRUE, weights = c(.5, .5))
   )
   expect_equal(
     catsim(x, y, window = 2),
@@ -123,6 +123,7 @@ test_that("Inputs are symmetric 2D", {
     catmssim_2d(y, x, weights = 1, method = "dice")
   )
   expect_equal(normalized_mi(x, y), normalized_mi(y, x))
+
 })
 
 test_that("catmssim_2d equivalent to catsim in 2D", {

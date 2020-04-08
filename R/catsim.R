@@ -120,84 +120,6 @@ cfunc <- function(x, y, c2 = 0.01, k, sqrtgini = TRUE) {
   c_cfunc(x, y, c2, k, sqrtgini)
 }
 
-##' Method Parser
-##'
-##' Parses input of method to a standardized name
-##' @param method The method used as a similarity metric.
-##'    Certain abbreviations work.
-##'    `Cohen`, `cohen`, `C`, `c`, `Kappa` and
-##'    `kappa` yield Cohen's kappa.
-##'    `AdjRand`, `adjrand`, `Adj`, `adj`, `a`,
-##'    `A`, `ARI`, and `ari` yield the adjusted Rand index.
-##'    `Rand`, `rand`, `r`, and `R` yield the Rand index.
-##'    `Jaccard`, `jaccard`, `j`, and `J` yield the
-##'    Jaccard index.
-##'    `Dice`, `dice`, `D`, and `d` yield the Dice index.
-##'    `Accuracy`, `accuracy`, `Hamming`, `hamming`,
-##'    `H`, and `h` yield the accuracy.
-##'    `NMI`, `MI`, `mutual`, `information`, `nmi`,
-##'    `mi` yield the normalized mutual information.
-##'    `AMI` and `ami` yield the adjusted mutual information.
-##' @return the name of the similarity metric.
-##' @keywords internal
-##' @noRd
-methodparser <- function(method) {
-  methodflag <- NULL
-  if (method %in% c("Cohen", "cohen", "C", "c", "kappa", "Kappa")) {
-    methodflag <- c_cohen
-  } # "Cohen"
-  if (method %in% c(
-    "AdjRand", "adjrand", "Adj", "adj",
-    "a", "A", "ARI", "ari"
-  )) {
-    methodflag <- c_adj_rand
-  } # "AdjRand"
-  if (method %in% c("Rand", "rand", "r", "R")) {
-    methodflag <- c_rand
-  } # "Rand"
-  if (method %in% c("Jaccard", "jaccard", "j", "J")) {
-    methodflag <- jaccard
-  } # "Jaccard"
-  if (method %in% c("Dice", "dice", "D", "d")) {
-    methodflag <- dice
-  } # "Dice"
-  if (method %in% c("Accuracy", "accuracy", "Hamming", "hamming", "H", "h")) {
-    methodflag <- hamming
-  } # "hamming"
-  if (method %in% c("NMI", "MI", "mutual", "information", "nmi", "mi")) {
-    methodflag <- c_nmi
-  } # normalized mutual information
-  if (method %in% c("AMI", "ami")) {
-    methodflag <- c_ami
-  } # adjusted mutual information
-  if (is.null(methodflag)) stop("Error: invalid method")
-  methodflag
-}
-
-##' Level Parser
-##'
-##' Parses the weights and levels.
-##' @param weights the vector of weights
-##' @param levels the levels
-##' @keywords internal
-##' @noRd
-##' @return the parsed weights
-levelparser <- function(weights, levels) {
-  if (!is.null(weights) && !is.null(levels)) {
-    if (levels > length(weights)) {
-      stop("Inconsistent weight and levels specified.")
-    }
-    weights <- weights[1:levels]
-  }
-  if (is.null(weights) && is.null(levels)) {
-    levels <- 5
-  }
-  if (is.null(weights)) {
-    weights <- rep(1, levels) / levels
-  }
-  weights
-}
-
 #' Jaccard Index
 #'
 #' @param x binary image or vector
@@ -314,10 +236,13 @@ binssim <- function(x, y, alpha = 1, beta = 1, gamma = 1,
   if (length(x) != length(y)) stop("x and y must be the same size.")
   naxy <- (!is.na(x) & !is.na(y))
   k <- length(unique(c(x[naxy], y[naxy])))
-
-  methodflag <- methodparser(method)
+  dotlist <- dots_parser(...)
+  methodflag <- method_parser(method)
   (meansfunc(x[naxy], y[naxy], c1)^alpha) *
-    (cfunc(x = x[naxy], y = y[naxy], c2 = c2, k = k, ...)^beta) *
+    (cfunc(
+      x = x[naxy], y = y[naxy], c2 = c2, k = k,
+      sqrtgini = dotlist[["sqrtgini"]]
+    )^beta) *
     (sfunc(x[naxy], y[naxy], methodflag)^gamma)
 }
 
@@ -329,22 +254,21 @@ binssim <- function(x, y, alpha = 1, beta = 1, gamma = 1,
 #' @param c1 constant for the means function
 #' @param c2 constant for the chrominance function
 #' @param sqrtgini whether to use sqrtgini or gini, by default `TRUE`
-#' @param ... constants can be passed to the internal functions
 #' @noRd
 #' @return the three components of the Categorical SSIM.
 #' @keywords internal
 #'
-ssimcomponents <- function(x, y, k, method = "Cohen",
+ssimcomponents <- function(x, y, k, method = c_cohen,
                            c1 = 0.01, c2 = 0.01, sqrtgini = TRUE) {
   naxy <- (!is.na(x) & !is.na(y))
   if (length(x[naxy]) == 0) {
     return(c(NA, NA, NA))
   }
-  methodflag <- methodparser(method)
+
   c(
     meansfunc(x[naxy], y[naxy], c1),
     cfunc(x = x[naxy], y = y[naxy], c2 = c2, k = k, sqrtgini),
-    sfunc(x[naxy], y[naxy], methodflag = methodflag)
+    sfunc(x[naxy], y[naxy], methodflag = method)
   )
 }
 
@@ -408,8 +332,8 @@ downsample_2d <- function(x, random = FALSE) {
     return(x)
   }
   newx <- matrix(nrow = newdims[1], ncol = newdims[2])
-  for (i in 1:newdims[1]) {
-    for (j in 1:newdims[2]) {
+  for (i in seq(newdims[1])) {
+    for (j in seq(newdims[2])) {
       xstart <- 2 * i - 1
       ystart <- 2 * j - 1
       tmpvec <- pickmode(
@@ -448,7 +372,7 @@ downsample_3d_slice <- function(x, random = FALSE) {
     return(x)
   }
   newx <- array(dim = newdims)
-  for (i in 1:dims[3]) {
+  for (i in seq(dims[3])) {
     newx[, , i] <- downsample_2d(x[, , i], random)
   }
   newx
@@ -482,9 +406,9 @@ downsample_3d_cube <- function(x, random = FALSE) {
     return(x)
   }
   newx <- array(dim = newdims)
-  for (i in 1:newdims[1]) {
-    for (j in 1:newdims[2]) {
-      for (k in 1:newdims[3]) {
+  for (i in seq(newdims[1])) {
+    for (j in seq(newdims[2])) {
+      for (k in seq(newdims[3])) {
         xstart <- 2 * i - 1
         ystart <- 2 * j - 1
         zstart <- 2 * k - 1
@@ -530,19 +454,27 @@ catssim_2d <- function(x, y, window = 11, method = "Cohen", ...) {
   dims <- dim(x)
   nrow <- dims[1]
   ncol <- dims[2]
+  methodflag <- method_parser(method)
+  dotlist <- dots_parser(...)
   if (any(dims < (window - 1))) {
-    return(ssimcomponents(x = (x), y = (y), k = k, method = method, ...))
+    return(ssimcomponents(
+      x = (x), y = (y), k = k, method = methodflag,
+      c1 = dotlist[["c1"]],
+      c2 = dotlist[["c2"]],
+      sqrtgini = dotlist[["sqrtgini"]]
+    ))
   }
   resultmatrix <- array(0, c(nrow - window[1] + 1, ncol - window[2] + 1, 3))
 
-  for (i in 1:(nrow - (window[1] - 1))) {
-    for (j in 1:(ncol - (window[2] - 1))) {
+  for (i in seq(nrow - (window[1] - 1))) {
+    for (j in seq(ncol - (window[2] - 1))) {
       subx <- x[i:(i + (window[1] - 1)), j:(j + (window[2] - 1))]
       suby <- y[i:(i + (window[1] - 1)), j:(j + (window[2] - 1))]
 
       resultmatrix[i, j, ] <- ssimcomponents(
         x = subx, y = suby,
-        k = k, method = method, ...
+        k = k, method = methodflag, c1 = dotlist[["c1"]],
+        c2 = dotlist[["c2"]], sqrtgini = dotlist[["sqrtgini"]]
       )
     }
   }
@@ -602,7 +534,8 @@ catmssim_2d <- function(x, y, levels = NULL, weights = NULL, window = 11,
   }
   if (any(dim(x) != dim(y))) stop("x and y have nonconformable dimensions.")
   if (length(window) == 1) window <- c(window, window)
-  weights <- levelparser(weights = weights, levels = levels)
+  weights <- level_parser(weights = weights, levels = levels)
+  dotlist <- dots_parser(...)
   levels <- length(weights)
   mindim <- min(dim(x))
   minwindow <- min(window[1:2])
@@ -625,8 +558,8 @@ catmssim_2d <- function(x, y, levels = NULL, weights = NULL, window = 11,
 
   if (levels > 1) {
     for (i in 2:levels) {
-      x <- downsample_2d(x)
-      y <- downsample_2d(y)
+      x <- downsample_2d(x, random = dotlist[["random"]])
+      y <- downsample_2d(y, random = dotlist[["random"]])
       results[i, ] <- catssim_2d(
         x = x, y = y,
         window = window, method = method, ...
@@ -664,7 +597,7 @@ catmssim_2d <- function(x, y, levels = NULL, weights = NULL, window = 11,
 catssim_3d_slice <- function(x, y, window = c(11, 11), method = "Cohen", ...) {
   dims <- dim(x)
   sliceresults <- matrix(0, nrow = dims[3], ncol = 3)
-  for (i in 1:dims[3]) {
+  for (i in seq(dims[3])) {
     sliceresults[i, ] <- catssim_2d(
       x = x[, , i], y = y[, , i],
       window = window, method = method, ...
@@ -676,14 +609,22 @@ catssim_3d_slice <- function(x, y, window = c(11, 11), method = "Cohen", ...) {
 catssim_3d_cube <- function(x, y, window = c(5, 5, 5), method = "Cohen", ...) {
   k <- length(unique(c(x, y)))
   dims <- dim(x)
+  methodflag <- method_parser(method)
+  dotlist <- dots_parser(...)
+
   if (any(dims < window)) {
-    return(ssimcomponents(x = (x), y = (y), k = k, method = method, ...))
+    return(ssimcomponents(
+      x = x, y = y, k = k,
+      method = methodflag, c1 = dotlist[["c1"]],
+      c2 = dotlist[["c2"]],
+      sqrtgini = dotlist[["sqrtgini"]]
+    ))
   }
 
   cuberesults <- array(0, c(dims - window[1:3] + 1, 3))
-  for (i in 1:(dims[1] - (window[1] - 1))) {
-    for (j in 1:(dims[2] - (window[2] - 1))) {
-      for (k in 1:(dims[3] - (window[3] - 1))) {
+  for (i in seq(dims[1] - (window[1] - 1))) {
+    for (j in seq(dims[2] - (window[2] - 1))) {
+      for (k in seq(dims[3] - (window[3] - 1))) {
         subx <- x[
           i:(i + (window[1] - 1)),
           j:(j + (window[2] - 1)),
@@ -696,7 +637,8 @@ catssim_3d_cube <- function(x, y, window = c(5, 5, 5), method = "Cohen", ...) {
         ]
         cuberesults[i, j, k, ] <- ssimcomponents(
           x = subx, y = suby,
-          k = k, method = method, ...
+          k = k, method = methodflag, c1 = dotlist[["c1"]],
+          c2 = dotlist[["c2"]], sqrtgini = dotlist[["sqrtgini"]]
         )
       }
     }
@@ -740,9 +682,10 @@ catmssim_3d_slice <- function(x, y, levels = NULL, weights = NULL,
     stop("x and y have nonconformable dimensions.")
   }
   if (any(dim(x) != dim(y))) {
-    stop("x and y have nonconformable dimensions.")(method)
+    stop("x and y have nonconformable dimensions.")
   }
-  weights <- levelparser(weights = weights, levels = levels)
+  weights <- level_parser(weights = weights, levels = levels)
+  dotlist <- dots_parser(...)
   levels <- length(weights)
   dims <- dim(x)
   if (length(window) == 1) window <- c(window, window)
@@ -769,8 +712,8 @@ catmssim_3d_slice <- function(x, y, levels = NULL, weights = NULL,
 
   if (levels > 1) {
     for (j in 2:levels) {
-      x <- downsample_3d_slice(x)
-      y <- downsample_3d_slice(y)
+      x <- downsample_3d_slice(x, random = dotlist[["random"]])
+      y <- downsample_3d_slice(y, random = dotlist[["random"]])
       results[j, ] <- catssim_3d_slice(
         x = x, y = y,
         window = window, method = method, ...
@@ -823,7 +766,8 @@ catmssim_3d_cube <- function(x, y, levels = NULL, weights = NULL, window = 5,
   if (any(dim(x) != dim(y))) {
     stop("x and y have nonconformable dimensions.")
   }
-  weights <- levelparser(weights = weights, levels = levels)
+  weights <- level_parser(weights = weights, levels = levels)
+  dotlist <- dots_parser(...)
   levels <- length(weights)
   if (length(window) == 1) window <- rep(window, 3)
   if (length(window) != 3) {
@@ -854,8 +798,8 @@ catmssim_3d_cube <- function(x, y, levels = NULL, weights = NULL, window = 5,
 
   if (levels > 1) {
     for (j in 2:levels) {
-      x <- downsample_3d_cube(x)
-      y <- downsample_3d_cube(y)
+      x <- downsample_3d_cube(x, random = dotlist[["random"]])
+      y <- downsample_3d_cube(y, random = dotlist[["random"]])
       results[j, ] <- catssim_3d_cube(
         x = x, y = y,
         window = window, method = method, ...
@@ -1040,7 +984,7 @@ catsim <- function(x, y, ..., cube = TRUE, levels = NULL, weights = NULL,
       window <- 11
     }
   }
-  weights <- levelparser(weights = weights, levels = levels)
+  weights <- level_parser(weights = weights, levels = levels)
   if (length(dims) == 2) {
     catmssim_2d(x, y,
       weights = weights, method = method,
