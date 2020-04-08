@@ -40,7 +40,7 @@ method_parser <- function(method) {
   if (method %in% c("Dice", "dice", "D", "d")) {
     methodflag <- dice
   } # "Dice"
-  if (method %in% c("Accuracy", "accuracy", "Hamming", "hamming", "H", "h")) {
+  if (method %in% c("Accuracy", "accuracy", "acc", "Hamming", "hamming", "H", "h")) {
     methodflag <- hamming
   } # "hamming"
   if (method %in% c("NMI", "MI", "mutual", "information", "nmi", "mi")) {

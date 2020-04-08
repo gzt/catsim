@@ -288,23 +288,23 @@ ssimcomponents <- function(x, y, k, method = c_cohen,
 #' @keywords internal
 #'
 pickmode <- function(x, rand = FALSE, modepick = 1) {
-  ux <- unique(x)
-  tab <- tabulate(match(x, ux))
+    ux <- unique(x)
+    tab <- tabulate(match(x, ux))
   # the completely random selection made things look too bad!
-  y <- seq_along(tab)[tab == max(tab)]
-  if (length(y) > 1L) {
-    if (!rand) {
-      c(
-        ux[(modepick %% length(y)) + 1],
-        modepick <- ((75 * modepick) %% 65537) + 1
-      )
+    y <- seq_along(tab)[tab == max(tab)]
+    if (length(y) > 1L) {
+        if (!rand) {
+            modepick <- ((75 * modepick) %% 65537) + 1
+            c(
+                ux[(modepick %% length(y)) + 1],
+                modepick
+            )
+      } else {
+          c(ux[sample(y, 1L)], modepick)
+      }
     } else {
-      c(ux[sample(y, 1L)], modepick)
+        c(ux[y], modepick)
     }
-  }
-  else {
-    c(ux[y], modepick)
-  }
 }
 
 
