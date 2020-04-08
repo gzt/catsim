@@ -1,3 +1,7 @@
+# catsim 0.1.2
+* Improve handling of `...` arguments.
+* Easier access to `pickmode(random)` argument.
+
 # catsim 0.1.1
 * Change deterministic PRNG for downsampling to not assign to parent
   environment to preserve state, made the option to use `sample`
