@@ -39,10 +39,9 @@ them is:
     catsim(x, y)
 
 By default, this performs 5 levels of downsampling and uses Cohen’s
-\(\kappa\) as the local similarity metric on \(11\times 11\) windows for
-a 2-dimensional image and \(5\times 5\times 5\) windows for a 3-D image.
-Those can be adjusted using the `levels`, `method`, and `window`
-arguments.
+kappa as the local similarity metric on `11 x 11` windows for a
+2-dimensional image and `5 x 5 x 5` windows for a 3-D image. Those can
+be adjusted using the `levels`, `method`, and `window` arguments.
 
 ## Installation
 
