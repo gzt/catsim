@@ -1,3 +1,13 @@
+# catsim 0.1.1
+* Change deterministic PRNG for downsampling to not assign to parent
+  environment to preserve state, made the option to use `sample`
+  accessible to advanced users through `...` arguments.
+* Fixed some documentation. 
+
+# catsim 0.1.0
+* Mostly documentation fixes.
+* Version used for paper submission.
+
 # catsim 0.1.0.9040
 
 * Add `besag` image as a data example.

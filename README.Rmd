@@ -39,7 +39,7 @@ images, such as might be found in image segmentation or classification problems.
 
 If you have two images, `x` and `y`, the simplest method of comparing them is:
 
-```
+```r
 catsim(x, y)
 ```
 
@@ -52,7 +52,7 @@ arguments.
 
 You can install the released version of catsim from [CRAN](https://CRAN.R-project.org) with:
 
-``` r
+```r
 # install.packages("catsim")
 devtools::install_github("gzt/catsim")
 ```

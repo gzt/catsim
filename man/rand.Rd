@@ -107,5 +107,5 @@ Nguyen Xuan Vinh, Julien Epps, and James Bailey (2010).
 Information Theoretic Measures for Clusterings Comparison:
 Variants, Properties, Normalization and Correction for Chance.
 J. Mach. Learn. Res. 11 (December 2010), 2837–2854.
-\doi{10.5555/1756006.1953024}
+\link{http://www.jmlr.org/papers/v11/vinh10a}
 }

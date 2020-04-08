@@ -358,7 +358,8 @@ ssimcomponents <- function(x, y, k, method = "Cohen",
 #' @param modepick changes each time you call the function and need to break
 #'             a tie if rand = FALSE using a simple PRNG.
 #'
-#' @return The first mode in the default order returned by R
+#' @return The first mode in the default order returned by R and the state of
+#'         the PRNG is applicable
 #' @noRd
 #' @keywords internal
 #'
@@ -369,14 +370,16 @@ pickmode <- function(x, rand = FALSE, modepick = 1) {
   y <- seq_along(tab)[tab == max(tab)]
   if (length(y) > 1L) {
     if (!rand) {
-      ux[(modepick %% length(y)) + 1]
-      .internal_catsim_modestate <<- ((75 * modepick) %% 65537) + 1
+      c(
+        ux[(modepick %% length(y)) + 1],
+        modepick <- ((75 * modepick) %% 65537) + 1
+      )
     } else {
-      ux[sample(y, 1L)]
+      c(ux[sample(y, 1L)], modepick)
     }
   }
   else {
-    ux[y]
+    c(ux[y], modepick)
   }
 }
 
@@ -387,15 +390,17 @@ pickmode <- function(x, rand = FALSE, modepick = 1) {
 #' the mode of each (discarding any odd boundary). In case there is more than
 #' one mode, it selects the first in lexicographic order.
 #' @param x an \eqn{n \times m}{n x m} binary or categorical image
+#' @param random by default FALSE, whether to have deterministic PRNG
+#'               or to use [sample()]
 #'
 #' @return an \eqn{n/2 \times m/2}{n/2 x m/2} binary or categorical image
 #'
 #' @keywords internal
 #'
 #' @noRd
-downsample_2d <- function(x) {
+downsample_2d <- function(x, random = FALSE) {
   dims <- dim(x)
-  .internal_catsim_modestate <- 1
+  modepick <- 1
   if (is.null(dims)) stop("x is 1-dimensional")
   newdims <- floor(dims / 2)
   if (any(newdims < 1)) {
@@ -407,8 +412,12 @@ downsample_2d <- function(x) {
     for (j in 1:newdims[2]) {
       xstart <- 2 * i - 1
       ystart <- 2 * j - 1
-      newx[i, j] <- pickmode(c(x[xstart:(xstart + 1), ystart:(ystart + 1)]),
-                             FALSE, .internal_catsim_modestate)
+      tmpvec <- pickmode(
+        c(x[xstart:(xstart + 1), ystart:(ystart + 1)]),
+        random, modepick
+      )
+      tmpvec[1] <- newx[i, j]
+      tmpvec[2] <- modepick
     }
   }
   newx
@@ -422,14 +431,15 @@ downsample_2d <- function(x) {
 #' It treats each level of z as an independent slice. In case there is more
 #' than one mode, it selects the first in lexicographic order.
 #' @param x an \eqn{n \times m \times q}{n x m x q} binary or categorical image
-#'
+#' @param random by default FALSE, whether to have deterministic PRNG
+#'               or to use [sample()]
 #' @return a an \eqn{n/2 \times m/2 \times q}{n/2 x m/2 x q}
 #'     binary or categorical image
 #'
 #' @keywords internal
 #'
 #' @noRd
-downsample_3d_slice <- function(x) {
+downsample_3d_slice <- function(x, random = FALSE) {
   dims <- dim(x)
   if (is.null(dims)) stop("x is 1-dimensional")
   newdims <- floor(c(dims[1:2] / 2, dims[3]))
@@ -439,7 +449,7 @@ downsample_3d_slice <- function(x) {
   }
   newx <- array(dim = newdims)
   for (i in 1:dims[3]) {
-    newx[, , i] <- downsample_2d(x[, , i])
+    newx[, , i] <- downsample_2d(x[, , i], random)
   }
   newx
 }
@@ -454,16 +464,17 @@ downsample_3d_slice <- function(x) {
 #' equal. In case there is more than one mode, it selects
 #' the first in lexicographic order.
 #' @param x an \eqn{n \times m \times q}{n x m x q} binary or categorical image
-#'
+#' @param random by default FALSE, whether to have deterministic PRNG
+#'               or to use [sample()]
 #' @return  an \eqn{n/2 \times m/2 \times q/2}{n/2 x m/2 x q/2}
 #' binary or categorical image
 #'
 #' @keywords internal
 #'
 #' @noRd
-downsample_3d_cube <- function(x) {
+downsample_3d_cube <- function(x, random = FALSE) {
   dims <- dim(x)
-  .internal_catsim_modestate <- 1
+  modepick <- 1
   if (is.null(dims)) stop("x is 1-dimensional")
   newdims <- floor(dims / 2)
   if (any(newdims < 1)) {
@@ -477,11 +488,13 @@ downsample_3d_cube <- function(x) {
         xstart <- 2 * i - 1
         ystart <- 2 * j - 1
         zstart <- 2 * k - 1
-        newx[i, j, k] <- pickmode(c(x[
+        tmpvec <- pickmode(c(x[
           xstart:(xstart + 1),
           ystart:(ystart + 1),
           zstart:(zstart + 1)
-        ]), FALSE, .internal_catsim_modestate)
+        ]), random, modepick)
+        tmpvec[1] <- newx[i, j, k]
+        tmpvec[2] <- modepick
       }
     }
   }
@@ -907,7 +920,7 @@ catmssim_3d_cube <- function(x, y, levels = NULL, weights = NULL, window = 5,
 #' Information Theoretic Measures for Clusterings Comparison:
 #' Variants, Properties, Normalization and Correction for Chance.
 #' J. Mach. Learn. Res. 11 (December 2010), 2837–2854.
-#' \doi{10.5555/1756006.1953024}
+#' \link{http://www.jmlr.org/papers/v11/vinh10a}
 #'
 #' @export
 AdjRandIndex <- function(x, y) {
