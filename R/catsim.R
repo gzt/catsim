@@ -336,8 +336,8 @@ downsample_2d <- function(x, random = FALSE) {
         c(x[xstart:(xstart + 1), ystart:(ystart + 1)]),
         random, modepick
       )
-      tmpvec[1] <- newx[i, j]
-      tmpvec[2] <- modepick
+      newx[i, j] <-  tmpvec[1]
+      modepick <- tmpvec[2]
     }
   }
   newx
@@ -406,8 +406,8 @@ downsample_3d_cube <- function(x, random = FALSE) {
           ystart:(ystart + 1),
           zstart:(zstart + 1)
         ]), random, modepick)
-        tmpvec[1] <- newx[i, j, k]
-        tmpvec[2] <- modepick
+        newx[i, j, k] <- tmpvec[1]
+        modepick <- tmpvec[2]
       }
     }
   }
