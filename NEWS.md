@@ -1,6 +1,7 @@
 # catsim 0.1.2
 * Improve handling of `...` arguments.
 * Easier access to `pickmode(random)` argument.
+* Included `hoffmanphantom` dataset.
 
 # catsim 0.1.1
 * Change deterministic PRNG for downsampling to not assign to parent

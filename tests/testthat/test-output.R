@@ -35,7 +35,8 @@ test_that("Bad dimensions fail", {
 
 test_that("Weights and levels work 2D", {
   expect_error(catsim(x, y, weights = 1:3, levels = 5))
-  expect_equal({
+  expect_equal(
+    {
       set.seed(20200408)
       catsim(x, y, random = TRUE, weights = c(.5, .5))
     },
