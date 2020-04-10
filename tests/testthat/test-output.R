@@ -31,7 +31,10 @@ test_that("Same input should have 1 as its result", {
     weights = 1, random = TRUE,
     method = "Accuracy"
   ), 1.0)
-  expect_equal(catsim(x, x, weights = 1, random = TRUE, method = "jaccard"), 1.0)
+  expect_equal(catsim(x, x,
+    weights = 1, random = TRUE,
+    method = "jaccard"
+  ), 1.0)
   expect_equal(catsim(x, x, weights = 1, method = "dice"), 1.0)
   expect_equal(binssim(x, x, method = "Jaccard"), 1.0)
   expect_equal(binssim(x, x, method = "adjrand"), 1.0)
