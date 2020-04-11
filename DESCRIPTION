@@ -1,11 +1,15 @@
 Package: catsim
 Type: Package
 Title: Binary and Categorical Image Structural Similarity Metric
-Version: 0.1.2
+Version: 0.1.3
 Authors@R: c(person(c("Geoffrey", "Thompson"),email="gzthompson@gmail.com",
     role = c("aut", "cre"), comment = c(ORCID = '0000-0003-2436-8822')))	
-Description: Computes a structural similarity metric (after the style of MS-SSIM for images)
-    for binary and categorical 2D and 3D images. 
+Description: Computes a structural similarity metric (after the style of
+    MS-SSIM for images) for binary and categorical 2D and 3D images. Can be
+    based on accuracy (simple matching), Cohen's kappa, Rand index, adjusted
+    Rand index, Jaccard index, Dice index, normalized mutual information, or
+    adjusted mutual information. In addition, has fast computation
+    of Cohen's kappa, the Rand indices, and the two mutual informations.
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
