@@ -294,9 +294,11 @@ ssimcomponents <- function(x, y, k, method = c_cohen,
 #' Picks the first mode
 #'
 #' @param x binary or categorical image
-#' @param rand if TRUE, samples using [sample()]. if FALSE,
+#' @param rand if `random`, samples using [sample()]. if `pseudo`,
 #'             cycles through options depending on an augmented
 #'             global variable (ie a simple PRNG)
+#'             If \code{NULL},
+#'             will choose the first mode.
 #' @param modepick changes each time you call the function and need to break
 #'             a tie if rand = FALSE using a simple PRNG.
 #'
@@ -343,7 +345,7 @@ pickmode <- function(x, rand = NULL, modepick = 1) {
 #' @keywords internal
 #'
 #' @noRd
-downsample_2d <- function(x, random = FALSE) {
+downsample_2d <- function(x, random = "random") {
   dims <- dim(x)
   modepick <- 1
   if (is.null(dims)) stop("x is 1-dimensional")
@@ -401,16 +403,16 @@ downsample_3d_slice <- function(x, random = FALSE) {
 #' equal. In case there is more than one mode, it selects
 #' the first in lexicographic order.
 #' @param x an \eqn{n \times m \times q}{n x m x q} binary or categorical image
-#' @param random by default FALSE, whether to have
-#'       \href{deterministic PRNG}{https://en.wikipedia.org/wiki/Lehmer_RNG}
-#'       or to use [sample()]
+#' @param random  whether to have deterministic PRNG (\code{pseudo})
+#'               or to use [sample()] (\code{random}). If \code{NULL},
+#'               will choose the first mode.
 #' @return  an \eqn{n/2 \times m/2 \times q/2}{n/2 x m/2 x q/2}
 #' binary or categorical image
 #'
 #' @keywords internal
 #'
 #' @noRd
-downsample_3d_cube <- function(x, random = FALSE) {
+downsample_3d_cube <- function(x, random = "random") {
   dims <- dim(x)
   modepick <- 1
   if (is.null(dims)) stop("x is 1-dimensional")

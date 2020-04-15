@@ -28,11 +28,11 @@ test_that("Same input should have 1 as its result", {
   expect_equal(catmssim_2d(x, x, weights = 1, method = "Rand"), 1.0)
   expect_equal(catmssim_2d(x, x, weights = 1, method = "hamming"), 1.0)
   expect_equal(catmssim_2d(x, x,
-    weights = 1, random = TRUE,
+    weights = 1,
     method = "Accuracy"
   ), 1.0)
   expect_equal(catsim(x, x,
-    weights = 1, random = TRUE,
+    weights = 1,
     method = "jaccard"
   ), 1.0)
   expect_equal(catsim(x, x, weights = 1, method = "dice"), 1.0)
@@ -43,8 +43,8 @@ test_that("Same input should have 1 as its result", {
 })
 
 test_that("Bad dimensions fail", {
-  expect_equal(catmssim_2d(x, x, weights = 1), 1.0)
-  expect_error(catmssim_2d(x, c(x), weights = 1))
+  expect_equal(catmssim_2d(x, x, weights = 1L), 1.0)
+  expect_error(catmssim_2d(x, c(x), weights = 1, random = NULL))
   expect_error(catmssim_2d(c(x), (x), weights = 1))
   expect_error(catsim(x, c(x), weights = 1))
   expect_error(catsim(c(x), (x), weights = 1))
@@ -58,24 +58,24 @@ test_that("Weights and levels work 2D", {
   expect_equal(
     {
       set.seed(20200408)
-      catsim(x, y, random = TRUE, weights = c(.5, .5))
+      catsim(x, y, random = "random", weights = c(.5, .5))
     },
     {
       set.seed(20200408)
-      catsim(x, y, random = TRUE, levels = 2)
+      catsim(x, y, random = "random", levels = 2)
     }
   )
   expect_equal(
-    catsim(x, y, random = FALSE, weights = c(.5, .5, .5), levels = 2),
-    catsim(x, y, random = FALSE, weights = c(.5, .5))
+    catsim(x, y, random = "pseudo", weights = c(.5, .5, .5), levels = 2),
+    catsim(x, y, random = "pseudo", weights = c(.5, .5))
   )
   expect_equal(
-    catsim(x, y, window = 2),
-    catsim(x, y, window = 2, weights = rep(1, 5) / 5)
+    catsim(x, y, window = 2, random = NULL),
+    catsim(x, y, window = 2, weights = rep(1, 5) / 5, random = NULL)
   )
   expect_equal(
-    catsim(x, y, window = 2),
-    catsim(x, y, window = 2, levels = 5)
+    catsim(x, y, window = 2, random = NULL),
+    catsim(x, y, window = 2, levels = 5, random = NULL)
   )
 })
 
@@ -137,7 +137,7 @@ test_that("3D is not 2D", {
 })
 
 test_that("Inputs are symmetric 2D", {
-  expect_equal(catmssim_2d(x, y, weights = 1), catmssim_2d(y, x, weights = 1))
+  expect_equal(catmssim_2d(x, y, weights = 1, random = NULL), catmssim_2d(y, x, weights = 1, random = NULL))
   expect_equal(
     catmssim_2d(x, y, weights = 1, method = "NMI"),
     catmssim_2d(y, x, weights = 1, method = "NMI")
@@ -147,8 +147,8 @@ test_that("Inputs are symmetric 2D", {
     catmssim_2d(y, x, weights = 1, method = "AMI")
   )
   expect_equal(
-    catmssim_2d(x, y, weights = c(.5, .5), method = "j"),
-    catmssim_2d(y, x, weights = c(.5, .5), method = "j")
+    catmssim_2d(x, y, weights = c(.5, .5), method = "j", random = "pseudo"),
+    catmssim_2d(y, x, weights = c(.5, .5), method = "j", random = "pseudo")
   )
   expect_equal(
     catmssim_2d(x, y, weights = 1, method = "dice"),
@@ -161,8 +161,8 @@ test_that("Inputs are symmetric 2D", {
 test_that("catmssim_2d equivalent to catsim in 2D", {
   expect_equal(catmssim_2d(x, y, weights = 1), catsim(x, y, weights = 1))
   expect_equal(
-    catmssim_2d(x, y, weights = c(.23, 77)),
-    catsim(x, y, weights = c(.23, 77))
+    catmssim_2d(x, y, weights = c(.23, 77), random = NULL),
+    catsim(x, y, weights = c(.23, 77), random = NULL)
   )
   expect_equal(
     catmssim_2d(x, y, window = 5, weights = 1),
@@ -187,27 +187,36 @@ test_that("Inputs are symmetric 3D", {
     for (i in 1:dim) y[i, i, j] <- 1
     for (i in 1:(dim - 1)) y[i, i + 1, j] <- 1
   }
-  expect_equal(catmssim_3d_slice(x, x, weights = c(.75, .25), window = 2), 1.0)
-  expect_equal(catmssim_3d_cube(x, x, weights = c(.75, .25), window = 2), 1.0)
+  expect_equal(catmssim_3d_slice(x, x,
+    weights = c(.75, .25),
+    window = 2, random = "pseudo"
+  ), 1.0)
+  expect_equal(catmssim_3d_cube(x, x,
+    weights = c(.75, .25),
+    window = 2, random = NULL
+  ), 1.0)
   expect_equal(
-    catmssim_3d_slice(x, y, weights = c(.75, .25), window = 2),
-    catmssim_3d_slice(y, x, weights = c(.75, .25), window = 2)
+    catmssim_3d_slice(x, y, weights = c(.75, .25), window = 2, random = NULL),
+    catmssim_3d_slice(y, x, weights = c(.75, .25), window = 2, random = NULL)
   )
 
   expect_equal(
-    catmssim_3d_slice(x, y, weights = c(.75, .25), window = 2),
-    catsim(y, x, weights = c(.75, .25), window = 2, cube = FALSE)
+    catmssim_3d_slice(x, y, weights = c(.75, .25), window = 2, random = NULL),
+    catsim(y, x, weights = c(.75, .25), window = 2, cube = FALSE, random = NULL)
   )
 
-  expect_equal(catmssim_3d_cube(x, y, weights = 1), catsim(x, y, weights = 1))
   expect_equal(
-    catmssim_3d_cube(x, y, weights = c(.75, .25), method = "dice"),
-    catmssim_3d_cube(y, x, weights = c(.75, .25), method = "dice")
+    catmssim_3d_cube(x, y, weights = 1),
+    catsim(x, y, weights = 1)
   )
-  expect_warning(catmssim_3d_slice(x, y, random = TRUE))
-  expect_warning(catmssim_3d_cube(x, y))
-  expect_error(catmssim_3d_slice(x, y[, , 1:2]))
-  expect_error(catmssim_3d_cube(x, y[, , 1:2]))
+  expect_equal(
+    catmssim_3d_cube(x, y, weights = c(.75, .25), method = "dice", random = NULL),
+    catmssim_3d_cube(y, x, weights = c(.75, .25), method = "dice", random = NULL)
+  )
+  expect_warning(catmssim_3d_slice(x, y, random = NULL))
+  expect_warning(catmssim_3d_cube(x, y, random = NULL))
+  expect_error(catmssim_3d_slice(x, y[, , 1:2], random = NULL))
+  expect_error(catmssim_3d_cube(x, y[, , 1:2], random = NULL))
 })
 
 
@@ -222,19 +231,19 @@ test_that("dimensions 3D work", {
   }
   expect_equal(catsim(x, x,
     weights = c(.5, .5),
-    window = c(5, 5, 5), method = "accuracy"
+    window = c(5, 5, 5), method = "accuracy", random = NULL
   ), 1.0)
   expect_equal(catsim(x, x,
     weights = c(.5, .5),
-    window = c(5, 5, 5), method = "NMI"
+    window = c(5, 5, 5), method = "NMI", random = NULL
   ), 1.0)
   expect_error(catsim(x, x,
     weights = c(.5, .5),
-    window = c(5, 5), method = "NMI"
+    window = c(5, 5), method = "NMI", random = NULL
   ))
   expect_equal(catsim(x, x,
     weights = c(.5, .5),
-    cube = FALSE, window = c(4, 4)
+    cube = FALSE, window = c(4, 4), random = NULL
   ), 1.0)
   expect_error(catsim(x, x[1:15, , ], weights = c(.5, .5)))
   expect_error(catmssim_3d_slice(x, y[1:10, , ]))
@@ -270,7 +279,7 @@ for (i in 1:32) y[i, i] <- 1
 for (i in 1:31) y[i, i + 1] <- 1
 
 test_that("Zero weights should have result of 1.0", {
-  expect_equal(catmssim_2d(x, y, weights = c(0.0)), 1.0)
+  expect_equal(catmssim_2d(x, y, weights = c(0, 0), random = "random"), 1.0)
   expect_equal(binssim(x, x, sqrtgini = TRUE), 1.0)
   expect_equal(catsim(x, y, weights = c(0.0)), 1.0)
 })
