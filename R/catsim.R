@@ -305,22 +305,24 @@ ssimcomponents <- function(x, y, k, method = c_cohen,
 #' @noRd
 #' @keywords internal
 #'
-pickmode <- function(x, rand = FALSE, modepick = 1) {
+pickmode <- function(x, rand = NULL, modepick = 1) {
   ux <- unique(x)
   tab <- tabulate(match(x, ux))
   # the completely random selection made things look too bad!
   y <- seq_along(tab)[tab == max(tab)]
   if (length(y) > 1L) {
-    if (!rand) {
+    if (rand == "pseudo") {
       modepick <- ((75 * modepick) %% 65537) + 1
       c(
-        ux[(modepick %% length(y)) + 1],
-        modepick
+          ux[(modepick %% length(y)) + 1],
+          modepick
       )
+    } else if (rand == "random") {
+        c(ux[sample(y, 1L)], modepick)
     } else {
-      c(ux[sample(y, 1L)], modepick)
-    }
-  } else {
+        c(ux[which.max(tab)], modepick)
+        }
+     } else {
     c(ux[y], modepick)
   }
 }
@@ -332,8 +334,9 @@ pickmode <- function(x, rand = FALSE, modepick = 1) {
 #' the mode of each (discarding any odd boundary). In case there is more than
 #' one mode, it selects the first in lexicographic order.
 #' @param x an \eqn{n \times m}{n x m} binary or categorical image
-#' @param random by default FALSE, whether to have deterministic PRNG
-#'               or to use [sample()]
+#' @param random whether to have deterministic PRNG (\code{pseudo})
+#'               or to use [sample()] (\code{random}). If \code{NULL},
+#'               will choose the first mode.
 #'
 #' @return an \eqn{n/2 \times m/2}{n/2 x m/2} binary or categorical image
 #'
