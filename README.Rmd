@@ -44,8 +44,7 @@ library(catsim)
 x <- besag
 y <- x
 y[10:20,10:20] <- 1
-par(mfrow = c(1, 2))
-image(x); image(y)
+
 catsim(x, y)
 ```
 
