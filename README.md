@@ -41,18 +41,8 @@ library(catsim)
 x <- besag
 y <- x
 y[10:20,10:20] <- 1
-par(mfrow = c(1,2))
-image(x)
-image(y)
-```
-
-<img src="man/figures/README-displayimage-1.png" width="100%" />
-
-``` r
-catsim(x, y)
-#> Warning in catmssim_2d(x, y, weights = weights, method = method, levels =
-#> levels, : Truncating levels because of minimum dimension.
-#> [1] 0.9762946
+catsim(x, y, levels = 3)
+#> [1] 0.9607358
 ```
 
 By default, this performs 5 levels of downsampling and uses Cohen’s
