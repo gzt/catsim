@@ -96,14 +96,25 @@
 <h2 class="hasAnchor">
 <a href="#usage" class="anchor"></a>Usage</h2>
 <p>If you have two images, <code>x</code> and <code>y</code>, the simplest method of comparing them is:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">catsim</span>(x, y)</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">catsim</span>)
+<span class="no">x</span> <span class="kw">&lt;-</span> <span class="no">besag</span>
+<span class="no">y</span> <span class="kw">&lt;-</span> <span class="no">x</span>
+<span class="no">y</span>[<span class="fl">10</span>:<span class="fl">20</span>,<span class="fl">10</span>:<span class="fl">20</span>] <span class="kw">&lt;-</span> <span class="fl">1</span>
+<span class="fu"><a href="https://rdrr.io/r/graphics/par.html">par</a></span>(<span class="kw">mfrow</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1</span>,<span class="fl">2</span>))
+<span class="fu"><a href="https://rdrr.io/r/graphics/image.html">image</a></span>(<span class="no">x</span>)
+<span class="fu"><a href="https://rdrr.io/r/graphics/image.html">image</a></span>(<span class="no">y</span>)</pre></div>
+<p><img src="reference/figures/README-displayimage-1.png" width="100%"></p>
+<div class="sourceCode" id="cb2"><pre class="r"><span class="fu"><a href="reference/catsim.html">catsim</a></span>(<span class="no">x</span>, <span class="no">y</span>)
+<span class="co">#&gt; Warning in catmssim_2d(x, y, weights = weights, method = method, levels =</span>
+<span class="co">#&gt; levels, : Truncating levels because of minimum dimension.</span>
+<span class="co">#&gt; [1] 0.9762946</span></pre></div>
 <p>By default, this performs 5 levels of downsampling and uses Cohen’s kappa as the local similarity metric on <code>11 x 11</code> windows for a 2-dimensional image and <code>5 x 5 x 5</code> windows for a 3-D image. Those can be adjusted using the <code>levels</code>, <code>method</code>, and <code>window</code> arguments.</p>
 </div>
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
 <p>You can install the released version of catsim from <a href="https://CRAN.R-project.org">CRAN</a> with:</p>
-<div class="sourceCode" id="cb2"><pre class="r"><span class="co"># install.packages("catsim")</span>
+<div class="sourceCode" id="cb3"><pre class="r"><span class="co"># install.packages("catsim")</span>
 <span class="kw pkg">devtools</span><span class="kw ns">::</span><span class="fu">install_github</span>(<span class="st">"gzt/catsim"</span>)</pre></div>
 <p>This is not on CRAN yet. Install using github.</p>
 <p>Please note that the <code>catsim</code> project is released with a <a href="CODE_OF_CONDUCT.html">Contributor Code of Conduct</a>. By contributing to this project, you agree to abide by its terms.</p>
