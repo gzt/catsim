@@ -44,10 +44,7 @@ library(catsim)
 x <- besag
 y <- x
 y[10:20,10:20] <- 1
-par(mfrow = c(1,2))
-image(x)
-image(y)
-catsim(x, y)
+catsim(x, y, levels = 3)
 ```
 
 By default, this performs 5 levels of downsampling and uses Cohen's kappa as the local 
