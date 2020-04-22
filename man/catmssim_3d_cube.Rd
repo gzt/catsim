@@ -11,7 +11,8 @@ catmssim_3d_cube(
   weights = NULL,
   window = 5,
   method = "Cohen",
-  ...
+  ...,
+  random = "random"
 )
 }
 \arguments{
@@ -44,6 +45,11 @@ the similarity index. Note Jaccard and Dice should only be used on
 binary data.}
 
 \item{...}{additional constants can be passed to internal functions.}
+
+\item{random}{whether to have deterministic PRNG (\code{pseudo})
+or to use \code{\link[=sample]{sample()}} (\code{random}). If \code{NULL},
+will choose the first mode. For complete reproducibility,
+use \code{pseudo} or \code{NULL}.}
 }
 \value{
 a value less than 1 indicating the similarity between the images.

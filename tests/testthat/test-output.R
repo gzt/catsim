@@ -96,10 +96,6 @@ test_that("Gini works", {
   expect_equal(ginicorr(1:15, 15), 1)
   expect_error(ginicorr(y, 1))
   expect_error(sqrtginicorr(sample(letters, size = 100, replace = TRUE), 5))
-  adjrand <- suppressWarnings(AdjRandIndex(x, y))
-  expect_equal(normalized_mi(x, y), adjrand$NMI)
-  expect_equal(adjusted_mi(x, y), adjrand$AMI)
-  expect_equal(jaccard(x, y), adjrand$Jaccard)
 })
 
 set.seed(20181215)
@@ -210,8 +206,8 @@ test_that("Inputs are symmetric 3D", {
     catsim(x, y, weights = 1)
   )
   expect_equal(
-    catmssim_3d_cube(x, y, weights = c(.75, .25), method = "dice", random = NULL),
-    catmssim_3d_cube(y, x, weights = c(.75, .25), method = "dice", random = NULL)
+      catmssim_3d_cube(x, y, weights = c(.75, .25), method = "dice", random = NULL),
+      catmssim_3d_cube(y, x, weights = c(.75, .25), method = "dice", random = NULL)
   )
   expect_warning(catmssim_3d_slice(x, y, random = NULL))
   expect_warning(catmssim_3d_cube(x, y, random = NULL))

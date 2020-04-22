@@ -310,25 +310,24 @@ ssimcomponents <- function(x, y, k, method = c_cohen,
 pickmode <- function(x, rand = NULL, modepick = 1) {
   ux <- unique(x)
   tab <- tabulate(match(x, ux))
-  # the completely random selection made things look too bad!
+  if (is.null(rand)) rand <- "none"
   y <- seq_along(tab)[tab == max(tab)]
   if (length(y) > 1L) {
     if (rand == "pseudo") {
       modepick <- ((75 * modepick) %% 65537) + 1
       c(
-          ux[(modepick %% length(y)) + 1],
-          modepick
+        ux[(modepick %% length(y)) + 1],
+        modepick
       )
     } else if (rand == "random") {
-        c(ux[sample(y, 1L)], modepick)
+      c(ux[sample(y, 1L)], modepick)
     } else {
-        c(ux[which.max(tab)], modepick)
-        }
-     } else {
+      c(ux[y], modepick)
+    }
+  } else {
     c(ux[y], modepick)
   }
 }
-
 
 #' Downsampling by a factor of 2 for a 2D categorical image
 #'
@@ -338,7 +337,8 @@ pickmode <- function(x, rand = NULL, modepick = 1) {
 #' @param x an \eqn{n \times m}{n x m} binary or categorical image
 #' @param random whether to have deterministic PRNG (\code{pseudo})
 #'               or to use [sample()] (\code{random}). If \code{NULL},
-#'               will choose the first mode.
+#'               will choose the first mode. For complete reproducibility,
+#'               use \code{pseudo} or \code{NULL}.
 #'
 #' @return an \eqn{n/2 \times m/2}{n/2 x m/2} binary or categorical image
 #'
@@ -374,15 +374,17 @@ downsample_2d <- function(x, random = "random") {
 #' It treats each level of z as an independent slice. In case there is more
 #' than one mode, it selects the first in lexicographic order.
 #' @param x an \eqn{n \times m \times q}{n x m x q} binary or categorical image
-#' @param random by default FALSE, whether to have deterministic PRNG
-#'               or to use [sample()]
+#' @param random whether to have deterministic PRNG (\code{pseudo})
+#'               or to use [sample()] (\code{random}). If \code{NULL},
+#'               will choose the first mode. For complete reproducibility,
+#'               use \code{pseudo} or \code{NULL}.
 #' @return a an \eqn{n/2 \times m/2 \times q}{n/2 x m/2 x q}
 #'     binary or categorical image
 #'
 #' @keywords internal
 #'
 #' @noRd
-downsample_3d_slice <- function(x, random = FALSE) {
+downsample_3d_slice <- function(x, random = "random") {
   dims <- dim(x)
   if (is.null(dims)) stop("x is 1-dimensional")
   newdims <- floor(c(dims[1:2] / 2, dims[3]))
@@ -403,9 +405,10 @@ downsample_3d_slice <- function(x, random = FALSE) {
 #' equal. In case there is more than one mode, it selects
 #' the first in lexicographic order.
 #' @param x an \eqn{n \times m \times q}{n x m x q} binary or categorical image
-#' @param random  whether to have deterministic PRNG (\code{pseudo})
+#' @param random whether to have deterministic PRNG (\code{pseudo})
 #'               or to use [sample()] (\code{random}). If \code{NULL},
-#'               will choose the first mode.
+#'               will choose the first mode. For complete reproducibility,
+#'               use \code{pseudo} or \code{NULL}.
 #' @return  an \eqn{n/2 \times m/2 \times q/2}{n/2 x m/2 x q/2}
 #' binary or categorical image
 #'
@@ -517,6 +520,10 @@ catssim_2d <- function(x, y, window = 11, method = "Cohen", ...) {
 #'     binary data.
 #'
 #' @param ... additional constants can be passed to internal functions.
+#' @param random whether to have deterministic PRNG (\code{pseudo})
+#'               or to use [sample()] (\code{random}). If \code{NULL},
+#'               will choose the first mode. For complete reproducibility,
+#'               use \code{pseudo} or \code{NULL}.
 #'
 #' @return a value less than 1 indicating the similarity between the images.
 #' @export
@@ -531,7 +538,7 @@ catssim_2d <- function(x, y, window = 11, method = "Cohen", ...) {
 #' # now using a different similarity score (Jaccard Index)
 #' catmssim_2d(x, y, method = "NMI")
 catmssim_2d <- function(x, y, levels = NULL, weights = NULL, window = 11,
-                        method = "Cohen", ...) {
+                        method = "Cohen", ..., random = "random") {
   if (is.null(dim(x))) stop("x is 1-dimensional")
   if (is.null(dim(y))) stop("y is 1-dimensional")
   if (length(dim(x)) != length(dim(y))) {
@@ -563,8 +570,8 @@ catmssim_2d <- function(x, y, levels = NULL, weights = NULL, window = 11,
 
   if (levels > 1) {
     for (i in 2:levels) {
-      x <- downsample_2d(x, random = dotlist[["random"]])
-      y <- downsample_2d(y, random = dotlist[["random"]])
+      x <- downsample_2d(x, random = random)
+      y <- downsample_2d(y, random = random)
       results[i, ] <- catssim_2d(
         x = x, y = y,
         window = window, method = method, ...
@@ -667,7 +674,7 @@ catssim_3d_cube <- function(x, y, window = c(5, 5, 5), method = "Cohen", ...) {
 #' # compare to some simple metric:
 #' mean(x == y)
 catmssim_3d_slice <- function(x, y, levels = NULL, weights = NULL,
-                              window = 11, method = "Cohen", ...) {
+                              window = 11, method = "Cohen", ..., random = "random") {
   if (is.null(dim(x))) {
     stop("x is 1-dimensional")
   }
@@ -708,8 +715,8 @@ catmssim_3d_slice <- function(x, y, levels = NULL, weights = NULL,
 
   if (levels > 1) {
     for (j in 2:levels) {
-      x <- downsample_3d_slice(x, random = dotlist[["random"]])
-      y <- downsample_3d_slice(y, random = dotlist[["random"]])
+      x <- downsample_3d_slice(x, random = random)
+      y <- downsample_3d_slice(y, random = random)
       results[j, ] <- catssim_3d_slice(
         x = x, y = y,
         window = window, method = method, ...
@@ -749,7 +756,7 @@ catmssim_3d_slice <- function(x, y, levels = NULL, weights = NULL,
 #' # Now using a different similarity score
 #' catmssim_3d_cube(x, y, weights = c(.75, .25), method = "Accuracy")
 catmssim_3d_cube <- function(x, y, levels = NULL, weights = NULL, window = 5,
-                             method = "Cohen", ...) {
+                             method = "Cohen", ..., random = "random") {
   if (is.null(dim(x))) {
     stop("x is 1-dimensional")
   }
@@ -794,8 +801,8 @@ catmssim_3d_cube <- function(x, y, levels = NULL, weights = NULL, window = 5,
 
   if (levels > 1) {
     for (j in 2:levels) {
-      x <- downsample_3d_cube(x, random = dotlist[["random"]])
-      y <- downsample_3d_cube(y, random = dotlist[["random"]])
+      x <- downsample_3d_cube(x, random = random)
+      y <- downsample_3d_cube(y, random = random)
       results[j, ] <- catssim_3d_cube(
         x = x, y = y,
         window = window, method = method, ...
@@ -808,98 +815,6 @@ catmssim_3d_cube <- function(x, y, levels = NULL, weights = NULL, window = 5,
 
   (results[levels, 1]^weights[levels]) * csresults
 }
-
-#' Adjusted Rand Index and other similarity indexes (Deprecated)
-#'
-#' Computes the adjusted Rand index and several other similarity measures for
-#' two inputs. These inputs should be binary or categorical and of the same
-#' length.
-#' It also computes the PSNR, which is generalized here as simply
-#' \eqn{-10 log_{10}(MSE)}.
-#' The adjusted Rand index, Jaccard Index, Cohen's Kappa,
-#' normalized mutual information (NMI) and adjusted mutual information (AMI)
-#' are used as a measure of the similarity of the structure of the two images.
-#' A small constant is added to the numerator
-#' and denominator of the Adjusted Rand index to ensure stability,
-#' as it is possible to have a zero
-#' denominator. The normalized mutual information is defined here as:
-#' \eqn{2H(X,Y)/(H(X)+H(Y)),} but is set to be 0 if both H(X) and H(Y) are 0.
-#' The PSNR can be infinite if the error rate is 0.
-#' The Jaccard index and accuracy can
-#' account for NA values, but the Adjusted Rand and Cohen's Kappa cannot.
-#'
-#'
-#' @param x,y  a numeric or factor vector or image
-#'
-#' @return The accuracy, Jaccard index, the Adjusted Rand Index,
-#'  the Rand index, the PSNR, Cohen's Kappa,
-#'  normalized mutual information (NMI) and adjusted mutual information (AMI).
-#'  Note: The Jaccard index will not make sense if this is not binary.
-#'
-#' @references
-#'  W. M. Rand (1971).
-#' "Objective criteria for the evaluation of clustering methods".
-#'  Journal of the American Statistical Association.
-#' American Statistical Association. 66 (336): 846–850.
-#'  \doi{10.2307/2284239}
-#'
-#' Lawrence Hubert and Phipps Arabie (1985).
-#' "Comparing partitions". Journal of Classification. 2 (1): 193–218.
-#' \doi{10.1007/BF01908075}
-#'
-#'
-#'  Cohen, Jacob (1960). "A coefficient of agreement for nominal scales".
-#'   Educational and Psychological Measurement. 20 (1): 37–46.
-#' \doi{10.1177/001316446002000104}
-#'
-#'  Jaccard, Paul (1912). "The distribution of the flora in the alpine zone,”
-#' New Phytologist, vol. 11, no. 2, pp. 37–50.
-#'   \doi{10.1111/j.1469-8137.1912.tb05611.x}
-#'
-#' Nguyen Xuan Vinh, Julien Epps, and James Bailey (2010).
-#' Information Theoretic Measures for Clusterings Comparison:
-#' Variants, Properties, Normalization and Correction for Chance.
-#' J. Mach. Learn. Res. 11 (December 2010), 2837–2854.
-#' \url{http://www.jmlr.org/papers/v11/vinh10a}
-#'
-#' @export
-AdjRandIndex <- function(x, y) {
-  .Deprecated("adj_rand")
-  if (length(x) != length(y)) {
-    stop("x and y have differing lengths.")
-  }
-  if (!all(!is.na(x), !is.na(y))) {
-    warning("NAs present in x or y, Adjusted Rand and Cohen
-               don't account for NA values.")
-  }
-  if (length(table(c(x, y))) > 2) {
-    message("Jaccard index may not make sense if more than
-             two classes are present.")
-  }
-  n <- sum(!is.na(x) | !is.na(y))
-  a <- sum(x == y, na.rm = TRUE)
-  accuracy <- a / n
-  jaccard <- jaccard(x, y)
-  cohen <- c_cohen(x, y)
-  x <- as.numeric(x)
-  y <- as.numeric(y)
-  adjrand <- c_adj_rand(x, y)
-  rand <- c_rand(x, y)
-  nmi <- c_nmi(x, y)
-  ami <- c_ami(x, y)
-
-  list(
-    Accuracy = accuracy,
-    Jaccard = jaccard,
-    AdjRand = adjrand,
-    Rand = rand,
-    PSNR = -10 * log10(1 - accuracy),
-    Cohen = cohen,
-    NMI = nmi,
-    AMI = ami
-  )
-}
-
 
 #' Multiscale Categorical Structural Similarity Index Measure
 #'
