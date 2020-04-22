@@ -36,7 +36,14 @@ segmentation or classification problems.
 If you have two images, `x` and `y`, the simplest method of comparing
 them is:
 
-    catsim(x, y)
+``` r
+library(catsim)
+x <- besag
+y <- x
+y[10:20,10:20] <- 1
+catsim(x, y, levels = 3)
+#> [1] 0.9607358
+```
 
 By default, this performs 5 levels of downsampling and uses Cohen’s
 kappa as the local similarity metric on `11 x 11` windows for a
