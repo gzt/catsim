@@ -10,7 +10,7 @@ Description: Computes a structural similarity metric (after the style of
     Rand index, Jaccard index, Dice index, normalized mutual information, or
     adjusted mutual information. In addition, has fast computation
     of Cohen's kappa, the Rand indices, and the two mutual informations.
-    Implements the methods of Thompson et al. (2020) <arXiv:2004.09073>.
+    Implements the methods of Thompson and Maitra (2020) <arXiv:2004.09073>.
 License: GPL-3
 Encoding: UTF-8
 LazyData: true

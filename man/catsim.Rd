@@ -54,7 +54,7 @@ dimensions as the inputted \code{x} and \code{y}.}
 a value less than 1 indicating the similarity between the images.
 }
 \description{
-The categorical structural similary index measure for 2D or 3D categorical or
+The categorical structural similarity index measure for 2D or 3D categorical or
 binary images for multiple scales. The default is to compute over 5 scales.
 This determines whether this is a 2D or 3D image and applies the appropriate
 windowing, weighting, and scaling. Additional arguments can be passed.

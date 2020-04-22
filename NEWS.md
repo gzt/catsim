@@ -30,7 +30,7 @@
 
 # catsim 0.1.0.9039
 
-* Added `levels` argument to `catsim()`. Weights or levels can be specifed. 
+* Added `levels` argument to `catsim()`. Weights or levels can be specified. 
   `levels` alone will define `weights = rep(1, levels)/levels`. If `weights` 
   and `levels` are both specified, `weights = weights[1:levels]`. 
 * Added documentation.

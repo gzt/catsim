@@ -443,7 +443,7 @@ downsample_3d_cube <- function(x, random = "random") {
 
 #' Categorical Structural Similarity Index Measure (2D)
 #'
-#' The categorical structural similary index measure for 2D categorical or
+#' The categorical structural similarity index measure for 2D categorical or
 #' binary images for a single scale. This computes it using moving
 #' \eqn{11 \times 11}{11 x 11} windows and is suitable for modestly-sized
 #' images which are not large enough to warrant
@@ -494,7 +494,7 @@ catssim_2d <- function(x, y, window = 11, method = "Cohen", ...) {
 
 #' Multiscale Categorical Structural Similarity Index Measure (2D)
 #'
-#' The categorical structural similary index measure for 2D categorical or
+#' The categorical structural similarity index measure for 2D categorical or
 #' binary images for multiple scales. The default is to compute over 5 scales.
 #'
 #' @param x,y a binary or categorical image
@@ -651,7 +651,7 @@ catssim_3d_cube <- function(x, y, window = c(5, 5, 5), method = "Cohen", ...) {
 
 #' Multiscale Categorical Structural Similarity Index Measure by Slice (3D)
 #'
-#' The categorical structural similary index measure for 3D categorical or
+#' The categorical structural similarity index measure for 3D categorical or
 #' binary images for multiple scales. The default is to compute over 5 scales.
 #' This computes a 2D measure for each x-y slice of the z-axis
 #' and then averages over the z-axis.
@@ -732,7 +732,7 @@ catmssim_3d_slice <- function(x, y, levels = NULL, weights = NULL,
 
 #' Multiscale Categorical Structural Similarity Index Measure for a Cube (3D)
 #'
-#' The categorical structural similary index measure for 3D
+#' The categorical structural similarity index measure for 3D
 #' categorical or binary images for multiple scales.
 #' The default is to compute over 5 scales.
 #' This computes a 3D measure based on \eqn{5 \times 5 \times 5}{5x5x5}
@@ -818,7 +818,7 @@ catmssim_3d_cube <- function(x, y, levels = NULL, weights = NULL, window = 5,
 
 #' Multiscale Categorical Structural Similarity Index Measure
 #'
-#' The categorical structural similary index measure for 2D or 3D categorical or
+#' The categorical structural similarity index measure for 2D or 3D categorical or
 #' binary images for multiple scales. The default is to compute over 5 scales.
 #' This determines whether this is a 2D or 3D image and applies the appropriate
 #' windowing, weighting, and scaling. Additional arguments can be passed.

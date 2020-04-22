@@ -24,7 +24,7 @@ library(catsim)
 The **Cat**egorial **S**tructural Similarity **I**mage **M**etric, or **CatSIM**, 
 provides a similarity metric for binary or multinary images or maps after the 
 style of [MS-SSIM](https://en.wikipedia.org/wiki/Structural_similarity). It attempts
-to assess similiarity between two images that accounts for the similiarity between
+to assess similarity between two images that accounts for the similarity between
 structures or regions of the image rather than a per-pixel discrepancy, ideally in
 a way which is similar to human assessments of similarity.
 
@@ -73,7 +73,7 @@ image(errmat, xaxt = "n", yaxt = "n"); grid(lwd = 3, nx = 6, col = "black")
 
 Here we have the original, the shifted version, and the salt-and-pepper noise.
 We argue that though the proportion of pixels that differ from the base image
-are approximatly the same for the two, an image similarity metric should
+are approximately the same for the two, an image similarity metric should
 say the shift is better.
 
 ```{r besagrating}

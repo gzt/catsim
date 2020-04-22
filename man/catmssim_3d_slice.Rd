@@ -55,7 +55,7 @@ use \code{pseudo} or \code{NULL}.}
 a value less than 1 indicating the similarity between the images.
 }
 \description{
-The categorical structural similary index measure for 3D categorical or
+The categorical structural similarity index measure for 3D categorical or
 binary images for multiple scales. The default is to compute over 5 scales.
 This computes a 2D measure for each x-y slice of the z-axis
 and then averages over the z-axis.
