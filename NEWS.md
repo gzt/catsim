@@ -1,3 +1,12 @@
+# catsim 0.1.5
+* Remove deprecated `AdjRandIndex` files.
+* Submission to CRAN.
+
+# catsim 0.1.4
+* Further refinement of `pickmode(random)` handling
+* Further documentation and vignette updates.
+* Move to Markdown documentation.
+
 # catsim 0.1.2
 * Improve handling of `...` arguments.
 * Easier access to `pickmode(random)` argument.
