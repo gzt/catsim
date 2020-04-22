@@ -40,7 +40,7 @@
 
 
 <meta property="og:title" content="Multiscale Categorical Structural Similarity Index Measure for a Cube (3D) — catmssim_3d_cube" />
-<meta property="og:description" content="The categorical structural similary index measure for 3D
+<meta property="og:description" content="The categorical structural similarity index measure for 3D
 categorical or binary images for multiple scales.
 The default is to compute over 5 scales.
 This computes a 3D measure based on \(5 \times 5 \times 5\)
@@ -76,7 +76,7 @@ windows by default with 5 levels of downsampling." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">catsim</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.5</span>
       </span>
     </div>
 
@@ -133,7 +133,7 @@ windows by default with 5 levels of downsampling." />
     </div>
 
     <div class="ref-description">
-    <p>The categorical structural similary index measure for 3D
+    <p>The categorical structural similarity index measure for 3D
 categorical or binary images for multiple scales.
 The default is to compute over 5 scales.
 This computes a 3D measure based on \(5 \times 5 \times 5\)
@@ -147,7 +147,8 @@ windows by default with 5 levels of downsampling.</p>
   <span class='kw'>weights</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>window</span> <span class='kw'>=</span> <span class='fl'>5</span>,
   <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"Cohen"</span>,
-  <span class='no'>...</span>
+  <span class='no'>...</span>,
+  <span class='kw'>random</span> <span class='kw'>=</span> <span class='st'>"random"</span>
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -197,6 +198,13 @@ binary data.</p></td>
       <th>...</th>
       <td><p>additional constants can be passed to internal functions.</p></td>
     </tr>
+    <tr>
+      <th>random</th>
+      <td><p>whether to have deterministic PRNG (<code>pseudo</code>)
+or to use <code><a href='https://rdrr.io/r/base/sample.html'>sample()</a></code> (<code>random</code>). If <code>NULL</code>,
+will choose the first mode. For complete reproducibility,
+use <code>pseudo</code> or <code>NULL</code>.</p></td>
+    </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
@@ -212,8 +220,8 @@ binary data.</p></td>
   <span class='kw'>for</span> (<span class='no'>i</span> <span class='kw'>in</span> <span class='fl'>1</span>:<span class='no'>dim</span>) <span class='no'>y</span>[<span class='no'>i</span>, <span class='no'>i</span>, <span class='no'>j</span>] <span class='kw'>&lt;-</span> <span class='fl'>0</span>
   <span class='kw'>for</span> (<span class='no'>i</span> <span class='kw'>in</span> <span class='fl'>1</span>:(<span class='no'>dim</span> - <span class='fl'>1</span>)) <span class='no'>y</span>[<span class='no'>i</span>, <span class='no'>i</span> + <span class='fl'>1</span>, <span class='no'>j</span>] <span class='kw'>&lt;-</span> <span class='fl'>0</span>
 }
-<span class='fu'>catmssim_3d_cube</span>(<span class='no'>x</span>, <span class='no'>y</span>, <span class='kw'>weights</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>.75</span>, <span class='fl'>.25</span>))</div><div class='output co'>#&gt; [1] 0.8297478</div><div class='input'><span class='co'># Now using a different similarity score</span>
-<span class='fu'>catmssim_3d_cube</span>(<span class='no'>x</span>, <span class='no'>y</span>, <span class='kw'>weights</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>.75</span>, <span class='fl'>.25</span>), <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"Accuracy"</span>)</div><div class='output co'>#&gt; [1] 0.8613838</div></pre>
+<span class='fu'>catmssim_3d_cube</span>(<span class='no'>x</span>, <span class='no'>y</span>, <span class='kw'>weights</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>.75</span>, <span class='fl'>.25</span>))</div><div class='output co'>#&gt; [1] 0.791647</div><div class='input'><span class='co'># Now using a different similarity score</span>
+<span class='fu'>catmssim_3d_cube</span>(<span class='no'>x</span>, <span class='no'>y</span>, <span class='kw'>weights</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>.75</span>, <span class='fl'>.25</span>), <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"Accuracy"</span>)</div><div class='output co'>#&gt; [1] 0.8143385</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
