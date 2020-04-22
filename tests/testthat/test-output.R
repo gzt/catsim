@@ -206,8 +206,8 @@ test_that("Inputs are symmetric 3D", {
     catsim(x, y, weights = 1)
   )
   expect_equal(
-      catmssim_3d_cube(x, y, weights = c(.75, .25), method = "dice", random = NULL),
-      catmssim_3d_cube(y, x, weights = c(.75, .25), method = "dice", random = NULL)
+    catmssim_3d_cube(x, y, weights = c(.75, .25), method = "dice", random = NULL),
+    catmssim_3d_cube(y, x, weights = c(.75, .25), method = "dice", random = NULL)
   )
   expect_warning(catmssim_3d_slice(x, y, random = NULL))
   expect_warning(catmssim_3d_cube(x, y, random = NULL))

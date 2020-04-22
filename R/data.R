@@ -65,6 +65,8 @@
 #' 2821–2828, 2019.
 #' @examples
 #' image(hoffmanphantom[, , 2], col = rev(gray(0:15 / 16))[1:4], axes = FALSE)
-#' image(hoffmanphantom[, , 1], add = TRUE, zlim = c(0.01, 1),
-#'       col = c("yellow", "maroon"))
+#' image(hoffmanphantom[, , 1],
+#'   add = TRUE, zlim = c(0.01, 1),
+#'   col = c("yellow", "maroon")
+#' )
 "hoffmanphantom"
