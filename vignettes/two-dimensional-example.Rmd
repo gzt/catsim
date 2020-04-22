@@ -100,7 +100,7 @@ catsim(basemat, errmat, method = "Jaccard")
 To demonstrate how it works, first we construct a simple multicategory image and 
 blow it up to a larger size. The grid lines are added for reference. This is our
 "ground truth" image.
-```{r construction, fig.width=6, fig.height=6}
+```{r construction}
 
 multfactor <- 20
 onesmat <- matrix(1, multfactor, multfactor)
