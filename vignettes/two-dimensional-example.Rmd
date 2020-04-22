@@ -22,18 +22,18 @@ library(catsim)
 # Introduction to `catsim`
 
 The **Cat**egorial **S**tructural Similarity **I**mage **M**etric, or **CatSIM**, 
-provides a similarity metric for binary or multicategory images or maps after the 
+provides a similarity metric for binary or multinary images or maps after the 
 style of [MS-SSIM](https://en.wikipedia.org/wiki/Structural_similarity). It attempts
 to assess similiarity between two images that accounts for the similiarity between
 structures or regions of the image rather than a per-pixel discrepancy, ideally in
 a way which is similar to human assessments of similarity.
 
-It works by assessing similarity within a a sliding window across the image,
+It works by assessing similarity within a sliding window across the image,
 then downsampling and doing the same on different scales, and then combining
-the ratings together. The first scale is the entire image, the second scale is 
+the ratings for each scale together. The first scale is the entire image, the second scale is 
 the image shrunk down to half its size, and so on.
 
-# Constructing a binary example
+# Constructing a binary illustration
 
 Besag [-@besag1986statistical] presents a $100 \times 88$ two-dimensional two-class image
 with "intentionally awkward" features. Here we blow it up to three times its size 
@@ -204,6 +204,8 @@ a modification of the Rand index which corrects for the probability of chance ag
 * [Normalized mutual information](https://nlp.stanford.edu/IR-book/html/htmledition/evaluation-of-clustering-1.html), 
 a information theory similarity metric based on the Kullback-Liebler divergence between the 
  two distributions, with `method = "NMI"` or `MI`. 
+ * [Adjusted mutual information](https://en.wikipedia.org/wiki/Adjusted_mutual_information), a correction to
+ the mutual information to account for the probability of chance agreements, with `method = "AMI"`.
 
 
 ```{r differentmetrics}
