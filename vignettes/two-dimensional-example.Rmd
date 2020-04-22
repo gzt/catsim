@@ -86,6 +86,16 @@ catsim(basemat, errmat)
 As we might desire, the `catsim` metric judges the shift to be more like the original
 than the salt-and-pepper noise.
 
+Because this is a two-class image, you can consider using the Jaccard
+index as the metric inside it with similar results:
+
+```{r besagjacc}
+catsim(basemat, shiftmat, method = "Jaccard")
+
+catsim(basemat, errmat, method = "Jaccard")
+
+```
+
 # Constructing a multiclass example
 To demonstrate how it works, first we construct a simple multicategory image and 
 blow it up to a larger size. The grid lines are added for reference. This is our
