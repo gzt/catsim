@@ -1,6 +1,5 @@
 linters: with_defaults(
-    object_name_linter = NULL, # 6
-    spaces_left_parentheses_linter = NULL, # 6
+    #spaces_left_parentheses_linter = NULL, # 6
     dummy_linter = NULL
   )
 exclusions: list(
