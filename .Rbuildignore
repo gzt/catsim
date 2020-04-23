@@ -12,3 +12,4 @@
 ^pkgdown$
 ^\.lintr$
 ^\.clang-format$
+^cran-comments\.md$

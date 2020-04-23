@@ -10,7 +10,7 @@ first slice an activation map for an MRI phantom and the second an
 anatomical overlay. \code{NA} values are outside the surface. The
 activation map (\code{hoffmanphantom[,,1]}) is 1 if activated,
 0 otherwise. The second layer  (\code{hoffmanphantom[,,2]})
-indicates the anatomical structure. Approximately 3.8\\% of the
+indicates the anatomical structure. Approximately 3.8 percent of the
 pixels are activated in this slice.
 }
 \usage{

@@ -1,6 +1,8 @@
+# catsim 0.1.6
+* Clean up final documentation issues in preparation for submission to CRAN.
+
 # catsim 0.1.5
 * Remove deprecated `AdjRandIndex` files.
-* Submission to CRAN.
 
 # catsim 0.1.4
 * Further refinement of `pickmode(random)` handling
