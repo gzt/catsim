@@ -1,3 +1,8 @@
+# catsim 0.2.0
+* Last cosmetic cleanups and bumping version number because
+this really should have been done for the change in 0.1.5,
+as removing deprecated functions needs a bigger version bump.
+
 # catsim 0.1.6
 * Clean up final documentation issues in preparation for submission to CRAN.
 
