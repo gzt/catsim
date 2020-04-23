@@ -11,7 +11,7 @@
 \alias{normalized_mi}
 \alias{Adjusted Mutual Information}
 \alias{adjusted_mi}
-\title{Similarity Indexes}
+\title{Similarity Indices}
 \usage{
 rand_index(x, y, na.rm = FALSE)
 

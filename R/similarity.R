@@ -16,7 +16,7 @@
 ###   along with this program; if not, a copy is available at
 ###   https://www.R-project.org/Licenses/
 
-#' @title Similarity Indexes
+#' @title Similarity Indices
 #' @name rand
 #'
 #' @description The Rand index, [rand_index], computes the agreement

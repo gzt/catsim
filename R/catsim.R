@@ -34,7 +34,7 @@ meansfunc <- function(x, y, c1 = 0.01) {
   c_meansfunc(x, y, c1)
 }
 
-#' @title Diversity Indexes
+#' @title Diversity Indices
 #' @name gini
 #'
 #' @description `gini()` is a measure of diversity that goes by a
@@ -47,7 +47,7 @@ meansfunc <- function(x, y, c1 = 0.01) {
 #' @return The index (between 0 and 1), with 0 indicating no variation and 1
 #'    being maximal. The Gini index is bounded above by \eqn{1-1/k} for a group
 #'    with `k` categories. The modified index is bounded above by
-#'    \eqn{1-1/\sqrt{k}}.  The corrected indexes fix this by dividing by the
+#'    \eqn{1-1/\sqrt{k}}.  The corrected indices fix this by dividing by the
 #'    maximum.
 #' @export
 

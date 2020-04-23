@@ -8,7 +8,7 @@
 \alias{sqrtgini}
 \alias{Modified Corrected Gini index}
 \alias{sqrtginicorr}
-\title{Diversity Indexes}
+\title{Diversity Indices}
 \usage{
 gini(x)
 
@@ -27,7 +27,7 @@ sqrtginicorr(x, k)
 The index (between 0 and 1), with 0 indicating no variation and 1
 being maximal. The Gini index is bounded above by \eqn{1-1/k} for a group
 with \code{k} categories. The modified index is bounded above by
-\eqn{1-1/\sqrt{k}}.  The corrected indexes fix this by dividing by the
+\eqn{1-1/\sqrt{k}}.  The corrected indices fix this by dividing by the
 maximum.
 }
 \description{
