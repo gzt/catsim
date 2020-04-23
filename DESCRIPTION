@@ -1,6 +1,6 @@
 Package: catsim
 Type: Package
-Title: Binary and Categorical Image Structural Similarity Metric
+Title: Binary and Categorical Image Similarity Metric
 Version: 0.2.0
 Authors@R: c(person(c("Geoffrey", "Thompson"),email="gzthompson@gmail.com",
     role = c("aut", "cre"), comment = c(ORCID = '0000-0003-2436-8822')))	

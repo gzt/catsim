@@ -19,28 +19,29 @@ knitr::opts_chunk$set(
 ```{r setup}
 library(catsim)
 ```
-# Introduction to CatSIM
+## Introduction to CatSIM
 
 The **Cat**egorial **S**tructural Similarity **I**mage **M**etric, or **CatSIM**, 
 provides a similarity metric for binary or multinary images or maps after the 
 style of [MS-SSIM](https://en.wikipedia.org/wiki/Structural_similarity). That is,
 CatSIM compares two different sets of labels of pixels (voxels) in 2-D (or 3-D) images
-in an image. It attempts to assess similarity between two images that accounts for the 
-structural features of the image rather than a per-pixel discrepancy, ideally in
-a way which is similar to human assessments of similarity.
+in an image. It attempts to assess similarity between two images in a way that accounts for the 
+structural features of the image rather than a per-pixel discrepancy, ideally doing so
+similarly to human assessments of similarity. The package implements the methods
+described in [@thompson2020catsim].
 
-# How CatSIM works
+## How CatSIM works
 
-CatSIM computes a set of similarity metrics on a sliding window on the image, then
-averages and combines them. Then it downsamples to another layer and repeats the process.
+CatSIM computes a set of similarity metrics on a sliding window in the images, then
+averages and combines them. In then downsamples the images and repeats the process.
 Finally, it combines the measures from the different levels together. It can
 use a variety of different similarity metrics inside of it depending on the specific
 meaning of the labels in the image. By default, it uses
 [Cohen's kappa](https://en.wikipedia.org/wiki/Cohen%27s_kappa) inside it as its
-main comparison between the two images. However, there are several other options
+main comparison between the two images. However, there are several other options available
 which are more appropriate in some contexts.
 
-# Constructing a binary illustration
+## Constructing a binary illustration
 
 Besag [-@besag1986statistical] presents a $100 \times 88$ two-dimensional two-class image
 with "intentionally awkward" features. Here we blow it up to three times its size 
@@ -103,7 +104,7 @@ catsim(basemat, errmat, method = "Jaccard")
 
 ```
 
-# Constructing a multiclass example
+## Constructing a multiclass example
 To demonstrate how it works, first we construct a simple multicategory image and 
 blow it up to a larger size. The grid lines are added for reference. This is our
 "ground truth" image.
@@ -155,7 +156,7 @@ Depending on your preferences, you may have reason to prefer one or the other,
 but, arguably, the shifted version is in some sense better, even though their
 pixelwise agreement is approximately the same.
 
-# Computing Image Similarity
+## Computing Image Similarity
 If we take only one level of `catsim`, we get the following results when
 comparing to the initial matrix:
 
@@ -192,7 +193,7 @@ catsim(basemat, errmat, weights = rep(.2, 5))
 
 ```
 
-# CatSIM options
+## CatSIM options
 By default, CatSIM uses [Cohen's kappa ($\kappa$)](https://en.wikipedia.org/wiki/Cohen's_kappa)
 as the similarity comparison for the images. This measures agreement between the classes with
 and adjustment for the probability of chance agreement. However, depending on the application,
@@ -262,4 +263,4 @@ it possible to accommodate these differences.
 catsim(basemat, shiftmat, weights = rep(.2, 5), window = c(11, 5))
 ```
 
-# References
+## References
