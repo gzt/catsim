@@ -19,19 +19,23 @@ knitr::opts_chunk$set(
 ```{r setup}
 library(catsim)
 ```
-# Introduction to `catsim`
+# Introduction to CatSIM
 
 The **Cat**egorial **S**tructural Similarity **I**mage **M**etric, or **CatSIM**, 
 provides a similarity metric for binary or multinary images or maps after the 
-style of [MS-SSIM](https://en.wikipedia.org/wiki/Structural_similarity). It attempts
-to assess similarity between two images that accounts for the similarity between
+style of [MS-SSIM](https://en.wikipedia.org/wiki/Structural_similarity). That is,
+CatSIM compares two different labelings of pixels (voxels) in 2-D (or 3-D) images
+in an image. It attempts to assess similarity between two images that accounts for the similarity between
 structures or regions of the image rather than a per-pixel discrepancy, ideally in
 a way which is similar to human assessments of similarity.
 
-It works by assessing similarity within a sliding window across the image,
-then downsampling and doing the same on different scales, and then combining
-the ratings for each scale together. The first scale is the entire image, the second scale is 
-the image shrunk down to half its size, and so on.
+# How CatSIM works
+
+CatSIM computes a set of similarity metrics on a sliding window on the image, then
+averages and combines them. Then it downsamples to another layer and repeats the process.
+Finally, it combines the measures from the different levels together. It can
+use a variety of different similarity metrics inside of it depending on the specific
+meaning of the labels in the image. By default, it uses [Cohen's kappa]()
 
 # Constructing a binary illustration
 
@@ -209,8 +213,8 @@ a information theory similarity metric based on the Kullback-Liebler divergence 
 
 
 ```{r differentmetrics}
-catsim(basemat, shiftmat, weights = rep(.2,5), method="Rand")
-catsim(basemat, shiftmat, weights = rep(.2,5), method="NMI")
+catsim(basemat, shiftmat, weights = rep(.5,2), method="Rand")
+catsim(basemat, shiftmat, weights = rep(.5,2), method="NMI")
 
 ```
 The window size can also be adjusted. It should be large enough to capture

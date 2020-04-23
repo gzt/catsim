@@ -348,7 +348,6 @@ pickmode <- function(x, rand = NULL, modepick = 1) {
 downsample_2d <- function(x, random = "random") {
   dims <- dim(x)
   modepick <- 1
-  if (is.null(dims)) stop("x is 1-dimensional")
   newdims <- floor(dims / 2)
   newx <- matrix(nrow = newdims[1], ncol = newdims[2])
   for (i in seq(newdims[1])) {
@@ -386,7 +385,6 @@ downsample_2d <- function(x, random = "random") {
 #' @noRd
 downsample_3d_slice <- function(x, random = "random") {
   dims <- dim(x)
-  if (is.null(dims)) stop("x is 1-dimensional")
   newdims <- floor(c(dims[1:2] / 2, dims[3]))
   newx <- array(dim = newdims)
   for (i in seq(dims[3])) {
@@ -418,7 +416,6 @@ downsample_3d_slice <- function(x, random = "random") {
 downsample_3d_cube <- function(x, random = "random") {
   dims <- dim(x)
   modepick <- 1
-  if (is.null(dims)) stop("x is 1-dimensional")
   newdims <- floor(dims / 2)
   newx <- array(dim = newdims)
   for (i in seq(newdims[1])) {
@@ -463,9 +460,8 @@ downsample_3d_cube <- function(x, random = "random") {
 #' for (i in 1:20) y[i, i] <- 1
 #' for (i in 1:19) y[i, i + 1] <- 1
 #' catssim_2d(x, y)
-catssim_2d <- function(x, y, window = 11, method = "Cohen", ...) {
-  if (length(window) == 1) window <- c(window, window)
-  k <- length(unique(c(x, y)))
+catssim_2d <- function(x, y, window = c(11,11), method = "Cohen", ...) {
+   k <- length(unique(c(x, y)))
   dims <- dim(x)
   nrow <- dims[1]
   ncol <- dims[2]

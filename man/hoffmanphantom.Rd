@@ -22,8 +22,10 @@ phantom and an anatomical reference.
 }
 \examples{
 image(hoffmanphantom[, , 2], col = rev(gray(0:15 / 16))[1:4], axes = FALSE)
-image(hoffmanphantom[, , 1], add = TRUE, zlim = c(0.01, 1),
-      col = c("yellow", "maroon"))
+image(hoffmanphantom[, , 1],
+  add = TRUE, zlim = c(0.01, 1),
+  col = c("yellow", "maroon")
+)
 }
 \references{
 E. Hoffman, P. Cutler, W. Digby, and J. Mazziotta, “3-D phantom
