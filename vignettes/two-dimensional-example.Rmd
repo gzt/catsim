@@ -1,9 +1,9 @@
 ---
-title: "Two-Dimensional Examples of catsim"
+title: "Two-Dimensional Examples of CatSIM"
 output: rmarkdown::html_vignette
 bibliography: two-dimensional-example.bib
 vignette: >
-  %\VignetteIndexEntry{two-dimensional-example}
+  %\VignetteIndexEntry{Two-dimensional-examples-of-catsim}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
