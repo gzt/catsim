@@ -93,19 +93,19 @@
     
     
 <div class="sourceCode" id="cb1"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">catsim</span>)</pre></body></html></div>
-<div id="introduction-to-catsim" class="section level1">
-<h1 class="hasAnchor">
-<a href="#introduction-to-catsim" class="anchor"></a>Introduction to CatSIM</h1>
-<p>The <strong>Cat</strong>egorial <strong>S</strong>tructural Similarity <strong>I</strong>mage <strong>M</strong>etric, or <strong>CatSIM</strong>, provides a similarity metric for binary or multinary images or maps after the style of <a href="https://en.wikipedia.org/wiki/Structural_similarity">MS-SSIM</a>. That is, CatSIM compares two different sets of labels of pixels (voxels) in 2-D (or 3-D) images in an image. It attempts to assess similarity between two images that accounts for the structural features of the image rather than a per-pixel discrepancy, ideally in a way which is similar to human assessments of similarity.</p>
+<div id="introduction-to-catsim" class="section level2">
+<h2 class="hasAnchor">
+<a href="#introduction-to-catsim" class="anchor"></a>Introduction to CatSIM</h2>
+<p>The <strong>Cat</strong>egorial <strong>S</strong>tructural Similarity <strong>I</strong>mage <strong>M</strong>etric, or <strong>CatSIM</strong>, provides a similarity metric for binary or multinary images or maps after the style of <a href="https://en.wikipedia.org/wiki/Structural_similarity">MS-SSIM</a>. That is, CatSIM compares two different sets of labels of pixels (voxels) in 2-D (or 3-D) images in an image. It attempts to assess similarity between two images in a way that accounts for the structural features of the image rather than a per-pixel discrepancy, ideally doing so similarly to human assessments of similarity. The package implements the methods described in <span class="citation">(Thompson and Maitra 2020)</span>.</p>
 </div>
-<div id="how-catsim-works" class="section level1">
-<h1 class="hasAnchor">
-<a href="#how-catsim-works" class="anchor"></a>How CatSIM works</h1>
-<p>CatSIM computes a set of similarity metrics on a sliding window on the image, then averages and combines them. Then it downsamples to another layer and repeats the process. Finally, it combines the measures from the different levels together. It can use a variety of different similarity metrics inside of it depending on the specific meaning of the labels in the image. By default, it uses <a href="https://en.wikipedia.org/wiki/Cohen%27s_kappa">Cohen’s kappa</a> inside it as its main comparison between the two images. However, there are several other options which are more appropriate in some contexts.</p>
+<div id="how-catsim-works" class="section level2">
+<h2 class="hasAnchor">
+<a href="#how-catsim-works" class="anchor"></a>How CatSIM works</h2>
+<p>CatSIM computes a set of similarity metrics on a sliding window in the images, then averages and combines them. In then downsamples the images and repeats the process. Finally, it combines the measures from the different levels together. It can use a variety of different similarity metrics inside of it depending on the specific meaning of the labels in the image. By default, it uses <a href="https://en.wikipedia.org/wiki/Cohen%27s_kappa">Cohen’s kappa</a> inside it as its main comparison between the two images. However, there are several other options available which are more appropriate in some contexts.</p>
 </div>
-<div id="constructing-a-binary-illustration" class="section level1">
-<h1 class="hasAnchor">
-<a href="#constructing-a-binary-illustration" class="anchor"></a>Constructing a binary illustration</h1>
+<div id="constructing-a-binary-illustration" class="section level2">
+<h2 class="hasAnchor">
+<a href="#constructing-a-binary-illustration" class="anchor"></a>Constructing a binary illustration</h2>
 <p>Besag <span class="citation">(1986)</span> presents a <span class="math inline">\(100 \times 88\)</span> two-dimensional two-class image with “intentionally awkward” features. Here we blow it up to three times its size and create two distorted versions to demonstrate how the method works.</p>
 <p>The first distorted version is shifting the body of the figure over 6 pixels. The second distorted version is adding salt-and-pepper noise so the error rate matches the difference between original and the shifted version.</p>
 <div class="sourceCode" id="cb2"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span>(<span class="fl">20200308</span>)
@@ -146,9 +146,9 @@
 <span class="fu"><a href="../reference/catsim.html">catsim</a></span>(<span class="no">basemat</span>, <span class="no">errmat</span>, <span class="kw">method</span> <span class="kw">=</span> <span class="st">"Jaccard"</span>)
 <span class="co">#&gt; [1] 0.52999</span></pre></body></html></div>
 </div>
-<div id="constructing-a-multiclass-example" class="section level1">
-<h1 class="hasAnchor">
-<a href="#constructing-a-multiclass-example" class="anchor"></a>Constructing a multiclass example</h1>
+<div id="constructing-a-multiclass-example" class="section level2">
+<h2 class="hasAnchor">
+<a href="#constructing-a-multiclass-example" class="anchor"></a>Constructing a multiclass example</h2>
 <p>To demonstrate how it works, first we construct a simple multicategory image and blow it up to a larger size. The grid lines are added for reference. This is our “ground truth” image.</p>
 <div class="sourceCode" id="cb5"><html><body><pre class="r">
 <span class="no">multfactor</span> <span class="kw">&lt;-</span> <span class="fl">20</span>
@@ -185,9 +185,9 @@
 <p><img src="two-dimensional-example_files/figure-html/distortion-1.png" width="384"></p>
 <p>Depending on your preferences, you may have reason to prefer one or the other, but, arguably, the shifted version is in some sense better, even though their pixelwise agreement is approximately the same.</p>
 </div>
-<div id="computing-image-similarity" class="section level1">
-<h1 class="hasAnchor">
-<a href="#computing-image-similarity" class="anchor"></a>Computing Image Similarity</h1>
+<div id="computing-image-similarity" class="section level2">
+<h2 class="hasAnchor">
+<a href="#computing-image-similarity" class="anchor"></a>Computing Image Similarity</h2>
 <p>If we take only one level of <code>catsim</code>, we get the following results when comparing to the initial matrix:</p>
 <div class="sourceCode" id="cb8"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">catsim</span>)
 <span class="co">### comparing base to shifted</span>
@@ -212,9 +212,9 @@
 <span class="fu"><a href="../reference/catsim.html">catsim</a></span>(<span class="no">basemat</span>, <span class="no">errmat</span>, <span class="kw">weights</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="fl">.2</span>, <span class="fl">5</span>))
 <span class="co">#&gt; [1] 0.5724128</span></pre></body></html></div>
 </div>
-<div id="catsim-options" class="section level1">
-<h1 class="hasAnchor">
-<a href="#catsim-options" class="anchor"></a>CatSIM options</h1>
+<div id="catsim-options" class="section level2">
+<h2 class="hasAnchor">
+<a href="#catsim-options" class="anchor"></a>CatSIM options</h2>
 <p>By default, CatSIM uses <a href="https://en.wikipedia.org/wiki/Cohen's_kappa">Cohen’s kappa (<span class="math inline">\(\kappa\)</span>)</a> as the similarity comparison for the images. This measures agreement between the classes with and adjustment for the probability of chance agreement. However, depending on the application, a different comparison might make sense. The following options are available (using the <code>method</code> argument):</p>
 <ul>
 <li>
@@ -245,6 +245,7 @@
 <span class="fu"><a href="../reference/catsim.html">catsim</a></span>(<span class="no">basemat</span>, <span class="no">errmat</span>, <span class="kw">weights</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="fl">1</span> / <span class="fl">3</span>, <span class="fl">3</span>), <span class="kw">window</span> <span class="kw">=</span> <span class="fl">5</span>)
 <span class="co">#&gt; [1] 0.441829</span></pre></body></html></div>
 <p>The number of levels CatSIM uses can be set by specifying either the <code>levels</code> argument or passing a vector to <code>weights</code>, where the length of the vector dictates how many levels of downsampling will be performed. By default, if the number of levels are specified without specifying the weights, the weights are set to be equal across levels and add up to 1. Specifying <code>weights = rep(1/3,3)</code> is the same as specifying <code>levels = 3</code>.</p>
+</div>
 <div id="advanced-functionality" class="section level2">
 <h2 class="hasAnchor">
 <a href="#advanced-functionality" class="anchor"></a>Advanced Functionality</h2>
@@ -253,13 +254,15 @@
 <div class="sourceCode" id="cb12"><html><body><pre class="r"><span class="fu"><a href="../reference/catsim.html">catsim</a></span>(<span class="no">basemat</span>, <span class="no">shiftmat</span>, <span class="kw">weights</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="fl">.2</span>, <span class="fl">5</span>), <span class="kw">window</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">11</span>, <span class="fl">5</span>))
 <span class="co">#&gt; [1] 0.7299104</span></pre></body></html></div>
 </div>
-</div>
-<div id="references" class="section level1 unnumbered">
-<h1 class="hasAnchor">
-<a href="#references" class="anchor"></a>References</h1>
+<div id="references" class="section level2 unnumbered">
+<h2 class="hasAnchor">
+<a href="#references" class="anchor"></a>References</h2>
 <div id="refs" class="references">
 <div id="ref-besag1986statistical">
 <p>Besag, Julian. 1986. “On the Statistical Analysis of Dirty Pictures.” <em>Journal of the Royal Statistical Society: Series B (Methodological)</em> 48 (3): 259–79. <a href="https://doi.org/10.1111/j.2517-6161.1986.tb01412.x">https://doi.org/10.1111/j.2517-6161.1986.tb01412.x</a>.</p>
+</div>
+<div id="ref-thompson2020catsim">
+<p>Thompson, Geoffrey Z., and Ranjan Maitra. 2020. “CatSIM: A Categorical Image Similarity Metric.” <a href="http://arxiv.org/abs/2004.09073">http://arxiv.org/abs/2004.09073</a>.</p>
 </div>
 </div>
 </div>
