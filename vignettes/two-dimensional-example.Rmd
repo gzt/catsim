@@ -47,7 +47,7 @@ The first distorted version is shifting the body of the figure over 6 pixels.
 The second distorted version is adding salt-and-pepper noise so the error rate matches the 
 difference between original and the shifted version.
 
-```{r besag}
+```{r besag, fig.width = 6, fig.height = 2}
 set.seed(20200308)
 
 multfactor <- 3
@@ -104,7 +104,8 @@ catsim(basemat, errmat, method = "Jaccard")
 To demonstrate how it works, first we construct a simple multicategory image and 
 blow it up to a larger size. The grid lines are added for reference. This is our
 "ground truth" image.
-```{r construction}
+
+```{r construction, fig.width = 2, fig.height = 2}
 
 multfactor <- 20
 onesmat <- matrix(1, multfactor, multfactor)
@@ -125,7 +126,7 @@ portion of the image over six pixels. Then, we compute the percentage of pixels 
 disagree with the baseline image and create a second distorted image by adding 
 salt-and-pepper noise at that rate. Again, grid lines are added only for reference.
 
-```{r distortion}
+```{r distortion, fig.height = 2, fig.width = 4}
 set.seed(20200323)
 shift  <-  6 # we are shifting horizontally by six pixels
 basemat <- bigmat[1:(11 * multfactor), 1:(11 * multfactor)]
