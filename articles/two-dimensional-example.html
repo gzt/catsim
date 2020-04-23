@@ -101,7 +101,7 @@
 <div id="how-catsim-works" class="section level1">
 <h1 class="hasAnchor">
 <a href="#how-catsim-works" class="anchor"></a>How CatSIM works</h1>
-<p>CatSIM computes a set of similarity metrics on a sliding window on the image, then averages and combines them. Then it downsamples to another layer and repeats the process. Finally, it combines the measures from the different levels together. It can use a variety of different similarity metrics inside of it depending on the specific meaning of the labels in the image. By default, it uses <a href="">Cohen’s kappa</a></p>
+<p>CatSIM computes a set of similarity metrics on a sliding window on the image, then averages and combines them. Then it downsamples to another layer and repeats the process. Finally, it combines the measures from the different levels together. It can use a variety of different similarity metrics inside of it depending on the specific meaning of the labels in the image. By default, it uses <a href="https://en.wikipedia.org/wiki/Cohen%27s_kappa">Cohen’s kappa</a> inside it as its main comparison between the two images. However, there are several other options which are more appropriate in some contexts.</p>
 </div>
 <div id="constructing-a-binary-illustration" class="section level1">
 <h1 class="hasAnchor">

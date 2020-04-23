@@ -97,22 +97,22 @@
 <h2 class="hasAnchor">
 <a href="#usage" class="anchor"></a>Usage</h2>
 <p>If you have two images, <code>x</code> and <code>y</code>, the simplest method of comparing them is:</p>
-<div class="sourceCode" id="cb1"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">catsim</span>)
-<span class="no">x</span> <span class="kw">&lt;-</span> <span class="no">besag</span>
-<span class="no">y</span> <span class="kw">&lt;-</span> <span class="no">x</span>
-<span class="no">y</span>[<span class="fl">10</span>:<span class="fl">20</span>,<span class="fl">10</span>:<span class="fl">20</span>] <span class="kw">&lt;-</span> <span class="fl">1</span>
-<span class="fu"><a href="reference/catsim.html">catsim</a></span>(<span class="no">x</span>, <span class="no">y</span>, <span class="kw">levels</span> <span class="kw">=</span> <span class="fl">3</span>)
-<span class="co">#&gt; [1] 0.9607358</span></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">library</span>(catsim)</span>
+<span id="cb1-2"><a href="#cb1-2"></a>x &lt;-<span class="st"> </span>besag</span>
+<span id="cb1-3"><a href="#cb1-3"></a>y &lt;-<span class="st"> </span>x</span>
+<span id="cb1-4"><a href="#cb1-4"></a>y[<span class="dv">10</span><span class="op">:</span><span class="dv">20</span>,<span class="dv">10</span><span class="op">:</span><span class="dv">20</span>] &lt;-<span class="st"> </span><span class="dv">1</span></span>
+<span id="cb1-5"><a href="#cb1-5"></a><span class="kw">catsim</span>(x, y, <span class="dt">levels =</span> <span class="dv">3</span>)</span>
+<span id="cb1-6"><a href="#cb1-6"></a><span class="co">#&gt; [1] 0.885431</span></span></code></pre></div>
 <p>By default, this performs 5 levels of downsampling and uses Cohen’s kappa as the local similarity metric on <code>11 x 11</code> windows for a 2-dimensional image and <code>5 x 5 x 5</code> windows for a 3-D image. Those can be adjusted using the <code>levels</code>, <code>method</code>, and <code>window</code> arguments.</p>
 </div>
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
 <p>You can install the released version of catsim from <a href="https://CRAN.R-project.org">CRAN</a> with:</p>
-<div class="sourceCode" id="cb2"><pre class="r"><span class="co"># install.packages("catsim")</span>
-<span class="kw pkg">devtools</span><span class="kw ns">::</span><span class="fu">install_github</span>(<span class="st">"gzt/catsim"</span>)</pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="co"># install.packages("catsim")</span></span>
+<span id="cb2-2"><a href="#cb2-2"></a>devtools<span class="op">::</span><span class="kw">install_github</span>(<span class="st">"gzt/catsim"</span>)</span></code></pre></div>
 <p>This is not on CRAN yet. Install using github.</p>
-<p>Please note that the <code>catsim</code> project is released with a <a href="CODE_OF_CONDUCT.html">Contributor Code of Conduct</a>. By contributing to this project, you agree to abide by its terms.</p>
+<p>Please note that the <code>catsim</code> project is released with a <a href="https://gzt.github.io/catsim/CODE_OF_CONDUCT.html">Contributor Code of Conduct</a>. By contributing to this project, you agree to abide by its terms.</p>
 </div>
 </div>
 
