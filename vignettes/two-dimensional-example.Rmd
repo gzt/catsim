@@ -35,7 +35,10 @@ CatSIM computes a set of similarity metrics on a sliding window on the image, th
 averages and combines them. Then it downsamples to another layer and repeats the process.
 Finally, it combines the measures from the different levels together. It can
 use a variety of different similarity metrics inside of it depending on the specific
-meaning of the labels in the image. By default, it uses [Cohen's kappa]()
+meaning of the labels in the image. By default, it uses
+[Cohen's kappa](https://en.wikipedia.org/wiki/Cohen%27s_kappa) inside it as its
+main comparison between the two images. However, there are several other options
+which are more appropriate in some contexts.
 
 # Constructing a binary illustration
 
