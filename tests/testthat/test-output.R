@@ -206,8 +206,8 @@ test_that("Inputs are symmetric 3D", {
     catsim(x, y, weights = 1)
   )
   expect_equal(
-    catmssim_3d_cube(x, y, weights = c(.75, .25), method = "dice", random = NULL),
-    catmssim_3d_cube(y, x, weights = c(.75, .25), method = "dice", random = NULL)
+      catmssim_3d_cube(x, y, weights = c(.75, .25), method = "dice", random = NULL),
+      catmssim_3d_cube(y, x, weights = c(.75, .25), method = "dice", random = NULL)
   )
   expect_warning(catmssim_3d_slice(x, y, random = NULL))
   expect_warning(catmssim_3d_cube(x, y, random = NULL))
@@ -295,4 +295,9 @@ test_that("NA RM works", {
   expect_equal(cohen_kappa(x, y, na.rm = TRUE), cohen_kappa(xtrim, ytrim))
   expect_equal(normalized_mi(x, y, na.rm = TRUE), normalized_mi(xtrim, ytrim))
   expect_equal(adjusted_mi(x, y, na.rm = TRUE), adjusted_mi(xtrim, ytrim))
+})
+
+
+test_that("jaccard works with NA", {
+  expect_equal(catsim(hoffmanphantom[, , 1], hoffmanphantom[, , 1], random = "pseudo", levels = 2), 1)
 })

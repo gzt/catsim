@@ -460,8 +460,8 @@ downsample_3d_cube <- function(x, random = "random") {
 #' for (i in 1:20) y[i, i] <- 1
 #' for (i in 1:19) y[i, i + 1] <- 1
 #' catssim_2d(x, y)
-catssim_2d <- function(x, y, window = c(11,11), method = "Cohen", ...) {
-   k <- length(unique(c(x, y)))
+catssim_2d <- function(x, y, window = c(11, 11), method = "Cohen", ...) {
+  k <- length(unique(c(x, y)))
   dims <- dim(x)
   nrow <- dims[1]
   ncol <- dims[2]
