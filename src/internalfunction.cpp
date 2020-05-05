@@ -159,7 +159,7 @@ Rcpp::NumericVector c_randRaw(NumericVector x, NumericVector y) {
   NumericVector::iterator x_i, y_i;
   R_xlen_t xy_i = 0;
   for (x_i = x.begin(), y_i = y.begin(), xy_i = 0;
-       x_i != x.end() && y_i != y.end(), xy_i != n; ++x_i, ++y_i, ++xy_i) {
+       x_i != x.end() && y_i != y.end() && xy_i != n; ++x_i, ++y_i, ++xy_i) {
     countsx[*x_i]++;
     countsy[*y_i]++;
     NumericVector a = xy.row(xy_i);
@@ -246,7 +246,7 @@ double c_nmi(NumericVector x, NumericVector y) {
   NumericVector::iterator x_i, y_i;
   R_xlen_t xy_i = 0;
   for (x_i = x.begin(), y_i = y.begin(), xy_i = 0;
-       x_i != x.end() && y_i != y.end(), xy_i != n; ++x_i, ++y_i, ++xy_i) {
+       x_i != x.end() && y_i != y.end() && xy_i != n; ++x_i, ++y_i, ++xy_i) {
     countsx[*x_i]++;
     countsy[*y_i]++;
     NumericVector a = xy.row(xy_i);
@@ -317,7 +317,7 @@ double c_ami(NumericVector x, NumericVector y) {
   NumericVector::iterator x_i, y_i;
   R_xlen_t xy_i = 0;
   for (x_i = x.begin(), y_i = y.begin(), xy_i = 0;
-       x_i != x.end() && y_i != y.end(), xy_i != n; ++x_i, ++y_i, ++xy_i) {
+       x_i != x.end() && y_i != y.end() && xy_i != n; ++x_i, ++y_i, ++xy_i) {
     countsx[*x_i]++;
     countsy[*y_i]++;
     NumericVector a = xy.row(xy_i);
