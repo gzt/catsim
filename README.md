@@ -14,8 +14,7 @@ status](https://codecov.io/gh/gzt/catsim/branch/master/graph/badge.svg)](https:/
 status](https://github.com/gzt/catsim/workflows/R-CMD-check/badge.svg)](https://github.com/gzt/catsim/actions)
 <!-- badges: end -->
 
-`catsim`: a Categorical Image Similarity Index
-==============================================
+# `catsim`: a Categorical Image Similarity Index
 
 The goal of `catsim` is to provide a similarity measure for binary or
 categorical images in either 2D or 3D similar to the [MS-SSIM
@@ -32,34 +31,35 @@ multiple scales. CatSIM applies a similar logic in the case of 2-D and
 3-D binary and multicategory images, such as might be found in image
 segmentation or classification problems.
 
-Usage
------
+## Installation
+
+You can install the released version of catsim from
+[CRAN](https://CRAN.R-project.org) with:
+
+``` r
+install.packages("catsim")
+#### or the dev version with:
+#devtools::install_github("gzt/catsim")
+```
+
+## Usage
 
 If you have two images, `x` and `y`, the simplest method of comparing
 them is:
 
-    library(catsim)
-    x <- besag
-    y <- x
-    y[10:20,10:20] <- 1
-    catsim(x, y, levels = 3)
-    #> [1] 0.885431
+``` r
+library(catsim)
+x <- besag
+y <- x
+y[10:20,10:20] <- 1
+catsim(x, y, levels = 3)
+#> [1] 0.8972855
+```
 
 By default, this performs 5 levels of downsampling and uses Cohen’s
 kappa as the local similarity metric on `11 x 11` windows for a
 2-dimensional image and `5 x 5 x 5` windows for a 3-D image. Those can
 be adjusted using the `levels`, `method`, and `window` arguments.
-
-Installation
-------------
-
-You can install the released version of catsim from
-[CRAN](https://CRAN.R-project.org) with:
-
-    # install.packages("catsim")
-    devtools::install_github("gzt/catsim")
-
-This is not on CRAN yet. Install using github.
 
 Please note that the `catsim` project is released with a [Contributor
 Code of Conduct](https://gzt.github.io/catsim/CODE_OF_CONDUCT.html). By
