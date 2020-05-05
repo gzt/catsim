@@ -1,7 +1,7 @@
 Package: catsim
 Type: Package
 Title: Binary and Categorical Image Similarity Index
-Version: 0.2.0
+Version: 0.2.1
 Authors@R: c(person(c("Geoffrey", "Thompson"),email="gzthompson@gmail.com",
     role = c("aut", "cre"), comment = c(ORCID = '0000-0003-2436-8822')))	
 Description: Computes a structural similarity metric (after the style of
