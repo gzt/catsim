@@ -49,11 +49,12 @@ them is:
 
 ``` r
 library(catsim)
+set.seed(20200505)
 x <- besag
 y <- x
 y[10:20,10:20] <- 1
 catsim(x, y, levels = 3)
-#> [1] 0.8972855
+#> [1] 0.8897574
 ```
 
 By default, this performs 5 levels of downsampling and uses Cohen’s
