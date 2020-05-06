@@ -1,3 +1,7 @@
+# catsim 0.2.1
+* Fix some cosmetic issues in README.Rmd
+* Fix a spurious warning in compiled code about an unused variable. 
+
 # catsim 0.2.0
 * Last cosmetic cleanups and bumping version number because
 this really should have been done for the change in 0.1.5,
