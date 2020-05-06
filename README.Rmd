@@ -52,6 +52,7 @@ If you have two images, `x` and `y`, the simplest method of comparing them is:
 
 ```{r displayimage}
 library(catsim)
+set.seed(20200505)
 x <- besag
 y <- x
 y[10:20,10:20] <- 1
