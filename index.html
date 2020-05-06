@@ -5,13 +5,13 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Binary and Categorical Image Similarity Metric • catsim</title>
+<title>Binary and Categorical Image Similarity Index • catsim</title>
 <!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="bootstrap-toc.css">
 <script src="bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
-<script src="pkgdown.js"></script><meta property="og:title" content="Binary and Categorical Image Similarity Metric">
+<script src="pkgdown.js"></script><meta property="og:title" content="Binary and Categorical Image Similarity Index">
 <meta property="og:description" content="Computes a structural similarity metric (after the style of
     MS-SSIM for images) for binary and categorical 2D and 3D images. Can be
     based on accuracy (simple matching), Cohens kappa, Rand index, adjusted
@@ -37,7 +37,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">catsim</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.1</span>
       </span>
     </div>
 
@@ -93,25 +93,26 @@
 <div class="page-header"><h1 class="hasAnchor">
 <a href="#catsim-a-categorical-image-similarity-index" class="anchor"></a><code>catsim</code>: a Categorical Image Similarity Index</h1></div>
 <p>The goal of <code>catsim</code> is to provide a similarity measure for binary or categorical images in either 2D or 3D similar to the <a href="https://en.wikipedia.org/wiki/Structural_similarity">MS-SSIM index</a> for color images. Suppose you have a ground truth segmentation of some image that has been segmented into regions - perhaps a brain scan with different types of tissues or a map with different types of terrain - and a segmentation produced by some classification method. Comparing the two pixel-by pixel (or voxel-by-voxel) might work well, but a method that captures structural similarities might work better for your purposes. MS-SSIM is an image comparison metric that tries to match the assessment of the human visual system by considering structural similarities across multiple scales. CatSIM applies a similar logic in the case of 2-D and 3-D binary and multicategory images, such as might be found in image segmentation or classification problems.</p>
-<div id="usage" class="section level2">
-<h2 class="hasAnchor">
-<a href="#usage" class="anchor"></a>Usage</h2>
-<p>If you have two images, <code>x</code> and <code>y</code>, the simplest method of comparing them is:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">library</span>(catsim)</span>
-<span id="cb1-2"><a href="#cb1-2"></a>x &lt;-<span class="st"> </span>besag</span>
-<span id="cb1-3"><a href="#cb1-3"></a>y &lt;-<span class="st"> </span>x</span>
-<span id="cb1-4"><a href="#cb1-4"></a>y[<span class="dv">10</span><span class="op">:</span><span class="dv">20</span>,<span class="dv">10</span><span class="op">:</span><span class="dv">20</span>] &lt;-<span class="st"> </span><span class="dv">1</span></span>
-<span id="cb1-5"><a href="#cb1-5"></a><span class="kw">catsim</span>(x, y, <span class="dt">levels =</span> <span class="dv">3</span>)</span>
-<span id="cb1-6"><a href="#cb1-6"></a><span class="co">#&gt; [1] 0.885431</span></span></code></pre></div>
-<p>By default, this performs 5 levels of downsampling and uses Cohen’s kappa as the local similarity metric on <code>11 x 11</code> windows for a 2-dimensional image and <code>5 x 5 x 5</code> windows for a 3-D image. Those can be adjusted using the <code>levels</code>, <code>method</code>, and <code>window</code> arguments.</p>
-</div>
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
 <p>You can install the released version of catsim from <a href="https://CRAN.R-project.org">CRAN</a> with:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="co"># install.packages("catsim")</span></span>
-<span id="cb2-2"><a href="#cb2-2"></a>devtools<span class="op">::</span><span class="kw">install_github</span>(<span class="st">"gzt/catsim"</span>)</span></code></pre></div>
-<p>This is not on CRAN yet. Install using github.</p>
+<div class="sourceCode" id="cb1"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">"catsim"</span>)
+<span class="co">#### or the dev version with:</span>
+<span class="co">#devtools::install_github("gzt/catsim")</span></pre></div>
+</div>
+<div id="usage" class="section level2">
+<h2 class="hasAnchor">
+<a href="#usage" class="anchor"></a>Usage</h2>
+<p>If you have two images, <code>x</code> and <code>y</code>, the simplest method of comparing them is:</p>
+<div class="sourceCode" id="cb2"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">catsim</span>)
+<span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span>(<span class="fl">20200505</span>)
+<span class="no">x</span> <span class="kw">&lt;-</span> <span class="no">besag</span>
+<span class="no">y</span> <span class="kw">&lt;-</span> <span class="no">x</span>
+<span class="no">y</span>[<span class="fl">10</span>:<span class="fl">20</span>,<span class="fl">10</span>:<span class="fl">20</span>] <span class="kw">&lt;-</span> <span class="fl">1</span>
+<span class="fu"><a href="reference/catsim.html">catsim</a></span>(<span class="no">x</span>, <span class="no">y</span>, <span class="kw">levels</span> <span class="kw">=</span> <span class="fl">3</span>)
+<span class="co">#&gt; [1] 0.8897574</span></pre></div>
+<p>By default, this performs 5 levels of downsampling and uses Cohen’s kappa as the local similarity metric on <code>11 x 11</code> windows for a 2-dimensional image and <code>5 x 5 x 5</code> windows for a 3-D image. Those can be adjusted using the <code>levels</code>, <code>method</code>, and <code>window</code> arguments.</p>
 <p>Please note that the <code>catsim</code> project is released with a <a href="https://gzt.github.io/catsim/CODE_OF_CONDUCT.html">Contributor Code of Conduct</a>. By contributing to this project, you agree to abide by its terms.</p>
 </div>
 </div>
@@ -122,6 +123,8 @@
     <div class="links">
 <h2>Links</h2>
 <ul class="list-unstyled">
+<li>Download from CRAN at <br><a href="https://cloud.r-project.org/package=catsim">https://​cloud.r-project.org/​package=catsim</a>
+</li>
 <li>Browse source code at <br><a href="https://github.com/gzt/catsim/">https://​github.com/​gzt/​catsim/​</a>
 </li>
 <li>Report a bug at <br><a href="https://github.com/gzt/catsim/issues">https://​github.com/​gzt/​catsim/​issues</a>
