@@ -15,7 +15,7 @@ of Cohen's kappa, the Rand indices, and the two mutual informations.
 \seealso{
 Useful links:
 \itemize{
-  \item \url{http://github.com/gzt/catsim}
+  \item \url{https://github.com/gzt/catsim}
   \item \url{https://gzt.github.io/catsim}
   \item Report bugs at \url{https://github.com/gzt/catsim/issues}
 }
