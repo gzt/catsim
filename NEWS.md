@@ -1,5 +1,6 @@
 # catsim 0.2.2
-* Fix update to C++ tests in testthat test suite.
+* Fix update to C++ tests in testthat test suite. This was causing an LTO error.
+* Update some URLs to use https instead of http.
 
 # catsim 0.2.1
 * Fix some cosmetic issues in README.Rmd
