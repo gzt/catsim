@@ -117,7 +117,7 @@ BEGIN_RCPP
 END_RCPP
 }
 
-RcppExport SEXP run_testthat_tests();
+RcppExport SEXP run_testthat_tests(SEXP use_xml_sxp);
 
 static const R_CallMethodDef CallEntries[] = {
     {"_catsim_c_gini", (DL_FUNC) &_catsim_c_gini, 1},
@@ -129,7 +129,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_catsim_c_rand", (DL_FUNC) &_catsim_c_rand, 2},
     {"_catsim_c_nmi", (DL_FUNC) &_catsim_c_nmi, 2},
     {"_catsim_c_ami", (DL_FUNC) &_catsim_c_ami, 2},
-    {"run_testthat_tests", (DL_FUNC) &run_testthat_tests, 0},
+    {"run_testthat_tests", (DL_FUNC) &run_testthat_tests, 1},
     {NULL, NULL, 0}
 };
 

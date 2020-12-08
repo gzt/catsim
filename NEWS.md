@@ -1,3 +1,6 @@
+# catsim 0.2.2
+* Fix update to C++ tests in testthat test suite.
+
 # catsim 0.2.1
 * Fix some cosmetic issues in README.Rmd
 * Fix a spurious warning in compiled code about an unused variable. 
