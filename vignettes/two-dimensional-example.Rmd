@@ -21,7 +21,7 @@ library(catsim)
 ```
 ## Introduction to CatSIM
 
-The **Cat**egorial **S**tructural Similarity **I**mage **M**etric, or **CatSIM**, 
+The **Cat**egorical **S**tructural Similarity **I**mage **M**etric, or **CatSIM**, 
 provides a similarity metric for binary or multinary images or maps after the 
 style of [MS-SSIM](https://en.wikipedia.org/wiki/Structural_similarity). That is,
 CatSIM compares two different sets of labels of pixels (voxels) in 2-D (or 3-D) images
