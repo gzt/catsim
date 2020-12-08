@@ -103,19 +103,13 @@ or Cohen's kappa." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">catsim</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.2</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
-<li>
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
@@ -194,15 +188,15 @@ adjusted Rand index
 or Cohen's kappa.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>rand_index</span>(<span class='no'>x</span>, <span class='no'>y</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+    <pre class="usage"><span class='fu'>rand_index</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>y</span>, na.rm <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
 
-<span class='fu'>adj_rand</span>(<span class='no'>x</span>, <span class='no'>y</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+<span class='fu'>adj_rand</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>y</span>, na.rm <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
 
-<span class='fu'>cohen_kappa</span>(<span class='no'>x</span>, <span class='no'>y</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+<span class='fu'>cohen_kappa</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>y</span>, na.rm <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
 
-<span class='fu'>normalized_mi</span>(<span class='no'>x</span>, <span class='no'>y</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+<span class='fu'>normalized_mi</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>y</span>, na.rm <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
 
-<span class='fu'>adjusted_mi</span>(<span class='no'>x</span>, <span class='no'>y</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
+<span class='fu'>adjusted_mi</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>y</span>, na.rm <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -245,11 +239,18 @@ J. Mach. Learn. Res. 11 (December 2010), 2837–2854.
 <a href='http://www.jmlr.org/papers/v11/vinh10a'>http://www.jmlr.org/papers/v11/vinh10a</a></p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span>(<span class='fl'>0</span>:<span class='fl'>5</span>, <span class='fl'>5</span>)
-<span class='no'>y</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span>(<span class='fl'>0</span>:<span class='fl'>5</span>, <span class='fl'>4</span>), <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span>(<span class='fl'>0</span>, <span class='fl'>6</span>))
+    <pre class="examples"><div class='input'><span class='va'>x</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span><span class='op'>(</span><span class='fl'>0</span><span class='op'>:</span><span class='fl'>5</span>, <span class='fl'>5</span><span class='op'>)</span>
+<span class='va'>y</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span><span class='op'>(</span><span class='fl'>0</span><span class='op'>:</span><span class='fl'>5</span>, <span class='fl'>4</span><span class='op'>)</span>, <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>6</span><span class='op'>)</span><span class='op'>)</span>
 <span class='co'># Simple Matching, or Accuracy</span>
-<span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>(<span class='no'>x</span> <span class='kw'>==</span> <span class='no'>y</span>)</div><div class='output co'>#&gt; [1] 0.8333333</div><div class='input'><span class='co'># Hamming distance</span>
-<span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span>(<span class='no'>x</span> <span class='kw'>!=</span> <span class='no'>y</span>)</div><div class='output co'>#&gt; [1] 5</div><div class='input'><span class='fu'>rand_index</span>(<span class='no'>x</span>, <span class='no'>y</span>)</div><div class='output co'>#&gt; [1] 0.8735632</div><div class='input'><span class='fu'>adj_rand</span>(<span class='no'>x</span>, <span class='no'>y</span>)</div><div class='output co'>#&gt; [1] 0.5188537</div><div class='input'><span class='fu'>cohen_kappa</span>(<span class='no'>x</span>, <span class='no'>y</span>)</div><div class='output co'>#&gt; [1] 0.8</div><div class='input'><span class='fu'>normalized_mi</span>(<span class='no'>x</span>, <span class='no'>y</span>)</div><div class='output co'>#&gt; [1] 0.7382948</div><div class='input'><span class='fu'>adjusted_mi</span>(<span class='no'>x</span>, <span class='no'>y</span>)</div><div class='output co'>#&gt; [1] 0.7213417</div></pre>
+<span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='va'>x</span> <span class='op'>==</span> <span class='va'>y</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] 0.8333333</div><div class='input'><span class='co'># Hamming distance</span>
+<span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span><span class='op'>(</span><span class='va'>x</span> <span class='op'>!=</span> <span class='va'>y</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] 5</div><div class='input'><span class='fu'>rand_index</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>y</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] 0.8735632</div><div class='input'><span class='fu'>adj_rand</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>y</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] 0.5188537</div><div class='input'><span class='fu'>cohen_kappa</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>y</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] 0.8</div><div class='input'><span class='fu'>normalized_mi</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>y</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] 0.7382948</div><div class='input'><span class='fu'>adjusted_mi</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>y</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] 0.7213417</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -265,7 +266,7 @@ J. Mach. Learn. Res. 11 (December 2010), 2837–2854.
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
 </div>
 
       </footer>

@@ -73,19 +73,13 @@ binary images for multiple scales. The default is to compute over 5 scales." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">catsim</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.2</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
-<li>
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
@@ -134,16 +128,16 @@ binary images for multiple scales. The default is to compute over 5 scales." />
 binary images for multiple scales. The default is to compute over 5 scales.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>catmssim_2d</span>(
-  <span class='no'>x</span>,
-  <span class='no'>y</span>,
-  <span class='kw'>levels</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>weights</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>window</span> <span class='kw'>=</span> <span class='fl'>11</span>,
-  <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"Cohen"</span>,
-  <span class='no'>...</span>,
-  <span class='kw'>random</span> <span class='kw'>=</span> <span class='st'>"random"</span>
-)</pre>
+    <pre class="usage"><span class='fu'>catmssim_2d</span><span class='op'>(</span>
+  <span class='va'>x</span>,
+  <span class='va'>y</span>,
+  levels <span class='op'>=</span> <span class='cn'>NULL</span>,
+  weights <span class='op'>=</span> <span class='cn'>NULL</span>,
+  window <span class='op'>=</span> <span class='fl'>11</span>,
+  method <span class='op'>=</span> <span class='st'>"Cohen"</span>,
+  <span class='va'>...</span>,
+  random <span class='op'>=</span> <span class='st'>"random"</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -202,13 +196,15 @@ use <code>pseudo</code> or <code>NULL</code>.</p></td>
     <p>a value less than 1 indicating the similarity between the images.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span>(<span class='fl'>20181207</span>)
-<span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>matrix</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/sample.html'>sample</a></span>(<span class='fl'>0</span>:<span class='fl'>3</span>, <span class='fl'>128</span>^<span class='fl'>2</span>, <span class='kw'>replace</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>), <span class='kw'>nrow</span> <span class='kw'>=</span> <span class='fl'>128</span>)
-<span class='no'>y</span> <span class='kw'>&lt;-</span> <span class='no'>x</span>
-<span class='kw'>for</span> (<span class='no'>i</span> <span class='kw'>in</span> <span class='fl'>1</span>:<span class='fl'>128</span>) <span class='no'>y</span>[<span class='no'>i</span>, <span class='no'>i</span>] <span class='kw'>&lt;-</span> <span class='fl'>0</span>
-<span class='kw'>for</span> (<span class='no'>i</span> <span class='kw'>in</span> <span class='fl'>1</span>:<span class='fl'>127</span>) <span class='no'>y</span>[<span class='no'>i</span>, <span class='no'>i</span> + <span class='fl'>1</span>] <span class='kw'>&lt;-</span> <span class='fl'>0</span>
-<span class='fu'>catmssim_2d</span>(<span class='no'>x</span>, <span class='no'>y</span>, <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"Cohen"</span>, <span class='kw'>levels</span> <span class='kw'>=</span> <span class='fl'>2</span>) <span class='co'># the default</span></div><div class='output co'>#&gt; [1] 0.8702514</div><div class='input'><span class='co'># now using a different similarity score (Jaccard Index)</span>
-<span class='fu'>catmssim_2d</span>(<span class='no'>x</span>, <span class='no'>y</span>, <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"NMI"</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: Truncating levels because of minimum dimension.</span></div><div class='output co'>#&gt; [1] 0.4764754</div></pre>
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span><span class='op'>(</span><span class='fl'>20181207</span><span class='op'>)</span>
+<span class='va'>x</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>matrix</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/sample.html'>sample</a></span><span class='op'>(</span><span class='fl'>0</span><span class='op'>:</span><span class='fl'>3</span>, <span class='fl'>128</span><span class='op'>^</span><span class='fl'>2</span>, replace <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>, nrow <span class='op'>=</span> <span class='fl'>128</span><span class='op'>)</span>
+<span class='va'>y</span> <span class='op'>&lt;-</span> <span class='va'>x</span>
+<span class='kw'>for</span> <span class='op'>(</span><span class='va'>i</span> <span class='kw'>in</span> <span class='fl'>1</span><span class='op'>:</span><span class='fl'>128</span><span class='op'>)</span> <span class='va'>y</span><span class='op'>[</span><span class='va'>i</span>, <span class='va'>i</span><span class='op'>]</span> <span class='op'>&lt;-</span> <span class='fl'>0</span>
+<span class='kw'>for</span> <span class='op'>(</span><span class='va'>i</span> <span class='kw'>in</span> <span class='fl'>1</span><span class='op'>:</span><span class='fl'>127</span><span class='op'>)</span> <span class='va'>y</span><span class='op'>[</span><span class='va'>i</span>, <span class='va'>i</span> <span class='op'>+</span> <span class='fl'>1</span><span class='op'>]</span> <span class='op'>&lt;-</span> <span class='fl'>0</span>
+<span class='fu'>catmssim_2d</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>y</span>, method <span class='op'>=</span> <span class='st'>"Cohen"</span>, levels <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span> <span class='co'># the default</span>
+</div><div class='output co'>#&gt; [1] 0.8702514</div><div class='input'><span class='co'># now using a different similarity score (Jaccard Index)</span>
+<span class='fu'>catmssim_2d</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>y</span>, method <span class='op'>=</span> <span class='st'>"NMI"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='warning'>Warning: Truncating levels because of minimum dimension.</span></div><div class='output co'>#&gt; [1] 0.4764754</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -224,7 +220,7 @@ use <code>pseudo</code> or <code>NULL</code>.</p></td>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
 </div>
 
       </footer>
