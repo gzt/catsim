@@ -1,15 +1,10 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-
 <!-- badges: start -->
 
-[![lifecycle](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
-[![Travis build
-status](https://travis-ci.org/gzt/catsim.svg?branch=master)](https://travis-ci.org/gzt/catsim)
-[![AppVeyor build
-status](https://ci.appveyor.com/api/projects/status/github/gzt/catsim?branch=master&svg=true)](https://ci.appveyor.com/project/gzt/catsim)
+[![lifecycle](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 [![Coverage
-status](https://codecov.io/gh/gzt/catsim/branch/master/graph/badge.svg)](https://codecov.io/github/gzt/catsim?branch=master)
+status](https://codecov.io/gh/gzt/catsim/branch/master/graph/badge.svg)](https://app.codecov.io/github/gzt/catsim?branch=master)
 [![R build
 status](https://github.com/gzt/catsim/workflows/R-CMD-check/badge.svg)](https://github.com/gzt/catsim/actions)
 <!-- badges: end -->
@@ -54,7 +49,7 @@ x <- besag
 y <- x
 y[10:20,10:20] <- 1
 catsim(x, y, levels = 3)
-#> [1] 0.8897574
+#> [1] 0
 ```
 
 By default, this performs 5 levels of downsampling and uses Cohen’s
