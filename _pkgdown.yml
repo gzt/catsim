@@ -17,7 +17,6 @@ reference:
       - cohen_kappa
       - normalized_mi
       - adjusted_mi
-      - AdjRandIndex
     - title: "Data"
       desc: "Data sets"
       contents:
