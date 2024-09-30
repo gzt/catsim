@@ -1,7 +1,8 @@
 # catsim 0.2.4
 * Minor update to build process
 * Fix DESCRIPTION
-* Fix CXX11 issue.
+* Fix CXX11 issue
+* Fix ArXiv DOI in DESCRIPTION
 
 # catsim 0.2.3
 * Minor update to fix the last URLs. Arxiv links in bibliographic 
