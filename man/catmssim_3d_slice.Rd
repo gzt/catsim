@@ -16,9 +16,7 @@ catmssim_3d_slice(
 )
 }
 \arguments{
-\item{x}{a binary or categorical image}
-
-\item{y}{a binary or categorical image}
+\item{x, y}{a binary or categorical image}
 
 \item{levels}{how many levels of downsampling to use. By default, 5. If
 \code{weights} is specified and this is left blank, the argument

@@ -3,7 +3,6 @@
 \docType{package}
 \name{catsim-package}
 \alias{catsim-package}
-\alias{_PACKAGE}
 \title{CatSIM: Binary and Categorical Image Structural Similarity Metric}
 \description{
 Computes a structural similarity metric (after the style of MS-SSIM for images)

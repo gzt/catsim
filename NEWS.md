@@ -1,3 +1,8 @@
+# catsim 0.2.4
+* Minor update to build process
+* Fix DESCRIPTION
+* Fix CXX11 issue.
+
 # catsim 0.2.3
 * Minor update to fix the last URLs. Arxiv links in bibliographic 
 expansion expand to http rather than https, so this has to be 

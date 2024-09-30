@@ -1,9 +1,9 @@
 Package: catsim
 Type: Package
 Title: Binary and Categorical Image Similarity Index
-Version: 0.2.3
-Authors@R: c(person(c("Geoffrey", "Thompson"),email="gzthompson@gmail.com",
-    role = c("aut", "cre"), comment = c(ORCID = '0000-0003-2436-8822')))	
+Version: 0.2.4
+Authors@R: person("Geoffrey", "Thompson",email="gzthompson@gmail.com",
+    role = c("aut", "cre"), comment = c(ORCID = '0000-0003-2436-8822'))	
 Description: Computes a structural similarity metric (after the style of
     MS-SSIM for images) for binary and categorical 2D and 3D images. Can be
     based on accuracy (simple matching), Cohen's kappa, Rand index, adjusted
@@ -17,7 +17,7 @@ LazyData: true
 Imports: 
     Rcpp
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.1.1
+RoxygenNote: 7.3.2
 URL: https://github.com/gzt/catsim, https://gzt.github.io/catsim/
 BugReports: https://github.com/gzt/catsim/issues
 LinkingTo: 
@@ -30,4 +30,4 @@ Suggests:
     rmarkdown
 VignetteBuilder: knitr
 Depends: 
-    R (>= 2.10)
+    R (>= 3.6)
