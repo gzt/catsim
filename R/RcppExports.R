@@ -5,35 +5,35 @@ c_gini <- function(x) {
     .Call(`_catsim_c_gini`, x)
 }
 
-c_ginicorr <- function(x, k) {
-    .Call(`_catsim_c_ginicorr`, x, k)
+c_ginicorr <- function(x_obj, k) {
+    .Call(`_catsim_c_ginicorr`, x_obj, k)
 }
 
 c_cfunc <- function(x, y, c, k, sqrtflag) {
     .Call(`_catsim_c_cfunc`, x, y, c, k, sqrtflag)
 }
 
-c_meansfunc <- function(x, y, c) {
-    .Call(`_catsim_c_meansfunc`, x, y, c)
+c_meansfunc <- function(x_obj, y_obj, c) {
+    .Call(`_catsim_c_meansfunc`, x_obj, y_obj, c)
 }
 
-c_cohen <- function(x, y) {
-    .Call(`_catsim_c_cohen`, x, y)
+c_cohen <- function(x_obj, y_obj) {
+    .Call(`_catsim_c_cohen`, x_obj, y_obj)
 }
 
-c_adj_rand <- function(x, y) {
-    .Call(`_catsim_c_adj_rand`, x, y)
+c_adj_rand <- function(x_obj, y_obj) {
+    .Call(`_catsim_c_adj_rand`, x_obj, y_obj)
 }
 
-c_rand <- function(x, y) {
-    .Call(`_catsim_c_rand`, x, y)
+c_rand <- function(x_obj, y_obj) {
+    .Call(`_catsim_c_rand`, x_obj, y_obj)
 }
 
-c_nmi <- function(x, y) {
-    .Call(`_catsim_c_nmi`, x, y)
+c_nmi <- function(x_obj, y_obj) {
+    .Call(`_catsim_c_nmi`, x_obj, y_obj)
 }
 
-c_ami <- function(x, y) {
-    .Call(`_catsim_c_ami`, x, y)
+c_ami <- function(x_obj, y_obj) {
+    .Call(`_catsim_c_ami`, x_obj, y_obj)
 }
 

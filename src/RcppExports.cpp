@@ -5,6 +5,11 @@
 
 using namespace Rcpp;
 
+#ifdef RCPP_USE_GLOBAL_ROSTREAM
+Rcpp::Rostream<true>&  Rcpp::Rcout = Rcpp::Rcpp_cout_get();
+Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
+#endif
+
 // c_gini
 double c_gini(NumericVector x);
 RcppExport SEXP _catsim_c_gini(SEXP xSEXP) {
@@ -17,25 +22,25 @@ BEGIN_RCPP
 END_RCPP
 }
 // c_ginicorr
-double c_ginicorr(NumericVector x, double k);
-RcppExport SEXP _catsim_c_ginicorr(SEXP xSEXP, SEXP kSEXP) {
+double c_ginicorr(SEXP x_obj, double k);
+RcppExport SEXP _catsim_c_ginicorr(SEXP x_objSEXP, SEXP kSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< NumericVector >::type x(xSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type x_obj(x_objSEXP);
     Rcpp::traits::input_parameter< double >::type k(kSEXP);
-    rcpp_result_gen = Rcpp::wrap(c_ginicorr(x, k));
+    rcpp_result_gen = Rcpp::wrap(c_ginicorr(x_obj, k));
     return rcpp_result_gen;
 END_RCPP
 }
 // c_cfunc
-double c_cfunc(NumericVector x, NumericVector y, double c, double k, bool sqrtflag);
+double c_cfunc(SEXP x, SEXP y, double c, double k, bool sqrtflag);
 RcppExport SEXP _catsim_c_cfunc(SEXP xSEXP, SEXP ySEXP, SEXP cSEXP, SEXP kSEXP, SEXP sqrtflagSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< NumericVector >::type x(xSEXP);
-    Rcpp::traits::input_parameter< NumericVector >::type y(ySEXP);
+    Rcpp::traits::input_parameter< SEXP >::type x(xSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type y(ySEXP);
     Rcpp::traits::input_parameter< double >::type c(cSEXP);
     Rcpp::traits::input_parameter< double >::type k(kSEXP);
     Rcpp::traits::input_parameter< bool >::type sqrtflag(sqrtflagSEXP);
@@ -44,75 +49,75 @@ BEGIN_RCPP
 END_RCPP
 }
 // c_meansfunc
-double c_meansfunc(NumericVector x, NumericVector y, double c);
-RcppExport SEXP _catsim_c_meansfunc(SEXP xSEXP, SEXP ySEXP, SEXP cSEXP) {
+double c_meansfunc(SEXP x_obj, SEXP y_obj, double c);
+RcppExport SEXP _catsim_c_meansfunc(SEXP x_objSEXP, SEXP y_objSEXP, SEXP cSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< NumericVector >::type x(xSEXP);
-    Rcpp::traits::input_parameter< NumericVector >::type y(ySEXP);
+    Rcpp::traits::input_parameter< SEXP >::type x_obj(x_objSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type y_obj(y_objSEXP);
     Rcpp::traits::input_parameter< double >::type c(cSEXP);
-    rcpp_result_gen = Rcpp::wrap(c_meansfunc(x, y, c));
+    rcpp_result_gen = Rcpp::wrap(c_meansfunc(x_obj, y_obj, c));
     return rcpp_result_gen;
 END_RCPP
 }
 // c_cohen
-double c_cohen(NumericVector x, NumericVector y);
-RcppExport SEXP _catsim_c_cohen(SEXP xSEXP, SEXP ySEXP) {
+double c_cohen(SEXP x_obj, SEXP y_obj);
+RcppExport SEXP _catsim_c_cohen(SEXP x_objSEXP, SEXP y_objSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< NumericVector >::type x(xSEXP);
-    Rcpp::traits::input_parameter< NumericVector >::type y(ySEXP);
-    rcpp_result_gen = Rcpp::wrap(c_cohen(x, y));
+    Rcpp::traits::input_parameter< SEXP >::type x_obj(x_objSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type y_obj(y_objSEXP);
+    rcpp_result_gen = Rcpp::wrap(c_cohen(x_obj, y_obj));
     return rcpp_result_gen;
 END_RCPP
 }
 // c_adj_rand
-double c_adj_rand(NumericVector x, NumericVector y);
-RcppExport SEXP _catsim_c_adj_rand(SEXP xSEXP, SEXP ySEXP) {
+double c_adj_rand(SEXP x_obj, SEXP y_obj);
+RcppExport SEXP _catsim_c_adj_rand(SEXP x_objSEXP, SEXP y_objSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< NumericVector >::type x(xSEXP);
-    Rcpp::traits::input_parameter< NumericVector >::type y(ySEXP);
-    rcpp_result_gen = Rcpp::wrap(c_adj_rand(x, y));
+    Rcpp::traits::input_parameter< SEXP >::type x_obj(x_objSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type y_obj(y_objSEXP);
+    rcpp_result_gen = Rcpp::wrap(c_adj_rand(x_obj, y_obj));
     return rcpp_result_gen;
 END_RCPP
 }
 // c_rand
-double c_rand(NumericVector x, NumericVector y);
-RcppExport SEXP _catsim_c_rand(SEXP xSEXP, SEXP ySEXP) {
+double c_rand(SEXP x_obj, SEXP y_obj);
+RcppExport SEXP _catsim_c_rand(SEXP x_objSEXP, SEXP y_objSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< NumericVector >::type x(xSEXP);
-    Rcpp::traits::input_parameter< NumericVector >::type y(ySEXP);
-    rcpp_result_gen = Rcpp::wrap(c_rand(x, y));
+    Rcpp::traits::input_parameter< SEXP >::type x_obj(x_objSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type y_obj(y_objSEXP);
+    rcpp_result_gen = Rcpp::wrap(c_rand(x_obj, y_obj));
     return rcpp_result_gen;
 END_RCPP
 }
 // c_nmi
-double c_nmi(NumericVector x, NumericVector y);
-RcppExport SEXP _catsim_c_nmi(SEXP xSEXP, SEXP ySEXP) {
+double c_nmi(SEXP x_obj, SEXP y_obj);
+RcppExport SEXP _catsim_c_nmi(SEXP x_objSEXP, SEXP y_objSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< NumericVector >::type x(xSEXP);
-    Rcpp::traits::input_parameter< NumericVector >::type y(ySEXP);
-    rcpp_result_gen = Rcpp::wrap(c_nmi(x, y));
+    Rcpp::traits::input_parameter< SEXP >::type x_obj(x_objSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type y_obj(y_objSEXP);
+    rcpp_result_gen = Rcpp::wrap(c_nmi(x_obj, y_obj));
     return rcpp_result_gen;
 END_RCPP
 }
 // c_ami
-double c_ami(NumericVector x, NumericVector y);
-RcppExport SEXP _catsim_c_ami(SEXP xSEXP, SEXP ySEXP) {
+double c_ami(SEXP x_obj, SEXP y_obj);
+RcppExport SEXP _catsim_c_ami(SEXP x_objSEXP, SEXP y_objSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< NumericVector >::type x(xSEXP);
-    Rcpp::traits::input_parameter< NumericVector >::type y(ySEXP);
-    rcpp_result_gen = Rcpp::wrap(c_ami(x, y));
+    Rcpp::traits::input_parameter< SEXP >::type x_obj(x_objSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type y_obj(y_objSEXP);
+    rcpp_result_gen = Rcpp::wrap(c_ami(x_obj, y_obj));
     return rcpp_result_gen;
 END_RCPP
 }

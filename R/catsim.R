@@ -595,7 +595,8 @@ catmssim_2d <- function(x, y, levels = NULL, weights = NULL, window = 11,
 #'   information (`NMI` or `MI`) as
 #'     the similarity index. Note Jaccard and Dice should only be used on
 #' binary data.
-#' @param ...
+#' @param ...  additional arguments, such as window, can be passed
+#'        as well as arguments for internal functions.
 #'
 #' @return SSIM componenets for the cube.
 #' @keywords internal
