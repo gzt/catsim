@@ -2,8 +2,9 @@
 using namespace Rcpp;
 
 // [[Rcpp::export]]
-double c_gini(NumericVector x) {
-  std::map<double, double> counts;
+double c_gini(SEXP x_obj) {
+  NumericVector x(x_obj);
+  std::unordered_map<double, double> counts;
   R_xlen_t n = x.size();
   // NumericVector::iterator i;
   for (NumericVector::iterator i = x.begin(); i != x.end(); ++i) {
@@ -11,7 +12,7 @@ double c_gini(NumericVector x) {
   }
 
   double sqsum = 0.0;
-  for (std::map<double, double>::iterator it = counts.begin();
+  for (std::unordered_map<double, double>::iterator it = counts.begin();
        it != counts.end(); ++it) {
     sqsum += 1.0 * (it->second) * (it->second);
   }
@@ -19,14 +20,16 @@ double c_gini(NumericVector x) {
 }
 
 // [[Rcpp::export]]
-double c_ginicorr(NumericVector x, double k) {
+double c_ginicorr(SEXP x_obj, double k) {
+  NumericVector x(x_obj);
   double eps = 1e-5;
   if (std::abs(k - 1.0) < eps) return 1.0;
 
   return c_gini(x) / (1.0 - 1.0 / k);
 }
 
-double c_sqrtginicorr(NumericVector x, double k) {
+double c_sqrtginicorr(SEXP x_obj, double k) {
+  NumericVector x(x_obj);
   double eps = 1e-5;
   if (std::abs(k - 1.0) < eps) return 1.0;
 
@@ -34,8 +37,10 @@ double c_sqrtginicorr(NumericVector x, double k) {
 }
 
 // [[Rcpp::export]]
-double c_cfunc(NumericVector x, NumericVector y, double c, double k,
+double c_cfunc(SEXP x_obj, SEXP y_obj, double c, double k,
                bool sqrtflag) {
+  NumericVector x(x_obj);
+  NumericVector y(y_obj);
   double varx, vary;
   if (sqrtflag) {
     varx = c_sqrtginicorr(x, k);
@@ -49,11 +54,13 @@ double c_cfunc(NumericVector x, NumericVector y, double c, double k,
 }
 
 // [[Rcpp::export]]
-double c_meansfunc(NumericVector x, NumericVector y, double c) {
+double c_meansfunc(SEXP x_obj, SEXP y_obj, double c) {
   // R_xlen_t n = x.size();
+  NumericVector x(x_obj);
+  NumericVector y(y_obj);
   if (x.size() != y.size()) Rcpp::stop("X and Y must have the same length.");
-  std::map<double, double> countsx;
-  std::map<double, double> countsy;
+  std::unordered_map<double, double> countsx;
+  std::unordered_map<double, double> countsy;
   NumericVector::iterator x_i, y_i;
   for (x_i = x.begin(), y_i = y.begin(); x_i != x.end() && y_i != y.end();
        ++x_i, ++y_i) {
@@ -62,18 +69,18 @@ double c_meansfunc(NumericVector x, NumericVector y, double c) {
   }
 
   double sqsum = 0.0;
-  for (std::map<double, double>::iterator it = countsx.begin();
+  for (std::unordered_map<double, double>::iterator it = countsx.begin();
        it != countsx.end(); ++it) {
     sqsum += 1.0 * (it->second) * (it->second);
   }
-  for (std::map<double, double>::iterator it = countsy.begin();
+  for (std::unordered_map<double, double>::iterator it = countsy.begin();
        it != countsy.end(); ++it) {
     sqsum += 1.0 * (it->second) * (it->second);
   }
 
   double xysum = 0.0;
-  std::map<double, double>::iterator il = countsx.begin();
-  std::map<double, double>::iterator ir = countsy.begin();
+  std::unordered_map<double, double>::iterator il = countsx.begin();
+  std::unordered_map<double, double>::iterator ir = countsy.begin();
   while (il != countsx.end() && ir != countsy.end()) {
     if (il->first < ir->first)
       ++il;
@@ -90,15 +97,15 @@ double c_meansfunc(NumericVector x, NumericVector y, double c) {
 }
 
 // [[Rcpp::export]]
-double c_cohen(NumericVector x, NumericVector y) {
+double c_cohen(SEXP x_obj, SEXP y_obj) {
+  NumericVector x(x_obj);
+  NumericVector y(y_obj);
   R_xlen_t n = x.size();
   if (x.size() != y.size()) Rcpp::stop("X and Y must have the same length.");
-  NumericMatrix xy(n, 2);
-  xy.column(0) = x;
-  xy.column(1) = y;
-  std::map<double, double> countsx;
-  std::map<double, double> countsy;
-  std::map<double, double> countsxy;
+ 
+  std::unordered_map<double, double> countsx;
+  std::unordered_map<double, double> countsy;
+  std::unordered_map<double, double> countsxy;
 
   countsx.clear();
   countsy.clear();
@@ -114,8 +121,8 @@ double c_cohen(NumericVector x, NumericVector y) {
   }
 
   double xxyysum = 0.0;
-  std::map<double, double>::iterator il = countsx.begin();
-  std::map<double, double>::iterator ir = countsy.begin();
+  std::unordered_map<double, double>::iterator il = countsx.begin();
+  std::unordered_map<double, double>::iterator ir = countsy.begin();
   while (il != countsx.end() && ir != countsy.end()) {
     if (il->first < ir->first)
       ++il;
@@ -129,7 +136,7 @@ double c_cohen(NumericVector x, NumericVector y) {
   }
   double xysum = 0.0;
 
-  for (std::map<double, double>::iterator it = countsxy.begin();
+  for (std::unordered_map<double, double>::iterator it = countsxy.begin();
        it != countsxy.end(); ++it) {
     xysum += 1.0 * (it->second);
   }
@@ -143,16 +150,18 @@ double c_cohen(NumericVector x, NumericVector y) {
   return (po - pe) / (1.0 - pe);
 }
 
-Rcpp::NumericVector c_randRaw(NumericVector x, NumericVector y) {
+Rcpp::NumericVector c_randRaw(SEXP x_obj, SEXP y_obj) {
+  NumericVector x(x_obj);
+  NumericVector y(y_obj);
   Rcpp::NumericVector resultvector(3);
   R_xlen_t n = x.size();
   if (x.size() != y.size()) Rcpp::stop("X and Y must have the same length.");
   NumericMatrix xy(n, 2);
   xy.column(0) = x;
   xy.column(1) = y;
-  std::map<double, double> countsx;
-  std::map<double, double> countsy;
-  std::map<std::vector<double>, double> count_rows;
+  std::unordered_map<double, double> countsx;
+  std::unordered_map<double, double> countsy;
+  std::unordered_map<std::vector<double>, double> count_rows;
   countsx.clear();
   countsy.clear();
   count_rows.clear();
@@ -173,15 +182,15 @@ Rcpp::NumericVector c_randRaw(NumericVector x, NumericVector y) {
   double bi = 0.0;
   double nij = 0.0;
 
-  for (std::map<double, double>::iterator it = countsx.begin();
+  for (std::unordered_map<double, double>::iterator it = countsx.begin();
        it != countsx.end(); ++it) {
     ai += (it->second) * ((it->second) - 1.0) / 2.0;
   }
-  for (std::map<double, double>::iterator it = countsy.begin();
+  for (std::unordered_map<double, double>::iterator it = countsy.begin();
        it != countsy.end(); ++it) {
     bi += (it->second) * ((it->second) - 1.0) / 2.0;
   }
-  for (std::map<std::vector<double>, double>::iterator it = count_rows.begin();
+  for (std::unordered_map<std::vector<double>, double>::iterator it = count_rows.begin();
        it != count_rows.end(); ++it) {
     nij += (it->second) * ((it->second) - 1.0) / 2.0;
   }
@@ -194,7 +203,9 @@ Rcpp::NumericVector c_randRaw(NumericVector x, NumericVector y) {
 }
 
 // [[Rcpp::export]]
-double c_adj_rand(NumericVector x, NumericVector y) {
+double c_adj_rand(SEXP x_obj, SEXP y_obj) {
+  NumericVector x(x_obj);
+  NumericVector y(y_obj);
   double eps = 0.0;
   R_xlen_t n = x.size();
 
@@ -214,7 +225,9 @@ double c_adj_rand(NumericVector x, NumericVector y) {
 }
 
 // [[Rcpp::export]]
-double c_rand(NumericVector x, NumericVector y) {
+double c_rand(SEXP x_obj, SEXP y_obj) {
+  NumericVector x(x_obj);
+  NumericVector y(y_obj);
   R_xlen_t n = x.size();
 
   double ai = 0.0;
@@ -231,15 +244,17 @@ double c_rand(NumericVector x, NumericVector y) {
 }
 
 // [[Rcpp::export]]
-double c_nmi(NumericVector x, NumericVector y) {
+double c_nmi(SEXP x_obj, SEXP y_obj) {
+  NumericVector x(x_obj);
+  NumericVector y(y_obj);
   R_xlen_t n = x.size();
   if (x.size() != y.size()) Rcpp::stop("X and Y must have the same length.");
   NumericMatrix xy(n, 2);
   xy.column(0) = x;
   xy.column(1) = y;
-  std::map<double, double> countsx;
-  std::map<double, double> countsy;
-  std::map<std::vector<double>, double> count_rows;
+  std::unordered_map<double, double> countsx;
+  std::unordered_map<double, double> countsy;
+  std::unordered_map<std::vector<double>, double> count_rows;
   countsx.clear();
   countsy.clear();
   count_rows.clear();
@@ -260,17 +275,17 @@ double c_nmi(NumericVector x, NumericVector y) {
   double HX = 0.0;
   double HY = 0.0;
 
-  for (std::map<double, double>::iterator it = countsx.begin();
+  for (std::unordered_map<double, double>::iterator it = countsx.begin();
        it != countsx.end(); ++it) {
     double tmp = it->second;
     HX += -tmp / n * log(tmp / n);
   }
-  for (std::map<double, double>::iterator it = countsy.begin();
+  for (std::unordered_map<double, double>::iterator it = countsy.begin();
        it != countsy.end(); ++it) {
     double tmp = it->second;
     HY += -tmp / n * log(tmp / n);
   }
-  for (std::map<std::vector<double>, double>::iterator it = count_rows.begin();
+  for (std::unordered_map<std::vector<double>, double>::iterator it = count_rows.begin();
        it != count_rows.end(); ++it) {
     double tmp = it->second;
     std::vector<double> tmpvec = it->first;
@@ -302,15 +317,17 @@ double hypergeomfunc(double ai, double bj, R_xlen_t N) {
 }
 
 // [[Rcpp::export]]
-double c_ami(NumericVector x, NumericVector y) {
+double c_ami(SEXP x_obj, SEXP y_obj) {
+  NumericVector x(x_obj);
+  NumericVector y(y_obj);
   R_xlen_t n = x.size();
   if (x.size() != y.size()) Rcpp::stop("X and Y must have the same length.");
   NumericMatrix xy(n, 2);
   xy.column(0) = x;
   xy.column(1) = y;
-  std::map<double, double> countsx;
-  std::map<double, double> countsy;
-  std::map<std::vector<double>, double> count_rows;
+  std::unordered_map<double, double> countsx;
+  std::unordered_map<double, double> countsy;
+  std::unordered_map<std::vector<double>, double> count_rows;
   countsx.clear();
   countsy.clear();
   count_rows.clear();
@@ -331,17 +348,17 @@ double c_ami(NumericVector x, NumericVector y) {
   double HX = 0.0;
   double HY = 0.0;
   double EMI = 0.0;
-  for (std::map<double, double>::iterator it = countsx.begin();
+  for (std::unordered_map<double, double>::iterator it = countsx.begin();
        it != countsx.end(); ++it) {
     double tmp = it->second;
     HX += -tmp / n * log(tmp / n);
   }
-  for (std::map<double, double>::iterator it = countsy.begin();
+  for (std::unordered_map<double, double>::iterator it = countsy.begin();
        it != countsy.end(); ++it) {
     double tmp = it->second;
     HY += -tmp / n * log(tmp / n);
   }
-  for (std::map<std::vector<double>, double>::iterator it = count_rows.begin();
+  for (std::unordered_map<std::vector<double>, double>::iterator it = count_rows.begin();
        it != count_rows.end(); ++it) {
     double tmp = it->second;
     double xn = countsx[(it->first)[0]];

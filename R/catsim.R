@@ -209,8 +209,8 @@ hamming <- function(x, y) {
 #' y <- c(rep(1:4, 3), rep(4, 4))
 #' sfunc(x, y)
 sfunc <- function(x, y, methodflag = c_cohen) {
-  x <- as.vector(x)
-  y <- as.vector(y)
+#  x <- as.vector(x)
+#  y <- as.vector(y)
   methodflag(x, y)
 }
 
