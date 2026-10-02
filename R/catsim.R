@@ -559,7 +559,7 @@ catmssim_2d <- function(x, y, levels = NULL, weights = NULL, window = 11,
   }
   weights <- weights[1:levels]
   results <- matrix(0, nrow = levels, ncol = 3)
-  results[1, ] <- catssim_2d(
+  results[1, ] <- catssim_2d_cpp(
     x = x, y = y,
     window = window, method = method, ...
   )
@@ -568,7 +568,7 @@ catmssim_2d <- function(x, y, levels = NULL, weights = NULL, window = 11,
     for (i in 2:levels) {
       x <- downsample_2d(x, random = random)
       y <- downsample_2d(y, random = random)
-      results[i, ] <- catssim_2d(
+      results[i, ] <- catssim_2d_cpp(
         x = x, y = y,
         window = window, method = method, ...
       )
@@ -606,7 +606,7 @@ catssim_3d_slice <- function(x, y, window = c(11, 11), method = "Cohen", ...) {
   dims <- dim(x)
   sliceresults <- matrix(0, nrow = dims[3], ncol = 3)
   for (i in seq(dims[3])) {
-    sliceresults[i, ] <- catssim_2d(
+    sliceresults[i, ] <- catssim_2d_cpp(
       x = x[, , i], y = y[, , i],
       window = window, method = method, ...
     )
@@ -908,4 +908,42 @@ catsim <- function(x, y, ..., cube = TRUE, levels = NULL, weights = NULL,
       method = method, window = window, ...
     )
   }
+}
+
+#' Categorical Structural Similarity Index Measure (2D) - C++ version
+#'
+#' This is a C++ implementation of catssim_2d for improved performance.
+#' Computes the categorical or binary structural similarity index metric
+#' on a sliding window basis.
+#'
+#' @param x,y binary or categorical image
+#' @param window the window size over which the similarity is computed.
+#'     The default is c(11, 11).
+#' @param method whether to use Cohen's kappa (`Cohen`),
+#'     Jaccard Index (`Jaccard`), Dice index (`Dice`),
+#'     accuracy (`accuracy`),  Rand index (`Rand`),
+#'     Adjusted Rand Index (`AdjRand` or `ARI`), normalized mutual
+#'     information (`NMI` or `MI`) or the adjusted mutual
+#'     information, `AMI` and `ami`, as
+#'     the similarity index. Note Jaccard and Dice should only be used on
+#'     binary data.
+#' @param ... additional constants can be passed to internal functions.
+#'
+#' @return a value less than 1 indicating the similarity between the images.
+#' @export
+#'
+#' @examples
+#' set.seed(20181207)
+#' x <- matrix(sample(1:4, 400, replace = TRUE), nrow = 20)
+#' y <- x
+#' for (i in 1:20) y[i, i] <- 1
+#' for (i in 1:19) y[i, i + 1] <- 1
+#' catssim_2d_cpp(x, y)
+catssim_2d_cpp <- function(x, y, window = c(11, 11), method = "Cohen", ...) {
+  dotlist <- dots_parser(...)
+  c1 <- dotlist[["c1"]]
+  c2 <- dotlist[["c2"]]
+  sqrtgini <- dotlist[["sqrtgini"]]
+
+  c_catssim_2d(x, y, window, method, c1, c2, sqrtgini)
 }

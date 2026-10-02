@@ -351,3 +351,169 @@ double c_ami(NumericVector x, NumericVector y) {
   }
   return (IXY - EMI) / ((HX > HY ? HX : HY) - EMI);
 }
+
+// Helper functions for Jaccard, Dice, and Hamming
+// [[Rcpp::export]]
+double c_jaccard(Rcpp::NumericVector x, Rcpp::NumericVector y) {
+  R_xlen_t n = x.size();
+  if (x.size() != y.size()) Rcpp::stop("X and Y must have the same length.");
+
+  double sum_xy_or = 0.0;
+  double sum_xy_and = 0.0;
+
+  for (R_xlen_t i = 0; i < n; i++) {
+    if (Rcpp::traits::is_nan<REALSXP>(x[i]) || Rcpp::traits::is_nan<REALSXP>(y[i])) {
+      continue;
+    }
+    if (x[i] != 0 || y[i] != 0) {
+      sum_xy_or += 1.0;
+    }
+    if (x[i] != 0 && y[i] != 0) {
+      sum_xy_and += 1.0;
+    }
+  }
+
+  if (sum_xy_or < 1e-9) {
+    return NA_REAL;
+  }
+
+  return sum_xy_and / sum_xy_or;
+}
+
+// [[Rcpp::export]]
+double c_dice(Rcpp::NumericVector x, Rcpp::NumericVector y) {
+  double jacc = c_jaccard(x, y);
+  if (Rcpp::traits::is_nan<REALSXP>(jacc)) {
+    return NA_REAL;
+  }
+  return 2.0 * jacc / (1.0 + jacc);
+}
+
+// [[Rcpp::export]]
+double c_hamming(Rcpp::NumericVector x, Rcpp::NumericVector y) {
+  R_xlen_t n = x.size();
+  if (x.size() != y.size()) Rcpp::stop("X and Y must have the same length.");
+
+  double n_valid = 0.0;
+  double n_agree = 0.0;
+
+  for (R_xlen_t i = 0; i < n; i++) {
+    if (Rcpp::traits::is_nan<REALSXP>(x[i]) || Rcpp::traits::is_nan<REALSXP>(y[i])) {
+      continue;
+    }
+    n_valid += 1.0;
+    if (x[i] == y[i]) {
+      n_agree += 1.0;
+    }
+  }
+
+  if (n_valid < 1e-9) {
+    return NA_REAL;
+  }
+
+  return n_agree / n_valid;
+}
+
+// [[Rcpp::export]]
+Rcpp::NumericVector c_catssim_2d(Rcpp::NumericMatrix x, Rcpp::NumericMatrix y,
+                                 Rcpp::IntegerVector window, std::string method,
+                                 double c1, double c2, bool sqrtgini) {
+  int nrow = x.nrow();
+  int ncol = x.ncol();
+  int win_rows = window[0];
+  int win_cols = window[1];
+
+  int out_nrow = nrow - win_rows + 1;
+  int out_ncol = ncol - win_cols + 1;
+
+  Rcpp::NumericMatrix resultmatrix(out_nrow, out_ncol * 3);
+
+  double (*method_func)(NumericVector, NumericVector);
+  if (method == "Cohen" || method == "cohen" || method == "C" || method == "c" ||
+      method == "kappa" || method == "Kappa") {
+    method_func = c_cohen;
+  } else if (method == "AdjRand" || method == "adjrand" || method == "Adj" ||
+             method == "adj" || method == "a" || method == "A" ||
+             method == "ARI" || method == "ari") {
+    method_func = c_adj_rand;
+  } else if (method == "Rand" || method == "rand" || method == "r" ||
+             method == "R") {
+    method_func = c_rand;
+  } else if (method == "NMI" || method == "MI" || method == "mutual" ||
+             method == "information" || method == "nmi" || method == "mi") {
+    method_func = c_nmi;
+  } else if (method == "AMI" || method == "ami") {
+    method_func = c_ami;
+  } else if (method == "Jaccard" || method == "jaccard" || method == "j" ||
+             method == "J") {
+    method_func = c_jaccard;
+  } else if (method == "Dice" || method == "dice" || method == "D" ||
+             method == "d") {
+    method_func = c_dice;
+  } else if (method == "Accuracy" || method == "accuracy" || method == "acc" ||
+             method == "Hamming" || method == "hamming" || method == "H" ||
+             method == "h") {
+    method_func = c_hamming;
+  } else {
+    Rcpp::stop("Error: invalid method");
+  }
+
+  std::set<double> unique_vals;
+  for (int i = 0; i < nrow; i++) {
+    for (int j = 0; j < ncol; j++) {
+      unique_vals.insert(x(i, j));
+      unique_vals.insert(y(i, j));
+    }
+  }
+  double k = unique_vals.size();
+
+  for (int i = 0; i < out_nrow; i++) {
+    for (int j = 0; j < out_ncol; j++) {
+      NumericVector subx(win_rows * win_cols);
+      NumericVector suby(win_rows * win_cols);
+
+      int idx = 0;
+      for (int wi = 0; wi < win_rows; wi++) {
+        for (int wj = 0; wj < win_cols; wj++) {
+          subx[idx] = x(i + wi, j + wj);
+          suby[idx] = y(i + wi, j + wj);
+          idx++;
+        }
+      }
+
+      double comp1 = c_meansfunc(subx, suby, c1);
+      double comp2 = c_cfunc(subx, suby, c2, k, sqrtgini);
+      double comp3 = method_func(subx, suby);
+
+      resultmatrix(i, j) = comp1;
+      resultmatrix(i, j + out_ncol) = comp2;
+      resultmatrix(i, j + 2 * out_ncol) = comp3;
+    }
+  }
+
+  for (int i = 0; i < out_nrow; i++) {
+    for (int j = 0; j < out_ncol; j++) {
+      if (resultmatrix(i, j) < 0.0) resultmatrix(i, j) = 0.0;
+      if (resultmatrix(i, j + out_ncol) < 0.0) resultmatrix(i, j + out_ncol) = 0.0;
+      if (resultmatrix(i, j + 2 * out_ncol) < 0.0) resultmatrix(i, j + 2 * out_ncol) = 0.0;
+    }
+  }
+
+  Rcpp::NumericVector col_means(3);
+  for (int comp = 0; comp < 3; comp++) {
+    double sum = 0.0;
+    int count = 0;
+    for (int i = 0; i < out_nrow; i++) {
+      for (int j = 0; j < out_ncol; j++) {
+        double val = resultmatrix(i, j + comp * out_ncol);
+        if (!Rcpp::traits::is_nan<REALSXP>(val)) {
+          sum += val;
+          count++;
+        }
+      }
+    }
+    col_means[comp] = (count > 0) ? sum / count : NA_REAL;
+  }
+
+  return col_means;
+}
