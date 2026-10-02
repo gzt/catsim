@@ -17,7 +17,6 @@ LazyData: true
 Imports: 
     Rcpp
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.2
 URL: https://gzt.github.io/catsim/
 BugReports: https://github.com/gzt/catsim/issues
 LinkingTo: 
@@ -31,3 +30,4 @@ Suggests:
 VignetteBuilder: knitr
 Depends: 
     R (>= 3.6)
+Config/roxygen2/version: 8.1.0

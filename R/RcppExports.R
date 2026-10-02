@@ -37,3 +37,19 @@ c_ami <- function(x, y) {
     .Call(`_catsim_c_ami`, x, y)
 }
 
+c_jaccard <- function(x, y) {
+    .Call(`_catsim_c_jaccard`, x, y)
+}
+
+c_dice <- function(x, y) {
+    .Call(`_catsim_c_dice`, x, y)
+}
+
+c_hamming <- function(x, y) {
+    .Call(`_catsim_c_hamming`, x, y)
+}
+
+c_catssim_2d <- function(x, y, window, method, c1, c2, sqrtgini) {
+    .Call(`_catsim_c_catssim_2d`, x, y, window, method, c1, c2, sqrtgini)
+}
+

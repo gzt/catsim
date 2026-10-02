@@ -5,6 +5,11 @@
 
 using namespace Rcpp;
 
+#ifdef RCPP_USE_GLOBAL_ROSTREAM
+Rcpp::Rostream<true>&  Rcpp::Rcout = Rcpp::Rcpp_cout_get();
+Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
+#endif
+
 // c_gini
 double c_gini(NumericVector x);
 RcppExport SEXP _catsim_c_gini(SEXP xSEXP) {
@@ -116,6 +121,59 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// c_jaccard
+double c_jaccard(Rcpp::NumericVector x, Rcpp::NumericVector y);
+RcppExport SEXP _catsim_c_jaccard(SEXP xSEXP, SEXP ySEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Rcpp::NumericVector >::type x(xSEXP);
+    Rcpp::traits::input_parameter< Rcpp::NumericVector >::type y(ySEXP);
+    rcpp_result_gen = Rcpp::wrap(c_jaccard(x, y));
+    return rcpp_result_gen;
+END_RCPP
+}
+// c_dice
+double c_dice(Rcpp::NumericVector x, Rcpp::NumericVector y);
+RcppExport SEXP _catsim_c_dice(SEXP xSEXP, SEXP ySEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Rcpp::NumericVector >::type x(xSEXP);
+    Rcpp::traits::input_parameter< Rcpp::NumericVector >::type y(ySEXP);
+    rcpp_result_gen = Rcpp::wrap(c_dice(x, y));
+    return rcpp_result_gen;
+END_RCPP
+}
+// c_hamming
+double c_hamming(Rcpp::NumericVector x, Rcpp::NumericVector y);
+RcppExport SEXP _catsim_c_hamming(SEXP xSEXP, SEXP ySEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Rcpp::NumericVector >::type x(xSEXP);
+    Rcpp::traits::input_parameter< Rcpp::NumericVector >::type y(ySEXP);
+    rcpp_result_gen = Rcpp::wrap(c_hamming(x, y));
+    return rcpp_result_gen;
+END_RCPP
+}
+// c_catssim_2d
+Rcpp::NumericVector c_catssim_2d(Rcpp::NumericMatrix x, Rcpp::NumericMatrix y, Rcpp::IntegerVector window, std::string method, double c1, double c2, bool sqrtgini);
+RcppExport SEXP _catsim_c_catssim_2d(SEXP xSEXP, SEXP ySEXP, SEXP windowSEXP, SEXP methodSEXP, SEXP c1SEXP, SEXP c2SEXP, SEXP sqrtginiSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Rcpp::NumericMatrix >::type x(xSEXP);
+    Rcpp::traits::input_parameter< Rcpp::NumericMatrix >::type y(ySEXP);
+    Rcpp::traits::input_parameter< Rcpp::IntegerVector >::type window(windowSEXP);
+    Rcpp::traits::input_parameter< std::string >::type method(methodSEXP);
+    Rcpp::traits::input_parameter< double >::type c1(c1SEXP);
+    Rcpp::traits::input_parameter< double >::type c2(c2SEXP);
+    Rcpp::traits::input_parameter< bool >::type sqrtgini(sqrtginiSEXP);
+    rcpp_result_gen = Rcpp::wrap(c_catssim_2d(x, y, window, method, c1, c2, sqrtgini));
+    return rcpp_result_gen;
+END_RCPP
+}
 
 RcppExport SEXP run_testthat_tests(SEXP);
 
@@ -129,6 +187,10 @@ static const R_CallMethodDef CallEntries[] = {
     {"_catsim_c_rand", (DL_FUNC) &_catsim_c_rand, 2},
     {"_catsim_c_nmi", (DL_FUNC) &_catsim_c_nmi, 2},
     {"_catsim_c_ami", (DL_FUNC) &_catsim_c_ami, 2},
+    {"_catsim_c_jaccard", (DL_FUNC) &_catsim_c_jaccard, 2},
+    {"_catsim_c_dice", (DL_FUNC) &_catsim_c_dice, 2},
+    {"_catsim_c_hamming", (DL_FUNC) &_catsim_c_hamming, 2},
+    {"_catsim_c_catssim_2d", (DL_FUNC) &_catsim_c_catssim_2d, 7},
     {"run_testthat_tests", (DL_FUNC) &run_testthat_tests, 1},
     {NULL, NULL, 0}
 };

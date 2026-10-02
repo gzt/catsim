@@ -14,7 +14,6 @@ of Cohen's kappa, the Rand indices, and the two mutual informations.
 \seealso{
 Useful links:
 \itemize{
-  \item \url{https://github.com/gzt/catsim}
   \item \url{https://gzt.github.io/catsim/}
   \item Report bugs at \url{https://github.com/gzt/catsim/issues}
 }
@@ -22,6 +21,11 @@ Useful links:
 }
 \author{
 \strong{Maintainer}: Geoffrey Thompson \email{gzthompson@gmail.com} (\href{https://orcid.org/0000-0003-2436-8822}{ORCID})
+
+Authors:
+\itemize{
+  \item Geoffrey Thompson \email{gzthompson@gmail.com} (\href{https://orcid.org/0000-0003-2436-8822}{ORCID})
+}
 
 }
 \keyword{internal}
