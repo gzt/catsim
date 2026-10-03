@@ -356,24 +356,53 @@ double c_ami(NumericVector x, NumericVector y) {
 // [[Rcpp::export]]
 double c_jaccard(Rcpp::NumericVector x, Rcpp::NumericVector y) {
   R_xlen_t n = x.size();
-  if (x.size() != y.size()) Rcpp::stop("X and Y must have the same length.");
+
+  if (x.size() != y.size()) {
+    Rcpp::stop("X and Y must have the same length.");
+  }
 
   double sum_xy_or = 0.0;
   double sum_xy_and = 0.0;
 
   for (R_xlen_t i = 0; i < n; i++) {
-    if (Rcpp::traits::is_nan<REALSXP>(x[i]) || Rcpp::traits::is_nan<REALSXP>(y[i])) {
-      continue;
-    }
-    if (x[i] != 0 || y[i] != 0) {
+    const double xi = x[i];
+    const double yi = y[i];
+
+    const bool x_na = Rcpp::traits::is_na<REALSXP>(xi);
+    const bool y_na = Rcpp::traits::is_na<REALSXP>(yi);
+
+    // R's `x | y`, with na.rm = TRUE:
+    //
+    // NA | TRUE  -> TRUE
+    // NA | FALSE -> NA
+    // NA | NA    -> NA
+    //
+    // Therefore OR is TRUE whenever either non-NA value is nonzero.
+    bool or_true =
+      (!x_na && xi != 0.0) ||
+      (!y_na && yi != 0.0);
+
+    if (or_true) {
       sum_xy_or += 1.0;
     }
-    if (x[i] != 0 && y[i] != 0) {
+
+    // R's `x & y`, with na.rm = TRUE:
+    //
+    // FALSE & NA -> FALSE
+    // TRUE  & NA -> NA
+    // NA    & NA -> NA
+    //
+    // Therefore AND is TRUE only when both values are known and nonzero.
+    bool and_true =
+      (!x_na && xi != 0.0) &&
+      (!y_na && yi != 0.0);
+
+    if (and_true) {
       sum_xy_and += 1.0;
     }
   }
 
-  if (sum_xy_or < 1e-9) {
+  if (sum_xy_or == 0.0) {
     return NA_REAL;
   }
 
